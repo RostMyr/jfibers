@@ -1,6 +1,6 @@
 # jfibers
 
-Simple coroutines/fibers implementations though bytecode instrumentation.
+Simple coroutines/fibers implementations through bytecode instrumentation.
 
 ## Getting Started
 TODO
