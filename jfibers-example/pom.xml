@@ -17,10 +17,16 @@
             <artifactId>jfibers-core</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
+
         <dependency>
-            <groupId>com.github.rostmyr.jfibers</groupId>
-            <artifactId>jfibers-instrumentation</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
     </dependencies>
 
