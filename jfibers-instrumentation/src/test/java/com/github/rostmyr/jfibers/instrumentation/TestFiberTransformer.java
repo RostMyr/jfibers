@@ -1,6 +1,5 @@
 package com.github.rostmyr.jfibers.instrumentation;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -20,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TestFiberTransformer {
 
     @Test
-    @Ignore
     public void manualTest() throws IOException {
         FiberTransformer instrumentation = new FiberTransformer(TestFiberModel.class, false);
         FiberTransformerResult result = instrumentation.instrument();
