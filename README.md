@@ -32,10 +32,13 @@ public class MyClass {
   private UserService userService;
   
   public void Fiber<String> updateUserPhone(long userId, String phone) {
-    User user = call(userService.getUser(userId));
-    user.setPhone(phone);
-    user = call(userService.saveUser(user));
-    return result(user);
+    return new updateUserPhone_Fiber(userId, phone);
+  }
+  
+  protected int updateUserPhone_FiberUpdate(updateUserPhone_Fiber fiber) {
+    switch(fiber.getState()) {
+      TODO
+    }
   }
   
   public class updateUserPhone_Fiber extends Fiber<String> {
@@ -43,7 +46,8 @@ public class MyClass {
     public String phone;
 
     public callMethodChain_Fiber(long userId, String phone) {
-      TODO
+      this.userId = userId;
+      this.phone = phone;
     }
 
     public int update() {
