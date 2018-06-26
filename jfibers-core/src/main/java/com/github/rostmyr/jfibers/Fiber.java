@@ -7,10 +7,11 @@ import java.util.concurrent.Future;
  * Rostyslav Myroshnychenko
  * on 31.05.2018.
  */
+@SuppressWarnings("unchecked")
 public abstract class Fiber<E> {
     protected FiberManager scheduler;
     protected Object result;
-    protected Throwable exception;
+    protected Exception exception;
     protected int state;
     protected Fiber<?> next;
 
@@ -19,20 +20,55 @@ public abstract class Fiber<E> {
     // the current future we are waiting for
     protected Future future;
 
+    /**
+     * Gets a current fiber's state
+     *
+     * @return state
+     */
     public int getState() {
         return state;
     }
 
+    /**
+     * Sets the new state for the fiber
+     *
+     * @param state new state
+     */
     public void setState(int state) {
         this.state = state;
     }
 
+    /**
+     * Returns computed fiber's result
+     *
+     * @return an object link
+     */
     public E getResult() {
         return (E) result;
     }
 
+    /**
+     * Gets an exception if any has been arise during fiber's execution
+     *
+     * @return exception, may be null
+     */
+    public Exception getException() {
+        return exception;
+    }
+
+    /**
+     * Called by {@link FiberManager} on each iteration.
+     *
+     * @return current/next state of the fiber
+     */
     public abstract int update();
 
+    /**
+     * Waits until the given fiber is not {@link #isReady()}
+     *
+     * @param fiber a fiber
+     * @return the next state
+     */
     public int awaitFor(Fiber fiber) {
         this.current = fiber;
         if (current.scheduler == null) {
@@ -41,6 +77,12 @@ public abstract class Fiber<E> {
         return state + 1;
     }
 
+    /**
+     * Waits until the given future is not {@link Future#isDone()}
+     *
+     * @param future a future
+     * @return the next state
+     */
     public int awaitFor(Future future) {
         this.future = future;
         return state + 1;
@@ -64,12 +106,12 @@ public abstract class Fiber<E> {
      * Should be called by {@link #call(Fiber)}}
      *
      * case 0:
-     *    awaitFor(call(fiber))
-     *    return 1
+     * awaitFor(call(fiber))
+     * return 1
      * case 1:
-     *    return awaitFiber(); // returns 1 while current.isReady() returns false
+     * return awaitFiber(); // returns 1 while current.isReady() returns false
      * case 2:
-     *    this.someVariable = this.result;
+     * this.someVariable = this.result;
      * ...
      */
     public int awaitFiber() {
@@ -91,12 +133,12 @@ public abstract class Fiber<E> {
      * Should be called by {@link #call(Future)}}
      *
      * case 0:
-     *    awaitFor(future)
-     *    return 1
+     * awaitFor(future)
+     * return 1
      * case 1:
-     *    return awaitFuture(); // returns 1 while future.isDone() returns false
+     * return awaitFuture(); // returns 1 while future.isDone() returns false
      * case 2:
-     *    this.someVariable = this.result;
+     * this.someVariable = this.result;
      * ...
      */
     public int awaitFuture() {
@@ -124,7 +166,7 @@ public abstract class Fiber<E> {
      *
      * ...
      * case n:
-     *    return this.resultLiteral(literal)
+     * return this.resultLiteral(literal)
      */
     public <T> int resultLiteral(T result) {
         this.result = result;
@@ -143,9 +185,9 @@ public abstract class Fiber<E> {
      *
      * ...
      * case n:
-     *    return awaitFor(call(fiber))
+     * return awaitFor(call(fiber))
      * case n + 1:
-     *    return waitForFiberResult(); // returns n + 1 while current.isReady() returns false
+     * return waitForFiberResult(); // returns n + 1 while current.isReady() returns false
      * ...
      */
     public int waitForFiberResult() {
@@ -168,9 +210,9 @@ public abstract class Fiber<E> {
      *
      * ...
      * case n:
-     *    return awaitFor(call(fiber))
+     * return awaitFor(call(fiber))
      * case n + 1:
-     *    return waitForFutureResult(); // returns n + 1 while current.isReady() returns false
+     * return waitForFutureResult(); // returns n + 1 while current.isReady() returns false
      * ...
      */
     public int waitForFutureResult() {
@@ -197,9 +239,8 @@ public abstract class Fiber<E> {
      *
      * ...
      * case n:
-     *    return nothingInternal();
+     * return nothingInternal();
      * ...
-     *
      */
     public int nothingInternal() {
         return -1;

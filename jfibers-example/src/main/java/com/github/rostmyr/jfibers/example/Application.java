@@ -28,16 +28,19 @@ public class Application {
     }
 
     private Fiber<Void> start() {
-        Long id = call(userService.saveUserWithName("Ivan", "Ivanov"));
-        log.info("User id '{}'", id);
+        Long userId = call(userService.createUser("Ivan", "Ivanov"));
+        log.info("User's id '{}'", userId);
 
-        User user = call(userService.getUser(id));
-        log.info("User date '{}'", user);
+        String phone = call(updateUserPhone(userId, "123-456-789"));
+        log.info("User's phone '{}'", phone);
+
+        User user = call(userService.getUser(userId));
+        log.info("User's data '{}'", user);
 
         return nothing();
     }
 
-    public Fiber<String> updateUserPhone(long userId, String phone) {
+    public Fiber<String> updateUserPhone(Long userId, String phone) {
         User user = call(userService.getUser(userId));
         user.setPhone(phone);
         user = call(userService.saveUser(user));

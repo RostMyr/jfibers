@@ -22,10 +22,11 @@ import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 import org.objectweb.asm.util.CheckClassAdapter;
+import org.objectweb.asm.util.Textifier;
 import org.objectweb.asm.util.TraceClassVisitor;
+import org.objectweb.asm.util.TraceMethodVisitor;
 
 import com.github.rostmyr.jfibers.Fiber;
-import com.github.rostmyr.jfibers.instrumentation.utils.Contract;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -63,6 +64,7 @@ public class FiberClassNodeAdapter extends ClassNode {
 
     FiberClassNodeAdapter(ClassVisitor cv, boolean debug, FiberTransformerResult result) {
         super(ASM6);
+        this.debug = debug;
         this.result = result;
         if (debug) {
             this.cv = new TraceClassVisitor(cv, new PrintWriter(System.out));
@@ -119,9 +121,14 @@ public class FiberClassNodeAdapter extends ClassNode {
             mv.visitInsn(DUP);
             mv.visitVarInsn(ALOAD, 0);
 
-            Type[] methodInputParams = Type.getArgumentTypes(m.desc);
-            for (int i = 0; i < methodInputParams.length; i++) {
-                mv.visitVarInsn(methodInputParams[i].getOpcode(ILOAD), i + 1);
+            Type[] argTypes = Type.getArgumentTypes(m.desc);
+            for (int i = 0, varId = i + 1; i < argTypes.length; i++, varId++) {
+                mv.visitVarInsn(argTypes[i].getOpcode(ILOAD), varId);
+                int argTypeSort = argTypes[i].getSort();
+                // long and double values require 2 slots in stack frame's var list
+                if (argTypeSort == Type.LONG || argTypeSort == Type.DOUBLE) {
+                    varId++;
+                }
             }
 
             mv.visitMethodInsn(INVOKESPECIAL, innerClassName, "<init>", ctrInputDescriptor, false);
@@ -148,7 +155,9 @@ public class FiberClassNodeAdapter extends ClassNode {
         cw.visitField(ACC_FINAL + ACC_SYNTHETIC, "this$0", outerClassDesc, null, null).visitEnd();
 
         String ctrDescriptor = "(" + outerClassDesc + substringBetween(method.signature, "(", ")") + ")V";
-        MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "<init>", ctrDescriptor, null, null);
+
+        Textifier printer = new Textifier();
+        MethodVisitor mv = new TraceMethodVisitor(cw.visitMethod(ACC_PUBLIC, "<init>", ctrDescriptor, null, null), printer);
         mv.visitCode();
         mv.visitVarInsn(ALOAD, 0);
         mv.visitVarInsn(ALOAD, 1); // push `this` to the operand stack
@@ -159,15 +168,28 @@ public class FiberClassNodeAdapter extends ClassNode {
 
         // set class fields values
         Type[] argTypes = Type.getArgumentTypes(method.desc);
-        for (int i = 0; i < argTypes.length; i++) {
+        Type argType;
+        for (int i = 0, varId = i + 2; i < argTypes.length; i++, varId++) {
             mv.visitVarInsn(ALOAD, 0);
-            mv.visitVarInsn(argTypes[i].getOpcode(ILOAD), i + 2);
+            argType = argTypes[i];
+            mv.visitVarInsn(argType.getOpcode(ILOAD), varId);
             mv.visitFieldInsn(PUTFIELD, className, localVarsNames[i], argTypes[i].getDescriptor());
+            int argTypeSort = argTypes[i].getSort();
+            // long and double values require 2 slots in stack frame's var list
+            if (argTypeSort == Type.LONG || argTypeSort == Type.DOUBLE) {
+                varId++;
+            }
         }
 
         mv.visitInsn(RETURN);
         mv.visitMaxs(1, 1);
         mv.visitEnd();
+
+        if (debug) {
+            PrintWriter printWriter = new PrintWriter(System.out);
+            printer.print(printWriter);
+            printWriter.flush();
+        }
 
         insertFiberUpdateMethod(cw, className, method);
     }
@@ -346,6 +368,16 @@ public class FiberClassNodeAdapter extends ClassNode {
         }
         mv.visitLookupSwitchInsn(labels[switchCase], values, Arrays.copyOf(labels, labels.length - 1));
 
+        Map<Integer, LocalVariableNode> methodLocalVarsByIndex = new HashMap<>();
+        for (int i = 0, varId = i; i < method.localVariables.size(); i++, varId++) {
+            LocalVariableNode localVariableNode = method.localVariables.get(i);
+            methodLocalVarsByIndex.put(varId, localVariableNode);
+            int typeSort = Type.getType(localVariableNode.desc).getSort();
+            if (typeSort == Type.LONG || typeSort == Type.DOUBLE) {
+                methodLocalVarsByIndex.put(++varId, localVariableNode);
+            }
+        }
+
         // post process instructions
         for (int i = 0; i < switchCase; i++) {
             List<AbstractInsnNode> instNodes = instByCases.get(i);
@@ -359,8 +391,8 @@ public class FiberClassNodeAdapter extends ClassNode {
                     int prevOpcode = (j - 1) >= 0 ? instNodes.get(j - 1).getOpcode() : Integer.MIN_VALUE;
                     // load vars from the class fields (if it's not a local to frame)
                     int fieldIndex = ((VarInsnNode) inst).var;
-                    if (fieldIndex > 0 && fieldIndex < method.localVariables.size() && prevOpcode != NOP) {
-                        LocalVariableNode field = method.localVariables.get(fieldIndex);
+                    LocalVariableNode field = methodLocalVarsByIndex.get(fieldIndex);
+                    if (fieldIndex > 0 && field != null && prevOpcode != NOP) {
                         processedNodes.add(new VarInsnNode(ALOAD, 1));
                         processedNodes.add(new FieldInsnNode(GETFIELD, innerClassName, field.name, field.desc));
                         continue;
@@ -368,8 +400,8 @@ public class FiberClassNodeAdapter extends ClassNode {
                 } else if (opcode >= ISTORE && opcode <= ASTORE) {
                     // store vars into the class fields (if it's not a local to frame)
                     int index = ((VarInsnNode) inst).var;
-                    if (index < method.localVariables.size()) {
-                        LocalVariableNode field = method.localVariables.get(index);
+                    LocalVariableNode field = methodLocalVarsByIndex.get(index);
+                    if (field != null) {
                         putInsnAfterLineNumber(processedNodes, new VarInsnNode(ALOAD, 1));
                         processedNodes.add(new FieldInsnNode(PUTFIELD, innerClassName, field.name, field.desc));
                         continue;
@@ -458,10 +490,6 @@ public class FiberClassNodeAdapter extends ClassNode {
         }
     }
 
-    private static boolean isPointerToThis(AbstractInsnNode insn) {
-        return insn instanceof VarInsnNode && ((VarInsnNode) insn).var == 0;
-    }
-
     private static boolean isCallMethodWithFiberArg(MethodInsnNode node) {
         return isCallMethodWithArg(node, Fiber.class);
     }
@@ -531,11 +559,6 @@ public class FiberClassNodeAdapter extends ClassNode {
                 && ("nothing".equals(name) || "result".equals(name));
         }
         return false;
-    }
-
-    private static Type[] getArgumentTypes(AbstractInsnNode node) {
-        Contract.checkArg(node instanceof MethodInsnNode, () -> "Node is not an instance of MethodInsnNode");
-        return Type.getArgumentTypes(((MethodInsnNode) node).desc);
     }
 
     private static MethodInsnNode getStaticMethodInvocation(AbstractInsnNode inst) {
