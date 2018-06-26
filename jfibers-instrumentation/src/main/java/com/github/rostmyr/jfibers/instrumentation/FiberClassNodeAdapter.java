@@ -23,6 +23,7 @@ import static org.objectweb.asm.Type.*;
  * Rostyslav Myroshnychenko
  * on 11.06.2018.
  */
+@SuppressWarnings("LineLength")
 public class FiberClassNodeAdapter extends ClassNode {
     private static final String AWAIT_FIBER_DESC =
         getMethodDescriptor(getType(int.class), getType(Fiber.class));
