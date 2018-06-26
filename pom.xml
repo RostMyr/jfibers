@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
@@ -115,7 +116,7 @@
                     -->
                     <effort>Max</effort>
                     <!-- Reports all bugs (other values are medium and max) -->
-                    <threshold>Low</threshold>
+                    <threshold>Medium</threshold>
                     <!-- Produces XML report -->
                     <xmlOutput>true</xmlOutput>
                     <!-- Configures the directory in which the XML report is created -->

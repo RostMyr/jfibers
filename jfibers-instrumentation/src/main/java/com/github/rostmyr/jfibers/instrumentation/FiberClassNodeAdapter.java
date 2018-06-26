@@ -1,40 +1,17 @@
 package com.github.rostmyr.jfibers.instrumentation;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.FieldInsnNode;
-import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.InsnNode;
-import org.objectweb.asm.tree.IntInsnNode;
-import org.objectweb.asm.tree.LabelNode;
-import org.objectweb.asm.tree.LdcInsnNode;
-import org.objectweb.asm.tree.LineNumberNode;
-import org.objectweb.asm.tree.LocalVariableNode;
-import org.objectweb.asm.tree.MethodInsnNode;
-import org.objectweb.asm.tree.MethodNode;
-import org.objectweb.asm.tree.TypeInsnNode;
-import org.objectweb.asm.tree.VarInsnNode;
+import com.github.rostmyr.jfibers.Fiber;
+import org.objectweb.asm.*;
+import org.objectweb.asm.tree.*;
 import org.objectweb.asm.util.CheckClassAdapter;
 import org.objectweb.asm.util.Textifier;
 import org.objectweb.asm.util.TraceClassVisitor;
 import org.objectweb.asm.util.TraceMethodVisitor;
 
-import com.github.rostmyr.jfibers.Fiber;
-
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import java.util.concurrent.Future;
 
 import static java.util.stream.Collectors.toList;
@@ -67,7 +44,7 @@ public class FiberClassNodeAdapter extends ClassNode {
         this.debug = debug;
         this.result = result;
         if (debug) {
-            this.cv = new TraceClassVisitor(cv, new PrintWriter(System.out));
+            this.cv = new TraceClassVisitor(cv, getPrintWriter());
         } else {
             this.cv = cv;
         }
@@ -100,7 +77,7 @@ public class FiberClassNodeAdapter extends ClassNode {
 
             ClassReader cr = new ClassReader(cw.toByteArray());
             if (debug) {
-                cr.accept(new CheckClassAdapter(new TraceClassVisitor(new PrintWriter(System.out))), 0);
+                cr.accept(new CheckClassAdapter(new TraceClassVisitor(getPrintWriter())), 0);
             }
 
             String className = this.name.substring(this.name.lastIndexOf("/") + 1) + "$" + method.name + "_Fiber";
@@ -110,8 +87,6 @@ public class FiberClassNodeAdapter extends ClassNode {
         // replace original method with a constructor invocation of a new fiber
         for (MethodNode m : methodsForInstrumentation) {
             String innerClassName = name + "$" + m.name + "_Fiber";
-            String outerClassDesc = "L" + name + ";";
-            String ctrInputDescriptor = "(" + outerClassDesc + substringBetween(m.signature, "(", ")") + ")V";
 
             methods.remove(m);
 
@@ -131,6 +106,8 @@ public class FiberClassNodeAdapter extends ClassNode {
                 }
             }
 
+            String outerClassDesc = "L" + name + ";";
+            String ctrInputDescriptor = "(" + outerClassDesc + substringBetween(m.signature, "(", ")") + ")V";
             mv.visitMethodInsn(INVOKESPECIAL, innerClassName, "<init>", ctrInputDescriptor, false);
             mv.visitInsn(ARETURN);
             mv.visitMaxs(5, 3);
@@ -186,7 +163,7 @@ public class FiberClassNodeAdapter extends ClassNode {
         mv.visitEnd();
 
         if (debug) {
-            PrintWriter printWriter = new PrintWriter(System.out);
+            PrintWriter printWriter = getPrintWriter();
             printer.print(printWriter);
             printWriter.flush();
         }
@@ -450,6 +427,10 @@ public class FiberClassNodeAdapter extends ClassNode {
         mv.visitInsn(IRETURN);
         mv.visitMaxs(2, 1);
         mv.visitEnd();
+    }
+
+    private PrintWriter getPrintWriter() {
+        return new PrintWriter(new OutputStreamWriter(System.out, StandardCharsets.UTF_8));
     }
 
     /* utils */

@@ -1,5 +1,7 @@
 package com.github.rostmyr.jfibers.maven;
 
+import com.github.rostmyr.jfibers.instrumentation.FiberTransformer;
+import com.github.rostmyr.jfibers.instrumentation.FiberTransformerResult;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -7,15 +9,8 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 
-import com.github.rostmyr.jfibers.instrumentation.FiberTransformer;
-import com.github.rostmyr.jfibers.instrumentation.FiberTransformerResult;
-
 import java.io.IOException;
-import java.nio.file.FileVisitOption;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import java.nio.file.*;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -66,7 +61,7 @@ public class FiberSourceMogo extends AbstractMojo {
     private Consumer<Path> processCompiledClasses() {
         return path -> {
             try {
-                FiberTransformerResult result = new FiberTransformer(readAllBytes(path), false).instrument();
+                FiberTransformerResult result = FiberTransformer.instrument(readAllBytes(path), false);
                 if (result.getMainClass() == null) {
                     return;
                 }
