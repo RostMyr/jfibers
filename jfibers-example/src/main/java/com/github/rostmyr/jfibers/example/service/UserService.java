@@ -18,9 +18,14 @@ public class UserService {
         return result(repository.getById(id));
     }
 
-    public Fiber<Long> saveUser(String firstName, String lastName) {
+    public Fiber<Long> createUser(String firstName, String lastName) {
         long id = idSequence++;
         repository.save(new User(id, firstName, lastName));
         return result(id);
+    }
+
+    public Fiber<User> saveUser(User user) {
+        repository.save(user);
+        return result(user);
     }
 }

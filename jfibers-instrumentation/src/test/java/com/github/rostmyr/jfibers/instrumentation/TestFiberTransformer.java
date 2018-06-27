@@ -1,6 +1,5 @@
 package com.github.rostmyr.jfibers.instrumentation;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -20,10 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TestFiberTransformer {
 
     @Test
-    @Ignore
     public void manualTest() throws IOException {
-        FiberTransformer instrumentation = new FiberTransformer(TestFiberModel.class, false);
-        FiberTransformerResult result = instrumentation.instrument();
+        FiberTransformerResult result = FiberTransformer.instrument(TestFiberModel.class, false);
         Files.write(Paths.get(TestFiberModel.class.getSimpleName() + ".class"), result.getMainClass());
         for (Map.Entry<String, byte[]> fiber : result.getFibers().entrySet()) {
             Files.write(Paths.get(fiber.getKey() + ".class"), fiber.getValue());
@@ -41,7 +38,7 @@ public class TestFiberTransformer {
             .collect(toMap(path -> path.getFileName().toString(), this::readAllBytes));
 
         // WHEN
-        FiberTransformerResult result = new FiberTransformer(readAllBytes(mainClass), false).instrument();
+        FiberTransformerResult result = FiberTransformer.instrument(readAllBytes(mainClass), false);
 
         // THEN
         assertThat(result.getMainClass()).isEqualTo(innerClassesByNames.get(mainClass.getFileName().toString()));

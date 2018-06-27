@@ -17,6 +17,7 @@
 
         <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
         <maven-assembly-plugin.version>3.1.0</maven-assembly-plugin.version>
+        <findbugs-annotations.version>3.0.1</findbugs-annotations.version>
     </properties>
 
     <dependencies>
@@ -46,6 +47,12 @@
             <artifactId>asm-util</artifactId>
             <version>${asm.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>annotations</artifactId>
+            <version>${findbugs-annotations.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -73,7 +80,7 @@
                     <execution>
                         <id>make-assembly</id>
                         <configuration>
-                            <appendAssemblyId>false</appendAssemblyId>
+                            <appendAssemblyId>true</appendAssemblyId>
                         </configuration>
                         <phase>package</phase>
                         <goals>

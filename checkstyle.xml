@@ -162,7 +162,6 @@
             <property name="ignoreFinal" value="false"/>
             <property name="allowedAbbreviationLength" value="1"/>
         </module>
-        <module name="OverloadMethodsDeclarationOrder"/>
         <module name="VariableDeclarationUsageDistance"/>
         <module name="MethodParamPad"/>
         <module name="ParenPad"/>
@@ -214,5 +213,7 @@
             <property name="exceptionVariableName" value="expected"/>
         </module>
         <module name="CommentsIndentation"/>
+        <module name="SuppressWarningsHolder" />
     </module>
+    <module name="SuppressWarningsFilter" />
 </module>

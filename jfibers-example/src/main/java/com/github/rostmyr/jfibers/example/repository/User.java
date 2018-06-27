@@ -8,6 +8,7 @@ public class User {
     private final long id;
     private final String firstName;
     private final String lastName;
+    private String phone;
 
     public User(long id, String firstName, String lastName) {
         this.id = id;
@@ -27,12 +28,21 @@ public class User {
         return lastName;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     @Override
     public String toString() {
         return "User{"
             + "id=" + id
             + ", firstName='" + firstName + '\''
             + ", lastName='" + lastName + '\''
+            + ", phone='" + phone + '\''
             + '}';
     }
 }

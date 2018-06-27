@@ -1,39 +1,17 @@
 package com.github.rostmyr.jfibers.instrumentation;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.FieldInsnNode;
-import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.InsnNode;
-import org.objectweb.asm.tree.IntInsnNode;
-import org.objectweb.asm.tree.LabelNode;
-import org.objectweb.asm.tree.LdcInsnNode;
-import org.objectweb.asm.tree.LineNumberNode;
-import org.objectweb.asm.tree.LocalVariableNode;
-import org.objectweb.asm.tree.MethodInsnNode;
-import org.objectweb.asm.tree.MethodNode;
-import org.objectweb.asm.tree.TypeInsnNode;
-import org.objectweb.asm.tree.VarInsnNode;
-import org.objectweb.asm.util.CheckClassAdapter;
-import org.objectweb.asm.util.TraceClassVisitor;
-
 import com.github.rostmyr.jfibers.Fiber;
-import com.github.rostmyr.jfibers.instrumentation.utils.Contract;
+import org.objectweb.asm.*;
+import org.objectweb.asm.tree.*;
+import org.objectweb.asm.util.CheckClassAdapter;
+import org.objectweb.asm.util.Textifier;
+import org.objectweb.asm.util.TraceClassVisitor;
+import org.objectweb.asm.util.TraceMethodVisitor;
 
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import java.util.concurrent.Future;
 
 import static java.util.stream.Collectors.toList;
@@ -45,6 +23,7 @@ import static org.objectweb.asm.Type.*;
  * Rostyslav Myroshnychenko
  * on 11.06.2018.
  */
+@SuppressWarnings("LineLength")
 public class FiberClassNodeAdapter extends ClassNode {
     private static final String AWAIT_FIBER_DESC =
         getMethodDescriptor(getType(int.class), getType(Fiber.class));
@@ -63,9 +42,10 @@ public class FiberClassNodeAdapter extends ClassNode {
 
     FiberClassNodeAdapter(ClassVisitor cv, boolean debug, FiberTransformerResult result) {
         super(ASM6);
+        this.debug = debug;
         this.result = result;
         if (debug) {
-            this.cv = new TraceClassVisitor(cv, new PrintWriter(System.out));
+            this.cv = new TraceClassVisitor(cv, getPrintWriter());
         } else {
             this.cv = cv;
         }
@@ -98,7 +78,7 @@ public class FiberClassNodeAdapter extends ClassNode {
 
             ClassReader cr = new ClassReader(cw.toByteArray());
             if (debug) {
-                cr.accept(new CheckClassAdapter(new TraceClassVisitor(new PrintWriter(System.out))), 0);
+                cr.accept(new CheckClassAdapter(new TraceClassVisitor(getPrintWriter())), 0);
             }
 
             String className = this.name.substring(this.name.lastIndexOf("/") + 1) + "$" + method.name + "_Fiber";
@@ -108,8 +88,6 @@ public class FiberClassNodeAdapter extends ClassNode {
         // replace original method with a constructor invocation of a new fiber
         for (MethodNode m : methodsForInstrumentation) {
             String innerClassName = name + "$" + m.name + "_Fiber";
-            String outerClassDesc = "L" + name + ";";
-            String ctrInputDescriptor = "(" + outerClassDesc + substringBetween(m.signature, "(", ")") + ")V";
 
             methods.remove(m);
 
@@ -119,11 +97,18 @@ public class FiberClassNodeAdapter extends ClassNode {
             mv.visitInsn(DUP);
             mv.visitVarInsn(ALOAD, 0);
 
-            Type[] methodInputParams = Type.getArgumentTypes(m.desc);
-            for (int i = 0; i < methodInputParams.length; i++) {
-                mv.visitVarInsn(methodInputParams[i].getOpcode(ILOAD), i + 1);
+            Type[] argTypes = Type.getArgumentTypes(m.desc);
+            for (int i = 0, varId = i + 1; i < argTypes.length; i++, varId++) {
+                mv.visitVarInsn(argTypes[i].getOpcode(ILOAD), varId);
+                int argTypeSort = argTypes[i].getSort();
+                // long and double values require 2 slots in stack frame's var list
+                if (argTypeSort == Type.LONG || argTypeSort == Type.DOUBLE) {
+                    varId++;
+                }
             }
 
+            String outerClassDesc = "L" + name + ";";
+            String ctrInputDescriptor = "(" + outerClassDesc + substringBetween(m.signature, "(", ")") + ")V";
             mv.visitMethodInsn(INVOKESPECIAL, innerClassName, "<init>", ctrInputDescriptor, false);
             mv.visitInsn(ARETURN);
             mv.visitMaxs(5, 3);
@@ -148,7 +133,9 @@ public class FiberClassNodeAdapter extends ClassNode {
         cw.visitField(ACC_FINAL + ACC_SYNTHETIC, "this$0", outerClassDesc, null, null).visitEnd();
 
         String ctrDescriptor = "(" + outerClassDesc + substringBetween(method.signature, "(", ")") + ")V";
-        MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "<init>", ctrDescriptor, null, null);
+
+        Textifier printer = new Textifier();
+        MethodVisitor mv = new TraceMethodVisitor(cw.visitMethod(ACC_PUBLIC, "<init>", ctrDescriptor, null, null), printer);
         mv.visitCode();
         mv.visitVarInsn(ALOAD, 0);
         mv.visitVarInsn(ALOAD, 1); // push `this` to the operand stack
@@ -159,15 +146,28 @@ public class FiberClassNodeAdapter extends ClassNode {
 
         // set class fields values
         Type[] argTypes = Type.getArgumentTypes(method.desc);
-        for (int i = 0; i < argTypes.length; i++) {
+        Type argType;
+        for (int i = 0, varId = i + 2; i < argTypes.length; i++, varId++) {
             mv.visitVarInsn(ALOAD, 0);
-            mv.visitVarInsn(argTypes[i].getOpcode(ILOAD), i + 2);
+            argType = argTypes[i];
+            mv.visitVarInsn(argType.getOpcode(ILOAD), varId);
             mv.visitFieldInsn(PUTFIELD, className, localVarsNames[i], argTypes[i].getDescriptor());
+            int argTypeSort = argTypes[i].getSort();
+            // long and double values require 2 slots in stack frame's var list
+            if (argTypeSort == Type.LONG || argTypeSort == Type.DOUBLE) {
+                varId++;
+            }
         }
 
         mv.visitInsn(RETURN);
         mv.visitMaxs(1, 1);
         mv.visitEnd();
+
+        if (debug) {
+            PrintWriter printWriter = getPrintWriter();
+            printer.print(printWriter);
+            printWriter.flush();
+        }
 
         insertFiberUpdateMethod(cw, className, method);
     }
@@ -191,20 +191,12 @@ public class FiberClassNodeAdapter extends ClassNode {
             if (isCallMethodWithFiberArg(methodInvocation)) {
                 putInsnAfterLineNumber(instByCases, switchCase, new VarInsnNode(ALOAD, 1));
                 putInsnAfterLineNumber(instByCases, switchCase, new InsnNode(NOP));
-                putInsn(
-                    instByCases, switchCase,
-                    new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "awaitFor", AWAIT_FIBER_DESC, false)
-                );
+                putInsn(instByCases, switchCase, new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "awaitFor", AWAIT_FIBER_DESC, false));
                 putInsn(instByCases, switchCase, new InsnNode(IRETURN));
 
                 // add next case
                 switchCase++;
-                putInsn(
-                    instByCases, switchCase,
-                    new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "awaitFiber", getMethodDescriptor(getType(int.class)),
-                        false
-                    )
-                );
+                putInsn(instByCases, switchCase, new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "awaitFiber", getMethodDescriptor(getType(int.class)), false));
                 putInsn(instByCases, switchCase, new InsnNode(IRETURN));
 
                 // add next case
@@ -222,17 +214,22 @@ public class FiberClassNodeAdapter extends ClassNode {
                 LocalVariableNode field = null;
                 if (inst.getOpcode() >= ISTORE && inst.getOpcode() <= ASTORE) {
                     i++;
-                    field = method.localVariables.get(((VarInsnNode) inst).var);
+                    int index = ((VarInsnNode) inst).var;
+                    if (index < method.localVariables.size()) {
+                        field = method.localVariables.get(index);
+                    }
                 }
+
                 putInsn(instByCases, switchCase, new InsnNode(NOP));
                 putInsn(instByCases, switchCase, new VarInsnNode(ALOAD, 1));
-                putInsn(
-                    instByCases, switchCase,
-                    new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "getResult", "()Ljava/lang/Object;", false)
-                );
+                putInsn(instByCases, switchCase, new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "getResult", "()Ljava/lang/Object;", false));
                 putInsn(instByCases, switchCase, new TypeInsnNode(CHECKCAST, varDesc));
-                Contract.checkNotNull(field, "Missing field assignment");
-                putInsn(instByCases, switchCase, new FieldInsnNode(PUTFIELD, innerClassName, field.name, field.desc));
+
+                if (field != null) {
+                    putInsn(instByCases, switchCase, new FieldInsnNode(PUTFIELD, innerClassName, field.name, field.desc));
+                } else {
+                    putInsn(instByCases, switchCase, inst);
+                }
 
                 putInsn(instByCases, switchCase, getPushInst(switchCase + 1));
                 putInsn(instByCases, switchCase, new InsnNode(IRETURN));
@@ -241,20 +238,12 @@ public class FiberClassNodeAdapter extends ClassNode {
             }
             if (isCallMethodWithFutureArg(methodInvocation)) {
                 // replace it with call to internal method
-                putInsn(
-                    instByCases, switchCase,
-                    new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "awaitFor", AWAIT_FUTURE_DESC, false)
-                );
+                putInsn(instByCases, switchCase, new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "awaitFor", AWAIT_FUTURE_DESC, false));
                 putInsn(instByCases, switchCase, new InsnNode(IRETURN));
 
                 // add next case
                 switchCase++;
-                putInsn(
-                    instByCases, switchCase,
-                    new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "awaitFuture", getMethodDescriptor(getType(int.class)),
-                        false
-                    )
-                );
+                putInsn(instByCases, switchCase, new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "awaitFuture", getMethodDescriptor(getType(int.class)), false));
                 putInsn(instByCases, switchCase, new InsnNode(IRETURN));
 
                 // add next case
@@ -272,19 +261,24 @@ public class FiberClassNodeAdapter extends ClassNode {
                 LocalVariableNode field = null;
                 if (inst.getOpcode() >= ISTORE && inst.getOpcode() <= ASTORE) {
                     i++;
-                    field = method.localVariables.get(((VarInsnNode) inst).var);
+                    int index = ((VarInsnNode) inst).var;
+                    if (index < method.localVariables.size()) {
+                        field = method.localVariables.get(index);
+                    }
                 }
+
                 putInsn(instByCases, switchCase, new InsnNode(NOP));
                 putInsn(instByCases, switchCase, new VarInsnNode(ALOAD, 1));
                 putInsn(instByCases, switchCase, new InsnNode(NOP));
                 putInsn(instByCases, switchCase, new VarInsnNode(ALOAD, 1));
-                putInsn(
-                    instByCases, switchCase,
-                    new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "getResult", "()Ljava/lang/Object;", false)
-                );
+                putInsn(instByCases, switchCase, new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "getResult", "()Ljava/lang/Object;", false));
                 putInsn(instByCases, switchCase, new TypeInsnNode(CHECKCAST, varDesc));
-                Contract.checkNotNull(field, "Missing field assignment");
-                putInsn(instByCases, switchCase, new FieldInsnNode(PUTFIELD, innerClassName, field.name, field.desc));
+
+                if (field != null) {
+                    putInsn(instByCases, switchCase, new FieldInsnNode(PUTFIELD, innerClassName, field.name, field.desc));
+                } else {
+                    putInsn(instByCases, switchCase, inst);
+                }
 
                 putInsn(instByCases, switchCase, getPushInst(switchCase + 1));
                 putInsn(instByCases, switchCase, new InsnNode(IRETURN));
@@ -304,52 +298,34 @@ public class FiberClassNodeAdapter extends ClassNode {
                 continue;
             }
             if (isReturnMethodWithFiberArg(methodInvocation)) {
-                putInsn(
-                    instByCases, switchCase,
-                    new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "awaitFor", AWAIT_FIBER_DESC, false)
-                );
+                putInsn(instByCases, switchCase, new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "awaitFor", AWAIT_FIBER_DESC, false));
                 putInsn(instByCases, switchCase, new InsnNode(IRETURN));
 
                 // add last case
                 switchCase++;
-                putInsn(
-                    instByCases, switchCase, new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "waitForFiberResult",
-                        getMethodDescriptor(getType(int.class)), false
-                    ));
+                putInsn(instByCases, switchCase, new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "waitForFiberResult", getMethodDescriptor(getType(int.class)), false));
                 putInsn(instByCases, switchCase, new InsnNode(IRETURN));
                 break;
             }
             if (isReturnMethodWithFutureArg(methodInvocation)) {
-                putInsn(
-                    instByCases, switchCase,
-                    new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "awaitFor", AWAIT_FUTURE_DESC, false)
-                );
+                putInsn(instByCases, switchCase, new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "awaitFor", AWAIT_FUTURE_DESC, false));
                 putInsn(instByCases, switchCase, new InsnNode(IRETURN));
 
                 // add last case
                 switchCase++;
-                putInsn(
-                    instByCases, switchCase, new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "waitForFutureResult",
-                        getMethodDescriptor(getType(int.class)), false
-                    ));
+                putInsn(instByCases, switchCase, new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "waitForFutureResult", getMethodDescriptor(getType(int.class)), false));
                 putInsn(instByCases, switchCase, new InsnNode(IRETURN));
                 break;
             }
             if (isReturnMethodWithLiteralArg(methodInvocation)) {
                 putInsnAfterLineNumber(instByCases, switchCase, new VarInsnNode(ALOAD, 1));
                 putInsnAfterLineNumber(instByCases, switchCase, new InsnNode(NOP));
-                putInsn(
-                    instByCases, switchCase,
-                    new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "resultLiteral", INTERNAL_WITH_LITERAL_ARG, false)
-                );
+                putInsn(instByCases, switchCase, new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "resultLiteral", INTERNAL_WITH_LITERAL_ARG, false));
                 putInsn(instByCases, switchCase, new InsnNode(IRETURN));
                 break;
             }
             if (isReturnNothingMethod(methodInvocation)) {
-                putInsn(
-                    instByCases, switchCase,
-                    new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "nothingInternal", INTERNAL_NOTHING, false)
-                );
+                putInsn(instByCases, switchCase, new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "nothingInternal", INTERNAL_NOTHING, false));
                 putInsn(instByCases, switchCase, new InsnNode(IRETURN));
                 break;
             }
@@ -370,6 +346,16 @@ public class FiberClassNodeAdapter extends ClassNode {
         }
         mv.visitLookupSwitchInsn(labels[switchCase], values, Arrays.copyOf(labels, labels.length - 1));
 
+        Map<Integer, LocalVariableNode> methodLocalVarsByIndex = new HashMap<>();
+        for (int i = 0, varId = i; i < method.localVariables.size(); i++, varId++) {
+            LocalVariableNode localVariableNode = method.localVariables.get(i);
+            methodLocalVarsByIndex.put(varId, localVariableNode);
+            int typeSort = Type.getType(localVariableNode.desc).getSort();
+            if (typeSort == Type.LONG || typeSort == Type.DOUBLE) {
+                methodLocalVarsByIndex.put(++varId, localVariableNode);
+            }
+        }
+
         // post process instructions
         for (int i = 0; i < switchCase; i++) {
             List<AbstractInsnNode> instNodes = instByCases.get(i);
@@ -383,8 +369,8 @@ public class FiberClassNodeAdapter extends ClassNode {
                     int prevOpcode = (j - 1) >= 0 ? instNodes.get(j - 1).getOpcode() : Integer.MIN_VALUE;
                     // load vars from the class fields (if it's not a local to frame)
                     int fieldIndex = ((VarInsnNode) inst).var;
-                    if (fieldIndex > 0 && fieldIndex < method.localVariables.size() && prevOpcode != NOP) {
-                        LocalVariableNode field = method.localVariables.get(fieldIndex);
+                    LocalVariableNode field = methodLocalVarsByIndex.get(fieldIndex);
+                    if (fieldIndex > 0 && field != null && prevOpcode != NOP) {
                         processedNodes.add(new VarInsnNode(ALOAD, 1));
                         processedNodes.add(new FieldInsnNode(GETFIELD, innerClassName, field.name, field.desc));
                         continue;
@@ -392,8 +378,8 @@ public class FiberClassNodeAdapter extends ClassNode {
                 } else if (opcode >= ISTORE && opcode <= ASTORE) {
                     // store vars into the class fields (if it's not a local to frame)
                     int index = ((VarInsnNode) inst).var;
-                    if (index < method.localVariables.size()) {
-                        LocalVariableNode field = method.localVariables.get(index);
+                    LocalVariableNode field = methodLocalVarsByIndex.get(index);
+                    if (field != null) {
                         putInsnAfterLineNumber(processedNodes, new VarInsnNode(ALOAD, 1));
                         processedNodes.add(new FieldInsnNode(PUTFIELD, innerClassName, field.name, field.desc));
                         continue;
@@ -421,8 +407,7 @@ public class FiberClassNodeAdapter extends ClassNode {
         mv.visitInsn(DUP);
         mv.visitMethodInsn(INVOKESPECIAL, "java/lang/StringBuilder", "<init>", "()V", false);
         mv.visitLdcInsn("Unknown state: ");
-        mv.visitMethodInsn(
-            INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;", false);
+        mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;", false);
         mv.visitVarInsn(ALOAD, 1);
         mv.visitFieldInsn(GETFIELD, innerClassName, "state", "I");
         mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(I)Ljava/lang/StringBuilder;", false);
@@ -443,6 +428,10 @@ public class FiberClassNodeAdapter extends ClassNode {
         mv.visitInsn(IRETURN);
         mv.visitMaxs(2, 1);
         mv.visitEnd();
+    }
+
+    private PrintWriter getPrintWriter() {
+        return new PrintWriter(new OutputStreamWriter(System.out, StandardCharsets.UTF_8));
     }
 
     /* utils */
@@ -481,10 +470,6 @@ public class FiberClassNodeAdapter extends ClassNode {
                 }
             }
         }
-    }
-
-    private static boolean isPointerToThis(AbstractInsnNode insn) {
-        return insn instanceof VarInsnNode && ((VarInsnNode) insn).var == 0;
     }
 
     private static boolean isCallMethodWithFiberArg(MethodInsnNode node) {
@@ -556,11 +541,6 @@ public class FiberClassNodeAdapter extends ClassNode {
                 && ("nothing".equals(name) || "result".equals(name));
         }
         return false;
-    }
-
-    private static Type[] getArgumentTypes(AbstractInsnNode node) {
-        Contract.checkArg(node instanceof MethodInsnNode, () -> "Node is not an instance of MethodInsnNode");
-        return Type.getArgumentTypes(((MethodInsnNode) node).desc);
     }
 
     private static MethodInsnNode getStaticMethodInvocation(AbstractInsnNode inst) {

@@ -3,7 +3,10 @@ package com.github.rostmyr.jfibers.instrumentation;
 import java.io.IOException;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
+import java.security.PrivilegedAction;
 import java.security.ProtectionDomain;
+
+import static java.security.AccessController.doPrivileged;
 
 /**
  * Rostyslav Myroshnychenko
@@ -39,17 +42,16 @@ public class FiberInstrumentator {
             ProtectionDomain protectionDomain,
             byte[] classfileBuffer
         ) {
-            FiberTransformer fiberTransformer = new FiberTransformer(classfileBuffer, false);
             try {
-                FiberTransformerResult instrument = fiberTransformer.instrument();
+                FiberTransformerResult instrument = FiberTransformer.instrument(classfileBuffer, false);
                 byte[] mainClass = instrument.getMainClass();
                 if (mainClass == null) {
                     return null;
                 }
 
-                FiberClassLoader classLoader = new FiberClassLoader(getClassLoader(loader));
-                String prefix = className.substring(0, className.lastIndexOf("/") + 1);
-                instrument.getFibers().forEach((name, content) -> classLoader.define(prefix + name, content));
+                FiberClassLoader classLoader =
+                    doPrivileged((PrivilegedAction<FiberClassLoader>) () -> new FiberClassLoader(getClassLoader(loader)));
+                instrument.getFibers().forEach((name, content) -> classLoader.define(content));
                 return mainClass;
             } catch (IOException e) {
                 throw new RuntimeException("Error during runtime class instrumentation", e);
@@ -62,11 +64,11 @@ public class FiberInstrumentator {
     }
 
     private static class FiberClassLoader extends ClassLoader {
-        public FiberClassLoader(ClassLoader parent) {
+        FiberClassLoader(ClassLoader parent) {
             super(parent);
         }
 
-        Class<?> define(String name, byte[] content) {
+        Class<?> define(byte[] content) {
             return defineClass(null, content, 0, content.length);
         }
     }
