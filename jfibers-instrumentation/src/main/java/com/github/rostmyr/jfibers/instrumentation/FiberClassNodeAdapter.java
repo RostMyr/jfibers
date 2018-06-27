@@ -419,7 +419,7 @@ public class FiberClassNodeAdapter extends ClassNode {
     }
 
     private void insertFiberUpdateMethod(ClassWriter cw, String innerClassName, MethodNode method) {
-        MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "update", "()I", null, null);
+        MethodVisitor mv = cw.visitMethod(ACC_PROTECTED, "updateInternal", "()I", null, null);
         mv.visitCode();
         mv.visitVarInsn(ALOAD, 0);
         mv.visitFieldInsn(GETFIELD, innerClassName, "this$0", "L" + name + ";");

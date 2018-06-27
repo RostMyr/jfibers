@@ -1,6 +1,5 @@
 package com.github.rostmyr.jfibers.instrumentation;
 
-import java.io.IOException;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
 import java.security.PrivilegedAction;
@@ -42,20 +41,16 @@ public class FiberInstrumentator {
             ProtectionDomain protectionDomain,
             byte[] classfileBuffer
         ) {
-            try {
-                FiberTransformerResult instrument = FiberTransformer.instrument(classfileBuffer, false);
-                byte[] mainClass = instrument.getMainClass();
-                if (mainClass == null) {
-                    return null;
-                }
-
-                FiberClassLoader classLoader =
-                    doPrivileged((PrivilegedAction<FiberClassLoader>) () -> new FiberClassLoader(getClassLoader(loader)));
-                instrument.getFibers().forEach((name, content) -> classLoader.define(content));
-                return mainClass;
-            } catch (IOException e) {
-                throw new RuntimeException("Error during runtime class instrumentation", e);
+            FiberTransformerResult instrument = FiberTransformer.instrument(classfileBuffer, false);
+            byte[] mainClass = instrument.getMainClass();
+            if (mainClass == null) {
+                return null;
             }
+
+            FiberClassLoader classLoader =
+                doPrivileged((PrivilegedAction<FiberClassLoader>) () -> new FiberClassLoader(getClassLoader(loader)));
+            instrument.getFibers().forEach((name, content) -> classLoader.define(content));
+            return mainClass;
         }
 
         protected ClassLoader getClassLoader(final ClassLoader classLoader) {

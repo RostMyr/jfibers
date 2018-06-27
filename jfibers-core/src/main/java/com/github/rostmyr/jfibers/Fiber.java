@@ -44,6 +44,9 @@ public abstract class Fiber<E> {
      * @return an object link
      */
     public E getResult() {
+        if (exception != null) {
+            throw new FiberExecutionException(exception);
+        }
         return (E) result;
     }
 
@@ -61,7 +64,21 @@ public abstract class Fiber<E> {
      *
      * @return current/next state of the fiber
      */
-    public abstract int update();
+    public int update() {
+        try {
+            return updateInternal();
+        } catch (Exception e) {
+            this.exception = e;
+            return -1;
+        }
+    }
+
+    /**
+     * Should contain fiber specific implementation
+     *
+     * @return current/next state of the fiber
+     */
+    protected abstract int updateInternal();
 
     /**
      * Waits until the given fiber is not {@link #isReady()}
