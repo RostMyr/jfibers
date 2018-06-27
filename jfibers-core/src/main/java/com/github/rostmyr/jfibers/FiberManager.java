@@ -54,6 +54,9 @@ public class FiberManager {
                 } else {
                     current.scheduler = null;
                     size--;
+                    if (current.next == null && current.exception != null) {
+                        throw new FiberExecutionException("Unhandled fiber exception", current.getException());
+                    }
                     current = current.next;
                 }
             }

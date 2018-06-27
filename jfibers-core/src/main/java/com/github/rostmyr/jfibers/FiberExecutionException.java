@@ -9,4 +9,8 @@ public class FiberExecutionException extends RuntimeException {
     public FiberExecutionException(Throwable cause) {
         super(cause);
     }
+
+    public FiberExecutionException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

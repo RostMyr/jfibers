@@ -30,11 +30,11 @@ public class FiberTransformer {
      * @param clazzBytes class as bytes array
      * @param debug      debug enabled
      */
-    public static FiberTransformerResult instrument(byte[] clazzBytes, boolean debug) throws IOException {
+    public static FiberTransformerResult instrument(byte[] clazzBytes, boolean debug) {
         return instrument(new ClassReader(clazzBytes), debug);
     }
 
-    private static FiberTransformerResult instrument(ClassReader cr, boolean debug) throws IOException {
+    private static FiberTransformerResult instrument(ClassReader cr, boolean debug) {
         FiberTransformerResult result = new FiberTransformerResult();
         ClassWriter cw = new ClassWriter(COMPUTE_FRAMES);
         FiberClassNodeAdapter cv = new FiberClassNodeAdapter(cw, debug, result);

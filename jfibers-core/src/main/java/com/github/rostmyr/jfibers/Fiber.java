@@ -45,7 +45,7 @@ public abstract class Fiber<E> {
      */
     public E getResult() {
         if (exception != null) {
-            throw new FiberExecutionException(exception);
+            throw new FiberExecutionException(getException(exception));
         }
         return (E) result;
     }
@@ -55,8 +55,8 @@ public abstract class Fiber<E> {
      *
      * @return exception, may be null
      */
-    public Exception getException() {
-        return exception;
+    public Throwable getException() {
+        return getException(exception);
     }
 
     /**
@@ -135,7 +135,7 @@ public abstract class Fiber<E> {
         if (!current.isReady()) {
             return state;
         }
-        this.result = current.result;
+        this.result = current.getResult();
         return state + 1;
     }
 
@@ -211,7 +211,7 @@ public abstract class Fiber<E> {
         if (!current.isReady()) {
             return state;
         }
-        this.result = current.result;
+        this.result = current.getResult();
         return -1;
     }
 
@@ -265,5 +265,12 @@ public abstract class Fiber<E> {
 
     public boolean isReady() {
         return state == -1;
+    }
+
+    private Throwable getException(Throwable e) {
+        if (e instanceof FiberExecutionException) {
+            return getException(e.getCause());
+        }
+        return e;
     }
 }

@@ -15,7 +15,11 @@ public class UserService {
     private long idSequence = 1L;
 
     public Fiber<User> getUser(long id) {
-        return result(repository.getById(id));
+        User user = repository.getById(id);
+        if (user == null) {
+            throw new IllegalArgumentException("Unknown user: " + id);
+        }
+        return result(user);
     }
 
     public Fiber<Long> createUser(String firstName, String lastName) {
