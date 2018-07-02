@@ -1,16 +1,18 @@
 package com.github.rostmyr.jfibers.maven;
 
-import com.github.rostmyr.jfibers.instrumentation.FiberTransformer;
-import com.github.rostmyr.jfibers.instrumentation.FiberTransformerResult;
 import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 
+import com.github.rostmyr.jfibers.instrumentation.FiberTransformer;
+import com.github.rostmyr.jfibers.instrumentation.FiberTransformerResult;
+
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.FileVisitOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -20,18 +22,12 @@ import static java.nio.file.Files.readAllBytes;
 
 /**
  * Rostyslav Myroshnychenko
- * on 02.06.2018.
+ * on 28.06.2018.
  */
-@Mojo(
-    name = "process-fiber-sources",
-    threadSafe = true,
-    defaultPhase = LifecyclePhase.PROCESS_CLASSES,
-    requiresDependencyResolution = ResolutionScope.TEST
-)
-public class FiberSourceMogo extends AbstractMojo {
+public abstract class ProcessClassesAbstractMojo extends AbstractMojo  {
 
     @Parameter(defaultValue = "${project}", readonly = true, required = true)
-    private MavenProject project;
+    protected MavenProject project;
 
     /**
      * Set this to "true" to skip plugin execution.
@@ -46,7 +42,7 @@ public class FiberSourceMogo extends AbstractMojo {
             return;
         }
 
-        String outputDirectory = project.getBuild().getOutputDirectory();
+        String outputDirectory = getOutputDirectory();
         getLog().debug("Output directory: " + outputDirectory);
 
         try {
@@ -58,10 +54,12 @@ public class FiberSourceMogo extends AbstractMojo {
         }
     }
 
+    protected abstract String getOutputDirectory();
+
     private Consumer<Path> processCompiledClasses() {
         return path -> {
             try {
-                FiberTransformerResult result = FiberTransformer.instrument(readAllBytes(path), false);
+                FiberTransformerResult result = FiberTransformer.transform(readAllBytes(path), false);
                 if (result.getMainClass() == null) {
                     return;
                 }

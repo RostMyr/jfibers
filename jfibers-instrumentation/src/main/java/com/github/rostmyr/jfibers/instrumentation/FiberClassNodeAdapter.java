@@ -1,19 +1,46 @@
 package com.github.rostmyr.jfibers.instrumentation;
 
-import com.github.rostmyr.jfibers.Fiber;
-import org.objectweb.asm.*;
-import org.objectweb.asm.tree.*;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Label;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.FieldInsnNode;
+import org.objectweb.asm.tree.InsnList;
+import org.objectweb.asm.tree.InsnNode;
+import org.objectweb.asm.tree.IntInsnNode;
+import org.objectweb.asm.tree.LabelNode;
+import org.objectweb.asm.tree.LdcInsnNode;
+import org.objectweb.asm.tree.LineNumberNode;
+import org.objectweb.asm.tree.LocalVariableNode;
+import org.objectweb.asm.tree.MethodInsnNode;
+import org.objectweb.asm.tree.MethodNode;
+import org.objectweb.asm.tree.TryCatchBlockNode;
+import org.objectweb.asm.tree.TypeInsnNode;
+import org.objectweb.asm.tree.VarInsnNode;
 import org.objectweb.asm.util.CheckClassAdapter;
 import org.objectweb.asm.util.Textifier;
 import org.objectweb.asm.util.TraceClassVisitor;
 import org.objectweb.asm.util.TraceMethodVisitor;
 
+import com.github.rostmyr.jfibers.Fiber;
+
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 import java.util.concurrent.Future;
 
+import static java.util.Collections.emptyMap;
 import static java.util.stream.Collectors.toList;
 import static org.objectweb.asm.ClassWriter.COMPUTE_FRAMES;
 import static org.objectweb.asm.Opcodes.*;
@@ -122,11 +149,13 @@ public class FiberClassNodeAdapter extends ClassNode {
     }
 
     private void insertInnerClass(ClassWriter cw, String className, MethodNode method) {
-        String[] localVarsNames = new String[method.localVariables.size() - 1]; // skip this param
-        for (int i = 1; i < method.localVariables.size(); i++) {
+        String[] localVarsNames = new String[method.localVariables.size()]; // skip this param
+        for (int i = 0; i < method.localVariables.size(); i++) {
             LocalVariableNode var = method.localVariables.get(i);
-            cw.visitField(ACC_PUBLIC, var.name, var.desc, var.signature, null).visitEnd();
-            localVarsNames[i - 1] = var.name;
+            if (!"this".equals(var.name)) {
+                cw.visitField(ACC_PUBLIC, var.name, var.desc, var.signature, null).visitEnd();
+                localVarsNames[i] = var.name;
+            }
         }
 
         String outerClassDesc = "L" + name + ";";
@@ -148,6 +177,9 @@ public class FiberClassNodeAdapter extends ClassNode {
         Type[] argTypes = Type.getArgumentTypes(method.desc);
         Type argType;
         for (int i = 0, varId = i + 2; i < argTypes.length; i++, varId++) {
+            if (localVarsNames[i] == null) { // this
+                continue;
+            }
             mv.visitVarInsn(ALOAD, 0);
             argType = argTypes[i];
             mv.visitVarInsn(argType.getOpcode(ILOAD), varId);
@@ -173,16 +205,14 @@ public class FiberClassNodeAdapter extends ClassNode {
     }
 
     private void insertUpdateMethod(String innerClassName, MethodNode method) {
-        MethodVisitor mv = visitMethod(
-            ACC_PROTECTED, method.name + "_FiberUpdate", "(L" + innerClassName + ";)I", null, null);
-        mv.visitCode();
-        mv.visitVarInsn(ALOAD, 1);
-        mv.visitMethodInsn(INVOKEVIRTUAL, innerClassName, "getState", "()I", false);
+        List<TryCatchBlockNode> tryCatchBlocks = method.tryCatchBlocks;
+        boolean hasCatchBlocks = tryCatchBlocks.size() > 0;
+        boolean hasFinallyBlocks = tryCatchBlocks.size() > 1;
+        Map<LabelNode, LabelNode> endCatchLabelsByStartCatchLabels = getEndCatchLabelsByStartCatchLabels(method);
 
         // create a map with instructions by cases
         Map<Integer, List<AbstractInsnNode>> instByCases = new HashMap<>();
 
-        // method instructions
         int switchCase = 0;
         InsnList instructions = method.instructions;
         for (int i = 0; i < instructions.size(); i++) {
@@ -203,37 +233,35 @@ public class FiberClassNodeAdapter extends ClassNode {
                 switchCase++;
                 // skip check cast since we store a var in result field
                 inst = inst.getNext();
-                String varDesc = null;
-                if (inst.getOpcode() == CHECKCAST) {
-                    i++;
-                    varDesc = ((TypeInsnNode) inst).desc;
-                }
-
-                // skip storing it to the local var
-                inst = inst.getNext();
-                LocalVariableNode field = null;
-                if (inst.getOpcode() >= ISTORE && inst.getOpcode() <= ASTORE) {
-                    i++;
-                    int index = ((VarInsnNode) inst).var;
-                    if (index < method.localVariables.size()) {
-                        field = method.localVariables.get(index);
+                i++;
+                if (inst.getOpcode() == CHECKCAST) { // there is an assignment following the call
+                    String varDesc = ((TypeInsnNode) inst).desc;
+                    // skip storing it to the local var
+                    inst = inst.getNext();
+                    LocalVariableNode field = null;
+                    if (inst.getOpcode() >= ISTORE && inst.getOpcode() <= ASTORE) {
+                        i++;
+                        int index = ((VarInsnNode) inst).var;
+                        if (index < method.localVariables.size()) {
+                            field = method.localVariables.get(index);
+                        }
                     }
+
+                    putInsn(instByCases, switchCase, new InsnNode(NOP));
+                    putInsn(instByCases, switchCase, new VarInsnNode(ALOAD, 1));
+                    putInsn(instByCases, switchCase, new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "getResult", "()Ljava/lang/Object;", false));
+                    putInsn(instByCases, switchCase, new TypeInsnNode(CHECKCAST, varDesc));
+
+                    if (field != null) {
+                        putInsn(instByCases, switchCase, new FieldInsnNode(PUTFIELD, innerClassName, field.name, field.desc));
+                    } else {
+                        putInsn(instByCases, switchCase, inst);
+                    }
+
+                    putInsn(instByCases, switchCase, getPushInst(switchCase + 1));
+                    putInsn(instByCases, switchCase, new InsnNode(IRETURN));
+                    switchCase++;
                 }
-
-                putInsn(instByCases, switchCase, new InsnNode(NOP));
-                putInsn(instByCases, switchCase, new VarInsnNode(ALOAD, 1));
-                putInsn(instByCases, switchCase, new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "getResult", "()Ljava/lang/Object;", false));
-                putInsn(instByCases, switchCase, new TypeInsnNode(CHECKCAST, varDesc));
-
-                if (field != null) {
-                    putInsn(instByCases, switchCase, new FieldInsnNode(PUTFIELD, innerClassName, field.name, field.desc));
-                } else {
-                    putInsn(instByCases, switchCase, inst);
-                }
-
-                putInsn(instByCases, switchCase, getPushInst(switchCase + 1));
-                putInsn(instByCases, switchCase, new InsnNode(IRETURN));
-                switchCase++;
                 continue;
             }
             if (isCallMethodWithFutureArg(methodInvocation)) {
@@ -250,39 +278,38 @@ public class FiberClassNodeAdapter extends ClassNode {
                 switchCase++;
                 // skip check cast since we store a var in result field
                 inst = inst.getNext();
-                String varDesc = null;
+                i++;
+                // there is an assignment following the call
                 if (inst.getOpcode() == CHECKCAST) {
-                    i++;
-                    varDesc = ((TypeInsnNode) inst).desc;
-                }
-
-                // skip storing it to the local var
-                inst = inst.getNext();
-                LocalVariableNode field = null;
-                if (inst.getOpcode() >= ISTORE && inst.getOpcode() <= ASTORE) {
-                    i++;
-                    int index = ((VarInsnNode) inst).var;
-                    if (index < method.localVariables.size()) {
-                        field = method.localVariables.get(index);
+                    String varDesc = ((TypeInsnNode) inst).desc;
+                    // skip storing it to the local var
+                    inst = inst.getNext();
+                    LocalVariableNode field = null;
+                    if (inst.getOpcode() >= ISTORE && inst.getOpcode() <= ASTORE) {
+                        i++;
+                        int index = ((VarInsnNode) inst).var;
+                        if (index < method.localVariables.size()) {
+                            field = method.localVariables.get(index);
+                        }
                     }
+
+                    putInsn(instByCases, switchCase, new InsnNode(NOP));
+                    putInsn(instByCases, switchCase, new VarInsnNode(ALOAD, 1));
+                    putInsn(instByCases, switchCase, new InsnNode(NOP));
+                    putInsn(instByCases, switchCase, new VarInsnNode(ALOAD, 1));
+                    putInsn(instByCases, switchCase, new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "getResult", "()Ljava/lang/Object;", false));
+                    putInsn(instByCases, switchCase, new TypeInsnNode(CHECKCAST, varDesc));
+
+                    if (field != null) {
+                        putInsn(instByCases, switchCase, new FieldInsnNode(PUTFIELD, innerClassName, field.name, field.desc));
+                    } else {
+                        putInsn(instByCases, switchCase, inst);
+                    }
+
+                    putInsn(instByCases, switchCase, getPushInst(switchCase + 1));
+                    putInsn(instByCases, switchCase, new InsnNode(IRETURN));
+                    switchCase++;
                 }
-
-                putInsn(instByCases, switchCase, new InsnNode(NOP));
-                putInsn(instByCases, switchCase, new VarInsnNode(ALOAD, 1));
-                putInsn(instByCases, switchCase, new InsnNode(NOP));
-                putInsn(instByCases, switchCase, new VarInsnNode(ALOAD, 1));
-                putInsn(instByCases, switchCase, new MethodInsnNode(INVOKEVIRTUAL, innerClassName, "getResult", "()Ljava/lang/Object;", false));
-                putInsn(instByCases, switchCase, new TypeInsnNode(CHECKCAST, varDesc));
-
-                if (field != null) {
-                    putInsn(instByCases, switchCase, new FieldInsnNode(PUTFIELD, innerClassName, field.name, field.desc));
-                } else {
-                    putInsn(instByCases, switchCase, inst);
-                }
-
-                putInsn(instByCases, switchCase, getPushInst(switchCase + 1));
-                putInsn(instByCases, switchCase, new InsnNode(IRETURN));
-                switchCase++;
                 continue;
             }
             if (isCallMethodWithLiteralArg(methodInvocation)) {
@@ -331,8 +358,18 @@ public class FiberClassNodeAdapter extends ClassNode {
             }
             putInsn(instByCases, switchCase, inst);
         }
-
         switchCase++;
+
+        MethodVisitor mv = visitMethod(ACC_PROTECTED, method.name + "_FiberUpdate", "(L" + innerClassName + ";)I", null, null);
+        mv.visitCode();
+
+        method.tryCatchBlocks.forEach(node ->
+            mv.visitTryCatchBlock(node.start.getLabel(), node.end.getLabel(), node.handler.getLabel(), node.type)
+        );
+
+        mv.visitVarInsn(ALOAD, 1);
+        mv.visitMethodInsn(INVOKEVIRTUAL, innerClassName, "getState", "()I", false);
+
         // insert switch table
         Label[] labels = new Label[switchCase + 1];
         for (int i = 0; i < switchCase; i++) {
@@ -355,6 +392,7 @@ public class FiberClassNodeAdapter extends ClassNode {
                 methodLocalVarsByIndex.put(++varId, localVariableNode);
             }
         }
+        boolean isThisFirstVariable = methodLocalVarsByIndex.get(0).index == 0;
 
         // post process instructions
         for (int i = 0; i < switchCase; i++) {
@@ -368,9 +406,9 @@ public class FiberClassNodeAdapter extends ClassNode {
                 if (opcode >= Opcodes.ILOAD && opcode <= SALOAD) {
                     int prevOpcode = (j - 1) >= 0 ? instNodes.get(j - 1).getOpcode() : Integer.MIN_VALUE;
                     // load vars from the class fields (if it's not a local to frame)
-                    int fieldIndex = ((VarInsnNode) inst).var;
-                    LocalVariableNode field = methodLocalVarsByIndex.get(fieldIndex);
-                    if (fieldIndex > 0 && field != null && prevOpcode != NOP) {
+                    int index = ((VarInsnNode) inst).var;
+                    LocalVariableNode field = methodLocalVarsByIndex.get(isThisFirstVariable ? index : index - 1);
+                    if (index > 0 && field != null && prevOpcode != NOP) {
                         processedNodes.add(new VarInsnNode(ALOAD, 1));
                         processedNodes.add(new FieldInsnNode(GETFIELD, innerClassName, field.name, field.desc));
                         continue;
@@ -378,7 +416,7 @@ public class FiberClassNodeAdapter extends ClassNode {
                 } else if (opcode >= ISTORE && opcode <= ASTORE) {
                     // store vars into the class fields (if it's not a local to frame)
                     int index = ((VarInsnNode) inst).var;
-                    LocalVariableNode field = methodLocalVarsByIndex.get(index);
+                    LocalVariableNode field = methodLocalVarsByIndex.get(isThisFirstVariable ? index : index - 1);
                     if (field != null) {
                         putInsnAfterLineNumber(processedNodes, new VarInsnNode(ALOAD, 1));
                         processedNodes.add(new FieldInsnNode(PUTFIELD, innerClassName, field.name, field.desc));
@@ -432,6 +470,16 @@ public class FiberClassNodeAdapter extends ClassNode {
 
     private PrintWriter getPrintWriter() {
         return new PrintWriter(new OutputStreamWriter(System.out, StandardCharsets.UTF_8));
+    }
+
+    private Map<LabelNode, LabelNode> getEndCatchLabelsByStartCatchLabels(MethodNode method) {
+        List<TryCatchBlockNode> tryCatchBlocks = method.tryCatchBlocks;
+        if (tryCatchBlocks == null || tryCatchBlocks.isEmpty()) {
+            return emptyMap();
+        }
+        Map<LabelNode, LabelNode> endCatchLabelsByStartCatchLabels = new HashMap<>();
+        tryCatchBlocks.forEach(node -> endCatchLabelsByStartCatchLabels.put(node.start, node.end));
+        return endCatchLabelsByStartCatchLabels;
     }
 
     /* utils */

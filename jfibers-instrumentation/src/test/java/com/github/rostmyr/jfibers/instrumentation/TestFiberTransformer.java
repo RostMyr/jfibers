@@ -1,5 +1,6 @@
 package com.github.rostmyr.jfibers.instrumentation;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class TestFiberTransformer {
 
     @Test
     public void manualTest() throws IOException {
-        FiberTransformerResult result = FiberTransformer.instrument(TestFiberModel.class, false);
+        FiberTransformerResult result = FiberTransformer.transform(TestFiberModel.class, false);
         Files.write(Paths.get(TestFiberModel.class.getSimpleName() + ".class"), result.getMainClass());
         for (Map.Entry<String, byte[]> fiber : result.getFibers().entrySet()) {
             Files.write(Paths.get(fiber.getKey() + ".class"), fiber.getValue());
@@ -31,19 +32,19 @@ public class TestFiberTransformer {
     public void shouldInstrumentClasses() throws IOException {
         // GIVEN
         Path basePath = Paths.get("src/test/resources/");
-        Path mainClass = basePath.resolve("TestFiberModel.class");
+        Path mainClass = basePath.resolve("TestFiberModel.clazz");
 
         Map<String, byte[]> innerClassesByNames = Files.walk(basePath.resolve("expected"))
             .filter(path -> isRegularFile(path))
             .collect(toMap(path -> path.getFileName().toString(), this::readAllBytes));
 
         // WHEN
-        FiberTransformerResult result = FiberTransformer.instrument(readAllBytes(mainClass), false);
+        FiberTransformerResult result = FiberTransformer.transform(readAllBytes(mainClass), false);
 
         // THEN
         assertThat(result.getMainClass()).isEqualTo(innerClassesByNames.get(mainClass.getFileName().toString()));
         for (Map.Entry<String, byte[]> innerClassByName : result.getFibers().entrySet()) {
-            assertThat(innerClassesByNames.get(innerClassByName.getKey() + ".class")).isEqualTo(innerClassByName.getValue());
+            assertThat(innerClassesByNames.get(innerClassByName.getKey() + ".clazz")).isEqualTo(innerClassByName.getValue());
         }
     }
 

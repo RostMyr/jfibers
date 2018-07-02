@@ -14,75 +14,98 @@ import static com.github.rostmyr.jfibers.Fiber.*;
 public class TestFiberModel {
     private long sequence;
 
-    public Fiber<Long> getSequence() {
-        long id = sequence++;
-        long result = id;
-        return result(result);
-    }
+//    public Fiber<Long> getFiberWithSequenceIncrement() {
+//        long id = sequence++;
+//        long result = id;
+//        return result(result);
+//    }
+//
+//    public Fiber<String> getFiberWithCallToAnotherFiber() {
+//        String fiberResult = call(getWithWithFewCalls());
+//        return result(fiberResult);
+//    }
+//
+//    public Fiber<String> getFiberWithCallToFuture() {
+//        String fiberResult = call(getFuture());
+//        return result(fiberResult);
+//    }
+//
+//    public Fiber<Void> getFiberWhichReturnNothing() {
+//        String fiberResult = call(getFuture());
+//        return nothing();
+//    }
+//
+//    public Fiber<String> getFiberWithReturnCallToAnotherFiber() {
+//        String fiberResult = call(getFuture());
+//        return result(getWithWithFewCalls());
+//    }
+//
+//    public Fiber<String> getFiberWithReturnCallToFuture() {
+//        return result(getFuture());
+//    }
+//
+//    public Fiber<String> getFiberWithCallToAnotherFiberWithArgs() {
+//        String firstArg = "A";
+//        String fiberResult = call(getFiberWithArgs(firstArg, "B"));
+//        return result(fiberResult);
+//    }
+//
+//    public Fiber<String> getFiberWithArgs(String second, String third) {
+//        String first = call(getString());
+//        return result(join(first, second));
+//    }
+//
+//    public Fiber<String> getFiberWithChainedCall() {
+//        String string = call(getString().concat("Chained Call!"));
+//        return result(string);
+//    }
+//
+//    public Fiber<String> getWithWithFewCalls() {
+//        String first = call("A");
+//        String second = call("B");
+//        return result(join(first, second));
+//    }
+////
+//    public Fiber<String> getFiberWithStaticMethodInvocation() {
+//        String second = join("A", "B");
+//        return result(second);
+//    }
+//
+//    public Fiber<String> getFiberWithLocalVarAssignment() {
+//        String first = "A";
+//        String second = join(first, "B");
+//        return result(first);
+//    }
+//
+//    public Fiber<Integer> getFiberWithImmediateReturnStatement() {
+//        return result(1);
+//    }
+//
+//    public Fiber<Void> getFiberWithCallToAnotherFiberWithoutAssignment() {
+//        call(getFiberWhichReturnNothing());
+//        return nothing();
+//    }
+//
+//    public Fiber<Void> getFiberWithCallToFutureWithoutAssignment() {
+//        call(getFuture());
+//        return nothing();
+//    }
 
-    public Fiber<String> callFiber() {
-        String fiberResult = call(fiberWithSeveralCalls());
-        return result(fiberResult);
-    }
-
-    public Fiber<String> callFuture() {
-        String fiberResult = call(getFuture());
-        return result(fiberResult);
-    }
-
-    public Fiber<Void> getNothing() {
-        String fiberResult = call(getFuture());
+    public Fiber<Void> getFiberWithCatch() {
+        try {
+            String first = "A";
+            String second = join(first, "B");
+            System.out.println(second);
+        } catch (Exception e) {
+            System.out.println("Catch");
+        } finally {
+            System.out.println("Finally");
+        }
         return nothing();
     }
 
-    public Fiber<String> callFiberInReturn() {
-        String fiberResult = call(getFuture());
-        return result(fiberWithSeveralCalls());
-    }
-
-    public Fiber<String> callFutureInReturn() {
-        return result(getFuture());
-    }
-
-    public Fiber<String> callFiberWithArgument() {
-        String firstArg = "A";
-        String fiberResult = call(callRegularMethod(firstArg, "B"));
-        return result(fiberResult);
-    }
-
-    public Fiber<String> callRegularMethod(String second, String third) {
-        String first = call(getString());
-        return result(join(first, second));
-    }
-
-    public Fiber<String> callMethodChain() {
-        String string = call(getString().concat("Chained Call!"));
-        return result(string);
-    }
-
-    public Fiber<String> fiberWithSeveralCalls() {
-        String first = call("A");
-        String second = call("B");
-        return result(join(first, second));
-    }
-
-    public Fiber<String> fiberWithStaticMethodCall() {
-        String second = join("A", "B");
-        return result(second);
-    }
-
-    public Fiber<String> fiberWithAssignment() {
-        String first = "A";
-        String second = join(first, "B");
-        return result(first);
-    }
-
-    public Fiber<Integer> fiberWithImmediateReturn() {
-        return result(1);
-    }
-
 //    public Fiber<String> callFiberTwice() {
-//        String fiberResult = call(callRegularMethod(call(callFiber()), "b"));
+//        String fiberResult = call(getFiberWithArgs(call(getFiberWithCallToAnotherFiber()), "b"));
 //        return result(fiberResult);
 //    }
 
@@ -94,7 +117,7 @@ public class TestFiberModel {
 //        return result(sum);
 //    }
 
-    public String getString() {
+    private String getString() {
         return "Hello World";
     }
 

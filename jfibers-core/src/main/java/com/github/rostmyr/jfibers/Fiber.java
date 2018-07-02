@@ -132,6 +132,9 @@ public abstract class Fiber<E> {
      * ...
      */
     public int awaitFiber() {
+        if (current.exception != null) {
+            throw new FiberExecutionException(getException(current.exception));
+        }
         if (!current.isReady()) {
             return state;
         }

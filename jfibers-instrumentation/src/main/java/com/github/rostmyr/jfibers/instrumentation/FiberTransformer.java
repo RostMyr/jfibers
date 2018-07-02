@@ -20,8 +20,8 @@ public class FiberTransformer {
      * @param clazz class
      * @param debug debug enabled
      */
-    public static FiberTransformerResult instrument(Class<?> clazz, boolean debug) throws IOException {
-        return instrument(new ClassReader(clazz.getName()), debug);
+    public static FiberTransformerResult transform(Class<?> clazz, boolean debug) throws IOException {
+        return transform(new ClassReader(clazz.getName()), debug);
     }
 
     /**
@@ -30,11 +30,11 @@ public class FiberTransformer {
      * @param clazzBytes class as bytes array
      * @param debug      debug enabled
      */
-    public static FiberTransformerResult instrument(byte[] clazzBytes, boolean debug) {
-        return instrument(new ClassReader(clazzBytes), debug);
+    public static FiberTransformerResult transform(byte[] clazzBytes, boolean debug) {
+        return transform(new ClassReader(clazzBytes), debug);
     }
 
-    private static FiberTransformerResult instrument(ClassReader cr, boolean debug) {
+    private static FiberTransformerResult transform(ClassReader cr, boolean debug) {
         FiberTransformerResult result = new FiberTransformerResult();
         ClassWriter cw = new ClassWriter(COMPUTE_FRAMES);
         FiberClassNodeAdapter cv = new FiberClassNodeAdapter(cw, debug, result);

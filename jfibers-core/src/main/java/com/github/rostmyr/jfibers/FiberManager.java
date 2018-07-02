@@ -6,7 +6,8 @@ package com.github.rostmyr.jfibers;
  */
 @SuppressWarnings("unchecked")
 public class FiberManager {
-    private boolean interrupted;
+    private boolean isInterrupted;
+    private boolean isRunning;
 
     private Fiber current;
     private Fiber last;
@@ -42,7 +43,8 @@ public class FiberManager {
      * Starts the execution of the scheduled fibers
      */
     public void run() {
-        while (!interrupted) {
+        isRunning = true;
+        while (!isInterrupted) {
             while (current != null) {
                 int newState = current.update();
                 current.setState(newState);
@@ -62,12 +64,17 @@ public class FiberManager {
             }
             last = null;
         }
+        isRunning = false;
+    }
+
+    public boolean isRunning() {
+        return isRunning;
     }
 
     /**
      * Interrupts the manager execution
      */
     public void stop() {
-        interrupted = true;
+        isInterrupted = true;
     }
 }

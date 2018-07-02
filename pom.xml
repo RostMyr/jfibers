@@ -31,6 +31,7 @@
         <module>jfibers-core</module>
         <module>jfibers-maven-plugin</module>
         <module>jfibers-instrumentation</module>
+        <module>jfibers-test</module>
         <module>jfibers-example</module>
     </modules>
 

@@ -41,7 +41,7 @@ public class FiberInstrumentator {
             ProtectionDomain protectionDomain,
             byte[] classfileBuffer
         ) {
-            FiberTransformerResult instrument = FiberTransformer.instrument(classfileBuffer, false);
+            FiberTransformerResult instrument = FiberTransformer.transform(classfileBuffer, false);
             byte[] mainClass = instrument.getMainClass();
             if (mainClass == null) {
                 return null;
