@@ -19,7 +19,7 @@
 
         <plexus-component-annotations.version>1.7.1</plexus-component-annotations.version>
         <plexus-utils.version>3.1.0</plexus-utils.version>
-        <commons-io.version>2.5</commons-io.version>
+        <commons-io.version>2.7</commons-io.version>
         <guava.version>20.0</guava.version>
         <maven-artifact.version>3.5.3</maven-artifact.version>
         <junit.version>3.8.1</junit.version>
