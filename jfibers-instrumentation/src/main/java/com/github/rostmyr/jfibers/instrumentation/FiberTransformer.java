@@ -4,6 +4,7 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import static org.objectweb.asm.ClassReader.SKIP_FRAMES;
 import static org.objectweb.asm.ClassWriter.COMPUTE_FRAMES;
@@ -21,7 +22,13 @@ public class FiberTransformer {
      * @param debug debug enabled
      */
     public static FiberTransformerResult instrument(Class<?> clazz, boolean debug) throws IOException {
-        return instrument(new ClassReader(clazz.getName()), debug);
+        String resource = "/" + clazz.getName().replace('.', '/') + ".class";
+        try (InputStream bytes = clazz.getResourceAsStream(resource)) {
+            if (bytes == null) {
+                throw new IOException("Class bytes not found: " + clazz.getName());
+            }
+            return instrument(new ClassReader(bytes), debug, clazz.getClassLoader());
+        }
     }
 
     /**
@@ -31,18 +38,31 @@ public class FiberTransformer {
      * @param debug      debug enabled
      */
     public static FiberTransformerResult instrument(byte[] clazzBytes, boolean debug) throws IOException {
-        return instrument(new ClassReader(clazzBytes), debug);
+        return instrument(clazzBytes, debug, FiberTransformer.class.getClassLoader());
     }
 
-    private static FiberTransformerResult instrument(ClassReader cr, boolean debug) throws IOException {
+    public static FiberTransformerResult instrument(byte[] clazzBytes, boolean debug, ClassLoader loader) throws IOException {
+        return instrument(new ClassReader(clazzBytes), debug, loader);
+    }
+
+    private static FiberTransformerResult instrument(ClassReader cr, boolean debug, ClassLoader loader) throws IOException {
         FiberTransformerResult result = new FiberTransformerResult();
-        ClassWriter cw = new ClassWriter(COMPUTE_FRAMES);
-        FiberClassNodeAdapter cv = new FiberClassNodeAdapter(cw, debug, result);
+        ClassWriter cw = createClassWriter(loader);
+        FiberClassNodeAdapter cv = new FiberClassNodeAdapter(cw, debug, result, loader);
         cr.accept(cv, SKIP_FRAMES);
 
         if (cv.isInstrumented()) {
             result.setMainClass(cw.toByteArray());
         }
         return result;
+    }
+
+    static ClassWriter createClassWriter(ClassLoader loader) {
+        return new ClassWriter(COMPUTE_FRAMES) {
+            @Override
+            protected ClassLoader getClassLoader() {
+                return loader;
+            }
+        };
     }
 }

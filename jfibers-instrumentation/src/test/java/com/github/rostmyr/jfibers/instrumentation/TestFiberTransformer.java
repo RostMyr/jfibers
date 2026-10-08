@@ -5,12 +5,9 @@ import com.github.rostmyr.jfibers.FiberManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.objectweb.asm.ClassReader;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -47,15 +44,7 @@ public class TestFiberTransformer {
 
     @Test(timeout = 5000)
     public void shouldExecuteInstrumentedMethod() throws Exception {
-        FiberTransformerResult result = FiberTransformer.instrument(TestFiberModel.class, false);
-        assertThat(result.getMainClass()).isNotNull();
-
-        Map<String, byte[]> definitions = new HashMap<>();
-        for (byte[] bytes : result.getFibers().values()) {
-            definitions.put(new ClassReader(bytes).getClassName().replace('/', '.'), bytes);
-        }
-        InstrumentedClassLoader loader = new InstrumentedClassLoader(definitions);
-        Class<?> modelClass = loader.define(result.getMainClass());
+        Class<?> modelClass = InstrumentedTestModel.load(TestFiberModel.class);
         Object model = modelClass.getConstructor().newInstance();
         Fiber<?> fiber = (Fiber<?>) modelClass.getMethod(methodName).invoke(model);
         FiberManager manager = new FiberManager();
@@ -77,25 +66,4 @@ public class TestFiberTransformer {
         assertThat(manager.getSize()).isZero();
     }
 
-    private static class InstrumentedClassLoader extends ClassLoader {
-        private final Map<String, byte[]> definitions;
-
-        InstrumentedClassLoader(Map<String, byte[]> definitions) {
-            super(TestFiberTransformer.class.getClassLoader());
-            this.definitions = definitions;
-        }
-
-        Class<?> define(byte[] bytes) {
-            return defineClass(null, bytes, 0, bytes.length);
-        }
-
-        @Override
-        protected Class<?> findClass(String name) throws ClassNotFoundException {
-            byte[] bytes = definitions.get(name);
-            if (bytes == null) {
-                throw new ClassNotFoundException(name);
-            }
-            return define(bytes);
-        }
-    }
 }

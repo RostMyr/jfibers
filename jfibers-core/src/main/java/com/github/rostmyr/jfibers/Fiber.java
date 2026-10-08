@@ -1,5 +1,7 @@
 package com.github.rostmyr.jfibers;
 
+import java.util.Objects;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -16,9 +18,9 @@ public abstract class Fiber<E> {
     protected Fiber<?> next;
 
     // the current fiber we are waiting for
-    protected Fiber current;
+    protected Fiber<?> current;
     // the current future we are waiting for
-    protected Future future;
+    protected Future<?> future;
 
     /**
      * Gets a current fiber's state
@@ -69,10 +71,12 @@ public abstract class Fiber<E> {
      * @param fiber a fiber
      * @return the next state
      */
-    public int awaitFor(Fiber fiber) {
-        this.current = fiber;
-        if (current.scheduler == null) {
+    public int awaitFor(Fiber<?> fiber) {
+        this.current = Objects.requireNonNull(fiber, "fiber");
+        if (!current.isReady() && current.scheduler == null) {
             scheduler.schedule(current);
+        } else if (!current.isReady() && current.scheduler != scheduler) {
+            throw new IllegalStateException("Awaited fiber belongs to another scheduler");
         }
         return state + 1;
     }
@@ -83,8 +87,8 @@ public abstract class Fiber<E> {
      * @param future a future
      * @return the next state
      */
-    public int awaitFor(Future future) {
-        this.future = future;
+    public int awaitFor(Future<?> future) {
+        this.future = Objects.requireNonNull(future, "future");
         return state + 1;
     }
 
@@ -118,8 +122,7 @@ public abstract class Fiber<E> {
         if (!current.isReady()) {
             return state;
         }
-        this.result = current.result;
-        return state + 1;
+        return completeFiber(state + 1);
     }
 
     /**
@@ -145,13 +148,7 @@ public abstract class Fiber<E> {
         if (!future.isDone()) {
             return state;
         }
-        try {
-            this.result = future.get();
-        } catch (InterruptedException | ExecutionException e) {
-            this.exception = e;
-            return -1;
-        }
-        return state + 1;
+        return completeFuture(state + 1);
     }
 
     /**
@@ -194,8 +191,7 @@ public abstract class Fiber<E> {
         if (!current.isReady()) {
             return state;
         }
-        this.result = current.result;
-        return -1;
+        return completeFiber(-1);
     }
 
     /**
@@ -219,11 +215,37 @@ public abstract class Fiber<E> {
         if (!future.isDone()) {
             return state;
         }
-        try {
-            this.result = future.get();
-        } catch (InterruptedException | ExecutionException e) {
-            this.exception = e;
+        return completeFuture(-1);
+    }
+
+    private int completeFiber(int nextState) {
+        Fiber<?> completed = current;
+        current = null;
+        if (completed.exception != null) {
+            return fail(completed.exception);
         }
+        result = completed.result;
+        return nextState;
+    }
+
+    private int completeFuture(int nextState) {
+        try {
+            result = future.get();
+            future = null;
+            return nextState;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return fail(e);
+        } catch (ExecutionException | CancellationException e) {
+            return fail(e);
+        }
+    }
+
+    protected int fail(Exception failure) {
+        exception = failure;
+        result = null;
+        current = null;
+        future = null;
         return -1;
     }
 

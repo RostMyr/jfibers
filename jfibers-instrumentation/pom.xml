@@ -58,6 +58,25 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <jfibers.agentJar>${project.build.directory}/${project.build.finalName}-jar-with-dependencies.jar</jfibers.agentJar>
+                        <jfibers.testClasses>${project.build.testOutputDirectory}</jfibers.testClasses>
+                    </systemPropertyVariables>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>${maven-assembly-plugin.version}</version>
                 <configuration>
@@ -66,8 +85,6 @@
                         <manifestEntries>
                             <Premain-Class>com.github.rostmyr.jfibers.instrumentation.FiberInstrumentator</Premain-Class>
                             <Agent-Class>com.github.rostmyr.jfibers.instrumentation.FiberInstrumentator</Agent-Class>
-                            <Can-Redefine-Classes>true</Can-Redefine-Classes>
-                            <Can-Retransform-Classes>true</Can-Retransform-Classes>
                         </manifestEntries>
                     </archive>
                     <descriptorRefs>

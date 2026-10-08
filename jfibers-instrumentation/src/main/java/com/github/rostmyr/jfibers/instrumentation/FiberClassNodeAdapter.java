@@ -11,11 +11,14 @@ import org.objectweb.asm.util.TraceMethodVisitor;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.Future;
 
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
-import static org.objectweb.asm.ClassWriter.COMPUTE_FRAMES;
 import static org.objectweb.asm.Opcodes.*;
 import static org.objectweb.asm.Type.*;
 
@@ -39,9 +42,11 @@ public class FiberClassNodeAdapter extends ClassNode {
     private FiberTransformerResult result;
     private boolean debug;
     private boolean isInstrumented;
+    private final ClassLoader classLoader;
 
-    FiberClassNodeAdapter(ClassVisitor cv, boolean debug, FiberTransformerResult result) {
+    FiberClassNodeAdapter(ClassVisitor cv, boolean debug, FiberTransformerResult result, ClassLoader classLoader) {
         super(ASM9);
+        this.classLoader = classLoader;
         this.debug = debug;
         this.result = result;
         if (debug) {
@@ -61,17 +66,26 @@ public class FiberClassNodeAdapter extends ClassNode {
             .filter(method -> getReturnType(method.desc).getDescriptor().equals(FIBER_RETURN_TYPE))
             .filter(FiberClassNodeAdapter::hasTerminateMethodInvocation)
             .collect(toList());
+        Map<String, Long> overloadCounts = methodsForInstrumentation.stream()
+            .collect(groupingBy(method -> method.name, counting()));
+        Map<MethodNode, String> fiberClassNames = new IdentityHashMap<>();
+        for (MethodNode method : methodsForInstrumentation) {
+            String suffix = overloadCounts.get(method.name) > 1 ? "$" + descriptorId(method.desc) : "";
+            fiberClassNames.put(method, name + "$" + method.name + "_Fiber" + suffix);
+        }
 
         // generate inner classes
         for (MethodNode method : methodsForInstrumentation) {
-            String innerClassName = name + "$" + method.name + "_Fiber";
+            String innerClassName = fiberClassNames.get(method);
+            String innerSimpleName = innerClassName.substring(name.length() + 1);
             String fiberClassName = getInternalName(Fiber.class);
-            String methodReturnType = method.signature.substring(method.signature.indexOf(")") + 1);
+            String methodReturnType = method.signature == null ? null
+                : method.signature.substring(method.signature.indexOf(")") + 1);
 
-            visitInnerClass(innerClassName, name, method.name + "_Fiber", ACC_PUBLIC);
-            ClassWriter cw = new ClassWriter(COMPUTE_FRAMES);
+            visitInnerClass(innerClassName, name, innerSimpleName, ACC_PUBLIC);
+            ClassWriter cw = FiberTransformer.createClassWriter(classLoader);
             cw.visit(version, ACC_PUBLIC + ACC_SUPER, innerClassName, methodReturnType, fiberClassName, null);
-            cw.visitInnerClass(innerClassName, name, method.name + "_Fiber", ACC_PUBLIC);
+            cw.visitInnerClass(innerClassName, name, innerSimpleName, ACC_PUBLIC);
             insertInnerClass(cw, innerClassName, method);
             insertUpdateMethod(innerClassName, method);
             cw.visitEnd();
@@ -81,13 +95,13 @@ public class FiberClassNodeAdapter extends ClassNode {
                 cr.accept(new CheckClassAdapter(new TraceClassVisitor(getPrintWriter())), 0);
             }
 
-            String className = this.name.substring(this.name.lastIndexOf("/") + 1) + "$" + method.name + "_Fiber";
+            String className = innerClassName.substring(innerClassName.lastIndexOf('/') + 1);
             result.addFiber(className, cw.toByteArray());
         }
 
         // replace original method with a constructor invocation of a new fiber
         for (MethodNode m : methodsForInstrumentation) {
-            String innerClassName = name + "$" + m.name + "_Fiber";
+            String innerClassName = fiberClassNames.get(m);
 
             methods.remove(m);
 
@@ -107,8 +121,7 @@ public class FiberClassNodeAdapter extends ClassNode {
                 }
             }
 
-            String outerClassDesc = "L" + name + ";";
-            String ctrInputDescriptor = "(" + outerClassDesc + substringBetween(m.signature, "(", ")") + ")V";
+            String ctrInputDescriptor = constructorDescriptor(m);
             mv.visitMethodInsn(INVOKESPECIAL, innerClassName, "<init>", ctrInputDescriptor, false);
             mv.visitInsn(ARETURN);
             mv.visitMaxs(5, 3);
@@ -132,7 +145,7 @@ public class FiberClassNodeAdapter extends ClassNode {
         String outerClassDesc = "L" + name + ";";
         cw.visitField(ACC_FINAL + ACC_SYNTHETIC, "this$0", outerClassDesc, null, null).visitEnd();
 
-        String ctrDescriptor = "(" + outerClassDesc + substringBetween(method.signature, "(", ")") + ")V";
+        String ctrDescriptor = constructorDescriptor(method);
 
         Textifier printer = new Textifier();
         MethodVisitor mv = new TraceMethodVisitor(cw.visitMethod(ACC_PUBLIC, "<init>", ctrDescriptor, null, null), printer);
@@ -409,7 +422,7 @@ public class FiberClassNodeAdapter extends ClassNode {
         mv.visitLdcInsn("Unknown state: ");
         mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;", false);
         mv.visitVarInsn(ALOAD, 1);
-        mv.visitFieldInsn(GETFIELD, innerClassName, "state", "I");
+        mv.visitMethodInsn(INVOKEVIRTUAL, innerClassName, "getState", "()I", false);
         mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(I)Ljava/lang/StringBuilder;", false);
         mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "toString", "()Ljava/lang/String;", false);
         mv.visitMethodInsn(INVOKESPECIAL, "java/lang/IllegalStateException", "<init>", "(Ljava/lang/String;)V", false);
@@ -550,10 +563,17 @@ public class FiberClassNodeAdapter extends ClassNode {
         return null;
     }
 
-    private static String substringBetween(String string, String left, String right) {
-        int start = string.indexOf(left) + 1;
-        int end = string.indexOf(right);
-        return string.substring(start, end);
+    private String constructorDescriptor(MethodNode method) {
+        return "(L" + name + ";" + method.desc.substring(1, method.desc.indexOf(')') + 1) + "V";
+    }
+
+    private static String descriptorId(String descriptor) {
+        try {
+            byte[] digest = MessageDigest.getInstance("SHA-256").digest(descriptor.getBytes(StandardCharsets.UTF_8));
+            return HexFormat.of().formatHex(digest);
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException("SHA-256 is unavailable", e);
+        }
     }
 
     private static AbstractInsnNode getPushInst(int value) {

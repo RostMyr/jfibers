@@ -2,6 +2,7 @@ package com.github.rostmyr.jfibers.instrumentation;
 
 import com.github.rostmyr.jfibers.Fiber;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
@@ -93,6 +94,47 @@ public class TestFiberModel {
     public Fiber<String> stringConcatenation() {
         String value = "sequence=" + sequence;
         return result(value);
+    }
+
+    public Fiber<String> overloaded(int value) {
+        return result(Integer.toString(value));
+    }
+
+    public Fiber<String> overloaded(String value) {
+        return result(value);
+    }
+
+    public Fiber<String> overloaded(long first, double second) {
+        double sum = first + second;
+        return result(Double.toString(sum));
+    }
+
+    public Fiber<String> overloaded(List<String> values) {
+        return result(values.getFirst());
+    }
+
+    public Fiber<String> failedFuture() {
+        return result(CompletableFuture.<String>failedFuture(new IllegalStateException("failure")));
+    }
+
+    public Fiber<String> callFailedFuture() {
+        String value = call(CompletableFuture.<String>failedFuture(new IllegalStateException("failure")));
+        sequence++;
+        return result(value);
+    }
+
+    public Fiber<String> callFailedFiber() {
+        String value = call(failedFuture());
+        sequence++;
+        return result(value);
+    }
+
+    public Fiber<String> returnFailedFiber() {
+        return result(failedFuture());
+    }
+
+    public long sequenceValue() {
+        return sequence;
     }
 
 //    public Fiber<String> callFiberTwice() {
