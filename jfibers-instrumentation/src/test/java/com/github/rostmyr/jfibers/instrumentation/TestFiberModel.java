@@ -81,6 +81,20 @@ public class TestFiberModel {
         return result(1);
     }
 
+    public Fiber<Double> wideArguments(long first, double second, long third) {
+        double sum = first + second + third;
+        return result(sum);
+    }
+
+    public Fiber<Double> callWideArguments() {
+        return result(wideArguments(2L, 3.5, 4L));
+    }
+
+    public Fiber<String> stringConcatenation() {
+        String value = "sequence=" + sequence;
+        return result(value);
+    }
+
 //    public Fiber<String> callFiberTwice() {
 //        String fiberResult = call(callRegularMethod(call(callFiber()), "b"));
 //        return result(fiberResult);

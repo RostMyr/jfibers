@@ -13,11 +13,10 @@
     <packaging>jar</packaging>
 
     <properties>
-        <asm.version>6.0</asm.version>
+        <asm.version>9.10.1</asm.version>
 
-        <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
-        <maven-assembly-plugin.version>3.1.0</maven-assembly-plugin.version>
-        <findbugs-annotations.version>3.0.1</findbugs-annotations.version>
+        <maven-assembly-plugin.version>3.8.0</maven-assembly-plugin.version>
+        <spotbugs-annotations.version>4.10.4</spotbugs-annotations.version>
     </properties>
 
     <dependencies>
@@ -49,9 +48,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>annotations</artifactId>
-            <version>${findbugs-annotations.version}</version>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-annotations</artifactId>
+            <version>${spotbugs-annotations.version}</version>
         </dependency>
     </dependencies>
 
@@ -63,7 +62,6 @@
                 <version>${maven-assembly-plugin.version}</version>
                 <configuration>
                     <archive>
-                        <index>true</index>
                         <compress>true</compress>
                         <manifestEntries>
                             <Premain-Class>com.github.rostmyr.jfibers.instrumentation.FiberInstrumentator</Premain-Class>

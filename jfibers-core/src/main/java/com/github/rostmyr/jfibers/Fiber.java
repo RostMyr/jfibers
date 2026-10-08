@@ -243,6 +243,7 @@ public abstract class Fiber<E> {
      * ...
      */
     public int nothingInternal() {
+        result = null;
         return -1;
     }
 

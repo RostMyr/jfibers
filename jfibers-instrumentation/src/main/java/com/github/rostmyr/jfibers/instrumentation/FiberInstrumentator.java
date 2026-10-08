@@ -3,10 +3,7 @@ package com.github.rostmyr.jfibers.instrumentation;
 import java.io.IOException;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
-import java.security.PrivilegedAction;
 import java.security.ProtectionDomain;
-
-import static java.security.AccessController.doPrivileged;
 
 /**
  * Rostyslav Myroshnychenko
@@ -49,8 +46,7 @@ public class FiberInstrumentator {
                     return null;
                 }
 
-                FiberClassLoader classLoader =
-                    doPrivileged((PrivilegedAction<FiberClassLoader>) () -> new FiberClassLoader(getClassLoader(loader)));
+                FiberClassLoader classLoader = new FiberClassLoader(getClassLoader(loader));
                 instrument.getFibers().forEach((name, content) -> classLoader.define(content));
                 return mainClass;
             } catch (IOException e) {

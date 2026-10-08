@@ -41,7 +41,7 @@ public class FiberClassNodeAdapter extends ClassNode {
     private boolean isInstrumented;
 
     FiberClassNodeAdapter(ClassVisitor cv, boolean debug, FiberTransformerResult result) {
-        super(ASM6);
+        super(ASM9);
         this.debug = debug;
         this.result = result;
         if (debug) {
@@ -70,7 +70,7 @@ public class FiberClassNodeAdapter extends ClassNode {
 
             visitInnerClass(innerClassName, name, method.name + "_Fiber", ACC_PUBLIC);
             ClassWriter cw = new ClassWriter(COMPUTE_FRAMES);
-            cw.visit(V1_8, ACC_PUBLIC + ACC_SUPER, innerClassName, methodReturnType, fiberClassName, null);
+            cw.visit(version, ACC_PUBLIC + ACC_SUPER, innerClassName, methodReturnType, fiberClassName, null);
             cw.visitInnerClass(innerClassName, name, method.name + "_Fiber", ACC_PUBLIC);
             insertInnerClass(cw, innerClassName, method);
             insertUpdateMethod(innerClassName, method);

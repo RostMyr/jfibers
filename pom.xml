@@ -11,20 +11,20 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.release>27</maven.compiler.release>
+        <maven.version>3.10.0</maven.version>
 
-        <slf4j.version>1.7.25</slf4j.version>
+        <slf4j.version>2.0.20</slf4j.version>
 
-        <junit.version>4.12</junit.version>
-        <assertj-core.version>3.10.0</assertj-core.version>
-        <mockito.version>1.10.19</mockito.version>
-        <checkstyle.version>8.10.1</checkstyle.version>
+        <junit.version>4.13.2</junit.version>
+        <assertj-core.version>3.27.7</assertj-core.version>
+        <checkstyle.version>14.3.0</checkstyle.version>
 
-        <maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
-        <findbugs-maven-plugin.version>3.0.5</findbugs-maven-plugin.version>
-        <maven-enforcer-plugin.version>3.0.0-M1</maven-enforcer-plugin.version>
-        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+        <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
+        <spotbugs-maven-plugin.version>4.10.4.1</spotbugs-maven-plugin.version>
+        <maven-enforcer-plugin.version>3.6.3</maven-enforcer-plugin.version>
+        <maven-compiler-plugin.version>3.16.0</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>3.6.0</maven-surefire-plugin.version>
     </properties>
 
     <modules>
@@ -48,20 +48,48 @@
             <version>${assertj-core.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>${mockito.version}</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.5.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.5.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.5.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <!-- Fiber instrumentation needs line numbers and local variable names. -->
+                    <debug>true</debug>
+                    <debuglevel>lines,vars,source</debuglevel>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -76,8 +104,11 @@
                         <configuration>
                             <rules>
                                 <requireJavaVersion>
-                                    <version>1.8</version>
+                                    <version>[${maven.compiler.release},)</version>
                                 </requireJavaVersion>
+                                <requireMavenVersion>
+                                    <version>[${maven.version},)</version>
+                                </requireMavenVersion>
                                 <dependencyConvergence/>
                             </rules>
                         </configuration>
@@ -101,8 +132,7 @@
                                 <id>validate</id>
                                 <phase>validate</phase>
                                 <configuration>
-                                    <configLocation>checkstyle.xml</configLocation>
-                                    <encoding>UTF-8</encoding>
+                                    <configLocation>${maven.multiModuleProjectDirectory}/checkstyle.xml</configLocation>
                                     <consoleOutput>true</consoleOutput>
                                     <failsOnError>false</failsOnError>
                                 </configuration>
@@ -120,9 +150,9 @@
                         </dependencies>
                     </plugin>
                     <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>findbugs-maven-plugin</artifactId>
-                        <version>${findbugs-maven-plugin.version}</version>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                        <version>${spotbugs-maven-plugin.version}</version>
                         <configuration>
                             <!--
                                 Enables analysis which takes more memory but finds more bugs.
@@ -135,15 +165,15 @@
                             <!-- Produces XML report -->
                             <xmlOutput>true</xmlOutput>
                             <!-- Configures the directory in which the XML report is created -->
-                            <findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
+                            <spotbugsXmlOutputDirectory>${project.build.directory}/spotbugs</spotbugsXmlOutputDirectory>
                             <failOnError>false</failOnError>
                         </configuration>
                         <executions>
                             <!--
-                                Ensures that FindBugs inspects source code when project is compiled.
+                                Analyze compiled and instrumented classes after tests and packaging.
                             -->
                             <execution>
-                                <phase>compile</phase>
+                                <phase>verify</phase>
                                 <goals>
                                     <goal>check</goal>
                                 </goals>

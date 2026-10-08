@@ -37,6 +37,7 @@ public class Application {
         User user = call(userService.getUser(userId));
         log.info("User's data '{}'", user);
 
+        FiberManagers.current().stop();
         return nothing();
     }
 
