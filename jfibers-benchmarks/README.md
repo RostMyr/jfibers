@@ -83,8 +83,8 @@ Finally, all input futures are cancelled with `cancel(false)`. The probe measure
 time until the batch finishes and all cancellation results have been observed.
 This includes exception delivery and result collection. It measures **cancellation
 of the awaited operation and draining its dependents**, not interruption latency
-or direct cancellation of the task handle. jfibers currently has no task-level
-`cancel()` API; `CompletableFuture.cancel()` does not automatically interrupt a
+or direct cancellation of the task handle. The original baseline predates the task-level
+`cancel()` API added later; this probe still cancels only input futures. `CompletableFuture.cancel()` does not automatically interrupt a
 supplier's execution.
 
 Raw data for the recorded comparison is in [results/2026-10-10](results/2026-10-10).
@@ -134,8 +134,8 @@ These measurements support three architectural conclusions:
   HTTP, JDBC, CPU-heavy workloads, or more complex coroutine bodies.
 
 Cancellation results describe input cancellation plus exception observation.
-They do not supply a missing task-cancellation API for jfibers, and the overlap
-and variation between samples should be retained when interpreting the timings.
+They do not measure the later task-cancellation API; the overlap and variation
+between samples should be retained when interpreting the timings.
 Runtime-agent startup overhead is outside these measurements.
 
 

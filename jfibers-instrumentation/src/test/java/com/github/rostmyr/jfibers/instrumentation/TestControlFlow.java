@@ -16,7 +16,8 @@ public class TestControlFlow {
         Object[][] cases = {
             {"branch", 11}, {"loop", 35}, {"switches", "TEN"}, {"nestedExpressions", 12},
             {"wideStack", 9_000_000_011L}, {"wideLocals", 9_000_000_011.5}, {"scopedLocals", "10end"},
-            {"arrays", 12}, {"mergedTypes", "ready"}, {"staticMethod", 42}, {"directChild", 11}, {"nullable", "null"}
+            {"arrays", 12}, {"mergedTypes", "ready"}, {"staticMethod", 42}, {"directChild", 11}, {"nullable", "null"},
+            {"separateResults", 1}, {"discardedFinallyResult", 1}, {"overridingFinallyResult", 2}
         };
         for (Object[] scenario : cases) {
             Fixture fixture = new Fixture();

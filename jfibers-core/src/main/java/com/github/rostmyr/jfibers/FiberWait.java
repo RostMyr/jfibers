@@ -6,6 +6,7 @@ import java.util.function.BiConsumer;
 final class FiberWait implements BiConsumer<Object, Throwable> {
     private volatile FiberManager manager;
     volatile Fiber<?> fiber;
+    Fiber<?> child;
 
     FiberWait(FiberManager manager, Fiber<?> fiber) {
         this.manager = manager;
@@ -23,5 +24,6 @@ final class FiberWait implements BiConsumer<Object, Throwable> {
     void dispose() {
         manager = null;
         fiber = null;
+        child = null;
     }
 }

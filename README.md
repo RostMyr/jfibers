@@ -96,6 +96,54 @@ terminate the fiber. Future failures retain their
 waits preserve the thread's interrupt flag. An unchecked exception in `update()`
 fails that fiber while allowing other scheduled fibers to continue.
 
+## Lifecycle, Cancellation and Timeouts
+
+Use `getStatus()` (`NEW`, `RUNNABLE`, `RUNNING`, `WAITING`, `COMPLETED`, `FAILED`,
+`CANCELLED`, `TIMED_OUT`) and `isDone()` for application logic. `getState()` and
+`setState()` remain as deprecated continuation APIs for existing generated and
+handwritten fibers. Inspect results and failures after completion.
+
+```java
+try (FiberManager manager = new FiberManager()) {
+    Fiber<User> task = service.loadUser().withTimeout(Duration.ofSeconds(2));
+    manager.schedule(task);
+    manager.run();
+    // task.getStatus(), task.getResult(), task.getFailure()
+}
+```
+
+`cancel()` is thread-safe and reports whether it accepted a new request. Before a
+fiber starts, cancellation prevents entry into its body. After it starts, generated
+code injects cancellation at the next suspension point, allowing catch/finally and
+try-with-resources cleanup to run. Cleanup may itself await. A cancellation request
+remains terminal even when caught: no success result is published; cleanup failures
+are retained as suppressed exceptions. Handwritten fibers without the generated
+unwind hook terminate between updates.
+
+`withTimeout(Duration)` must be configured before scheduling. Its monotonic deadline
+starts at scheduling; expiry uses the same cooperative cleanup path and produces
+`TIMED_OUT` with a `TimeoutException`. No thread is interrupted. Neither cancellation
+nor a deadline can preempt a blocking call or a loop that never yields, and cleanup
+can extend beyond the deadline.
+
+An unscheduled child first awaited by a parent belongs to that parent. Cancellation
+propagates to owned children, and the parent waits for their cleanup before becoming
+terminal. A previously scheduled dependency is shared: cancelling an observer does
+not cancel it. External awaited futures are caller-owned and are never cancelled
+implicitly. Dependency cycles are rejected.
+
+`cancelAll()` requests cancellation at the next scheduler turn. `shutdown()` also
+rejects new root tasks; `run()` drains cleanup. `close()` requests shutdown and waits
+for cleanup, running the scheduler itself if needed (including after `stop()`). A
+`close()` call from inside a fiber only requests shutdown so the scheduler can keep
+executing cleanup. Completed fibers release captured references, wait registrations,
+child links and deadlines. The result and failure remain available to callers.
+
+`getFailure()` preserves the original throwable. `getException()` keeps the older
+Exception-based API and wraps an uncaught Error in `FiberExecutionException`; a
+parent's source handler still receives the original Error. Fatal VM errors escape
+the scheduler.
+
 ## Runtime Java Agent
 
 For runtime instrumentation, launch the application with the assembled agent JAR:

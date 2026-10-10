@@ -176,4 +176,27 @@ public class ControlFlowModel {
         call(input);
         return result(value == null ? "null" : value);
     }
+
+    public Fiber<Integer> separateResults() {
+        Fiber<Integer> first = result(1);
+        Fiber<Integer> second = result(2);
+        call(second);
+        return first;
+    }
+
+    public Fiber<Integer> discardedFinallyResult() {
+        try {
+            return result(1);
+        } finally {
+            result(2);
+        }
+    }
+
+    public Fiber<Integer> overridingFinallyResult() {
+        try {
+            return result(1);
+        } finally {
+            return result(2);
+        }
+    }
 }

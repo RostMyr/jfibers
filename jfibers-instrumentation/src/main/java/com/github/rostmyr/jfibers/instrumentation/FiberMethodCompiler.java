@@ -80,30 +80,39 @@ final class FiberMethodCompiler {
     }
 
     private void marker(MethodInsnNode call, Frame<BasicValue> frame) {
+        AbstractInsnNode next = call.getNext();
+        while (next != null && next.getOpcode() < 0) {
+            next = next.getNext();
+        }
+        boolean directReturn = next != null && next.getOpcode() == ARETURN;
         if (call.name.equals("nothing")) {
-            fiber();
-            invoke("nothingInternal", "()I");
-            emit(POP);
-            fiber();
+            emit(ACONST_NULL);
+            resultOnStack(directReturn);
             return;
         }
         Type input = Type.getArgumentTypes(call.desc)[0];
         boolean terminal = call.name.equals("result");
         if (input.equals(OBJECT)) {
             if (terminal) {
-                resultOnStack();
+                resultOnStack(directReturn);
             } else {
                 suspend(frame, null);
             }
         } else {
             suspend(frame, input);
             if (terminal) {
-                resultOnStack();
+                resultOnStack(directReturn);
             }
         }
     }
 
-    private void resultOnStack() {
+    private void resultOnStack(boolean directReturn) {
+        if (!directReturn) {
+            // A result stored in a Java local must keep its own value if finally evaluates another marker.
+            update.instructions.add(new MethodInsnNode(INVOKESTATIC, FIBER, "completed",
+                "(Ljava/lang/Object;)L" + FIBER + ";", false));
+            return;
+        }
         fiber();
         emit(SWAP);
         invoke("resultLiteral", "(Ljava/lang/Object;)I");
@@ -150,6 +159,8 @@ final class FiberMethodCompiler {
         LabelNode continuation = new LabelNode();
         update.instructions.add(continuation);
         resumes.add(new Resume(state, continuation, frame));
+        fiber();
+        invoke("checkCancellation", "()V");
         for (int i = 0; i < stackSize; i++) {
             Type type = frame.getStack(i).getType();
             loadField(stackField(state, i, type), type);
@@ -255,6 +266,24 @@ final class FiberMethodCompiler {
         method.visitInsn(IRETURN);
         method.visitMaxs(0, 0);
         method.visitEnd();
+        MethodVisitor unwind = writer.visitMethod(ACC_PROTECTED, "supportsCancellationUnwind", "()Z", null, null);
+        unwind.visitCode();
+        unwind.visitInsn(ICONST_1);
+        unwind.visitInsn(IRETURN);
+        unwind.visitMaxs(0, 0);
+        unwind.visitEnd();
+        MethodVisitor clear = writer.visitMethod(ACC_PROTECTED, "clearFrame", "()V", null, null);
+        clear.visitCode();
+        for (Map.Entry<String, Type> field : fields.entrySet()) {
+            if (ClassHierarchy.reference(field.getValue())) {
+                clear.visitVarInsn(ALOAD, 0);
+                clear.visitInsn(ACONST_NULL);
+                clear.visitFieldInsn(PUTFIELD, generated, field.getKey(), field.getValue().getDescriptor());
+            }
+        }
+        clear.visitInsn(RETURN);
+        clear.visitMaxs(0, 0);
+        clear.visitEnd();
         writer.visitEnd();
         return writer.toByteArray();
     }

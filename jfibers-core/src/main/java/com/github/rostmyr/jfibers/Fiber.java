@@ -1,10 +1,12 @@
 package com.github.rostmyr.jfibers;
 
+import java.time.Duration;
 import java.util.Objects;
 import java.util.List;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Rostyslav Myroshnychenko
@@ -19,6 +21,137 @@ public abstract class Fiber<E> {
     protected Fiber<?> next;
     FiberWait wait;
     List<FiberWait> dependents;
+    Fiber<?> activePrevious;
+    Fiber<?> activeNext;
+    Fiber<?> parent;
+    List<Fiber<?>> children;
+    boolean started;
+    boolean queued;
+    boolean finishing;
+    boolean cancellationDelivered;
+    boolean deadlineQueued;
+    long deadlineNanos;
+    private long timeoutNanos = -1;
+    private volatile FiberStatus status = FiberStatus.NEW;
+    private volatile Exception termination;
+    private Throwable failure;
+
+    /** Public lifecycle status, independent of the generated continuation number. */
+    public FiberStatus getStatus() {
+        return status;
+    }
+
+    public boolean isDone() {
+        return status.isTerminal();
+    }
+
+    public boolean isCancellationRequested() {
+        return termination != null;
+    }
+
+    /** An already-completed value; also used to preserve pending Java return values through finally. */
+    public static <T> Fiber<T> completed(T value) {
+        Fiber<T> fiber = new Fiber<>() {
+            @Override
+            public int update() {
+                return -1;
+            }
+        };
+        fiber.result = value;
+        fiber.state = -1;
+        fiber.status = FiberStatus.COMPLETED;
+        return fiber;
+    }
+
+    /** Request cancellation from any thread. Cleanup runs cooperatively on the scheduler. */
+    public boolean cancel() {
+        return requestTermination(new CancellationException("Fiber cancelled"));
+    }
+
+    /** Set a timeout before scheduling; elapsed time starts when the fiber is scheduled. */
+    public synchronized Fiber<E> withTimeout(Duration timeout) {
+        Objects.requireNonNull(timeout, "timeout");
+        if (timeout.isNegative()) {
+            throw new IllegalArgumentException("timeout must be non-negative");
+        }
+        if (scheduler != null || isReady()) {
+            throw new IllegalStateException("Configure timeout before scheduling");
+        }
+        try {
+            timeoutNanos = Math.min(timeout.toNanos(), Long.MAX_VALUE / 4);
+        } catch (ArithmeticException e) {
+            timeoutNanos = Long.MAX_VALUE / 4;
+        }
+        return this;
+    }
+
+    synchronized boolean requestTermination(Exception reason) {
+        if (isReady() || termination != null) {
+            return false;
+        }
+        termination = reason;
+        if (scheduler == null) {
+            fail(reason);
+            clearFrame();
+            state = -1;
+            status = terminalStatus();
+        } else {
+            scheduler.cancelRequested(this);
+        }
+        return true;
+    }
+
+    long timeoutNanos() {
+        return timeoutNanos;
+    }
+
+    Exception termination() {
+        return termination;
+    }
+
+    void status(FiberStatus value) {
+        status = value;
+    }
+
+    FiberStatus terminalStatus() {
+        if (termination instanceof TimeoutException) {
+            return FiberStatus.TIMED_OUT;
+        }
+        if (termination instanceof CancellationException || exception instanceof CancellationException) {
+            return FiberStatus.CANCELLED;
+        }
+        return exception == null ? FiberStatus.COMPLETED : FiberStatus.FAILED;
+    }
+
+    /** Compiler hook: cancellation is injected once, at the source suspension point. */
+    public void checkCancellation() {
+        Exception requested = termination;
+        if (requested != null && !cancellationDelivered) {
+            cancellationDelivered = true;
+            current = null;
+            future = null;
+            Fiber.<RuntimeException>throwUnchecked(requested);
+        }
+    }
+
+    /** Generated continuations override this to run source catch/finally during cancellation. */
+    protected boolean supportsCancellationUnwind() {
+        return false;
+    }
+
+    /** Generated fibers release captured object references here after termination. */
+    protected void clearFrame() {
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T extends Throwable> void throwUnchecked(Throwable failure) throws T {
+        throw (T) failure;
+    }
+
+    /** Original failure, including an Error; getException() remains the compatibility accessor. */
+    public Throwable getFailure() {
+        return failure;
+    }
 
     // the current fiber we are waiting for
     protected Fiber<?> current;
@@ -30,6 +163,7 @@ public abstract class Fiber<E> {
      *
      * @return state
      */
+    @Deprecated
     public int getState() {
         return state;
     }
@@ -39,8 +173,12 @@ public abstract class Fiber<E> {
      *
      * @param state new state
      */
+    @Deprecated
     public void setState(int state) {
         this.state = state;
+        if (state == -1) {
+            status = terminalStatus();
+        }
     }
 
     /**
@@ -75,12 +213,26 @@ public abstract class Fiber<E> {
      * @return the next state
      */
     public int awaitFor(Fiber<?> fiber) {
-        this.current = Objects.requireNonNull(fiber, "fiber");
-        if (!current.isReady() && current.scheduler == null) {
-            scheduler.schedule(current);
-        } else if (!current.isReady() && current.scheduler != scheduler) {
+        Objects.requireNonNull(fiber, "fiber");
+        for (Fiber<?> ancestor = this; ancestor != null; ancestor = ancestor.parent) {
+            if (ancestor == fiber) {
+                throw new IllegalStateException("Cannot await an owning ancestor fiber");
+            }
+        }
+        for (Fiber<?> dependency = fiber; dependency != null; dependency = dependency.current) {
+            if (dependency == this) {
+                throw new IllegalStateException("Cyclic fiber dependency");
+            }
+        }
+        if (!fiber.isReady() && fiber.scheduler == null) {
+            if (scheduler == null) {
+                throw new IllegalStateException("Schedule the parent before awaiting an incomplete child");
+            }
+            scheduler.scheduleChild(this, fiber);
+        } else if (!fiber.isReady() && fiber.scheduler != scheduler) {
             throw new IllegalStateException("Awaited fiber belongs to another scheduler");
         }
+        current = fiber;
         return state + 1;
     }
 
@@ -223,13 +375,16 @@ public abstract class Fiber<E> {
 
     /** Resume at the source await instruction so Java catch/finally handlers can observe failures. */
     public Object resumeAwait() throws Exception {
+        checkCancellation();
         if (current != null) {
             Fiber<?> completed = current;
             current = null;
             if (!completed.isReady()) {
                 throw new IllegalStateException("Child resumed before completion");
             }
-            if (completed.exception != null) {
+            if (completed.failure != null) {
+                Fiber.<RuntimeException>throwUnchecked(completed.failure);
+            } else if (completed.exception != null) {
                 throw completed.exception;
             }
             return completed.result;
@@ -270,12 +425,17 @@ public abstract class Fiber<E> {
         }
     }
 
-    protected int fail(Exception failure) {
-        exception = failure;
+    protected int fail(Throwable failure) {
+        this.failure = failure;
+        exception = failure instanceof Exception checked ? checked : new FiberExecutionException(failure);
         result = null;
         current = null;
         future = null;
         return -1;
+    }
+
+    protected int fail(Exception failure) {
+        return fail((Throwable) failure);
     }
 
     /**
