@@ -3,6 +3,9 @@
 This module measures the existing implementation without changing its scheduler
 or transformer. It is included only with the Maven `benchmarks` profile.
 
+For the bounded HTTP workload, latency percentiles and separate JFR profiling,
+see [HTTP.md](HTTP.md). The task microbenchmarks below measure different work.
+
 ## Run
 
 Requires the project's JDK and Maven versions, plus Python 3. Build from the

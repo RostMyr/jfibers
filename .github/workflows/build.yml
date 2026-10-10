@@ -22,5 +22,7 @@ jobs:
         run: ./mvnw --batch-mode --no-transfer-progress -Pcode-analysis clean verify
       - name: Build the optional benchmark harness
         run: ./mvnw --batch-mode --no-transfer-progress -Pbenchmarks -pl jfibers-benchmarks -am -DskipTests package
+      - name: Smoke test HTTP benchmark correctness
+        run: python3 jfibers-benchmarks/http_run.py --quick
       - name: Run the example
         run: timeout 15s java -cp 'jfibers-example/target/classes:jfibers-example/target/lib/*' com.github.rostmyr.jfibers.example.Application
