@@ -84,8 +84,8 @@ time until the batch finishes and all cancellation results have been observed.
 This includes exception delivery and result collection. It measures **cancellation
 of the awaited operation and draining its dependents**, not interruption latency
 or direct cancellation of the task handle. The original baseline predates the task-level
-`cancel()` API added later; this probe still cancels only input futures. `CompletableFuture.cancel()` does not automatically interrupt a
-supplier's execution.
+`cancel()` API added later; this probe still cancels only input futures.
+`CompletableFuture.cancel()` does not automatically interrupt a supplier's execution.
 
 Raw data for the recorded comparison is in [results/2026-10-10](results/2026-10-10).
 
@@ -165,3 +165,45 @@ scheduling cost. Near-zero CPU is limited by the process counter's resolution.
 These tests use CompletableFuture inputs: ordinary Future implementations without
 callbacks use the documented bounded polling fallback or an explicit adapter.
 Use `summarize.py` to inspect the full comparison, including both other backends.
+
+
+## Control-flow compiler and lifecycle: 10 October 2026
+
+The complete final run uses library commit `0c72708`, including the JVM-frame
+compiler, public lifecycle states, cooperative cancellation, deadlines and owned
+child cleanup. Raw data is in
+[results/2026-10-10-lifecycle](results/2026-10-10-lifecycle). All benchmark Java source
+hashes match the original baseline; JVM settings and machine are unchanged. The
+artifact hash is recorded, all six JMH scenarios and 18 waiting probes completed,
+and cgroup throttling counters did not increase.
+
+| Backend | Ready 256-task batch, us | Ready: bytes/task | 1 ms delayed batch, us | Delayed: bytes/task |
+| --- | ---: | ---: | ---: | ---: |
+| jfibers | 25.23 ± 0.41 | 136.3 | 1127.31 ± 7.45 | 233.0 |
+| CompletableFuture | 2.92 ± 0.03 | 40.3 | 1116.92 ± 8.20 | 81.2 |
+| Virtual threads | 107.20 ± 16.25 | 369.0 | 1236.10 ± 19.76 | 852.2 |
+
+The errors are JMH's 99.9% confidence interval half-widths. Waiting measurements
+below are medians for 10,000 pending tasks, with min/max ranges across three JVMs.
+
+| Backend | Extra live heap, MiB | Idle CPU, cores | Cancel sources + drain, ms |
+| --- | ---: | ---: | ---: |
+| jfibers | 2.094 [2.094, 2.094] | 0.000 [0.000, 0.010] | 19.139 [15.978, 21.264] |
+| CompletableFuture | 0.764 [0.764, 0.764] | 0.000 [0.000, 0.000] | 22.483 [22.041, 23.000] |
+| Virtual threads | 21.797 [15.036, 21.847] | 0.000 [0.000, 0.000] | 34.368 [33.408, 34.485] |
+
+For 1,000 waiting fibers, retained heap is 0.207 MiB; idle CPU is 0.010 cores
+[0.000, 0.010], and source cancellation plus drain is 2.098 ms [1.954, 2.801].
+
+Compared with the original restricted compiler/polling scheduler, idle CPU falls
+from approximately one core to the counter's noise floor. Ready-batch time rises
+from 8.27 to 25.23 us (about 3.05x), and waiting heap from 0.688 to 2.094 MiB.
+The intermediate notification-only run isolates part of that cost; the remaining
+changes add frame preservation and lifecycle bookkeeping. The final library trades
+some of its tiny-operation advantage for correct control flow, cleanup and idle
+behavior. These measurements do not identify the cost of each individual feature.
+
+CompletableFuture remains cheapest for this small inline-continuation workload.
+Virtual threads use more parked heap here but support ordinary blocking Java
+stacks. This comparison does not establish application throughput or tail latency,
+and source cancellation remains distinct from the new task-cancellation API.

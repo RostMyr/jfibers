@@ -22,6 +22,11 @@ On Windows, use `mvnw.cmd` instead. To include Checkstyle and SpotBugs reports:
 
 The analysis profile reports existing style warnings and potential bugs without
 failing the build. Reports are written to each module's `target` directory.
+The 10 October 2026 production report has five medium findings: shared failure and
+dependency references and public-monitor synchronization in `Fiber`, plus two
+existing exposure/suppression findings in `FiberTransformerResult`. Benchmark
+analysis also reports JMH-generated fields; these reports are not a clean-analysis
+gate.
 
 To run the example after building:
 

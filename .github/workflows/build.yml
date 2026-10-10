@@ -20,5 +20,7 @@ jobs:
           cache: maven
       - name: Build, test, and analyze
         run: ./mvnw --batch-mode --no-transfer-progress -Pcode-analysis clean verify
+      - name: Build the optional benchmark harness
+        run: ./mvnw --batch-mode --no-transfer-progress -Pbenchmarks -pl jfibers-benchmarks -am -DskipTests package
       - name: Run the example
         run: timeout 15s java -cp 'jfibers-example/target/classes:jfibers-example/target/lib/*' com.github.rostmyr.jfibers.example.Application
