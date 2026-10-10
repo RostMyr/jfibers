@@ -1,0 +1,6920 @@
+[
+  {
+    "scenario": "FANOUT",
+    "parameter": 0,
+    "backend": "COMPLETABLE_FUTURE",
+    "forks": 3,
+    "metrics": {
+      "accepted": {
+        "median": 123865,
+        "min": 123357,
+        "max": 124063
+      },
+      "accepted_latency.count": {
+        "median": 123865,
+        "min": 123357,
+        "max": 124063
+      },
+      "accepted_latency.max_ms": {
+        "median": 28.906127,
+        "min": 26.071315,
+        "max": 36.225056
+      },
+      "accepted_latency.p50_ms": {
+        "median": 8.054951,
+        "min": 8.052933,
+        "max": 8.059437
+      },
+      "accepted_latency.p95_ms": {
+        "median": 20.086621,
+        "min": 20.084089,
+        "max": 20.093218
+      },
+      "accepted_latency.p99_ms": {
+        "median": 20.135179,
+        "min": 20.132184,
+        "max": 20.242941
+      },
+      "allocated_bytes": {
+        "median": 497980800,
+        "min": 495473624,
+        "max": 498670744
+      },
+      "allocated_bytes_per_accepted": {
+        "median": 4019.4960947260665,
+        "min": 4016.582958405279,
+        "max": 4020.351188794252
+      },
+      "cancelled": {
+        "median": 30967,
+        "min": 30840,
+        "max": 31016
+      },
+      "cancelled_latency.count": {
+        "median": 30967,
+        "min": 30840,
+        "max": 31016
+      },
+      "cancelled_latency.max_ms": {
+        "median": 14.251732,
+        "min": 11.247983,
+        "max": 21.242788
+      },
+      "cancelled_latency.p50_ms": {
+        "median": 5.057656,
+        "min": 5.055231,
+        "max": 5.062047
+      },
+      "cancelled_latency.p95_ms": {
+        "median": 5.128293,
+        "min": 5.127779,
+        "max": 5.174472
+      },
+      "cancelled_latency.p99_ms": {
+        "median": 6.085948,
+        "min": 5.855729,
+        "max": 6.790082
+      },
+      "completed_per_second": {
+        "median": 24675.358245343403,
+        "min": 24587.65312081969,
+        "max": 24713.899265174878
+      },
+      "cpu_cores": {
+        "median": 0.8067779436573213,
+        "min": 0.7450517889442887,
+        "max": 0.9288363331065099
+      },
+      "drain_ms": {
+        "median": 19.785275999999612,
+        "min": 17.03027099999963,
+        "max": 19.968668999999863
+      },
+      "elapsed_seconds_including_drain": {
+        "median": 5.019785276,
+        "min": 5.017030271,
+        "max": 5.019968669
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_count": {
+        "median": 1,
+        "min": 1,
+        "max": 1
+      },
+      "gc_millis": {
+        "median": 1,
+        "min": 1,
+        "max": 1
+      },
+      "heavy_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "light_latency.count": {
+        "median": 61932,
+        "min": 61678,
+        "max": 62031
+      },
+      "light_latency.max_ms": {
+        "median": 17.155952,
+        "min": 14.22359,
+        "max": 24.800168
+      },
+      "light_latency.p50_ms": {
+        "median": 8.05488,
+        "min": 8.052772,
+        "max": 8.059232
+      },
+      "light_latency.p95_ms": {
+        "median": 8.116287,
+        "min": 8.116023,
+        "max": 8.159661
+      },
+      "light_latency.p99_ms": {
+        "median": 9.253225,
+        "min": 8.818016,
+        "max": 9.912639
+      },
+      "offered": {
+        "median": 123865,
+        "min": 123357,
+        "max": 124063
+      },
+      "parameter": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_sources": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_timers": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "queue_delay.count": {
+        "median": 123865,
+        "min": 123357,
+        "max": 124063
+      },
+      "queue_delay.max_ms": {
+        "median": 2.125682,
+        "min": 1.413457,
+        "max": 16.23689
+      },
+      "queue_delay.p50_ms": {
+        "median": 0.001282,
+        "min": 0.001132,
+        "max": 0.001793
+      },
+      "queue_delay.p95_ms": {
+        "median": 0.0136,
+        "min": 0.013229,
+        "max": 0.020901
+      },
+      "queue_delay.p99_ms": {
+        "median": 0.057106,
+        "min": 0.051608,
+        "max": 0.144987
+      },
+      "rejected": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "rejected_percent": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_seconds": {
+        "median": 5.0,
+        "min": 5.0,
+        "max": 5.0
+      },
+      "service_time.count": {
+        "median": 123865,
+        "min": 123357,
+        "max": 124063
+      },
+      "service_time.max_ms": {
+        "median": 28.899707,
+        "min": 26.060588,
+        "max": 36.224766
+      },
+      "service_time.p50_ms": {
+        "median": 8.051561,
+        "min": 8.049687,
+        "max": 8.05472
+      },
+      "service_time.p95_ms": {
+        "median": 20.08227,
+        "min": 20.079861,
+        "max": 20.087069
+      },
+      "service_time.p99_ms": {
+        "median": 20.117489,
+        "min": 20.117297,
+        "max": 20.170409
+      },
+      "sources_cancelled_in_cleanup": {
+        "median": 92689,
+        "min": 92157,
+        "max": 92873
+      },
+      "successful": {
+        "median": 61932,
+        "min": 61678,
+        "max": 62031
+      },
+      "successful_latency.count": {
+        "median": 61932,
+        "min": 61678,
+        "max": 62031
+      },
+      "successful_latency.max_ms": {
+        "median": 17.155952,
+        "min": 14.22359,
+        "max": 24.800168
+      },
+      "successful_latency.p50_ms": {
+        "median": 8.05488,
+        "min": 8.052772,
+        "max": 8.059232
+      },
+      "successful_latency.p95_ms": {
+        "median": 8.116287,
+        "min": 8.116023,
+        "max": 8.159661
+      },
+      "successful_latency.p99_ms": {
+        "median": 9.253225,
+        "min": 8.818016,
+        "max": 9.912639
+      },
+      "successful_per_second": {
+        "median": 12337.579516817563,
+        "min": 12293.726899859083,
+        "max": 12356.850030372172
+      },
+      "timed_out": {
+        "median": 30966,
+        "min": 30839,
+        "max": 31016
+      },
+      "timeout_latency.count": {
+        "median": 30966,
+        "min": 30839,
+        "max": 31016
+      },
+      "timeout_latency.max_ms": {
+        "median": 28.906127,
+        "min": 26.071315,
+        "max": 36.225056
+      },
+      "timeout_latency.p50_ms": {
+        "median": 20.056266,
+        "min": 20.053803,
+        "max": 20.059349
+      },
+      "timeout_latency.p95_ms": {
+        "median": 20.122036,
+        "min": 20.120503,
+        "max": 20.173318
+      },
+      "timeout_latency.p99_ms": {
+        "median": 21.327937,
+        "min": 20.832581,
+        "max": 22.178974
+      },
+      "timeout_percent_of_accepted": {
+        "median": 24.999798167359625,
+        "min": 24.99979733618684,
+        "max": 25.000201510522878
+      },
+      "workers": {
+        "median": 256,
+        "min": 256,
+        "max": 256
+      }
+    }
+  },
+  {
+    "scenario": "FANOUT",
+    "parameter": 0,
+    "backend": "JFIBERS",
+    "forks": 3,
+    "metrics": {
+      "accepted": {
+        "median": 124060,
+        "min": 123816,
+        "max": 124301
+      },
+      "accepted_latency.count": {
+        "median": 124060,
+        "min": 123816,
+        "max": 124301
+      },
+      "accepted_latency.max_ms": {
+        "median": 25.123809,
+        "min": 23.271122,
+        "max": 29.05408
+      },
+      "accepted_latency.p50_ms": {
+        "median": 8.050806,
+        "min": 8.047503,
+        "max": 8.051634
+      },
+      "accepted_latency.p95_ms": {
+        "median": 20.082696,
+        "min": 20.081924,
+        "max": 20.085986
+      },
+      "accepted_latency.p99_ms": {
+        "median": 20.142586,
+        "min": 20.117315,
+        "max": 20.206717
+      },
+      "allocated_bytes": {
+        "median": 492952920,
+        "min": 491823048,
+        "max": 493755360
+      },
+      "allocated_bytes_per_accepted": {
+        "median": 3972.255734064891,
+        "min": 3972.2091490598955,
+        "max": 3973.504110914074
+      },
+      "cancelled": {
+        "median": 31015,
+        "min": 30954,
+        "max": 31076
+      },
+      "cancelled_latency.count": {
+        "median": 31015,
+        "min": 30954,
+        "max": 31076
+      },
+      "cancelled_latency.max_ms": {
+        "median": 10.134388,
+        "min": 8.247273,
+        "max": 14.649231
+      },
+      "cancelled_latency.p50_ms": {
+        "median": 5.0563,
+        "min": 5.053227,
+        "max": 5.05725
+      },
+      "cancelled_latency.p95_ms": {
+        "median": 5.134607,
+        "min": 5.112747,
+        "max": 5.162177
+      },
+      "cancelled_latency.p99_ms": {
+        "median": 6.151865,
+        "min": 5.23668,
+        "max": 6.323986
+      },
+      "completed_per_second": {
+        "median": 24712.692421138578,
+        "min": 24662.65648066473,
+        "max": 24745.644424066973
+      },
+      "cpu_cores": {
+        "median": 0.6931741015112204,
+        "min": 0.6330693177732518,
+        "max": 0.7310622375107092
+      },
+      "drain_ms": {
+        "median": 20.383756999999605,
+        "min": 20.092424000000392,
+        "max": 23.146614000000227
+      },
+      "elapsed_seconds_including_drain": {
+        "median": 5.020383757,
+        "min": 5.020092424,
+        "max": 5.023146614
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_count": {
+        "median": 1,
+        "min": 1,
+        "max": 1
+      },
+      "gc_millis": {
+        "median": 1,
+        "min": 1,
+        "max": 1
+      },
+      "heavy_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "light_latency.count": {
+        "median": 62030,
+        "min": 61908,
+        "max": 62150
+      },
+      "light_latency.max_ms": {
+        "median": 13.201646,
+        "min": 11.244118,
+        "max": 17.005988
+      },
+      "light_latency.p50_ms": {
+        "median": 8.050754,
+        "min": 8.0475,
+        "max": 8.051434
+      },
+      "light_latency.p95_ms": {
+        "median": 8.119469,
+        "min": 8.100673,
+        "max": 8.150833
+      },
+      "light_latency.p99_ms": {
+        "median": 8.607171,
+        "min": 8.205377,
+        "max": 9.526387
+      },
+      "offered": {
+        "median": 124060,
+        "min": 123816,
+        "max": 124301
+      },
+      "parameter": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_sources": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_timers": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "queue_delay.count": {
+        "median": 124060,
+        "min": 123816,
+        "max": 124301
+      },
+      "queue_delay.max_ms": {
+        "median": 3.036408,
+        "min": 2.996267,
+        "max": 3.213826
+      },
+      "queue_delay.p50_ms": {
+        "median": 0.001002,
+        "min": 0.000902,
+        "max": 0.001231
+      },
+      "queue_delay.p95_ms": {
+        "median": 0.027532,
+        "min": 0.022404,
+        "max": 0.032649
+      },
+      "queue_delay.p99_ms": {
+        "median": 0.130055,
+        "min": 0.054713,
+        "max": 0.164887
+      },
+      "rejected": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "rejected_percent": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_seconds": {
+        "median": 5.0,
+        "min": 5.0,
+        "max": 5.0
+      },
+      "service_time.count": {
+        "median": 124060,
+        "min": 123816,
+        "max": 124301
+      },
+      "service_time.max_ms": {
+        "median": 25.119543,
+        "min": 23.268128,
+        "max": 29.049794
+      },
+      "service_time.p50_ms": {
+        "median": 8.045336,
+        "min": 8.042466,
+        "max": 8.046517
+      },
+      "service_time.p95_ms": {
+        "median": 20.077879,
+        "min": 20.076966,
+        "max": 20.079566
+      },
+      "service_time.p99_ms": {
+        "median": 20.114824,
+        "min": 20.10595,
+        "max": 20.144303
+      },
+      "sources_cancelled_in_cleanup": {
+        "median": 92766,
+        "min": 92616,
+        "max": 93162
+      },
+      "successful": {
+        "median": 62030,
+        "min": 61908,
+        "max": 62150
+      },
+      "successful_latency.count": {
+        "median": 62030,
+        "min": 61908,
+        "max": 62150
+      },
+      "successful_latency.max_ms": {
+        "median": 13.201646,
+        "min": 11.244118,
+        "max": 17.005988
+      },
+      "successful_latency.p50_ms": {
+        "median": 8.050754,
+        "min": 8.0475,
+        "max": 8.051434
+      },
+      "successful_latency.p95_ms": {
+        "median": 8.119469,
+        "min": 8.100673,
+        "max": 8.150833
+      },
+      "successful_latency.p99_ms": {
+        "median": 8.607171,
+        "min": 8.205377,
+        "max": 9.526387
+      },
+      "successful_per_second": {
+        "median": 12356.346210569289,
+        "min": 12331.328240332365,
+        "max": 12372.722672832579
+      },
+      "timed_out": {
+        "median": 31015,
+        "min": 30954,
+        "max": 31075
+      },
+      "timeout_latency.count": {
+        "median": 31015,
+        "min": 30954,
+        "max": 31075
+      },
+      "timeout_latency.max_ms": {
+        "median": 25.123809,
+        "min": 23.271122,
+        "max": 29.05408
+      },
+      "timeout_latency.p50_ms": {
+        "median": 20.054253,
+        "min": 20.053481,
+        "max": 20.055522
+      },
+      "timeout_latency.p95_ms": {
+        "median": 20.125911,
+        "min": 20.112009,
+        "max": 20.161709
+      },
+      "timeout_latency.p99_ms": {
+        "median": 20.97787,
+        "min": 20.212675,
+        "max": 21.536763
+      },
+      "timeout_percent_of_accepted": {
+        "median": 25.0,
+        "min": 24.999798875310738,
+        "max": 25.0
+      },
+      "workers": {
+        "median": 256,
+        "min": 256,
+        "max": 256
+      }
+    }
+  },
+  {
+    "scenario": "FANOUT",
+    "parameter": 0,
+    "backend": "VIRTUAL_THREADS",
+    "forks": 3,
+    "metrics": {
+      "accepted": {
+        "median": 124217,
+        "min": 124144,
+        "max": 124226
+      },
+      "accepted_latency.count": {
+        "median": 124217,
+        "min": 124144,
+        "max": 124226
+      },
+      "accepted_latency.max_ms": {
+        "median": 26.025445,
+        "min": 24.092464,
+        "max": 27.71482
+      },
+      "accepted_latency.p50_ms": {
+        "median": 8.044099,
+        "min": 8.044038,
+        "max": 8.045255
+      },
+      "accepted_latency.p95_ms": {
+        "median": 20.095786,
+        "min": 20.090637,
+        "max": 20.098494
+      },
+      "accepted_latency.p99_ms": {
+        "median": 20.133313,
+        "min": 20.128754,
+        "max": 20.134372
+      },
+      "allocated_bytes": {
+        "median": 439420384,
+        "min": 439414856,
+        "max": 439777072
+      },
+      "allocated_bytes_per_accepted": {
+        "median": 3537.477607734851,
+        "min": 3537.265821969636,
+        "max": 3542.4754478669934
+      },
+      "cancelled": {
+        "median": 31055,
+        "min": 31036,
+        "max": 31057
+      },
+      "cancelled_latency.count": {
+        "median": 31055,
+        "min": 31036,
+        "max": 31057
+      },
+      "cancelled_latency.max_ms": {
+        "median": 11.037486,
+        "min": 9.075262,
+        "max": 12.671142
+      },
+      "cancelled_latency.p50_ms": {
+        "median": 5.055051,
+        "min": 5.054289,
+        "max": 5.05605
+      },
+      "cancelled_latency.p95_ms": {
+        "median": 5.124535,
+        "min": 5.123925,
+        "max": 5.130686
+      },
+      "cancelled_latency.p99_ms": {
+        "median": 5.245911,
+        "min": 5.214907,
+        "max": 5.315371
+      },
+      "completed_per_second": {
+        "median": 24743.838499110887,
+        "min": 24729.80055452506,
+        "max": 24745.62360566169
+      },
+      "cpu_cores": {
+        "median": 0.7748821156648554,
+        "min": 0.758946001139625,
+        "max": 0.7868500466423991
+      },
+      "drain_ms": {
+        "median": 20.118443000000298,
+        "min": 20.016223999999966,
+        "max": 20.12000100000023
+      },
+      "elapsed_seconds_including_drain": {
+        "median": 5.020118443,
+        "min": 5.020016224,
+        "max": 5.020120001
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_count": {
+        "median": 0,
+        "min": 0,
+        "max": 1
+      },
+      "gc_millis": {
+        "median": 0,
+        "min": 0,
+        "max": 1
+      },
+      "heavy_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "light_latency.count": {
+        "median": 62108,
+        "min": 62072,
+        "max": 62112
+      },
+      "light_latency.max_ms": {
+        "median": 14.027157,
+        "min": 13.345871,
+        "max": 15.763619
+      },
+      "light_latency.p50_ms": {
+        "median": 8.044055,
+        "min": 8.043958,
+        "max": 8.045231
+      },
+      "light_latency.p95_ms": {
+        "median": 8.103929,
+        "min": 8.103208,
+        "max": 8.107049
+      },
+      "light_latency.p99_ms": {
+        "median": 8.210725,
+        "min": 8.173739,
+        "max": 8.312255
+      },
+      "offered": {
+        "median": 124217,
+        "min": 124144,
+        "max": 124226
+      },
+      "parameter": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_sources": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_timers": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "queue_delay.count": {
+        "median": 124217,
+        "min": 124144,
+        "max": 124226
+      },
+      "queue_delay.max_ms": {
+        "median": 0.196275,
+        "min": 0.130105,
+        "max": 0.353701
+      },
+      "queue_delay.p50_ms": {
+        "median": 7e-05,
+        "min": 7e-05,
+        "max": 7.1e-05
+      },
+      "queue_delay.p95_ms": {
+        "median": 0.000231,
+        "min": 0.00023,
+        "max": 0.000271
+      },
+      "queue_delay.p99_ms": {
+        "median": 0.001222,
+        "min": 0.000832,
+        "max": 0.001272
+      },
+      "rejected": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "rejected_percent": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_seconds": {
+        "median": 5.0,
+        "min": 5.0,
+        "max": 5.0
+      },
+      "service_time.count": {
+        "median": 124217,
+        "min": 124144,
+        "max": 124226
+      },
+      "service_time.max_ms": {
+        "median": 26.025405,
+        "min": 24.092394,
+        "max": 27.71475
+      },
+      "service_time.p50_ms": {
+        "median": 8.043963,
+        "min": 8.043898,
+        "max": 8.045136
+      },
+      "service_time.p95_ms": {
+        "median": 20.095646,
+        "min": 20.090466,
+        "max": 20.098354
+      },
+      "service_time.p99_ms": {
+        "median": 20.133193,
+        "min": 20.128595,
+        "max": 20.134152
+      },
+      "sources_cancelled_in_cleanup": {
+        "median": 93139,
+        "min": 93067,
+        "max": 93149
+      },
+      "successful": {
+        "median": 62108,
+        "min": 62072,
+        "max": 62112
+      },
+      "successful_latency.count": {
+        "median": 62108,
+        "min": 62072,
+        "max": 62112
+      },
+      "successful_latency.max_ms": {
+        "median": 14.027157,
+        "min": 13.345871,
+        "max": 15.763619
+      },
+      "successful_latency.p50_ms": {
+        "median": 8.044055,
+        "min": 8.043958,
+        "max": 8.045231
+      },
+      "successful_latency.p95_ms": {
+        "median": 8.103929,
+        "min": 8.103208,
+        "max": 8.107049
+      },
+      "successful_latency.p99_ms": {
+        "median": 8.210725,
+        "min": 8.173739,
+        "max": 8.312255
+      },
+      "successful_per_second": {
+        "median": 12371.819650311785,
+        "min": 12364.90027726253,
+        "max": 12372.61260440535
+      },
+      "timed_out": {
+        "median": 31054,
+        "min": 31036,
+        "max": 31057
+      },
+      "timeout_latency.count": {
+        "median": 31054,
+        "min": 31036,
+        "max": 31057
+      },
+      "timeout_latency.max_ms": {
+        "median": 26.025445,
+        "min": 24.092464,
+        "max": 27.71482
+      },
+      "timeout_latency.p50_ms": {
+        "median": 20.060793,
+        "min": 20.056781,
+        "max": 20.061813
+      },
+      "timeout_latency.p95_ms": {
+        "median": 20.127874,
+        "min": 20.12211,
+        "max": 20.128719
+      },
+      "timeout_latency.p99_ms": {
+        "median": 20.219671,
+        "min": 20.196697,
+        "max": 20.336476
+      },
+      "timeout_percent_of_accepted": {
+        "median": 25.0,
+        "min": 24.999798739302992,
+        "max": 25.0004024922319
+      },
+      "workers": {
+        "median": 256,
+        "min": 256,
+        "max": 256
+      }
+    }
+  },
+  {
+    "scenario": "MASS_WAITING",
+    "parameter": 10000,
+    "backend": "COMPLETABLE_FUTURE",
+    "forks": 3,
+    "metrics": {
+      "allocated_to_waiting_bytes": {
+        "median": 1884808,
+        "min": 1884808,
+        "max": 1884808
+      },
+      "burst_and_drain_ms": {
+        "median": 5.644925,
+        "min": 3.873343,
+        "max": 6.804522
+      },
+      "cancel_signal_to_finish.count": {
+        "median": 2500,
+        "min": 2500,
+        "max": 2500
+      },
+      "cancel_signal_to_finish.max_ms": {
+        "median": 0.076315,
+        "min": 0.075593,
+        "max": 0.077376
+      },
+      "cancel_signal_to_finish.p50_ms": {
+        "median": 0.000481,
+        "min": 0.00046,
+        "max": 0.000831
+      },
+      "cancel_signal_to_finish.p95_ms": {
+        "median": 0.000811,
+        "min": 0.000782,
+        "max": 0.001131
+      },
+      "cancel_signal_to_finish.p99_ms": {
+        "median": 0.001022,
+        "min": 0.000931,
+        "max": 0.001482
+      },
+      "cancelled": {
+        "median": 2500,
+        "min": 2500,
+        "max": 2500
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "fork": {
+        "median": 2,
+        "min": 1,
+        "max": 3
+      },
+      "gc_count_including_explicit": {
+        "median": 2,
+        "min": 2,
+        "max": 2
+      },
+      "gc_millis_including_explicit": {
+        "median": 8,
+        "min": 7,
+        "max": 9
+      },
+      "heap_baseline_bytes": {
+        "median": 1583600,
+        "min": 1583600,
+        "max": 1583600
+      },
+      "heap_delta_bytes": {
+        "median": 1399568,
+        "min": 1399568,
+        "max": 1399568
+      },
+      "heap_waiting_bytes": {
+        "median": 2983168,
+        "min": 2983168,
+        "max": 2983168
+      },
+      "idle_cpu_cores": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.009998844863449461
+      },
+      "release_loop_ms": {
+        "median": 4.689751,
+        "min": 3.228415,
+        "max": 6.087416
+      },
+      "rss_baseline_bytes": {
+        "median": 67420160,
+        "min": 67297280,
+        "max": 67461120
+      },
+      "rss_delta_bytes": {
+        "median": 8437760,
+        "min": 8359936,
+        "max": 8441856
+      },
+      "rss_waiting_bytes": {
+        "median": 75780096,
+        "min": 75735040,
+        "max": 75902976
+      },
+      "setup_ms": {
+        "median": 3.045022,
+        "min": 2.29174,
+        "max": 8.44141
+      },
+      "success_signal_to_finish.count": {
+        "median": 7500,
+        "min": 7500,
+        "max": 7500
+      },
+      "success_signal_to_finish.max_ms": {
+        "median": 0.037075,
+        "min": 0.017887,
+        "max": 3.001635
+      },
+      "success_signal_to_finish.p50_ms": {
+        "median": 9e-05,
+        "min": 8e-05,
+        "max": 0.00012
+      },
+      "success_signal_to_finish.p95_ms": {
+        "median": 0.00011,
+        "min": 0.00011,
+        "max": 0.00022
+      },
+      "success_signal_to_finish.p99_ms": {
+        "median": 0.000221,
+        "min": 0.00022,
+        "max": 0.000331
+      },
+      "successful": {
+        "median": 7500,
+        "min": 7500,
+        "max": 7500
+      },
+      "tasks": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      }
+    }
+  },
+  {
+    "scenario": "MASS_WAITING",
+    "parameter": 10000,
+    "backend": "JFIBERS",
+    "forks": 3,
+    "metrics": {
+      "allocated_to_waiting_bytes": {
+        "median": 2876288,
+        "min": 2876168,
+        "max": 2876288
+      },
+      "burst_and_drain_ms": {
+        "median": 10.361198,
+        "min": 8.12821,
+        "max": 14.538921
+      },
+      "cancel_signal_to_finish.count": {
+        "median": 2500,
+        "min": 2500,
+        "max": 2500
+      },
+      "cancel_signal_to_finish.max_ms": {
+        "median": 0.352599,
+        "min": 0.250335,
+        "max": 4.29894
+      },
+      "cancel_signal_to_finish.p50_ms": {
+        "median": 0.011157,
+        "min": 0.002283,
+        "max": 2.258175
+      },
+      "cancel_signal_to_finish.p95_ms": {
+        "median": 0.285799,
+        "min": 0.04019,
+        "max": 4.25221
+      },
+      "cancel_signal_to_finish.p99_ms": {
+        "median": 0.344547,
+        "min": 0.069654,
+        "max": 4.290538
+      },
+      "cancelled": {
+        "median": 2500,
+        "min": 2500,
+        "max": 2500
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "fork": {
+        "median": 2,
+        "min": 1,
+        "max": 3
+      },
+      "gc_count_including_explicit": {
+        "median": 2,
+        "min": 2,
+        "max": 2
+      },
+      "gc_millis_including_explicit": {
+        "median": 9,
+        "min": 7,
+        "max": 9
+      },
+      "heap_baseline_bytes": {
+        "median": 1597376,
+        "min": 1597376,
+        "max": 1597376
+      },
+      "heap_delta_bytes": {
+        "median": 2553936,
+        "min": 2553936,
+        "max": 2553936
+      },
+      "heap_waiting_bytes": {
+        "median": 4151312,
+        "min": 4151312,
+        "max": 4151312
+      },
+      "idle_cpu_cores": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "release_loop_ms": {
+        "median": 7.210483,
+        "min": 5.686058,
+        "max": 13.586101
+      },
+      "rss_baseline_bytes": {
+        "median": 76447744,
+        "min": 76247040,
+        "max": 76488704
+      },
+      "rss_delta_bytes": {
+        "median": 6402048,
+        "min": 6078464,
+        "max": 6725632
+      },
+      "rss_waiting_bytes": {
+        "median": 82649088,
+        "min": 82567168,
+        "max": 83173376
+      },
+      "setup_ms": {
+        "median": 4.186617,
+        "min": 4.146783,
+        "max": 4.32417
+      },
+      "success_signal_to_finish.count": {
+        "median": 7500,
+        "min": 7500,
+        "max": 7500
+      },
+      "success_signal_to_finish.max_ms": {
+        "median": 0.352098,
+        "min": 0.132398,
+        "max": 4.297629
+      },
+      "success_signal_to_finish.p50_ms": {
+        "median": 0.009944,
+        "min": 0.001291,
+        "max": 2.257464
+      },
+      "success_signal_to_finish.p95_ms": {
+        "median": 0.284807,
+        "min": 0.038858,
+        "max": 4.251209
+      },
+      "success_signal_to_finish.p99_ms": {
+        "median": 0.343896,
+        "min": 0.067941,
+        "max": 4.289266
+      },
+      "successful": {
+        "median": 7500,
+        "min": 7500,
+        "max": 7500
+      },
+      "tasks": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      }
+    }
+  },
+  {
+    "scenario": "MASS_WAITING",
+    "parameter": 10000,
+    "backend": "VIRTUAL_THREADS",
+    "forks": 3,
+    "metrics": {
+      "allocated_to_waiting_bytes": {
+        "median": 19035568,
+        "min": 14298896,
+        "max": 19419168
+      },
+      "burst_and_drain_ms": {
+        "median": 14.755368,
+        "min": 13.779731,
+        "max": 21.63369
+      },
+      "cancel_signal_to_finish.count": {
+        "median": 2500,
+        "min": 2500,
+        "max": 2500
+      },
+      "cancel_signal_to_finish.max_ms": {
+        "median": 5.990291,
+        "min": 4.612573,
+        "max": 8.90326
+      },
+      "cancel_signal_to_finish.p50_ms": {
+        "median": 2.626983,
+        "min": 2.019426,
+        "max": 4.810229
+      },
+      "cancel_signal_to_finish.p95_ms": {
+        "median": 4.85688,
+        "min": 4.409323,
+        "max": 8.520895
+      },
+      "cancel_signal_to_finish.p99_ms": {
+        "median": 5.240235,
+        "min": 4.574711,
+        "max": 8.809679
+      },
+      "cancelled": {
+        "median": 2500,
+        "min": 2500,
+        "max": 2500
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "fork": {
+        "median": 2,
+        "min": 1,
+        "max": 3
+      },
+      "gc_count_including_explicit": {
+        "median": 2,
+        "min": 2,
+        "max": 2
+      },
+      "gc_millis_including_explicit": {
+        "median": 37,
+        "min": 28,
+        "max": 43
+      },
+      "heap_baseline_bytes": {
+        "median": 1614728,
+        "min": 1614712,
+        "max": 1614992
+      },
+      "heap_delta_bytes": {
+        "median": 18454232,
+        "min": 13568776,
+        "max": 18795776
+      },
+      "heap_waiting_bytes": {
+        "median": 20068960,
+        "min": 15183768,
+        "max": 20410488
+      },
+      "idle_cpu_cores": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "release_loop_ms": {
+        "median": 8.293427,
+        "min": 5.724566,
+        "max": 20.515091
+      },
+      "rss_baseline_bytes": {
+        "median": 102289408,
+        "min": 100298752,
+        "max": 103362560
+      },
+      "rss_delta_bytes": {
+        "median": 13660160,
+        "min": 13008896,
+        "max": 15470592
+      },
+      "rss_waiting_bytes": {
+        "median": 115949568,
+        "min": 113307648,
+        "max": 118833152
+      },
+      "setup_ms": {
+        "median": 16.371754,
+        "min": 14.861407,
+        "max": 17.073764
+      },
+      "success_signal_to_finish.count": {
+        "median": 7500,
+        "min": 7500,
+        "max": 7500
+      },
+      "success_signal_to_finish.max_ms": {
+        "median": 7.163027,
+        "min": 5.338327,
+        "max": 9.227858
+      },
+      "success_signal_to_finish.p50_ms": {
+        "median": 2.625831,
+        "min": 2.018475,
+        "max": 4.809668
+      },
+      "success_signal_to_finish.p95_ms": {
+        "median": 4.856174,
+        "min": 4.407545,
+        "max": 8.524371
+      },
+      "success_signal_to_finish.p99_ms": {
+        "median": 5.239749,
+        "min": 4.572133,
+        "max": 8.811642
+      },
+      "successful": {
+        "median": 7500,
+        "min": 7500,
+        "max": 7500
+      },
+      "tasks": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      }
+    }
+  },
+  {
+    "scenario": "MASS_WAITING",
+    "parameter": 100000,
+    "backend": "COMPLETABLE_FUTURE",
+    "forks": 3,
+    "metrics": {
+      "allocated_to_waiting_bytes": {
+        "median": 14877184,
+        "min": 14877184,
+        "max": 14877304
+      },
+      "burst_and_drain_ms": {
+        "median": 32.522783,
+        "min": 31.529756,
+        "max": 37.61025
+      },
+      "cancel_signal_to_finish.count": {
+        "median": 25000,
+        "min": 25000,
+        "max": 25000
+      },
+      "cancel_signal_to_finish.max_ms": {
+        "median": 0.082254,
+        "min": 0.07347,
+        "max": 0.120081
+      },
+      "cancel_signal_to_finish.p50_ms": {
+        "median": 0.00041,
+        "min": 0.00041,
+        "max": 0.00043
+      },
+      "cancel_signal_to_finish.p95_ms": {
+        "median": 0.001662,
+        "min": 0.001613,
+        "max": 0.001663
+      },
+      "cancel_signal_to_finish.p99_ms": {
+        "median": 0.002063,
+        "min": 0.001863,
+        "max": 0.002374
+      },
+      "cancelled": {
+        "median": 25000,
+        "min": 25000,
+        "max": 25000
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "fork": {
+        "median": 2,
+        "min": 1,
+        "max": 3
+      },
+      "gc_count_including_explicit": {
+        "median": 2,
+        "min": 2,
+        "max": 2
+      },
+      "gc_millis_including_explicit": {
+        "median": 20,
+        "min": 16,
+        "max": 25
+      },
+      "heap_baseline_bytes": {
+        "median": 1583608,
+        "min": 1583488,
+        "max": 1583608
+      },
+      "heap_delta_bytes": {
+        "median": 13651984,
+        "min": 13651984,
+        "max": 13652104
+      },
+      "heap_waiting_bytes": {
+        "median": 15235592,
+        "min": 15235592,
+        "max": 15235592
+      },
+      "idle_cpu_cores": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0099988538213876
+      },
+      "release_loop_ms": {
+        "median": 28.581317,
+        "min": 27.660416,
+        "max": 31.831386
+      },
+      "rss_baseline_bytes": {
+        "median": 67244032,
+        "min": 67026944,
+        "max": 67403776
+      },
+      "rss_delta_bytes": {
+        "median": 21069824,
+        "min": 20484096,
+        "max": 21106688
+      },
+      "rss_waiting_bytes": {
+        "median": 88133632,
+        "min": 87887872,
+        "max": 88313856
+      },
+      "setup_ms": {
+        "median": 15.698632,
+        "min": 14.908377,
+        "max": 18.777992
+      },
+      "success_signal_to_finish.count": {
+        "median": 75000,
+        "min": 75000,
+        "max": 75000
+      },
+      "success_signal_to_finish.max_ms": {
+        "median": 0.051117,
+        "min": 0.039279,
+        "max": 0.052409
+      },
+      "success_signal_to_finish.p50_ms": {
+        "median": 6.1e-05,
+        "min": 6e-05,
+        "max": 7e-05
+      },
+      "success_signal_to_finish.p95_ms": {
+        "median": 9.1e-05,
+        "min": 9.1e-05,
+        "max": 0.00015
+      },
+      "success_signal_to_finish.p99_ms": {
+        "median": 0.0002,
+        "min": 0.00019,
+        "max": 0.000231
+      },
+      "successful": {
+        "median": 75000,
+        "min": 75000,
+        "max": 75000
+      },
+      "tasks": {
+        "median": 100000,
+        "min": 100000,
+        "max": 100000
+      }
+    }
+  },
+  {
+    "scenario": "MASS_WAITING",
+    "parameter": 100000,
+    "backend": "JFIBERS",
+    "forks": 3,
+    "metrics": {
+      "allocated_to_waiting_bytes": {
+        "median": 25196480,
+        "min": 25196480,
+        "max": 25196480
+      },
+      "burst_and_drain_ms": {
+        "median": 101.313666,
+        "min": 84.69633,
+        "max": 142.712119
+      },
+      "cancel_signal_to_finish.count": {
+        "median": 25000,
+        "min": 25000,
+        "max": 25000
+      },
+      "cancel_signal_to_finish.max_ms": {
+        "median": 16.239585,
+        "min": 0.256315,
+        "max": 16.657393
+      },
+      "cancel_signal_to_finish.p50_ms": {
+        "median": 0.005278,
+        "min": 0.004482,
+        "max": 0.007701
+      },
+      "cancel_signal_to_finish.p95_ms": {
+        "median": 0.150901,
+        "min": 0.111157,
+        "max": 0.542234
+      },
+      "cancel_signal_to_finish.p99_ms": {
+        "median": 0.366766,
+        "min": 0.234352,
+        "max": 0.755414
+      },
+      "cancelled": {
+        "median": 25000,
+        "min": 25000,
+        "max": 25000
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "fork": {
+        "median": 2,
+        "min": 1,
+        "max": 3
+      },
+      "gc_count_including_explicit": {
+        "median": 3,
+        "min": 3,
+        "max": 3
+      },
+      "gc_millis_including_explicit": {
+        "median": 41,
+        "min": 40,
+        "max": 43
+      },
+      "heap_baseline_bytes": {
+        "median": 1597376,
+        "min": 1597376,
+        "max": 1597376
+      },
+      "heap_delta_bytes": {
+        "median": 24832648,
+        "min": 24832648,
+        "max": 24832648
+      },
+      "heap_waiting_bytes": {
+        "median": 26430024,
+        "min": 26430024,
+        "max": 26430024
+      },
+      "idle_cpu_cores": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.009998459147459244
+      },
+      "release_loop_ms": {
+        "median": 99.608336,
+        "min": 83.187585,
+        "max": 141.072908
+      },
+      "rss_baseline_bytes": {
+        "median": 76390400,
+        "min": 75689984,
+        "max": 76636160
+      },
+      "rss_delta_bytes": {
+        "median": 21934080,
+        "min": 21540864,
+        "max": 22511616
+      },
+      "rss_waiting_bytes": {
+        "median": 98201600,
+        "min": 98177024,
+        "max": 98324480
+      },
+      "setup_ms": {
+        "median": 28.686779,
+        "min": 26.854856,
+        "max": 31.175982
+      },
+      "success_signal_to_finish.count": {
+        "median": 75000,
+        "min": 75000,
+        "max": 75000
+      },
+      "success_signal_to_finish.max_ms": {
+        "median": 16.238514,
+        "min": 0.253261,
+        "max": 16.656531
+      },
+      "success_signal_to_finish.p50_ms": {
+        "median": 0.003936,
+        "min": 0.00303,
+        "max": 0.006449
+      },
+      "success_signal_to_finish.p95_ms": {
+        "median": 0.14998,
+        "min": 0.110216,
+        "max": 0.540511
+      },
+      "success_signal_to_finish.p99_ms": {
+        "median": 0.365594,
+        "min": 0.233481,
+        "max": 0.753971
+      },
+      "successful": {
+        "median": 75000,
+        "min": 75000,
+        "max": 75000
+      },
+      "tasks": {
+        "median": 100000,
+        "min": 100000,
+        "max": 100000
+      }
+    }
+  },
+  {
+    "scenario": "MASS_WAITING",
+    "parameter": 100000,
+    "backend": "VIRTUAL_THREADS",
+    "forks": 3,
+    "metrics": {
+      "allocated_to_waiting_bytes": {
+        "median": 159016992,
+        "min": 101053784,
+        "max": 168599896
+      },
+      "burst_and_drain_ms": {
+        "median": 88.206874,
+        "min": 75.893498,
+        "max": 127.255585
+      },
+      "cancel_signal_to_finish.count": {
+        "median": 25000,
+        "min": 25000,
+        "max": 25000
+      },
+      "cancel_signal_to_finish.max_ms": {
+        "median": 36.228847,
+        "min": 28.847477,
+        "max": 73.7596
+      },
+      "cancel_signal_to_finish.p50_ms": {
+        "median": 24.512234,
+        "min": 10.943574,
+        "max": 54.433223
+      },
+      "cancel_signal_to_finish.p95_ms": {
+        "median": 35.78465,
+        "min": 24.880979,
+        "max": 72.554855
+      },
+      "cancel_signal_to_finish.p99_ms": {
+        "median": 36.11754,
+        "min": 25.711045,
+        "max": 73.489765
+      },
+      "cancelled": {
+        "median": 25000,
+        "min": 25000,
+        "max": 25000
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "fork": {
+        "median": 2,
+        "min": 1,
+        "max": 3
+      },
+      "gc_count_including_explicit": {
+        "median": 4,
+        "min": 4,
+        "max": 4
+      },
+      "gc_millis_including_explicit": {
+        "median": 247,
+        "min": 211,
+        "max": 253
+      },
+      "heap_baseline_bytes": {
+        "median": 1613256,
+        "min": 1612664,
+        "max": 1613272
+      },
+      "heap_delta_bytes": {
+        "median": 155514912,
+        "min": 96738968,
+        "max": 165415200
+      },
+      "heap_waiting_bytes": {
+        "median": 157128168,
+        "min": 98351632,
+        "max": 167028472
+      },
+      "idle_cpu_cores": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.009998865888635447
+      },
+      "release_loop_ms": {
+        "median": 51.960595,
+        "min": 50.05657,
+        "max": 58.868585
+      },
+      "rss_baseline_bytes": {
+        "median": 101978112,
+        "min": 100626432,
+        "max": 106549248
+      },
+      "rss_delta_bytes": {
+        "median": 137965568,
+        "min": 121851904,
+        "max": 142827520
+      },
+      "rss_waiting_bytes": {
+        "median": 238592000,
+        "min": 228401152,
+        "max": 244805632
+      },
+      "setup_ms": {
+        "median": 103.246823,
+        "min": 102.116137,
+        "max": 133.246258
+      },
+      "success_signal_to_finish.count": {
+        "median": 75000,
+        "min": 75000,
+        "max": 75000
+      },
+      "success_signal_to_finish.max_ms": {
+        "median": 36.228286,
+        "min": 25.979772,
+        "max": 73.759343
+      },
+      "success_signal_to_finish.p50_ms": {
+        "median": 24.511072,
+        "min": 10.942078,
+        "max": 54.434275
+      },
+      "success_signal_to_finish.p95_ms": {
+        "median": 35.783749,
+        "min": 24.877998,
+        "max": 72.554785
+      },
+      "success_signal_to_finish.p99_ms": {
+        "median": 36.116729,
+        "min": 25.707894,
+        "max": 73.489213
+      },
+      "successful": {
+        "median": 75000,
+        "min": 75000,
+        "max": 75000
+      },
+      "tasks": {
+        "median": 100000,
+        "min": 100000,
+        "max": 100000
+      }
+    }
+  },
+  {
+    "scenario": "MIXED",
+    "parameter": 0,
+    "backend": "COMPLETABLE_FUTURE",
+    "forks": 3,
+    "metrics": {
+      "accepted": {
+        "median": 366677,
+        "min": 362206,
+        "max": 369075
+      },
+      "accepted_latency.count": {
+        "median": 366677,
+        "min": 362206,
+        "max": 369075
+      },
+      "accepted_latency.max_ms": {
+        "median": 10.726908,
+        "min": 9.90107,
+        "max": 14.511629
+      },
+      "accepted_latency.p50_ms": {
+        "median": 3.421676,
+        "min": 3.415711,
+        "max": 3.439584
+      },
+      "accepted_latency.p95_ms": {
+        "median": 3.710063,
+        "min": 3.65118,
+        "max": 3.948988
+      },
+      "accepted_latency.p99_ms": {
+        "median": 5.544193,
+        "min": 5.062723,
+        "max": 5.623008
+      },
+      "allocated_bytes": {
+        "median": 609635416,
+        "min": 603942256,
+        "max": 614447640
+      },
+      "allocated_bytes_per_accepted": {
+        "median": 1664.8313757366388,
+        "min": 1662.5951886810462,
+        "max": 1667.3999215915806
+      },
+      "cancelled": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "cancelled_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "completed_per_second": {
+        "median": 73289.50099886734,
+        "min": 72370.80922716497,
+        "max": 73773.81072403466
+      },
+      "cpu_cores": {
+        "median": 1.2812846352125236,
+        "min": 1.133290254538948,
+        "max": 1.486554117408622
+      },
+      "drain_ms": {
+        "median": 3.1313490000002275,
+        "min": 2.791591999999582,
+        "max": 4.863201999999546
+      },
+      "elapsed_seconds_including_drain": {
+        "median": 5.003131349,
+        "min": 5.002791592,
+        "max": 5.004863202
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_count": {
+        "median": 1,
+        "min": 0,
+        "max": 1
+      },
+      "gc_millis": {
+        "median": 0,
+        "min": 0,
+        "max": 1
+      },
+      "heavy_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "light_latency.count": {
+        "median": 366677,
+        "min": 362206,
+        "max": 369075
+      },
+      "light_latency.max_ms": {
+        "median": 10.726908,
+        "min": 9.90107,
+        "max": 14.511629
+      },
+      "light_latency.p50_ms": {
+        "median": 3.421676,
+        "min": 3.415711,
+        "max": 3.439584
+      },
+      "light_latency.p95_ms": {
+        "median": 3.710063,
+        "min": 3.65118,
+        "max": 3.948988
+      },
+      "light_latency.p99_ms": {
+        "median": 5.544193,
+        "min": 5.062723,
+        "max": 5.623008
+      },
+      "offered": {
+        "median": 366677,
+        "min": 362206,
+        "max": 369075
+      },
+      "parameter": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_sources": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_timers": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "queue_delay.count": {
+        "median": 366677,
+        "min": 362206,
+        "max": 369075
+      },
+      "queue_delay.max_ms": {
+        "median": 3.672001,
+        "min": 2.150008,
+        "max": 5.096934
+      },
+      "queue_delay.p50_ms": {
+        "median": 0.020441,
+        "min": 0.019148,
+        "max": 0.026129
+      },
+      "queue_delay.p95_ms": {
+        "median": 0.105359,
+        "min": 0.10001,
+        "max": 0.127241
+      },
+      "queue_delay.p99_ms": {
+        "median": 0.177637,
+        "min": 0.176434,
+        "max": 0.210251
+      },
+      "rejected": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "rejected_percent": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_seconds": {
+        "median": 5.0,
+        "min": 5.0,
+        "max": 5.0
+      },
+      "service_time.count": {
+        "median": 366677,
+        "min": 362206,
+        "max": 369075
+      },
+      "service_time.max_ms": {
+        "median": 10.676398,
+        "min": 9.760158,
+        "max": 14.35937
+      },
+      "service_time.p50_ms": {
+        "median": 3.390789,
+        "min": 3.385706,
+        "max": 3.40077
+      },
+      "service_time.p95_ms": {
+        "median": 3.658996,
+        "min": 3.612025,
+        "max": 3.881127
+      },
+      "service_time.p99_ms": {
+        "median": 5.496201,
+        "min": 5.00055,
+        "max": 5.563099
+      },
+      "sources_cancelled_in_cleanup": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "successful": {
+        "median": 366677,
+        "min": 362206,
+        "max": 369075
+      },
+      "successful_latency.count": {
+        "median": 366677,
+        "min": 362206,
+        "max": 369075
+      },
+      "successful_latency.max_ms": {
+        "median": 10.726908,
+        "min": 9.90107,
+        "max": 14.511629
+      },
+      "successful_latency.p50_ms": {
+        "median": 3.421676,
+        "min": 3.415711,
+        "max": 3.439584
+      },
+      "successful_latency.p95_ms": {
+        "median": 3.710063,
+        "min": 3.65118,
+        "max": 3.948988
+      },
+      "successful_latency.p99_ms": {
+        "median": 5.544193,
+        "min": 5.062723,
+        "max": 5.623008
+      },
+      "successful_per_second": {
+        "median": 73289.50099886734,
+        "min": 72370.80922716497,
+        "max": 73773.81072403466
+      },
+      "timed_out": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_percent_of_accepted": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "workers": {
+        "median": 256,
+        "min": 256,
+        "max": 256
+      }
+    }
+  },
+  {
+    "scenario": "MIXED",
+    "parameter": 0,
+    "backend": "JFIBERS",
+    "forks": 3,
+    "metrics": {
+      "accepted": {
+        "median": 331663,
+        "min": 331345,
+        "max": 356938
+      },
+      "accepted_latency.count": {
+        "median": 331663,
+        "min": 331345,
+        "max": 356938
+      },
+      "accepted_latency.max_ms": {
+        "median": 12.82146,
+        "min": 11.222663,
+        "max": 14.288676
+      },
+      "accepted_latency.p50_ms": {
+        "median": 3.669867,
+        "min": 3.504061,
+        "max": 3.777169
+      },
+      "accepted_latency.p95_ms": {
+        "median": 4.373564,
+        "min": 4.11702,
+        "max": 4.484333
+      },
+      "accepted_latency.p99_ms": {
+        "median": 7.100136,
+        "min": 4.890162,
+        "max": 9.337342
+      },
+      "allocated_bytes": {
+        "median": 325706144,
+        "min": 325654048,
+        "max": 350480280
+      },
+      "allocated_bytes_per_accepted": {
+        "median": 982.039431591706,
+        "min": 981.9080064324896,
+        "max": 982.8246932955077
+      },
+      "cancelled": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "cancelled_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "completed_per_second": {
+        "median": 66289.5041857284,
+        "min": 66222.28327834998,
+        "max": 71337.46961920924
+      },
+      "cpu_cores": {
+        "median": 1.3111476030138371,
+        "min": 1.2631123836447853,
+        "max": 1.3510468996412979
+      },
+      "drain_ms": {
+        "median": 3.513608000000204,
+        "min": 3.2505760000003647,
+        "max": 3.527266000000054
+      },
+      "elapsed_seconds_including_drain": {
+        "median": 5.003513608,
+        "min": 5.003250576,
+        "max": 5.003527266
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_millis": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "heavy_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "light_latency.count": {
+        "median": 331663,
+        "min": 331345,
+        "max": 356938
+      },
+      "light_latency.max_ms": {
+        "median": 12.82146,
+        "min": 11.222663,
+        "max": 14.288676
+      },
+      "light_latency.p50_ms": {
+        "median": 3.669867,
+        "min": 3.504061,
+        "max": 3.777169
+      },
+      "light_latency.p95_ms": {
+        "median": 4.373564,
+        "min": 4.11702,
+        "max": 4.484333
+      },
+      "light_latency.p99_ms": {
+        "median": 7.100136,
+        "min": 4.890162,
+        "max": 9.337342
+      },
+      "offered": {
+        "median": 331663,
+        "min": 331345,
+        "max": 356938
+      },
+      "parameter": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_sources": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_timers": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "queue_delay.count": {
+        "median": 331663,
+        "min": 331345,
+        "max": 356938
+      },
+      "queue_delay.max_ms": {
+        "median": 5.146895,
+        "min": 1.50536,
+        "max": 7.955639
+      },
+      "queue_delay.p50_ms": {
+        "median": 0.088553,
+        "min": 0.057826,
+        "max": 0.110386
+      },
+      "queue_delay.p95_ms": {
+        "median": 0.309314,
+        "min": 0.250536,
+        "max": 0.314782
+      },
+      "queue_delay.p99_ms": {
+        "median": 0.45937,
+        "min": 0.373731,
+        "max": 0.477657
+      },
+      "rejected": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "rejected_percent": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_seconds": {
+        "median": 5.0,
+        "min": 5.0,
+        "max": 5.0
+      },
+      "service_time.count": {
+        "median": 331663,
+        "min": 331345,
+        "max": 356938
+      },
+      "service_time.max_ms": {
+        "median": 12.732467,
+        "min": 11.040009,
+        "max": 14.243307
+      },
+      "service_time.p50_ms": {
+        "median": 3.561825,
+        "min": 3.409148,
+        "max": 3.643008
+      },
+      "service_time.p95_ms": {
+        "median": 4.181356,
+        "min": 3.958953,
+        "max": 4.294405
+      },
+      "service_time.p99_ms": {
+        "median": 6.803412,
+        "min": 4.808218,
+        "max": 9.223872
+      },
+      "sources_cancelled_in_cleanup": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "successful": {
+        "median": 331663,
+        "min": 331345,
+        "max": 356938
+      },
+      "successful_latency.count": {
+        "median": 331663,
+        "min": 331345,
+        "max": 356938
+      },
+      "successful_latency.max_ms": {
+        "median": 12.82146,
+        "min": 11.222663,
+        "max": 14.288676
+      },
+      "successful_latency.p50_ms": {
+        "median": 3.669867,
+        "min": 3.504061,
+        "max": 3.777169
+      },
+      "successful_latency.p95_ms": {
+        "median": 4.373564,
+        "min": 4.11702,
+        "max": 4.484333
+      },
+      "successful_latency.p99_ms": {
+        "median": 7.100136,
+        "min": 4.890162,
+        "max": 9.337342
+      },
+      "successful_per_second": {
+        "median": 66289.5041857284,
+        "min": 66222.28327834998,
+        "max": 71337.46961920924
+      },
+      "timed_out": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_percent_of_accepted": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "workers": {
+        "median": 256,
+        "min": 256,
+        "max": 256
+      }
+    }
+  },
+  {
+    "scenario": "MIXED",
+    "parameter": 0,
+    "backend": "JFIBERS_4",
+    "forks": 3,
+    "metrics": {
+      "accepted": {
+        "median": 380538,
+        "min": 367234,
+        "max": 384450
+      },
+      "accepted_latency.count": {
+        "median": 380538,
+        "min": 367234,
+        "max": 384450
+      },
+      "accepted_latency.max_ms": {
+        "median": 13.1214,
+        "min": 8.090002,
+        "max": 18.154423
+      },
+      "accepted_latency.p50_ms": {
+        "median": 3.295496,
+        "min": 3.285991,
+        "max": 3.356599
+      },
+      "accepted_latency.p95_ms": {
+        "median": 3.769267,
+        "min": 3.549346,
+        "max": 4.086925
+      },
+      "accepted_latency.p99_ms": {
+        "median": 4.625602,
+        "min": 4.05849,
+        "max": 5.258845
+      },
+      "allocated_bytes": {
+        "median": 372030000,
+        "min": 359054696,
+        "max": 375366184
+      },
+      "allocated_bytes_per_accepted": {
+        "median": 977.6421802816013,
+        "min": 976.3719183248797,
+        "max": 977.7272692615608
+      },
+      "cancelled": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "cancelled_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "completed_per_second": {
+        "median": 76043.03505274419,
+        "min": 73382.73791183784,
+        "max": 76820.68802721091
+      },
+      "cpu_cores": {
+        "median": 1.5307003466250952,
+        "min": 1.3827524025186617,
+        "max": 1.6285782742923542
+      },
+      "drain_ms": {
+        "median": 4.364929000000302,
+        "min": 4.245289999999841,
+        "max": 4.511282999999821
+      },
+      "elapsed_seconds_including_drain": {
+        "median": 5.004364929,
+        "min": 5.00424529,
+        "max": 5.004511283
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_count": {
+        "median": 0,
+        "min": 0,
+        "max": 1
+      },
+      "gc_millis": {
+        "median": 0,
+        "min": 0,
+        "max": 1
+      },
+      "heavy_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "light_latency.count": {
+        "median": 380538,
+        "min": 367234,
+        "max": 384450
+      },
+      "light_latency.max_ms": {
+        "median": 13.1214,
+        "min": 8.090002,
+        "max": 18.154423
+      },
+      "light_latency.p50_ms": {
+        "median": 3.295496,
+        "min": 3.285991,
+        "max": 3.356599
+      },
+      "light_latency.p95_ms": {
+        "median": 3.769267,
+        "min": 3.549346,
+        "max": 4.086925
+      },
+      "light_latency.p99_ms": {
+        "median": 4.625602,
+        "min": 4.05849,
+        "max": 5.258845
+      },
+      "offered": {
+        "median": 380538,
+        "min": 367234,
+        "max": 384450
+      },
+      "parameter": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_sources": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_timers": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "queue_delay.count": {
+        "median": 380538,
+        "min": 367234,
+        "max": 384450
+      },
+      "queue_delay.max_ms": {
+        "median": 7.721216,
+        "min": 3.946873,
+        "max": 10.703328
+      },
+      "queue_delay.p50_ms": {
+        "median": 0.020751,
+        "min": 0.019469,
+        "max": 0.021692
+      },
+      "queue_delay.p95_ms": {
+        "median": 0.129415,
+        "min": 0.112198,
+        "max": 0.187091
+      },
+      "queue_delay.p99_ms": {
+        "median": 0.248723,
+        "min": 0.20008,
+        "max": 0.367592
+      },
+      "rejected": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "rejected_percent": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_seconds": {
+        "median": 5.0,
+        "min": 5.0,
+        "max": 5.0
+      },
+      "service_time.count": {
+        "median": 380538,
+        "min": 367234,
+        "max": 384450
+      },
+      "service_time.max_ms": {
+        "median": 12.165486,
+        "min": 8.045695,
+        "max": 18.085781
+      },
+      "service_time.p50_ms": {
+        "median": 3.262757,
+        "min": 3.255014,
+        "max": 3.313023
+      },
+      "service_time.p95_ms": {
+        "median": 3.693314,
+        "min": 3.500343,
+        "max": 3.991012
+      },
+      "service_time.p99_ms": {
+        "median": 4.544261,
+        "min": 4.009267,
+        "max": 5.126977
+      },
+      "sources_cancelled_in_cleanup": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "successful": {
+        "median": 380538,
+        "min": 367234,
+        "max": 384450
+      },
+      "successful_latency.count": {
+        "median": 380538,
+        "min": 367234,
+        "max": 384450
+      },
+      "successful_latency.max_ms": {
+        "median": 13.1214,
+        "min": 8.090002,
+        "max": 18.154423
+      },
+      "successful_latency.p50_ms": {
+        "median": 3.295496,
+        "min": 3.285991,
+        "max": 3.356599
+      },
+      "successful_latency.p95_ms": {
+        "median": 3.769267,
+        "min": 3.549346,
+        "max": 4.086925
+      },
+      "successful_latency.p99_ms": {
+        "median": 4.625602,
+        "min": 4.05849,
+        "max": 5.258845
+      },
+      "successful_per_second": {
+        "median": 76043.03505274419,
+        "min": 73382.73791183784,
+        "max": 76820.68802721091
+      },
+      "timed_out": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_percent_of_accepted": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "workers": {
+        "median": 256,
+        "min": 256,
+        "max": 256
+      }
+    }
+  },
+  {
+    "scenario": "MIXED",
+    "parameter": 0,
+    "backend": "VIRTUAL_THREADS",
+    "forks": 3,
+    "metrics": {
+      "accepted": {
+        "median": 378354,
+        "min": 377022,
+        "max": 382154
+      },
+      "accepted_latency.count": {
+        "median": 378354,
+        "min": 377022,
+        "max": 382154
+      },
+      "accepted_latency.max_ms": {
+        "median": 8.142611,
+        "min": 7.95012,
+        "max": 8.820742
+      },
+      "accepted_latency.p50_ms": {
+        "median": 3.336945,
+        "min": 3.336366,
+        "max": 3.351064
+      },
+      "accepted_latency.p95_ms": {
+        "median": 3.509902,
+        "min": 3.460901,
+        "max": 3.592551
+      },
+      "accepted_latency.p99_ms": {
+        "median": 4.617069,
+        "min": 3.616134,
+        "max": 5.184369
+      },
+      "allocated_bytes": {
+        "median": 344248408,
+        "min": 342722960,
+        "max": 348353416
+      },
+      "allocated_bytes_per_accepted": {
+        "median": 909.8579848501668,
+        "min": 909.0264228612654,
+        "max": 911.5524526761462
+      },
+      "cancelled": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "cancelled_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "completed_per_second": {
+        "median": 75616.07070620677,
+        "min": 75346.51921081345,
+        "max": 76378.70862086717
+      },
+      "cpu_cores": {
+        "median": 1.1990788740839546,
+        "min": 1.177148005464612,
+        "max": 1.2211671464213338
+      },
+      "drain_ms": {
+        "median": 3.6188929999998436,
+        "min": 3.4100719999996727,
+        "max": 3.8409730000003037
+      },
+      "elapsed_seconds_including_drain": {
+        "median": 5.003618893,
+        "min": 5.003410072,
+        "max": 5.003840973
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_count": {
+        "median": 1,
+        "min": 1,
+        "max": 1
+      },
+      "gc_millis": {
+        "median": 1,
+        "min": 1,
+        "max": 1
+      },
+      "heavy_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "light_latency.count": {
+        "median": 378354,
+        "min": 377022,
+        "max": 382154
+      },
+      "light_latency.max_ms": {
+        "median": 8.142611,
+        "min": 7.95012,
+        "max": 8.820742
+      },
+      "light_latency.p50_ms": {
+        "median": 3.336945,
+        "min": 3.336366,
+        "max": 3.351064
+      },
+      "light_latency.p95_ms": {
+        "median": 3.509902,
+        "min": 3.460901,
+        "max": 3.592551
+      },
+      "light_latency.p99_ms": {
+        "median": 4.617069,
+        "min": 3.616134,
+        "max": 5.184369
+      },
+      "offered": {
+        "median": 378354,
+        "min": 377022,
+        "max": 382154
+      },
+      "parameter": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_sources": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_timers": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "queue_delay.count": {
+        "median": 378354,
+        "min": 377022,
+        "max": 382154
+      },
+      "queue_delay.max_ms": {
+        "median": 0.544006,
+        "min": 0.111587,
+        "max": 1.548023
+      },
+      "queue_delay.p50_ms": {
+        "median": 7e-05,
+        "min": 7e-05,
+        "max": 7e-05
+      },
+      "queue_delay.p95_ms": {
+        "median": 0.0002,
+        "min": 0.000191,
+        "max": 0.000211
+      },
+      "queue_delay.p99_ms": {
+        "median": 0.000361,
+        "min": 0.00036,
+        "max": 0.000391
+      },
+      "rejected": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "rejected_percent": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_seconds": {
+        "median": 5.0,
+        "min": 5.0,
+        "max": 5.0
+      },
+      "service_time.count": {
+        "median": 378354,
+        "min": 377022,
+        "max": 382154
+      },
+      "service_time.max_ms": {
+        "median": 8.142541,
+        "min": 7.95007,
+        "max": 8.820662
+      },
+      "service_time.p50_ms": {
+        "median": 3.33684,
+        "min": 3.336266,
+        "max": 3.350969
+      },
+      "service_time.p95_ms": {
+        "median": 3.509822,
+        "min": 3.460761,
+        "max": 3.592431
+      },
+      "service_time.p99_ms": {
+        "median": 4.616969,
+        "min": 3.615973,
+        "max": 5.184309
+      },
+      "sources_cancelled_in_cleanup": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "successful": {
+        "median": 378354,
+        "min": 377022,
+        "max": 382154
+      },
+      "successful_latency.count": {
+        "median": 378354,
+        "min": 377022,
+        "max": 382154
+      },
+      "successful_latency.max_ms": {
+        "median": 8.142611,
+        "min": 7.95012,
+        "max": 8.820742
+      },
+      "successful_latency.p50_ms": {
+        "median": 3.336945,
+        "min": 3.336366,
+        "max": 3.351064
+      },
+      "successful_latency.p95_ms": {
+        "median": 3.509902,
+        "min": 3.460901,
+        "max": 3.592551
+      },
+      "successful_latency.p99_ms": {
+        "median": 4.617069,
+        "min": 3.616134,
+        "max": 5.184369
+      },
+      "successful_per_second": {
+        "median": 75616.07070620677,
+        "min": 75346.51921081345,
+        "max": 76378.70862086717
+      },
+      "timed_out": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_percent_of_accepted": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "workers": {
+        "median": 256,
+        "min": 256,
+        "max": 256
+      }
+    }
+  },
+  {
+    "scenario": "MIXED",
+    "parameter": 10,
+    "backend": "COMPLETABLE_FUTURE",
+    "forks": 3,
+    "metrics": {
+      "accepted": {
+        "median": 205936,
+        "min": 205321,
+        "max": 210720
+      },
+      "accepted_latency.count": {
+        "median": 205936,
+        "min": 205321,
+        "max": 210720
+      },
+      "accepted_latency.max_ms": {
+        "median": 18.920536,
+        "min": 18.126328,
+        "max": 23.41269
+      },
+      "accepted_latency.p50_ms": {
+        "median": 5.928071,
+        "min": 5.831036,
+        "max": 5.945174
+      },
+      "accepted_latency.p95_ms": {
+        "median": 7.949142,
+        "min": 7.717823,
+        "max": 8.032471
+      },
+      "accepted_latency.p99_ms": {
+        "median": 10.753027,
+        "min": 9.922963,
+        "max": 11.286899
+      },
+      "allocated_bytes": {
+        "median": 343290624,
+        "min": 342555048,
+        "max": 351197720
+      },
+      "allocated_bytes_per_accepted": {
+        "median": 1666.977235646026,
+        "min": 1666.6558466211086,
+        "max": 1668.3877830324225
+      },
+      "cancelled": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "cancelled_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "completed_per_second": {
+        "median": 41168.432735943454,
+        "min": 41023.96293410852,
+        "max": 42090.70594351037
+      },
+      "cpu_cores": {
+        "median": 3.844229508195693,
+        "min": 3.8362511858186763,
+        "max": 3.84912634553647
+      },
+      "drain_ms": {
+        "median": 4.904093000000103,
+        "min": 2.279327000000194,
+        "max": 6.330858000000262
+      },
+      "elapsed_seconds_including_drain": {
+        "median": 5.004904093,
+        "min": 5.002279327,
+        "max": 5.006330858
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_count": {
+        "median": 1,
+        "min": 0,
+        "max": 1
+      },
+      "gc_millis": {
+        "median": 1,
+        "min": 0,
+        "max": 2
+      },
+      "heavy_latency.count": {
+        "median": 20593,
+        "min": 20533,
+        "max": 21073
+      },
+      "heavy_latency.max_ms": {
+        "median": 18.920536,
+        "min": 18.126328,
+        "max": 23.41269
+      },
+      "heavy_latency.p50_ms": {
+        "median": 6.440716,
+        "min": 6.342563,
+        "max": 6.471403
+      },
+      "heavy_latency.p95_ms": {
+        "median": 8.358564,
+        "min": 8.193256,
+        "max": 8.520624
+      },
+      "heavy_latency.p99_ms": {
+        "median": 11.182473,
+        "min": 10.359292,
+        "max": 11.644851
+      },
+      "light_latency.count": {
+        "median": 185343,
+        "min": 184788,
+        "max": 189647
+      },
+      "light_latency.max_ms": {
+        "median": 14.527077,
+        "min": 14.353896,
+        "max": 22.951474
+      },
+      "light_latency.p50_ms": {
+        "median": 5.889984,
+        "min": 5.795943,
+        "max": 5.903771
+      },
+      "light_latency.p95_ms": {
+        "median": 7.882759,
+        "min": 7.665144,
+        "max": 7.969812
+      },
+      "light_latency.p99_ms": {
+        "median": 10.713761,
+        "min": 9.798054,
+        "max": 11.264564
+      },
+      "offered": {
+        "median": 205936,
+        "min": 205321,
+        "max": 210720
+      },
+      "parameter": {
+        "median": 10,
+        "min": 10,
+        "max": 10
+      },
+      "pending_sources": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_timers": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "queue_delay.count": {
+        "median": 205936,
+        "min": 205321,
+        "max": 210720
+      },
+      "queue_delay.max_ms": {
+        "median": 4.667006,
+        "min": 3.295236,
+        "max": 6.023794
+      },
+      "queue_delay.p50_ms": {
+        "median": 0.547712,
+        "min": 0.540216,
+        "max": 0.548894
+      },
+      "queue_delay.p95_ms": {
+        "median": 0.756465,
+        "min": 0.725879,
+        "max": 0.772274
+      },
+      "queue_delay.p99_ms": {
+        "median": 1.042739,
+        "min": 0.991248,
+        "max": 1.091989
+      },
+      "rejected": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "rejected_percent": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_seconds": {
+        "median": 5.0,
+        "min": 5.0,
+        "max": 5.0
+      },
+      "service_time.count": {
+        "median": 205936,
+        "min": 205321,
+        "max": 210720
+      },
+      "service_time.max_ms": {
+        "median": 18.441717,
+        "min": 17.036804,
+        "max": 22.990477
+      },
+      "service_time.p50_ms": {
+        "median": 5.496328,
+        "min": 5.397119,
+        "max": 5.499991
+      },
+      "service_time.p95_ms": {
+        "median": 7.452975,
+        "min": 7.280636,
+        "max": 7.560061
+      },
+      "service_time.p99_ms": {
+        "median": 10.377121,
+        "min": 9.478369,
+        "max": 10.842812
+      },
+      "sources_cancelled_in_cleanup": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "successful": {
+        "median": 205936,
+        "min": 205321,
+        "max": 210720
+      },
+      "successful_latency.count": {
+        "median": 205936,
+        "min": 205321,
+        "max": 210720
+      },
+      "successful_latency.max_ms": {
+        "median": 18.920536,
+        "min": 18.126328,
+        "max": 23.41269
+      },
+      "successful_latency.p50_ms": {
+        "median": 5.928071,
+        "min": 5.831036,
+        "max": 5.945174
+      },
+      "successful_latency.p95_ms": {
+        "median": 7.949142,
+        "min": 7.717823,
+        "max": 8.032471
+      },
+      "successful_latency.p99_ms": {
+        "median": 10.753027,
+        "min": 9.922963,
+        "max": 11.286899
+      },
+      "successful_per_second": {
+        "median": 41168.432735943454,
+        "min": 41023.96293410852,
+        "max": 42090.70594351037
+      },
+      "timed_out": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_percent_of_accepted": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "workers": {
+        "median": 256,
+        "min": 256,
+        "max": 256
+      }
+    }
+  },
+  {
+    "scenario": "MIXED",
+    "parameter": 10,
+    "backend": "JFIBERS",
+    "forks": 3,
+    "metrics": {
+      "accepted": {
+        "median": 59136,
+        "min": 58880,
+        "max": 60160
+      },
+      "accepted_latency.count": {
+        "median": 59136,
+        "min": 58880,
+        "max": 60160
+      },
+      "accepted_latency.max_ms": {
+        "median": 27.940816,
+        "min": 27.859572,
+        "max": 29.332641
+      },
+      "accepted_latency.p50_ms": {
+        "median": 21.564242,
+        "min": 21.259074,
+        "max": 21.724083
+      },
+      "accepted_latency.p95_ms": {
+        "median": 22.82773,
+        "min": 22.267659,
+        "max": 23.030032
+      },
+      "accepted_latency.p99_ms": {
+        "median": 23.951194,
+        "min": 22.745496,
+        "max": 24.116835
+      },
+      "allocated_bytes": {
+        "median": 58527824,
+        "min": 58246232,
+        "max": 59494256
+      },
+      "allocated_bytes_per_accepted": {
+        "median": 989.2362771739131,
+        "min": 988.9337765957447,
+        "max": 989.7156385281386
+      },
+      "cancelled": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "cancelled_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "completed_per_second": {
+        "median": 11793.9958328021,
+        "min": 11738.662975537663,
+        "max": 12008.962465149223
+      },
+      "cpu_cores": {
+        "median": 1.106480630336855,
+        "min": 1.0799283067895162,
+        "max": 1.1128668957493864
+      },
+      "drain_ms": {
+        "median": 14.076724999999897,
+        "min": 9.591808999999557,
+        "max": 15.903440000000046
+      },
+      "elapsed_seconds_including_drain": {
+        "median": 5.014076725,
+        "min": 5.009591809,
+        "max": 5.01590344
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_millis": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "heavy_latency.count": {
+        "median": 5913,
+        "min": 5888,
+        "max": 6016
+      },
+      "heavy_latency.max_ms": {
+        "median": 27.940816,
+        "min": 27.834383,
+        "max": 28.018583
+      },
+      "heavy_latency.p50_ms": {
+        "median": 21.865514,
+        "min": 21.734388,
+        "max": 22.078733
+      },
+      "heavy_latency.p95_ms": {
+        "median": 23.073376,
+        "min": 22.630615,
+        "max": 23.399046
+      },
+      "heavy_latency.p99_ms": {
+        "median": 24.237293,
+        "min": 23.278447,
+        "max": 24.621015
+      },
+      "light_latency.count": {
+        "median": 53223,
+        "min": 52992,
+        "max": 54144
+      },
+      "light_latency.max_ms": {
+        "median": 27.859572,
+        "min": 27.662007,
+        "max": 29.332641
+      },
+      "light_latency.p50_ms": {
+        "median": 21.532214,
+        "min": 21.211042,
+        "max": 21.688889
+      },
+      "light_latency.p95_ms": {
+        "median": 22.777052,
+        "min": 22.153128,
+        "max": 22.973216
+      },
+      "light_latency.p99_ms": {
+        "median": 23.897824,
+        "min": 22.64109,
+        "max": 24.066477
+      },
+      "offered": {
+        "median": 59136,
+        "min": 58880,
+        "max": 60160
+      },
+      "parameter": {
+        "median": 10,
+        "min": 10,
+        "max": 10
+      },
+      "pending_sources": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_timers": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "queue_delay.count": {
+        "median": 59136,
+        "min": 58880,
+        "max": 60160
+      },
+      "queue_delay.max_ms": {
+        "median": 7.72336,
+        "min": 6.423072,
+        "max": 10.503818
+      },
+      "queue_delay.p50_ms": {
+        "median": 3.660394,
+        "min": 3.619903,
+        "max": 3.836209
+      },
+      "queue_delay.p95_ms": {
+        "median": 6.033469,
+        "min": 6.020508,
+        "max": 6.065333
+      },
+      "queue_delay.p99_ms": {
+        "median": 6.296219,
+        "min": 6.216633,
+        "max": 6.30395
+      },
+      "rejected": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "rejected_percent": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_seconds": {
+        "median": 5.0,
+        "min": 5.0,
+        "max": 5.0
+      },
+      "service_time.count": {
+        "median": 59136,
+        "min": 58880,
+        "max": 60160
+      },
+      "service_time.max_ms": {
+        "median": 24.049392,
+        "min": 22.822243,
+        "max": 25.924
+      },
+      "service_time.p50_ms": {
+        "median": 17.991387,
+        "min": 17.43896,
+        "max": 18.062296
+      },
+      "service_time.p95_ms": {
+        "median": 21.204022,
+        "min": 20.658974,
+        "max": 21.23055
+      },
+      "service_time.p99_ms": {
+        "median": 21.988899,
+        "min": 21.364884,
+        "max": 22.218664
+      },
+      "sources_cancelled_in_cleanup": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "successful": {
+        "median": 59136,
+        "min": 58880,
+        "max": 60160
+      },
+      "successful_latency.count": {
+        "median": 59136,
+        "min": 58880,
+        "max": 60160
+      },
+      "successful_latency.max_ms": {
+        "median": 27.940816,
+        "min": 27.859572,
+        "max": 29.332641
+      },
+      "successful_latency.p50_ms": {
+        "median": 21.564242,
+        "min": 21.259074,
+        "max": 21.724083
+      },
+      "successful_latency.p95_ms": {
+        "median": 22.82773,
+        "min": 22.267659,
+        "max": 23.030032
+      },
+      "successful_latency.p99_ms": {
+        "median": 23.951194,
+        "min": 22.745496,
+        "max": 24.116835
+      },
+      "successful_per_second": {
+        "median": 11793.9958328021,
+        "min": 11738.662975537663,
+        "max": 12008.962465149223
+      },
+      "timed_out": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_percent_of_accepted": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "workers": {
+        "median": 256,
+        "min": 256,
+        "max": 256
+      }
+    }
+  },
+  {
+    "scenario": "MIXED",
+    "parameter": 10,
+    "backend": "JFIBERS_4",
+    "forks": 3,
+    "metrics": {
+      "accepted": {
+        "median": 219552,
+        "min": 213812,
+        "max": 220817
+      },
+      "accepted_latency.count": {
+        "median": 219552,
+        "min": 213812,
+        "max": 220817
+      },
+      "accepted_latency.max_ms": {
+        "median": 26.939522,
+        "min": 21.637173,
+        "max": 33.637836
+      },
+      "accepted_latency.p50_ms": {
+        "median": 5.61608,
+        "min": 5.580244,
+        "max": 5.762108
+      },
+      "accepted_latency.p95_ms": {
+        "median": 8.035992,
+        "min": 7.854087,
+        "max": 8.39567
+      },
+      "accepted_latency.p99_ms": {
+        "median": 10.392637,
+        "min": 10.273891,
+        "max": 10.732868
+      },
+      "allocated_bytes": {
+        "median": 215988144,
+        "min": 210113800,
+        "max": 217059808
+      },
+      "allocated_bytes_per_accepted": {
+        "median": 982.9850419125339,
+        "min": 982.7034965296616,
+        "max": 983.7675994752951
+      },
+      "cancelled": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "cancelled_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "completed_per_second": {
+        "median": 43854.43362961838,
+        "min": 42706.143359635695,
+        "max": 44091.435167624724
+      },
+      "cpu_cores": {
+        "median": 3.9415666828591642,
+        "min": 3.8888771968463276,
+        "max": 3.9529552977433493
+      },
+      "drain_ms": {
+        "median": 6.586481000000276,
+        "min": 6.3809250000003885,
+        "max": 8.160863000000063
+      },
+      "elapsed_seconds_including_drain": {
+        "median": 5.006586481,
+        "min": 5.006380925,
+        "max": 5.008160863
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_count": {
+        "median": 1,
+        "min": 0,
+        "max": 1
+      },
+      "gc_millis": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "heavy_latency.count": {
+        "median": 21955,
+        "min": 21382,
+        "max": 22082
+      },
+      "heavy_latency.max_ms": {
+        "median": 26.939522,
+        "min": 21.637173,
+        "max": 33.637836
+      },
+      "heavy_latency.p50_ms": {
+        "median": 6.09599,
+        "min": 6.039343,
+        "max": 6.218182
+      },
+      "heavy_latency.p95_ms": {
+        "median": 8.54719,
+        "min": 8.287407,
+        "max": 8.832806
+      },
+      "heavy_latency.p99_ms": {
+        "median": 10.793911,
+        "min": 10.779266,
+        "max": 11.148583
+      },
+      "light_latency.count": {
+        "median": 197597,
+        "min": 192430,
+        "max": 198735
+      },
+      "light_latency.max_ms": {
+        "median": 26.054521,
+        "min": 18.614044,
+        "max": 33.169264
+      },
+      "light_latency.p50_ms": {
+        "median": 5.562129,
+        "min": 5.525573,
+        "max": 5.708858
+      },
+      "light_latency.p95_ms": {
+        "median": 7.957705,
+        "min": 7.782689,
+        "max": 8.341528
+      },
+      "light_latency.p99_ms": {
+        "median": 10.323734,
+        "min": 10.18681,
+        "max": 10.677284
+      },
+      "offered": {
+        "median": 219552,
+        "min": 213812,
+        "max": 220817
+      },
+      "parameter": {
+        "median": 10,
+        "min": 10,
+        "max": 10
+      },
+      "pending_sources": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_timers": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "queue_delay.count": {
+        "median": 219552,
+        "min": 213812,
+        "max": 220817
+      },
+      "queue_delay.max_ms": {
+        "median": 7.94301,
+        "min": 7.555721,
+        "max": 13.930396
+      },
+      "queue_delay.p50_ms": {
+        "median": 0.563606,
+        "min": 0.558998,
+        "max": 0.56678
+      },
+      "queue_delay.p95_ms": {
+        "median": 1.293562,
+        "min": 1.1796,
+        "max": 1.320031
+      },
+      "queue_delay.p99_ms": {
+        "median": 1.686542,
+        "min": 1.621103,
+        "max": 1.839791
+      },
+      "rejected": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "rejected_percent": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_seconds": {
+        "median": 5.0,
+        "min": 5.0,
+        "max": 5.0
+      },
+      "service_time.count": {
+        "median": 219552,
+        "min": 213812,
+        "max": 220817
+      },
+      "service_time.max_ms": {
+        "median": 26.917279,
+        "min": 17.972803,
+        "max": 32.322783
+      },
+      "service_time.p50_ms": {
+        "median": 5.00985,
+        "min": 4.980464,
+        "max": 5.149698
+      },
+      "service_time.p95_ms": {
+        "median": 7.169271,
+        "min": 7.043651,
+        "max": 7.565374
+      },
+      "service_time.p99_ms": {
+        "median": 9.480296,
+        "min": 9.461081,
+        "max": 9.894915
+      },
+      "sources_cancelled_in_cleanup": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "successful": {
+        "median": 219552,
+        "min": 213812,
+        "max": 220817
+      },
+      "successful_latency.count": {
+        "median": 219552,
+        "min": 213812,
+        "max": 220817
+      },
+      "successful_latency.max_ms": {
+        "median": 26.939522,
+        "min": 21.637173,
+        "max": 33.637836
+      },
+      "successful_latency.p50_ms": {
+        "median": 5.61608,
+        "min": 5.580244,
+        "max": 5.762108
+      },
+      "successful_latency.p95_ms": {
+        "median": 8.035992,
+        "min": 7.854087,
+        "max": 8.39567
+      },
+      "successful_latency.p99_ms": {
+        "median": 10.392637,
+        "min": 10.273891,
+        "max": 10.732868
+      },
+      "successful_per_second": {
+        "median": 43854.43362961838,
+        "min": 42706.143359635695,
+        "max": 44091.435167624724
+      },
+      "timed_out": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_percent_of_accepted": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "workers": {
+        "median": 256,
+        "min": 256,
+        "max": 256
+      }
+    }
+  },
+  {
+    "scenario": "MIXED",
+    "parameter": 10,
+    "backend": "VIRTUAL_THREADS",
+    "forks": 3,
+    "metrics": {
+      "accepted": {
+        "median": 212765,
+        "min": 211160,
+        "max": 213486
+      },
+      "accepted_latency.count": {
+        "median": 212765,
+        "min": 211160,
+        "max": 213486
+      },
+      "accepted_latency.max_ms": {
+        "median": 25.699902,
+        "min": 20.184178,
+        "max": 73.484941
+      },
+      "accepted_latency.p50_ms": {
+        "median": 5.775117,
+        "min": 5.721554,
+        "max": 5.829992
+      },
+      "accepted_latency.p95_ms": {
+        "median": 8.314203,
+        "min": 7.792058,
+        "max": 8.402133
+      },
+      "accepted_latency.p99_ms": {
+        "median": 11.635768,
+        "min": 11.058893,
+        "max": 12.365684
+      },
+      "allocated_bytes": {
+        "median": 193042440,
+        "min": 191387256,
+        "max": 193572176
+      },
+      "allocated_bytes_per_accepted": {
+        "median": 906.7207029969178,
+        "min": 906.3613184315211,
+        "max": 907.3035508659789
+      },
+      "cancelled": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "cancelled_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "completed_per_second": {
+        "median": 42504.01324065667,
+        "min": 42179.98101538102,
+        "max": 42648.287088961224
+      },
+      "cpu_cores": {
+        "median": 3.9614566434056617,
+        "min": 3.933149394737887,
+        "max": 3.973420550168783
+      },
+      "drain_ms": {
+        "median": 5.7626039999995555,
+        "min": 5.734451999999692,
+        "max": 6.166312000000289
+      },
+      "elapsed_seconds_including_drain": {
+        "median": 5.005762604,
+        "min": 5.005734452,
+        "max": 5.006166312
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_millis": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "heavy_latency.count": {
+        "median": 21276,
+        "min": 21116,
+        "max": 21349
+      },
+      "heavy_latency.max_ms": {
+        "median": 25.699902,
+        "min": 20.184178,
+        "max": 73.484941
+      },
+      "heavy_latency.p50_ms": {
+        "median": 6.282048,
+        "min": 6.218901,
+        "max": 6.331816
+      },
+      "heavy_latency.p95_ms": {
+        "median": 8.945946,
+        "min": 8.352946,
+        "max": 9.058359
+      },
+      "heavy_latency.p99_ms": {
+        "median": 12.748008,
+        "min": 11.884462,
+        "max": 13.115434
+      },
+      "light_latency.count": {
+        "median": 191489,
+        "min": 190044,
+        "max": 192137
+      },
+      "light_latency.max_ms": {
+        "median": 19.395906,
+        "min": 18.27145,
+        "max": 59.771382
+      },
+      "light_latency.p50_ms": {
+        "median": 5.722298,
+        "min": 5.668878,
+        "max": 5.778389
+      },
+      "light_latency.p95_ms": {
+        "median": 8.227828,
+        "min": 7.706564,
+        "max": 8.32106
+      },
+      "light_latency.p99_ms": {
+        "median": 11.464331,
+        "min": 10.969268,
+        "max": 12.252248
+      },
+      "offered": {
+        "median": 212765,
+        "min": 211160,
+        "max": 213486
+      },
+      "parameter": {
+        "median": 10,
+        "min": 10,
+        "max": 10
+      },
+      "pending_sources": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_timers": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "queue_delay.count": {
+        "median": 212765,
+        "min": 211160,
+        "max": 213486
+      },
+      "queue_delay.max_ms": {
+        "median": 0.963086,
+        "min": 0.070466,
+        "max": 8.088109
+      },
+      "queue_delay.p50_ms": {
+        "median": 0.000131,
+        "min": 0.000131,
+        "max": 0.00014
+      },
+      "queue_delay.p95_ms": {
+        "median": 0.00028,
+        "min": 0.00027,
+        "max": 0.000291
+      },
+      "queue_delay.p99_ms": {
+        "median": 0.001202,
+        "min": 0.000741,
+        "max": 0.001212
+      },
+      "rejected": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "rejected_percent": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_seconds": {
+        "median": 5.0,
+        "min": 5.0,
+        "max": 5.0
+      },
+      "service_time.count": {
+        "median": 212765,
+        "min": 211160,
+        "max": 213486
+      },
+      "service_time.max_ms": {
+        "median": 25.699671,
+        "min": 20.184028,
+        "max": 73.484901
+      },
+      "service_time.p50_ms": {
+        "median": 5.774958,
+        "min": 5.721379,
+        "max": 5.829854
+      },
+      "service_time.p95_ms": {
+        "median": 8.314152,
+        "min": 7.791882,
+        "max": 8.402083
+      },
+      "service_time.p99_ms": {
+        "median": 11.634201,
+        "min": 11.058863,
+        "max": 12.365534
+      },
+      "sources_cancelled_in_cleanup": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "successful": {
+        "median": 212765,
+        "min": 211160,
+        "max": 213486
+      },
+      "successful_latency.count": {
+        "median": 212765,
+        "min": 211160,
+        "max": 213486
+      },
+      "successful_latency.max_ms": {
+        "median": 25.699902,
+        "min": 20.184178,
+        "max": 73.484941
+      },
+      "successful_latency.p50_ms": {
+        "median": 5.775117,
+        "min": 5.721554,
+        "max": 5.829992
+      },
+      "successful_latency.p95_ms": {
+        "median": 8.314203,
+        "min": 7.792058,
+        "max": 8.402133
+      },
+      "successful_latency.p99_ms": {
+        "median": 11.635768,
+        "min": 11.058893,
+        "max": 12.365684
+      },
+      "successful_per_second": {
+        "median": 42504.01324065667,
+        "min": 42179.98101538102,
+        "max": 42648.287088961224
+      },
+      "timed_out": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_percent_of_accepted": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "workers": {
+        "median": 256,
+        "min": 256,
+        "max": 256
+      }
+    }
+  },
+  {
+    "scenario": "OPEN_LOOP",
+    "parameter": 2000,
+    "backend": "COMPLETABLE_FUTURE",
+    "forks": 3,
+    "metrics": {
+      "accepted": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "accepted_latency.count": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "accepted_latency.max_ms": {
+        "median": 7.42942,
+        "min": 5.229358,
+        "max": 8.63032
+      },
+      "accepted_latency.p50_ms": {
+        "median": 1.244187,
+        "min": 1.240287,
+        "max": 1.249188
+      },
+      "accepted_latency.p95_ms": {
+        "median": 1.293487,
+        "min": 1.274052,
+        "max": 1.299779
+      },
+      "accepted_latency.p99_ms": {
+        "median": 1.782316,
+        "min": 1.383687,
+        "max": 2.10133
+      },
+      "allocated_bytes": {
+        "median": 10455888,
+        "min": 10410768,
+        "max": 10466080
+      },
+      "allocated_bytes_per_accepted": {
+        "median": 1045.5888,
+        "min": 1041.0768,
+        "max": 1046.608
+      },
+      "arrival_lag.count": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "arrival_lag.max_ms": {
+        "median": 2.948037,
+        "min": 0.939398,
+        "max": 6.979166
+      },
+      "arrival_lag.p50_ms": {
+        "median": 0.068941,
+        "min": 0.068457,
+        "max": 0.069774
+      },
+      "arrival_lag.p95_ms": {
+        "median": 0.07867,
+        "min": 0.073419,
+        "max": 0.084741
+      },
+      "arrival_lag.p99_ms": {
+        "median": 0.099574,
+        "min": 0.088124,
+        "max": 0.10597
+      },
+      "cancelled": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "cancelled_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "completed_per_second": {
+        "median": 1999.6202061353881,
+        "min": 1999.6025493991892,
+        "max": 1999.687046977461
+      },
+      "cpu_cores": {
+        "median": 0.2619479339712938,
+        "min": 0.2599593161070699,
+        "max": 0.27194834803441276
+      },
+      "deadline_ms_from_intended_arrival": {
+        "median": 100,
+        "min": 100,
+        "max": 100
+      },
+      "drain_ms": {
+        "median": 0.9496650000000955,
+        "min": 0.7825050000001283,
+        "max": 0.9938240000001315
+      },
+      "elapsed_seconds_including_drain": {
+        "median": 5.000949665,
+        "min": 5.000782505,
+        "max": 5.000993824
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_millis": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "heavy_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "light_latency.count": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "light_latency.max_ms": {
+        "median": 7.42942,
+        "min": 5.229358,
+        "max": 8.63032
+      },
+      "light_latency.p50_ms": {
+        "median": 1.244187,
+        "min": 1.240287,
+        "max": 1.249188
+      },
+      "light_latency.p95_ms": {
+        "median": 1.293487,
+        "min": 1.274052,
+        "max": 1.299779
+      },
+      "light_latency.p99_ms": {
+        "median": 1.782316,
+        "min": 1.383687,
+        "max": 2.10133
+      },
+      "offered": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "offered_per_requested_second": {
+        "median": 2000.0,
+        "min": 2000.0,
+        "max": 2000.0
+      },
+      "parameter": {
+        "median": 2000,
+        "min": 2000,
+        "max": 2000
+      },
+      "pending_sources": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_timers": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "producer_elapsed_seconds": {
+        "median": 4.999577797,
+        "min": 4.999577768,
+        "max": 4.999593149
+      },
+      "queue_capacity": {
+        "median": 256,
+        "min": 256,
+        "max": 256
+      },
+      "queue_delay.count": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "queue_delay.max_ms": {
+        "median": 4.175607,
+        "min": 2.717281,
+        "max": 7.004705
+      },
+      "queue_delay.p50_ms": {
+        "median": 0.08696,
+        "min": 0.078534,
+        "max": 0.089512
+      },
+      "queue_delay.p95_ms": {
+        "median": 0.115661,
+        "min": 0.100558,
+        "max": 0.120598
+      },
+      "queue_delay.p99_ms": {
+        "median": 0.185119,
+        "min": 0.120863,
+        "max": 0.310934
+      },
+      "queue_peak": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "rejected": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "rejected_percent": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_seconds": {
+        "median": 5.0,
+        "min": 5.0,
+        "max": 5.0
+      },
+      "service_time.count": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "service_time.max_ms": {
+        "median": 5.881455,
+        "min": 3.970561,
+        "max": 7.99823
+      },
+      "service_time.p50_ms": {
+        "median": 1.157607,
+        "min": 1.157193,
+        "max": 1.158393
+      },
+      "service_time.p95_ms": {
+        "median": 1.189209,
+        "min": 1.187348,
+        "max": 1.189335
+      },
+      "service_time.p99_ms": {
+        "median": 1.360627,
+        "min": 1.228294,
+        "max": 1.415995
+      },
+      "sources_cancelled_in_cleanup": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "successful": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "successful_latency.count": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "successful_latency.max_ms": {
+        "median": 7.42942,
+        "min": 5.229358,
+        "max": 8.63032
+      },
+      "successful_latency.p50_ms": {
+        "median": 1.244187,
+        "min": 1.240287,
+        "max": 1.249188
+      },
+      "successful_latency.p95_ms": {
+        "median": 1.293487,
+        "min": 1.274052,
+        "max": 1.299779
+      },
+      "successful_latency.p99_ms": {
+        "median": 1.782316,
+        "min": 1.383687,
+        "max": 2.10133
+      },
+      "successful_per_second": {
+        "median": 1999.6202061353881,
+        "min": 1999.6025493991892,
+        "max": 1999.687046977461
+      },
+      "timed_out": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_percent_of_accepted": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "workers": {
+        "median": 64,
+        "min": 64,
+        "max": 64
+      }
+    }
+  },
+  {
+    "scenario": "OPEN_LOOP",
+    "parameter": 2000,
+    "backend": "JFIBERS",
+    "forks": 3,
+    "metrics": {
+      "accepted": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "accepted_latency.count": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "accepted_latency.max_ms": {
+        "median": 6.09654,
+        "min": 5.312602,
+        "max": 7.780992
+      },
+      "accepted_latency.p50_ms": {
+        "median": 1.240493,
+        "min": 1.230425,
+        "max": 1.245351
+      },
+      "accepted_latency.p95_ms": {
+        "median": 1.27452,
+        "min": 1.265795,
+        "max": 1.419909
+      },
+      "accepted_latency.p99_ms": {
+        "median": 1.824989,
+        "min": 1.343911,
+        "max": 2.785619
+      },
+      "allocated_bytes": {
+        "median": 6420120,
+        "min": 6416872,
+        "max": 6425312
+      },
+      "allocated_bytes_per_accepted": {
+        "median": 642.012,
+        "min": 641.6872,
+        "max": 642.5312
+      },
+      "arrival_lag.count": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "arrival_lag.max_ms": {
+        "median": 3.190915,
+        "min": 1.055256,
+        "max": 4.192491
+      },
+      "arrival_lag.p50_ms": {
+        "median": 0.068787,
+        "min": 0.067676,
+        "max": 0.068925
+      },
+      "arrival_lag.p95_ms": {
+        "median": 0.088274,
+        "min": 0.072783,
+        "max": 0.089867
+      },
+      "arrival_lag.p99_ms": {
+        "median": 0.102357,
+        "min": 0.091288,
+        "max": 0.281163
+      },
+      "cancelled": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "cancelled_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "completed_per_second": {
+        "median": 1999.6372821940356,
+        "min": 1999.534439198663,
+        "max": 1999.6542061970158
+      },
+      "cpu_cores": {
+        "median": 0.2659540094242031,
+        "min": 0.26595175853180675,
+        "max": 0.2919320281230048
+      },
+      "deadline_ms_from_intended_arrival": {
+        "median": 100,
+        "min": 100,
+        "max": 100
+      },
+      "drain_ms": {
+        "median": 0.9069589999999152,
+        "min": 0.8646339999995689,
+        "max": 1.164173000000119
+      },
+      "elapsed_seconds_including_drain": {
+        "median": 5.000906959,
+        "min": 5.000864634,
+        "max": 5.001164173
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_millis": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "heavy_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "light_latency.count": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "light_latency.max_ms": {
+        "median": 6.09654,
+        "min": 5.312602,
+        "max": 7.780992
+      },
+      "light_latency.p50_ms": {
+        "median": 1.240493,
+        "min": 1.230425,
+        "max": 1.245351
+      },
+      "light_latency.p95_ms": {
+        "median": 1.27452,
+        "min": 1.265795,
+        "max": 1.419909
+      },
+      "light_latency.p99_ms": {
+        "median": 1.824989,
+        "min": 1.343911,
+        "max": 2.785619
+      },
+      "offered": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "offered_per_requested_second": {
+        "median": 2000.0,
+        "min": 2000.0,
+        "max": 2000.0
+      },
+      "parameter": {
+        "median": 2000,
+        "min": 2000,
+        "max": 2000
+      },
+      "pending_sources": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_timers": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "producer_elapsed_seconds": {
+        "median": 4.999578042,
+        "min": 4.999575788,
+        "max": 4.999578886
+      },
+      "queue_capacity": {
+        "median": 256,
+        "min": 256,
+        "max": 256
+      },
+      "queue_delay.count": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "queue_delay.max_ms": {
+        "median": 4.940775,
+        "min": 3.389763,
+        "max": 6.284748
+      },
+      "queue_delay.p50_ms": {
+        "median": 0.085567,
+        "min": 0.08504,
+        "max": 0.085944
+      },
+      "queue_delay.p95_ms": {
+        "median": 0.113985,
+        "min": 0.09563,
+        "max": 0.125396
+      },
+      "queue_delay.p99_ms": {
+        "median": 0.170303,
+        "min": 0.124982,
+        "max": 0.85547
+      },
+      "queue_peak": {
+        "median": 1,
+        "min": 1,
+        "max": 1
+      },
+      "rejected": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "rejected_percent": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_seconds": {
+        "median": 5.0,
+        "min": 5.0,
+        "max": 5.0
+      },
+      "service_time.count": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "service_time.max_ms": {
+        "median": 5.933416,
+        "min": 4.673835,
+        "max": 7.690826
+      },
+      "service_time.p50_ms": {
+        "median": 1.154493,
+        "min": 1.143556,
+        "max": 1.157308
+      },
+      "service_time.p95_ms": {
+        "median": 1.173552,
+        "min": 1.169505,
+        "max": 1.231124
+      },
+      "service_time.p99_ms": {
+        "median": 1.337427,
+        "min": 1.211098,
+        "max": 2.029157
+      },
+      "sources_cancelled_in_cleanup": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "successful": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "successful_latency.count": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "successful_latency.max_ms": {
+        "median": 6.09654,
+        "min": 5.312602,
+        "max": 7.780992
+      },
+      "successful_latency.p50_ms": {
+        "median": 1.240493,
+        "min": 1.230425,
+        "max": 1.245351
+      },
+      "successful_latency.p95_ms": {
+        "median": 1.27452,
+        "min": 1.265795,
+        "max": 1.419909
+      },
+      "successful_latency.p99_ms": {
+        "median": 1.824989,
+        "min": 1.343911,
+        "max": 2.785619
+      },
+      "successful_per_second": {
+        "median": 1999.6372821940356,
+        "min": 1999.534439198663,
+        "max": 1999.6542061970158
+      },
+      "timed_out": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_percent_of_accepted": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "workers": {
+        "median": 64,
+        "min": 64,
+        "max": 64
+      }
+    }
+  },
+  {
+    "scenario": "OPEN_LOOP",
+    "parameter": 2000,
+    "backend": "VIRTUAL_THREADS",
+    "forks": 3,
+    "metrics": {
+      "accepted": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "accepted_latency.count": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "accepted_latency.max_ms": {
+        "median": 3.915332,
+        "min": 3.815599,
+        "max": 5.111776
+      },
+      "accepted_latency.p50_ms": {
+        "median": 1.239269,
+        "min": 1.238113,
+        "max": 1.243923
+      },
+      "accepted_latency.p95_ms": {
+        "median": 1.281453,
+        "min": 1.274743,
+        "max": 1.284534
+      },
+      "accepted_latency.p99_ms": {
+        "median": 1.367715,
+        "min": 1.359236,
+        "max": 1.411183
+      },
+      "allocated_bytes": {
+        "median": 6077816,
+        "min": 6066576,
+        "max": 6091272
+      },
+      "allocated_bytes_per_accepted": {
+        "median": 607.7816,
+        "min": 606.6576,
+        "max": 609.1272
+      },
+      "arrival_lag.count": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "arrival_lag.max_ms": {
+        "median": 2.275061,
+        "min": 1.75322,
+        "max": 2.695442
+      },
+      "arrival_lag.p50_ms": {
+        "median": 0.069025,
+        "min": 0.068992,
+        "max": 0.069854
+      },
+      "arrival_lag.p95_ms": {
+        "median": 0.081448,
+        "min": 0.076548,
+        "max": 0.08924
+      },
+      "arrival_lag.p99_ms": {
+        "median": 0.099933,
+        "min": 0.095292,
+        "max": 0.099955
+      },
+      "cancelled": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "cancelled_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "completed_per_second": {
+        "median": 1999.569818947775,
+        "min": 1999.468456506798,
+        "max": 1999.6841095012853
+      },
+      "cpu_cores": {
+        "median": 0.27795609122067866,
+        "min": 0.257944506644263,
+        "max": 0.2839245208239653
+      },
+      "deadline_ms_from_intended_arrival": {
+        "median": 100,
+        "min": 100,
+        "max": 100
+      },
+      "drain_ms": {
+        "median": 1.075684000000365,
+        "min": 0.7898510000004535,
+        "max": 1.329211999999643
+      },
+      "elapsed_seconds_including_drain": {
+        "median": 5.001075684,
+        "min": 5.000789851,
+        "max": 5.001329212
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_millis": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "heavy_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "light_latency.count": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "light_latency.max_ms": {
+        "median": 3.915332,
+        "min": 3.815599,
+        "max": 5.111776
+      },
+      "light_latency.p50_ms": {
+        "median": 1.239269,
+        "min": 1.238113,
+        "max": 1.243923
+      },
+      "light_latency.p95_ms": {
+        "median": 1.281453,
+        "min": 1.274743,
+        "max": 1.284534
+      },
+      "light_latency.p99_ms": {
+        "median": 1.367715,
+        "min": 1.359236,
+        "max": 1.411183
+      },
+      "offered": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "offered_per_requested_second": {
+        "median": 2000.0,
+        "min": 2000.0,
+        "max": 2000.0
+      },
+      "parameter": {
+        "median": 2000,
+        "min": 2000,
+        "max": 2000
+      },
+      "pending_sources": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_timers": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "producer_elapsed_seconds": {
+        "median": 4.999579685,
+        "min": 4.99957584,
+        "max": 4.999584376
+      },
+      "queue_capacity": {
+        "median": 256,
+        "min": 256,
+        "max": 256
+      },
+      "queue_delay.count": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "queue_delay.max_ms": {
+        "median": 2.574011,
+        "min": 1.797746,
+        "max": 2.804501
+      },
+      "queue_delay.p50_ms": {
+        "median": 0.086656,
+        "min": 0.085663,
+        "max": 0.087629
+      },
+      "queue_delay.p95_ms": {
+        "median": 0.110075,
+        "min": 0.109402,
+        "max": 0.111256
+      },
+      "queue_delay.p99_ms": {
+        "median": 0.13851,
+        "min": 0.128332,
+        "max": 0.142697
+      },
+      "queue_peak": {
+        "median": 0,
+        "min": 0,
+        "max": 1
+      },
+      "rejected": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "rejected_percent": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_seconds": {
+        "median": 5.0,
+        "min": 5.0,
+        "max": 5.0
+      },
+      "service_time.count": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "service_time.max_ms": {
+        "median": 3.703278,
+        "min": 3.57398,
+        "max": 3.830513
+      },
+      "service_time.p50_ms": {
+        "median": 1.1524,
+        "min": 1.151579,
+        "max": 1.155635
+      },
+      "service_time.p95_ms": {
+        "median": 1.180904,
+        "min": 1.176215,
+        "max": 1.18563
+      },
+      "service_time.p99_ms": {
+        "median": 1.233231,
+        "min": 1.232621,
+        "max": 1.243557
+      },
+      "sources_cancelled_in_cleanup": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "successful": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "successful_latency.count": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "successful_latency.max_ms": {
+        "median": 3.915332,
+        "min": 3.815599,
+        "max": 5.111776
+      },
+      "successful_latency.p50_ms": {
+        "median": 1.239269,
+        "min": 1.238113,
+        "max": 1.243923
+      },
+      "successful_latency.p95_ms": {
+        "median": 1.281453,
+        "min": 1.274743,
+        "max": 1.284534
+      },
+      "successful_latency.p99_ms": {
+        "median": 1.367715,
+        "min": 1.359236,
+        "max": 1.411183
+      },
+      "successful_per_second": {
+        "median": 1999.569818947775,
+        "min": 1999.468456506798,
+        "max": 1999.6841095012853
+      },
+      "timed_out": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_percent_of_accepted": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "workers": {
+        "median": 64,
+        "min": 64,
+        "max": 64
+      }
+    }
+  },
+  {
+    "scenario": "OPEN_LOOP",
+    "parameter": 10000,
+    "backend": "COMPLETABLE_FUTURE",
+    "forks": 3,
+    "metrics": {
+      "accepted": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "accepted_latency.count": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "accepted_latency.max_ms": {
+        "median": 13.915537,
+        "min": 13.662038,
+        "max": 21.746155
+      },
+      "accepted_latency.p50_ms": {
+        "median": 1.214991,
+        "min": 1.213673,
+        "max": 1.219199
+      },
+      "accepted_latency.p95_ms": {
+        "median": 2.102907,
+        "min": 1.433678,
+        "max": 2.301264
+      },
+      "accepted_latency.p99_ms": {
+        "median": 6.553438,
+        "min": 4.625354,
+        "max": 8.175529
+      },
+      "allocated_bytes": {
+        "median": 51268216,
+        "min": 51250992,
+        "max": 51446144
+      },
+      "allocated_bytes_per_accepted": {
+        "median": 1025.36432,
+        "min": 1025.01984,
+        "max": 1028.92288
+      },
+      "arrival_lag.count": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "arrival_lag.max_ms": {
+        "median": 7.187212,
+        "min": 4.363287,
+        "max": 19.48402
+      },
+      "arrival_lag.p50_ms": {
+        "median": 0.05942,
+        "min": 0.059183,
+        "max": 0.060957
+      },
+      "arrival_lag.p95_ms": {
+        "median": 0.109974,
+        "min": 0.101193,
+        "max": 0.129497
+      },
+      "arrival_lag.p99_ms": {
+        "median": 0.3058,
+        "min": 0.214552,
+        "max": 0.529901
+      },
+      "cancelled": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "cancelled_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "completed_per_second": {
+        "median": 9996.96989443227,
+        "min": 9996.040588315049,
+        "max": 9997.713856764602
+      },
+      "cpu_cores": {
+        "median": 1.1716448716274621,
+        "min": 1.1635391244798718,
+        "max": 1.1877284061836346
+      },
+      "deadline_ms_from_intended_arrival": {
+        "median": 100,
+        "min": 100,
+        "max": 100
+      },
+      "drain_ms": {
+        "median": 1.5155119999999442,
+        "min": 1.1433329999999842,
+        "max": 1.980489999999918
+      },
+      "elapsed_seconds_including_drain": {
+        "median": 5.001515512,
+        "min": 5.001143333,
+        "max": 5.00198049
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_millis": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "heavy_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "light_latency.count": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "light_latency.max_ms": {
+        "median": 13.915537,
+        "min": 13.662038,
+        "max": 21.746155
+      },
+      "light_latency.p50_ms": {
+        "median": 1.214991,
+        "min": 1.213673,
+        "max": 1.219199
+      },
+      "light_latency.p95_ms": {
+        "median": 2.102907,
+        "min": 1.433678,
+        "max": 2.301264
+      },
+      "light_latency.p99_ms": {
+        "median": 6.553438,
+        "min": 4.625354,
+        "max": 8.175529
+      },
+      "offered": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "offered_per_requested_second": {
+        "median": 10000.0,
+        "min": 10000.0,
+        "max": 10000.0
+      },
+      "parameter": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "pending_sources": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_timers": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "producer_elapsed_seconds": {
+        "median": 4.999965626,
+        "min": 4.99996217,
+        "max": 5.000007969
+      },
+      "queue_capacity": {
+        "median": 256,
+        "min": 256,
+        "max": 256
+      },
+      "queue_delay.count": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "queue_delay.max_ms": {
+        "median": 11.37137,
+        "min": 11.126983,
+        "max": 19.557861
+      },
+      "queue_delay.p50_ms": {
+        "median": 0.069735,
+        "min": 0.068261,
+        "max": 0.070049
+      },
+      "queue_delay.p95_ms": {
+        "median": 0.213358,
+        "min": 0.160191,
+        "max": 0.312488
+      },
+      "queue_delay.p99_ms": {
+        "median": 2.754796,
+        "min": 1.988976,
+        "max": 4.824791
+      },
+      "queue_peak": {
+        "median": 75,
+        "min": 67,
+        "max": 153
+      },
+      "rejected": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "rejected_percent": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_seconds": {
+        "median": 5.0,
+        "min": 5.0,
+        "max": 5.0
+      },
+      "service_time.count": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "service_time.max_ms": {
+        "median": 13.192869,
+        "min": 12.090665,
+        "max": 13.674922
+      },
+      "service_time.p50_ms": {
+        "median": 1.144513,
+        "min": 1.144367,
+        "max": 1.148773
+      },
+      "service_time.p95_ms": {
+        "median": 1.567181,
+        "min": 1.263186,
+        "max": 1.614092
+      },
+      "service_time.p99_ms": {
+        "median": 3.889928,
+        "min": 2.288134,
+        "max": 4.465548
+      },
+      "sources_cancelled_in_cleanup": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "successful": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "successful_latency.count": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "successful_latency.max_ms": {
+        "median": 13.915537,
+        "min": 13.662038,
+        "max": 21.746155
+      },
+      "successful_latency.p50_ms": {
+        "median": 1.214991,
+        "min": 1.213673,
+        "max": 1.219199
+      },
+      "successful_latency.p95_ms": {
+        "median": 2.102907,
+        "min": 1.433678,
+        "max": 2.301264
+      },
+      "successful_latency.p99_ms": {
+        "median": 6.553438,
+        "min": 4.625354,
+        "max": 8.175529
+      },
+      "successful_per_second": {
+        "median": 9996.96989443227,
+        "min": 9996.040588315049,
+        "max": 9997.713856764602
+      },
+      "timed_out": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_percent_of_accepted": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "workers": {
+        "median": 64,
+        "min": 64,
+        "max": 64
+      }
+    }
+  },
+  {
+    "scenario": "OPEN_LOOP",
+    "parameter": 10000,
+    "backend": "JFIBERS",
+    "forks": 3,
+    "metrics": {
+      "accepted": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "accepted_latency.count": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "accepted_latency.max_ms": {
+        "median": 9.46479,
+        "min": 4.880163,
+        "max": 11.176374
+      },
+      "accepted_latency.p50_ms": {
+        "median": 1.257341,
+        "min": 1.255551,
+        "max": 1.260925
+      },
+      "accepted_latency.p95_ms": {
+        "median": 1.495953,
+        "min": 1.410343,
+        "max": 2.074829
+      },
+      "accepted_latency.p99_ms": {
+        "median": 3.842865,
+        "min": 2.034937,
+        "max": 4.521545
+      },
+      "allocated_bytes": {
+        "median": 31319840,
+        "min": 31291000,
+        "max": 31346360
+      },
+      "allocated_bytes_per_accepted": {
+        "median": 626.3968,
+        "min": 625.82,
+        "max": 626.9272
+      },
+      "arrival_lag.count": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "arrival_lag.max_ms": {
+        "median": 4.416843,
+        "min": 2.685893,
+        "max": 5.185476
+      },
+      "arrival_lag.p50_ms": {
+        "median": 0.058377,
+        "min": 0.058194,
+        "max": 0.058498
+      },
+      "arrival_lag.p95_ms": {
+        "median": 0.073798,
+        "min": 0.069233,
+        "max": 0.078293
+      },
+      "arrival_lag.p99_ms": {
+        "median": 0.103504,
+        "min": 0.090648,
+        "max": 0.144357
+      },
+      "cancelled": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "cancelled_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "completed_per_second": {
+        "median": 9997.29846802472,
+        "min": 9996.51057403438,
+        "max": 9997.417872910235
+      },
+      "cpu_cores": {
+        "median": 0.9896545468294037,
+        "min": 0.963739572317583,
+        "max": 1.0017412708656055
+      },
+      "deadline_ms_from_intended_arrival": {
+        "median": 100,
+        "min": 100,
+        "max": 100
+      },
+      "drain_ms": {
+        "median": 1.3511310000003505,
+        "min": 1.2913969999999608,
+        "max": 1.74532199999976
+      },
+      "elapsed_seconds_including_drain": {
+        "median": 5.001351131,
+        "min": 5.001291397,
+        "max": 5.001745322
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_millis": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "heavy_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "light_latency.count": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "light_latency.max_ms": {
+        "median": 9.46479,
+        "min": 4.880163,
+        "max": 11.176374
+      },
+      "light_latency.p50_ms": {
+        "median": 1.257341,
+        "min": 1.255551,
+        "max": 1.260925
+      },
+      "light_latency.p95_ms": {
+        "median": 1.495953,
+        "min": 1.410343,
+        "max": 2.074829
+      },
+      "light_latency.p99_ms": {
+        "median": 3.842865,
+        "min": 2.034937,
+        "max": 4.521545
+      },
+      "offered": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "offered_per_requested_second": {
+        "median": 10000.0,
+        "min": 10000.0,
+        "max": 10000.0
+      },
+      "parameter": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "pending_sources": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_timers": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "producer_elapsed_seconds": {
+        "median": 4.999962001,
+        "min": 4.999956988,
+        "max": 4.999964169
+      },
+      "queue_capacity": {
+        "median": 256,
+        "min": 256,
+        "max": 256
+      },
+      "queue_delay.count": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "queue_delay.max_ms": {
+        "median": 4.695701,
+        "min": 2.711282,
+        "max": 6.067739
+      },
+      "queue_delay.p50_ms": {
+        "median": 0.104092,
+        "min": 0.099914,
+        "max": 0.105461
+      },
+      "queue_delay.p95_ms": {
+        "median": 0.246927,
+        "min": 0.200392,
+        "max": 0.316356
+      },
+      "queue_delay.p99_ms": {
+        "median": 1.269534,
+        "min": 0.502836,
+        "max": 1.833259
+      },
+      "queue_peak": {
+        "median": 9,
+        "min": 5,
+        "max": 19
+      },
+      "rejected": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "rejected_percent": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_seconds": {
+        "median": 5.0,
+        "min": 5.0,
+        "max": 5.0
+      },
+      "service_time.count": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "service_time.max_ms": {
+        "median": 9.325004,
+        "min": 4.699067,
+        "max": 9.927306
+      },
+      "service_time.p50_ms": {
+        "median": 1.143426,
+        "min": 1.143386,
+        "max": 1.146371
+      },
+      "service_time.p95_ms": {
+        "median": 1.26597,
+        "min": 1.233259,
+        "max": 1.451728
+      },
+      "service_time.p99_ms": {
+        "median": 2.680353,
+        "min": 1.590495,
+        "max": 3.391049
+      },
+      "sources_cancelled_in_cleanup": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "successful": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "successful_latency.count": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "successful_latency.max_ms": {
+        "median": 9.46479,
+        "min": 4.880163,
+        "max": 11.176374
+      },
+      "successful_latency.p50_ms": {
+        "median": 1.257341,
+        "min": 1.255551,
+        "max": 1.260925
+      },
+      "successful_latency.p95_ms": {
+        "median": 1.495953,
+        "min": 1.410343,
+        "max": 2.074829
+      },
+      "successful_latency.p99_ms": {
+        "median": 3.842865,
+        "min": 2.034937,
+        "max": 4.521545
+      },
+      "successful_per_second": {
+        "median": 9997.29846802472,
+        "min": 9996.51057403438,
+        "max": 9997.417872910235
+      },
+      "timed_out": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_percent_of_accepted": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "workers": {
+        "median": 64,
+        "min": 64,
+        "max": 64
+      }
+    }
+  },
+  {
+    "scenario": "OPEN_LOOP",
+    "parameter": 10000,
+    "backend": "VIRTUAL_THREADS",
+    "forks": 3,
+    "metrics": {
+      "accepted": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "accepted_latency.count": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "accepted_latency.max_ms": {
+        "median": 7.800365,
+        "min": 5.934293,
+        "max": 9.450904
+      },
+      "accepted_latency.p50_ms": {
+        "median": 1.205914,
+        "min": 1.204199,
+        "max": 1.207933
+      },
+      "accepted_latency.p95_ms": {
+        "median": 1.267607,
+        "min": 1.259729,
+        "max": 1.286496
+      },
+      "accepted_latency.p99_ms": {
+        "median": 1.863133,
+        "min": 1.515652,
+        "max": 3.558446
+      },
+      "allocated_bytes": {
+        "median": 29661672,
+        "min": 29584192,
+        "max": 29662944
+      },
+      "allocated_bytes_per_accepted": {
+        "median": 593.23344,
+        "min": 591.68384,
+        "max": 593.25888
+      },
+      "arrival_lag.count": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "arrival_lag.max_ms": {
+        "median": 3.765048,
+        "min": 2.006555,
+        "max": 5.123687
+      },
+      "arrival_lag.p50_ms": {
+        "median": 0.058649,
+        "min": 0.057885,
+        "max": 0.058951
+      },
+      "arrival_lag.p95_ms": {
+        "median": 0.075186,
+        "min": 0.065484,
+        "max": 0.075287
+      },
+      "arrival_lag.p99_ms": {
+        "median": 0.130583,
+        "min": 0.118623,
+        "max": 0.250808
+      },
+      "cancelled": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "cancelled_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "completed_per_second": {
+        "median": 9996.76321401757,
+        "min": 9995.530950133647,
+        "max": 9997.595206442309
+      },
+      "cpu_cores": {
+        "median": 1.1857147914840578,
+        "min": 1.1616238854688417,
+        "max": 1.197464607826011
+      },
+      "deadline_ms_from_intended_arrival": {
+        "median": 100,
+        "min": 100,
+        "max": 100
+      },
+      "drain_ms": {
+        "median": 1.618916999999783,
+        "min": 1.2026859999996304,
+        "max": 2.235523999999714
+      },
+      "elapsed_seconds_including_drain": {
+        "median": 5.001618917,
+        "min": 5.001202686,
+        "max": 5.002235524
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_millis": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "heavy_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "light_latency.count": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "light_latency.max_ms": {
+        "median": 7.800365,
+        "min": 5.934293,
+        "max": 9.450904
+      },
+      "light_latency.p50_ms": {
+        "median": 1.205914,
+        "min": 1.204199,
+        "max": 1.207933
+      },
+      "light_latency.p95_ms": {
+        "median": 1.267607,
+        "min": 1.259729,
+        "max": 1.286496
+      },
+      "light_latency.p99_ms": {
+        "median": 1.863133,
+        "min": 1.515652,
+        "max": 3.558446
+      },
+      "offered": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "offered_per_requested_second": {
+        "median": 10000.0,
+        "min": 10000.0,
+        "max": 10000.0
+      },
+      "parameter": {
+        "median": 10000,
+        "min": 10000,
+        "max": 10000
+      },
+      "pending_sources": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_timers": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "producer_elapsed_seconds": {
+        "median": 4.999964163,
+        "min": 4.99996089,
+        "max": 4.999968074
+      },
+      "queue_capacity": {
+        "median": 256,
+        "min": 256,
+        "max": 256
+      },
+      "queue_delay.count": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "queue_delay.max_ms": {
+        "median": 4.113957,
+        "min": 2.035318,
+        "max": 5.156723
+      },
+      "queue_delay.p50_ms": {
+        "median": 0.068871,
+        "min": 0.067719,
+        "max": 0.070541
+      },
+      "queue_delay.p95_ms": {
+        "median": 0.104103,
+        "min": 0.093531,
+        "max": 0.110222
+      },
+      "queue_delay.p99_ms": {
+        "median": 0.172445,
+        "min": 0.156659,
+        "max": 0.437018
+      },
+      "queue_peak": {
+        "median": 4,
+        "min": 0,
+        "max": 29
+      },
+      "rejected": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "rejected_percent": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_seconds": {
+        "median": 5.0,
+        "min": 5.0,
+        "max": 5.0
+      },
+      "service_time.count": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "service_time.max_ms": {
+        "median": 7.55635,
+        "min": 5.86357,
+        "max": 9.276774
+      },
+      "service_time.p50_ms": {
+        "median": 1.13608,
+        "min": 1.135489,
+        "max": 1.136375
+      },
+      "service_time.p95_ms": {
+        "median": 1.170347,
+        "min": 1.169315,
+        "max": 1.182555
+      },
+      "service_time.p99_ms": {
+        "median": 1.443126,
+        "min": 1.314943,
+        "max": 1.914929
+      },
+      "sources_cancelled_in_cleanup": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "successful": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "successful_latency.count": {
+        "median": 50000,
+        "min": 50000,
+        "max": 50000
+      },
+      "successful_latency.max_ms": {
+        "median": 7.800365,
+        "min": 5.934293,
+        "max": 9.450904
+      },
+      "successful_latency.p50_ms": {
+        "median": 1.205914,
+        "min": 1.204199,
+        "max": 1.207933
+      },
+      "successful_latency.p95_ms": {
+        "median": 1.267607,
+        "min": 1.259729,
+        "max": 1.286496
+      },
+      "successful_latency.p99_ms": {
+        "median": 1.863133,
+        "min": 1.515652,
+        "max": 3.558446
+      },
+      "successful_per_second": {
+        "median": 9996.76321401757,
+        "min": 9995.530950133647,
+        "max": 9997.595206442309
+      },
+      "timed_out": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_percent_of_accepted": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "workers": {
+        "median": 64,
+        "min": 64,
+        "max": 64
+      }
+    }
+  },
+  {
+    "scenario": "OPEN_LOOP",
+    "parameter": 30000,
+    "backend": "COMPLETABLE_FUTURE",
+    "forks": 3,
+    "metrics": {
+      "accepted": {
+        "median": 144474,
+        "min": 139237,
+        "max": 144672
+      },
+      "accepted_latency.count": {
+        "median": 144474,
+        "min": 139237,
+        "max": 144672
+      },
+      "accepted_latency.max_ms": {
+        "median": 21.52223,
+        "min": 19.01336,
+        "max": 23.105892
+      },
+      "accepted_latency.p50_ms": {
+        "median": 9.918408,
+        "min": 9.765289,
+        "max": 10.165743
+      },
+      "accepted_latency.p95_ms": {
+        "median": 12.086884,
+        "min": 11.911757,
+        "max": 13.800334
+      },
+      "accepted_latency.p99_ms": {
+        "median": 15.450918,
+        "min": 14.826747,
+        "max": 15.53133
+      },
+      "allocated_bytes": {
+        "median": 129235728,
+        "min": 124926448,
+        "max": 129437704
+      },
+      "allocated_bytes_per_accepted": {
+        "median": 894.6976885644768,
+        "min": 894.5258524025085,
+        "max": 897.2216293083017
+      },
+      "arrival_lag.count": {
+        "median": 150000,
+        "min": 150000,
+        "max": 150000
+      },
+      "arrival_lag.max_ms": {
+        "median": 6.141521,
+        "min": 3.632197,
+        "max": 6.144404
+      },
+      "arrival_lag.p50_ms": {
+        "median": 0.056295,
+        "min": 0.056178,
+        "max": 0.056368
+      },
+      "arrival_lag.p95_ms": {
+        "median": 0.510276,
+        "min": 0.106479,
+        "max": 0.697261
+      },
+      "arrival_lag.p99_ms": {
+        "median": 1.036423,
+        "min": 0.968004,
+        "max": 1.126768
+      },
+      "cancelled": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "cancelled_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "completed_per_second": {
+        "median": 28843.398606226143,
+        "min": 27788.007507784492,
+        "max": 28880.481982713027
+      },
+      "cpu_cores": {
+        "median": 2.1978966671482416,
+        "min": 2.1314443731417536,
+        "max": 2.222040135161323
+      },
+      "deadline_ms_from_intended_arrival": {
+        "median": 100,
+        "min": 100,
+        "max": 100
+      },
+      "drain_ms": {
+        "median": 9.334681000000273,
+        "min": 8.91042600000037,
+        "max": 10.686713000000054
+      },
+      "elapsed_seconds_including_drain": {
+        "median": 5.009334681,
+        "min": 5.008910426,
+        "max": 5.010686713
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_millis": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "heavy_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "light_latency.count": {
+        "median": 144474,
+        "min": 139237,
+        "max": 144672
+      },
+      "light_latency.max_ms": {
+        "median": 21.52223,
+        "min": 19.01336,
+        "max": 23.105892
+      },
+      "light_latency.p50_ms": {
+        "median": 9.918408,
+        "min": 9.765289,
+        "max": 10.165743
+      },
+      "light_latency.p95_ms": {
+        "median": 12.086884,
+        "min": 11.911757,
+        "max": 13.800334
+      },
+      "light_latency.p99_ms": {
+        "median": 15.450918,
+        "min": 14.826747,
+        "max": 15.53133
+      },
+      "offered": {
+        "median": 150000,
+        "min": 150000,
+        "max": 150000
+      },
+      "offered_per_requested_second": {
+        "median": 30000.0,
+        "min": 30000.0,
+        "max": 30000.0
+      },
+      "parameter": {
+        "median": 30000,
+        "min": 30000,
+        "max": 30000
+      },
+      "pending_sources": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_timers": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "producer_elapsed_seconds": {
+        "median": 5.000025201,
+        "min": 4.999990665,
+        "max": 5.000342899
+      },
+      "queue_capacity": {
+        "median": 256,
+        "min": 256,
+        "max": 256
+      },
+      "queue_delay.count": {
+        "median": 144474,
+        "min": 139237,
+        "max": 144672
+      },
+      "queue_delay.max_ms": {
+        "median": 16.61274,
+        "min": 16.267605,
+        "max": 17.824662
+      },
+      "queue_delay.p50_ms": {
+        "median": 7.785215,
+        "min": 7.625846,
+        "max": 7.980365
+      },
+      "queue_delay.p95_ms": {
+        "median": 9.597778,
+        "min": 9.483143,
+        "max": 11.066292
+      },
+      "queue_delay.p99_ms": {
+        "median": 12.419498,
+        "min": 12.029288,
+        "max": 12.708974
+      },
+      "queue_peak": {
+        "median": 256,
+        "min": 256,
+        "max": 256
+      },
+      "rejected": {
+        "median": 5526,
+        "min": 5328,
+        "max": 10763
+      },
+      "rejected_percent": {
+        "median": 3.684,
+        "min": 3.552,
+        "max": 7.175333333333334
+      },
+      "requested_seconds": {
+        "median": 5.0,
+        "min": 5.0,
+        "max": 5.0
+      },
+      "service_time.count": {
+        "median": 144474,
+        "min": 139237,
+        "max": 144672
+      },
+      "service_time.max_ms": {
+        "median": 8.143215,
+        "min": 7.044803,
+        "max": 9.80448
+      },
+      "service_time.p50_ms": {
+        "median": 2.123868,
+        "min": 2.123361,
+        "max": 2.138516
+      },
+      "service_time.p95_ms": {
+        "median": 2.423597,
+        "min": 2.407453,
+        "max": 3.109629
+      },
+      "service_time.p99_ms": {
+        "median": 3.91881,
+        "min": 3.737298,
+        "max": 4.525473
+      },
+      "sources_cancelled_in_cleanup": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "successful": {
+        "median": 144474,
+        "min": 139237,
+        "max": 144672
+      },
+      "successful_latency.count": {
+        "median": 144474,
+        "min": 139237,
+        "max": 144672
+      },
+      "successful_latency.max_ms": {
+        "median": 21.52223,
+        "min": 19.01336,
+        "max": 23.105892
+      },
+      "successful_latency.p50_ms": {
+        "median": 9.918408,
+        "min": 9.765289,
+        "max": 10.165743
+      },
+      "successful_latency.p95_ms": {
+        "median": 12.086884,
+        "min": 11.911757,
+        "max": 13.800334
+      },
+      "successful_latency.p99_ms": {
+        "median": 15.450918,
+        "min": 14.826747,
+        "max": 15.53133
+      },
+      "successful_per_second": {
+        "median": 28843.398606226143,
+        "min": 27788.007507784492,
+        "max": 28880.481982713027
+      },
+      "timed_out": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_percent_of_accepted": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "workers": {
+        "median": 64,
+        "min": 64,
+        "max": 64
+      }
+    }
+  },
+  {
+    "scenario": "OPEN_LOOP",
+    "parameter": 30000,
+    "backend": "JFIBERS",
+    "forks": 3,
+    "metrics": {
+      "accepted": {
+        "median": 74113,
+        "min": 66011,
+        "max": 74401
+      },
+      "accepted_latency.count": {
+        "median": 74113,
+        "min": 66011,
+        "max": 74401
+      },
+      "accepted_latency.max_ms": {
+        "median": 69.343741,
+        "min": 41.723124,
+        "max": 101.833841
+      },
+      "accepted_latency.p50_ms": {
+        "median": 20.476774,
+        "min": 20.471591,
+        "max": 22.941062
+      },
+      "accepted_latency.p95_ms": {
+        "median": 26.116339,
+        "min": 25.435314,
+        "max": 29.319797
+      },
+      "accepted_latency.p99_ms": {
+        "median": 37.462532,
+        "min": 27.804412,
+        "max": 55.24153
+      },
+      "allocated_bytes": {
+        "median": 44148840,
+        "min": 41220888,
+        "max": 44255616
+      },
+      "allocated_bytes_per_accepted": {
+        "median": 595.6963015935127,
+        "min": 594.8255534199809,
+        "max": 624.4548332853615
+      },
+      "arrival_lag.count": {
+        "median": 150000,
+        "min": 150000,
+        "max": 150000
+      },
+      "arrival_lag.max_ms": {
+        "median": 3.129782,
+        "min": 3.119755,
+        "max": 6.114418
+      },
+      "arrival_lag.p50_ms": {
+        "median": 0.041527,
+        "min": 0.035529,
+        "max": 0.042725
+      },
+      "arrival_lag.p95_ms": {
+        "median": 0.061712,
+        "min": 0.060394,
+        "max": 0.06316
+      },
+      "arrival_lag.p99_ms": {
+        "median": 0.148852,
+        "min": 0.068554,
+        "max": 0.246257
+      },
+      "cancelled": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "cancelled_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "completed_per_second": {
+        "median": 14754.600231935634,
+        "min": 13147.839175546755,
+        "max": 14818.831029939605
+      },
+      "cpu_cores": {
+        "median": 1.2104215105334915,
+        "min": 1.1751412815398319,
+        "max": 1.2448447458652778
+      },
+      "deadline_ms_from_intended_arrival": {
+        "median": 100,
+        "min": 100,
+        "max": 100
+      },
+      "drain_ms": {
+        "median": 20.706414000000223,
+        "min": 20.672911999999997,
+        "max": 23.043582000000242
+      },
+      "elapsed_seconds_including_drain": {
+        "median": 5.020706414,
+        "min": 5.020672912,
+        "max": 5.023043582
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_millis": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "heavy_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "light_latency.count": {
+        "median": 74113,
+        "min": 65883,
+        "max": 74401
+      },
+      "light_latency.max_ms": {
+        "median": 69.343741,
+        "min": 41.723124,
+        "max": 99.296662
+      },
+      "light_latency.p50_ms": {
+        "median": 20.476774,
+        "min": 20.471591,
+        "max": 22.91294
+      },
+      "light_latency.p95_ms": {
+        "median": 26.116339,
+        "min": 25.435314,
+        "max": 29.107587
+      },
+      "light_latency.p99_ms": {
+        "median": 37.462532,
+        "min": 27.804412,
+        "max": 54.033174
+      },
+      "offered": {
+        "median": 150000,
+        "min": 150000,
+        "max": 150000
+      },
+      "offered_per_requested_second": {
+        "median": 30000.0,
+        "min": 30000.0,
+        "max": 30000.0
+      },
+      "parameter": {
+        "median": 30000,
+        "min": 30000,
+        "max": 30000
+      },
+      "pending_sources": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_timers": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "producer_elapsed_seconds": {
+        "median": 5.000023446,
+        "min": 4.999990054,
+        "max": 5.000028759
+      },
+      "queue_capacity": {
+        "median": 256,
+        "min": 256,
+        "max": 256
+      },
+      "queue_delay.count": {
+        "median": 74113,
+        "min": 66011,
+        "max": 74401
+      },
+      "queue_delay.max_ms": {
+        "median": 64.847376,
+        "min": 38.123255,
+        "max": 100.53654
+      },
+      "queue_delay.p50_ms": {
+        "median": 18.127637,
+        "min": 18.120795,
+        "max": 19.934287
+      },
+      "queue_delay.p95_ms": {
+        "median": 23.47359,
+        "min": 22.799294,
+        "max": 26.333073
+      },
+      "queue_delay.p99_ms": {
+        "median": 33.078551,
+        "min": 25.087526,
+        "max": 50.160459
+      },
+      "queue_peak": {
+        "median": 256,
+        "min": 256,
+        "max": 256
+      },
+      "rejected": {
+        "median": 75887,
+        "min": 75599,
+        "max": 83989
+      },
+      "rejected_percent": {
+        "median": 50.59133333333333,
+        "min": 50.39933333333333,
+        "max": 55.992666666666665
+      },
+      "requested_seconds": {
+        "median": 5.0,
+        "min": 5.0,
+        "max": 5.0
+      },
+      "service_time.count": {
+        "median": 74113,
+        "min": 66011,
+        "max": 74401
+      },
+      "service_time.max_ms": {
+        "median": 16.465268,
+        "min": 15.703826,
+        "max": 79.029598
+      },
+      "service_time.p50_ms": {
+        "median": 2.684797,
+        "min": 2.681184,
+        "max": 2.819101
+      },
+      "service_time.p95_ms": {
+        "median": 4.298832,
+        "min": 4.140115,
+        "max": 4.823159
+      },
+      "service_time.p99_ms": {
+        "median": 4.97113,
+        "min": 4.9296,
+        "max": 7.182618
+      },
+      "sources_cancelled_in_cleanup": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "successful": {
+        "median": 74113,
+        "min": 65883,
+        "max": 74401
+      },
+      "successful_latency.count": {
+        "median": 74113,
+        "min": 65883,
+        "max": 74401
+      },
+      "successful_latency.max_ms": {
+        "median": 69.343741,
+        "min": 41.723124,
+        "max": 99.296662
+      },
+      "successful_latency.p50_ms": {
+        "median": 20.476774,
+        "min": 20.471591,
+        "max": 22.91294
+      },
+      "successful_latency.p95_ms": {
+        "median": 26.116339,
+        "min": 25.435314,
+        "max": 29.107587
+      },
+      "successful_latency.p99_ms": {
+        "median": 37.462532,
+        "min": 27.804412,
+        "max": 54.033174
+      },
+      "successful_per_second": {
+        "median": 14754.600231935634,
+        "min": 13122.344585031991,
+        "max": 14818.831029939605
+      },
+      "timed_out": {
+        "median": 0,
+        "min": 0,
+        "max": 128
+      },
+      "timeout_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 128
+      },
+      "timeout_latency.max_ms": {
+        "median": 101.833841,
+        "min": 101.833841,
+        "max": 101.833841
+      },
+      "timeout_latency.p50_ms": {
+        "median": 101.173349,
+        "min": 101.173349,
+        "max": 101.173349
+      },
+      "timeout_latency.p95_ms": {
+        "median": 101.818237,
+        "min": 101.818237,
+        "max": 101.818237
+      },
+      "timeout_latency.p99_ms": {
+        "median": 101.830552,
+        "min": 101.830552,
+        "max": 101.830552
+      },
+      "timeout_percent_of_accepted": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.19390707609337837
+      },
+      "workers": {
+        "median": 64,
+        "min": 64,
+        "max": 64
+      }
+    }
+  },
+  {
+    "scenario": "OPEN_LOOP",
+    "parameter": 30000,
+    "backend": "VIRTUAL_THREADS",
+    "forks": 3,
+    "metrics": {
+      "accepted": {
+        "median": 149997,
+        "min": 149836,
+        "max": 150000
+      },
+      "accepted_latency.count": {
+        "median": 149997,
+        "min": 149836,
+        "max": 150000
+      },
+      "accepted_latency.max_ms": {
+        "median": 14.754803,
+        "min": 6.271757,
+        "max": 15.151194
+      },
+      "accepted_latency.p50_ms": {
+        "median": 1.2084,
+        "min": 1.201618,
+        "max": 1.209211
+      },
+      "accepted_latency.p95_ms": {
+        "median": 1.715734,
+        "min": 1.416927,
+        "max": 1.843545
+      },
+      "accepted_latency.p99_ms": {
+        "median": 5.376225,
+        "min": 2.756004,
+        "max": 6.088215
+      },
+      "allocated_bytes": {
+        "median": 83424040,
+        "min": 83106584,
+        "max": 83584584
+      },
+      "allocated_bytes_per_accepted": {
+        "median": 556.1713900944685,
+        "min": 554.6503110067007,
+        "max": 557.23056
+      },
+      "arrival_lag.count": {
+        "median": 150000,
+        "min": 150000,
+        "max": 150000
+      },
+      "arrival_lag.max_ms": {
+        "median": 4.847638,
+        "min": 4.791633,
+        "max": 9.282685
+      },
+      "arrival_lag.p50_ms": {
+        "median": 0.044174,
+        "min": 0.042098,
+        "max": 0.044518
+      },
+      "arrival_lag.p95_ms": {
+        "median": 0.127886,
+        "min": 0.123642,
+        "max": 0.163121
+      },
+      "arrival_lag.p99_ms": {
+        "median": 0.559502,
+        "min": 0.341912,
+        "max": 0.918708
+      },
+      "cancelled": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "cancelled_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "completed_per_second": {
+        "median": 29986.2575800219,
+        "min": 29948.540106868604,
+        "max": 29992.19931682858
+      },
+      "cpu_cores": {
+        "median": 2.8722104256367085,
+        "min": 2.748740278168674,
+        "max": 2.885307280424518
+      },
+      "deadline_ms_from_intended_arrival": {
+        "median": 100,
+        "min": 100,
+        "max": 100
+      },
+      "drain_ms": {
+        "median": 2.2914529999998194,
+        "min": 1.2004260000003342,
+        "max": 3.1153260000000955
+      },
+      "elapsed_seconds_including_drain": {
+        "median": 5.002291453,
+        "min": 5.001200426,
+        "max": 5.003115326
+      },
+      "errors": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "gc_millis": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "heavy_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "light_latency.count": {
+        "median": 149997,
+        "min": 149836,
+        "max": 150000
+      },
+      "light_latency.max_ms": {
+        "median": 14.754803,
+        "min": 6.271757,
+        "max": 15.151194
+      },
+      "light_latency.p50_ms": {
+        "median": 1.2084,
+        "min": 1.201618,
+        "max": 1.209211
+      },
+      "light_latency.p95_ms": {
+        "median": 1.715734,
+        "min": 1.416927,
+        "max": 1.843545
+      },
+      "light_latency.p99_ms": {
+        "median": 5.376225,
+        "min": 2.756004,
+        "max": 6.088215
+      },
+      "offered": {
+        "median": 150000,
+        "min": 150000,
+        "max": 150000
+      },
+      "offered_per_requested_second": {
+        "median": 30000.0,
+        "min": 30000.0,
+        "max": 30000.0
+      },
+      "parameter": {
+        "median": 30000,
+        "min": 30000,
+        "max": 30000
+      },
+      "pending_sources": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_timers": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "producer_elapsed_seconds": {
+        "median": 4.999974846,
+        "min": 4.999967956,
+        "max": 5.000014042
+      },
+      "queue_capacity": {
+        "median": 256,
+        "min": 256,
+        "max": 256
+      },
+      "queue_delay.count": {
+        "median": 149997,
+        "min": 149836,
+        "max": 150000
+      },
+      "queue_delay.max_ms": {
+        "median": 8.763657,
+        "min": 4.861854,
+        "max": 11.976114
+      },
+      "queue_delay.p50_ms": {
+        "median": 0.066017,
+        "min": 0.064587,
+        "max": 0.066621
+      },
+      "queue_delay.p95_ms": {
+        "median": 0.28409,
+        "min": 0.180874,
+        "max": 0.341668
+      },
+      "queue_delay.p99_ms": {
+        "median": 3.335077,
+        "min": 1.030732,
+        "max": 4.078657
+      },
+      "queue_peak": {
+        "median": 256,
+        "min": 115,
+        "max": 256
+      },
+      "rejected": {
+        "median": 3,
+        "min": 0,
+        "max": 164
+      },
+      "rejected_percent": {
+        "median": 0.002,
+        "min": 0.0,
+        "max": 0.10933333333333334
+      },
+      "requested_seconds": {
+        "median": 5.0,
+        "min": 5.0,
+        "max": 5.0
+      },
+      "service_time.count": {
+        "median": 149997,
+        "min": 149836,
+        "max": 150000
+      },
+      "service_time.max_ms": {
+        "median": 10.706103,
+        "min": 5.567335,
+        "max": 11.898125
+      },
+      "service_time.p50_ms": {
+        "median": 1.146681,
+        "min": 1.141759,
+        "max": 1.147668
+      },
+      "service_time.p95_ms": {
+        "median": 1.321769,
+        "min": 1.260281,
+        "max": 1.344273
+      },
+      "service_time.p99_ms": {
+        "median": 2.052311,
+        "min": 1.538443,
+        "max": 2.200888
+      },
+      "sources_cancelled_in_cleanup": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "successful": {
+        "median": 149997,
+        "min": 149836,
+        "max": 150000
+      },
+      "successful_latency.count": {
+        "median": 149997,
+        "min": 149836,
+        "max": 150000
+      },
+      "successful_latency.max_ms": {
+        "median": 14.754803,
+        "min": 6.271757,
+        "max": 15.151194
+      },
+      "successful_latency.p50_ms": {
+        "median": 1.2084,
+        "min": 1.201618,
+        "max": 1.209211
+      },
+      "successful_latency.p95_ms": {
+        "median": 1.715734,
+        "min": 1.416927,
+        "max": 1.843545
+      },
+      "successful_latency.p99_ms": {
+        "median": 5.376225,
+        "min": 2.756004,
+        "max": 6.088215
+      },
+      "successful_per_second": {
+        "median": 29986.2575800219,
+        "min": 29948.540106868604,
+        "max": 29992.19931682858
+      },
+      "timed_out": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_latency.count": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "timeout_percent_of_accepted": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "workers": {
+        "median": 64,
+        "min": 64,
+        "max": 64
+      }
+    }
+  }
+]

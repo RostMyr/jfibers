@@ -7,6 +7,8 @@ For the bounded HTTP workload, latency percentiles and separate JFR profiling,
 see [HTTP.md](HTTP.md). The task microbenchmarks below measure different work.
 The [four-use-case probes](SCENARIOS.md) cover mass waiting, fan-out cleanup,
 fixed-rate overload, and mixed waiting/computation with per-class latency.
+Their [recorded results](SCENARIO_RESULTS.md) include a comparison with four
+independent fiber managers under mixed waiting and computation.
 
 ## Run
 

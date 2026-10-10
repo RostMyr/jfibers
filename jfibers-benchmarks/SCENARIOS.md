@@ -1,5 +1,8 @@
 # Four asynchronous use cases
 
+See the [recorded results](SCENARIO_RESULTS.md) for all four scenarios, including
+per-JVM ranges and the four-manager control.
+
 These probes compare the same `CompletableFuture` sources without HTTP API or
 network differences. They exercise the build-time transformed public fiber API,
 ordinary virtual-thread `get()`, and explicit CompletableFuture continuations.
@@ -77,7 +80,10 @@ claimed. Every accepted operation is drained before the process exits.
 
 The output includes offered/successful rates, rejection and timeout counts,
 queue delay, successful and timed-out latency distributions, and arrival-generator
-lag. Successful latency alone is censored by the deadline and cannot describe
+lag. The `queue_delay` field is intended-arrival-to-worker-start time, including
+generator lag and dispatch as well as time in the FIFO; `service_time` starts
+when the worker takes the job. Successful latency alone is censored by the
+deadline and cannot describe
 all traffic. High generator lag means that run did not sustain evenly paced
 arrivals; its intended-arrival latency still includes the lag. This is an
 in-process deterministic arrival generator, not an isolated external load machine.
