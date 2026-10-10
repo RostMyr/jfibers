@@ -38,7 +38,7 @@ public final class HttpLoadProbe {
     private static final OperatingSystemMXBean OS = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
     enum Backend {
-        JFIBERS, VIRTUAL_THREADS, COMPLETABLE_FUTURE
+        JFIBERS, VIRTUAL_THREADS, VIRTUAL_THREADS_ASYNC, COMPLETABLE_FUTURE
     }
 
     private HttpLoadProbe() {
@@ -108,10 +108,11 @@ public final class HttpLoadProbe {
             final ScheduledFuture<?> sampling = sampler.scheduleAtFixedRate(heap::sample, 0, 100, TimeUnit.MILLISECONDS);
             switch (backend) {
                 case JFIBERS -> runFibers(api, phase, workers);
-                case VIRTUAL_THREADS -> {
+                case VIRTUAL_THREADS, VIRTUAL_THREADS_ASYNC -> {
                     List<Future<?>> tasks = new ArrayList<>(concurrency);
                     for (WorkerStats stats : workers) {
-                        tasks.add(virtualExecutor.submit(() -> runVirtual(api, phase, stats)));
+                        tasks.add(virtualExecutor.submit(() -> runVirtual(api, phase, stats,
+                            backend == Backend.VIRTUAL_THREADS_ASYNC)));
                     }
                     for (Future<?> task : tasks) {
                         task.get();
@@ -139,6 +140,7 @@ public final class HttpLoadProbe {
             throw new IllegalStateException("No successful operations: " + HttpSupport.json(result));
         }
         result.put("backend", backend.name());
+        result.put("fiber_runtime_source", FiberManager.class.getProtectionDomain().getCodeSource().getLocation().toString());
         result.put("concurrency", concurrency);
         result.put("requested_seconds", durationMillis / 1000.0);
         result.put("elapsed_seconds_including_drain", elapsed / 1e9);
@@ -175,12 +177,14 @@ public final class HttpLoadProbe {
         }
     }
 
-    private static void runVirtual(HttpSupport.Api api, Phase phase, WorkerStats stats) {
+    private static void runVirtual(HttpSupport.Api api, Phase phase, WorkerStats stats, boolean async) {
         while (phase.admit()) {
             long started = System.nanoTime();
             try {
-                int token = HttpSupport.validate(api.client.send(api.first, HttpSupport.BODY));
-                HttpSupport.validate(api.client.send(api.second(token), HttpSupport.BODY));
+                int token = HttpSupport.validate(async ? api.firstAsync().get()
+                    : api.client.send(api.first, HttpSupport.BODY));
+                HttpSupport.validate(async ? api.secondAsync(token).get()
+                    : api.client.send(api.second(token), HttpSupport.BODY));
                 stats.record(started, null, phase);
             } catch (Exception failure) {
                 stats.record(started, failure, phase);

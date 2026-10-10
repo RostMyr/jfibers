@@ -21,7 +21,7 @@ def main():
     for row in json.loads((args.directory / "http.json").read_text()):
         if row["profiled"]:
             raise ValueError("Profiled runs must be kept out of the performance dataset")
-        groups[row["delay_ms"], row["concurrency"], row["backend"]].append(row)
+        groups[row["delay_ms"], row["concurrency"], row["backend"], row.get("variant", "bundled")].append(row)
 
     def metric(rows, field, scale=1):
         values = [row[field] * scale for row in rows]
@@ -29,14 +29,14 @@ def main():
 
     print("Medians [min, max] across fresh JVMs. Operation = two sequential HTTP requests.")
     print("p95/p99: median of each run's histogram upper bound, not pooled percentiles.\n")
-    print("| Delay ms | Clients | Backend | Runs | Ops/s | p95 ms | p99 ms | Client CPU cores | Server CPU cores | Sampled mean heap MiB | Errors |")
+    print("| Delay ms | Clients | Backend / runtime | Runs | Ops/s | p95 ms | p99 ms | Client CPU cores | Server CPU cores | Sampled mean heap MiB | Errors |")
     print("| ---: | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |")
-    for (delay, concurrency, backend), rows in sorted(groups.items()):
+    for (delay, concurrency, backend, variant), rows in sorted(groups.items()):
         values = [metric(rows, field, scale) for field, scale in (
             ("successful_operations_per_second", 1), ("latency_p95_upper_ms", 1),
             ("latency_p99_upper_ms", 1), ("client_cpu_cores", 1), ("server_cpu_cores", 1),
             ("heap_mean_sampled_bytes", 1 / 1024 ** 2))]
-        print(f"| {delay} | {concurrency} | {backend} | {len(rows)} | " + " | ".join(values)
+        print(f"| {delay} | {concurrency} | {backend} / {variant} | {len(rows)} | " + " | ".join(values)
               + f" | {sum(row['errors'] + row['server_errors'] for row in rows)} |")
 
 

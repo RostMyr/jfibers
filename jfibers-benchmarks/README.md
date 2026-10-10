@@ -210,3 +210,31 @@ CompletableFuture remains cheapest for this small inline-continuation workload.
 Virtual threads use more parked heap here but support ordinary blocking Java
 stacks. This comparison does not establish application throughput or tail latency,
 and source cancellation remains distinct from the new task-cancellation API.
+# Scheduler notification comparisons
+
+`NotificationBenchmarks` measures a batch of 256 transformed fibers awaiting
+CompletableFutures. A sentinel runs after all fibers suspend, then completes the
+inputs either on the scheduler owner (`OWNER`) or on one reused executor thread
+(`EXTERNAL`). There is no fixed timer delay masking notification overhead. Every
+result is checked; task creation, completion callbacks, queues and resume costs
+are included. These are microbenchmarks, not HTTP throughput estimates.
+
+After building the benchmark module, compare compatible runtime JARs while
+keeping the benchmark artifact fixed:
+
+```sh
+python3 jfibers-benchmarks/scheduler_run.py \
+  --variant before=/path/before-core.jar --variant after=/path/after-core.jar \
+  --output jfibers-benchmarks/target/scheduler-comparison
+```
+
+The default runs ready futures and both notification producers, rotating the
+runtime order across three fresh JVMs. Each JVM has three 1-second warmup and
+five 1-second measurement iterations, with JMH's GC profiler. Scores are
+microseconds **per fiber**; multiply by 256 for a batch. Raw fork/iteration data,
+commands, hashes and environment are retained. `--quick` is only a smoke test.
+
+`--diagnostics off on recording` separately compares disabled hooks, enabled
+hooks without a recording, and enabled hooks with JFR's `profile` recording.
+These costs depend on workload, event thresholds and sampling frequency; do not
+combine them into ordinary throughput results. See [PROFILING.md](../PROFILING.md).

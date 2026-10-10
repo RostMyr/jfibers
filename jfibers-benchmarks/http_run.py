@@ -6,22 +6,71 @@ from collections import Counter
 from datetime import datetime, timezone
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import platform
+import re
 import selectors
 import shutil
 import subprocess
 import sys
 import time
 
-from run import BACKENDS, JVM_FLAGS, MODULE, REPOSITORY, capture, read_optional
+from run import JVM_FLAGS, MODULE, REPOSITORY, capture, read_optional
 
 
 PACKAGE = "com.github.rostmyr.jfibers.benchmarks."
 CLIENT_FLAGS = JVM_FLAGS + ["-Djava.util.concurrent.ForkJoinPool.common.parallelism=4"]
 SERVER_FLAGS = [flag.replace("512m", "256m") for flag in CLIENT_FLAGS] + ["-Dsun.net.httpserver.nodelay=true"]
 SCENARIOS = [(32, 0), (256, 0), (32, 5), (256, 5)]
+BACKENDS = ["JFIBERS", "VIRTUAL_THREADS", "VIRTUAL_THREADS_ASYNC", "COMPLETABLE_FUTURE"]
+
+
+def parse_variants(specifications):
+    variants = []
+    for specification in specifications or []:
+        label, separator, filename = specification.partition("=")
+        path = Path(filename).resolve()
+        if not separator or not re.fullmatch(r"[a-zA-Z0-9_-]+", label) or not path.is_file():
+            raise ValueError("Variant must be LABEL=/path/to/core.jar with a simple, unique label")
+        if any(previous == label for previous, _ in variants):
+            raise ValueError(f"Duplicate variant label: {label}")
+        variants.append((label, path))
+    return variants or [("bundled", None)]
+
+
+def duration_nanos(value):
+    if isinstance(value, (int, float)):
+        return value
+    match = re.fullmatch(r"PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?", value)
+    if not match:
+        raise ValueError(f"Unsupported JFR duration: {value}")
+    hours, minutes, seconds = (float(part or 0) for part in match.groups())
+    return (hours * 3600 + minutes * 60 + seconds) * 1e9
+
+
+def fiber_profile(events):
+    snapshots = []
+    waits = {}
+    for event in events:
+        values = event["values"]
+        if event["type"] == "com.github.rostmyr.jfibers.Scheduler":
+            snapshots.append({key: duration_nanos(value) if key.endswith("Nanos") else value
+                              for key, value in values.items()
+                              if key not in {"startTime", "duration", "eventThread", "stackTrace"}})
+        elif event["type"] == "com.github.rostmyr.jfibers.Await":
+            group = waits.setdefault(values["waitKind"] + "/" + values["outcome"], [])
+            group.append(values)
+    summary = {}
+    for kind, rows in waits.items():
+        summary[kind] = {"samples": len(rows), "latency_us": {}}
+        for field in ("observedWaitNanos", "signalToRunnableNanos", "runnableToExecutionNanos", "readyToExecutionNanos"):
+            values = sorted(duration_nanos(row[field]) / 1000 for row in rows)
+            summary[kind]["latency_us"][field] = {
+                name: values[min(len(values) - 1, max(0, math.ceil(len(values) * quantile) - 1))]
+                for name, quantile in (("p50", .5), ("p95", .95), ("p99", .99), ("max", 1))}
+    return {"cumulative_scheduler_snapshots": snapshots, "sampled_waits_by_kind_and_outcome": summary}
 
 
 def write_json(path, value):
@@ -75,7 +124,8 @@ def profile_summary(java, recording):
     jfr = str(Path(java).with_name("jfr"))
     command = [jfr, "print", "--json", "--stack-depth", "64", "--events",
                "jdk.ExecutionSample,jdk.NativeMethodSample,jdk.ObjectAllocationSample,"
-               "jdk.ThreadPark,jdk.JavaMonitorEnter,jdk.GarbageCollection",
+               "jdk.ThreadPark,jdk.JavaMonitorEnter,jdk.GarbageCollection,"
+               "com.github.rostmyr.jfibers.Scheduler,com.github.rostmyr.jfibers.Await",
                str(recording)]
     raw = json.loads(subprocess.check_output(command, text=True, timeout=60))
     events = raw["recording"]["events"]
@@ -115,6 +165,7 @@ def profile_summary(java, recording):
         "recording_sha256": hashlib.sha256(recording.read_bytes()).hexdigest(),
         "extraction_command": command,
         "event_counts": dict(counts),
+        "fiber_diagnostics": fiber_profile(events),
         "sample_types": {kind: {
             "samples_with_stack": sum(stacks[kind].values()),
             "inclusive_categories_samples_overlap": dict(inclusive[kind]),
@@ -133,6 +184,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--quick", action="store_true", help="Short correctness smoke; not performance evidence")
     parser.add_argument("--profiles", action="store_true", help="Also run one separate profiled JVM per backend")
+    parser.add_argument("--profiles-only", action="store_true", help="Collect profiles without ordinary measurements")
+    parser.add_argument("--standard-jfr", action="store_true", help="Leave fiber events disabled in profile runs")
+    parser.add_argument("--backends", nargs="+", choices=BACKENDS, default=BACKENDS)
+    parser.add_argument("--scenarios", nargs="+", help="CONCURRENCY:DELAY_MS pairs")
+    parser.add_argument("--forks", type=int, help="Fresh JVM repetitions (default: 3; quick: 1)")
+    parser.add_argument("--variant", action="append", help="JFIBERS core override LABEL=/path/core.jar; repeat for A/B")
     parser.add_argument("--output", type=Path, help="New output directory; never overwrites previous results")
     args = parser.parse_args()
     jar = MODULE / "target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
@@ -145,8 +202,14 @@ def main():
     output.mkdir(parents=True, exist_ok=False)
     cpuinfo = read_optional("/proc/cpuinfo") or ""
     warmup_ms, measure_ms = (1000, 1000) if args.quick else (15000, 10000)
-    forks = 1 if args.quick else 3
-    scenarios = [(8, 0), (8, 5)] if args.quick else SCENARIOS
+    forks = args.forks if args.forks is not None else (1 if args.quick else 3)
+    if forks < 1:
+        parser.error("--forks must be positive")
+    scenarios = [tuple(map(int, value.split(":"))) for value in args.scenarios] if args.scenarios else (
+        [(8, 0), (8, 5)] if args.quick else SCENARIOS)
+    if any(len(pair) != 2 or not 1 <= pair[0] <= 4096 or not 0 <= pair[1] <= 1000 for pair in scenarios):
+        parser.error("Scenarios require concurrency 1..4096 and delay 0..1000 ms")
+    variants = parse_variants(args.variant)
     metadata = {
         "started_utc": datetime.now(timezone.utc).isoformat(),
         "quick_smoke_only": args.quick,
@@ -165,6 +228,11 @@ def main():
         "warmup_ms": warmup_ms,
         "measurement_ms": measure_ms,
         "forks": forks,
+        "backends": args.backends,
+        "fiber_events_in_profiles": not args.standard_jfr,
+        "variants": {label: {"core_jar": str(path) if path else None,
+                             "sha256": hashlib.sha256((path or jar).read_bytes()).hexdigest()}
+                     for label, path in variants},
         "scenarios_concurrency_delay_ms": scenarios,
         "workload": "closed-loop, two sequential HTTP/1.1 GETs, 1024-byte checked bodies, reused connections",
         "jar_sha256": hashlib.sha256(jar.read_bytes()).hexdigest(),
@@ -182,8 +250,9 @@ def main():
         write_json(output / "http.json", records)
         write_json(output / "profiles.json", profiles)
 
-    def run_pair(backend, concurrency, delay, fork, profiled=False):
-        label = f"{'profile' if profiled else 'measure'}-{fork}-{concurrency}-{delay}-{backend.lower()}"
+    def run_pair(backend, concurrency, delay, fork, variant, profiled=False):
+        variant_name, core = variant
+        label = f"{'profile' if profiled else 'measure'}-{fork}-{concurrency}-{delay}-{backend.lower()}-{variant_name}"
         print(label, flush=True)
         server = None
         client = None
@@ -200,7 +269,9 @@ def main():
                 ready = read_record(server, "server startup", 15)
                 if not ready.get("ready"):
                     raise RuntimeError(f"Unexpected server startup: {ready}")
-                client_command = [java, *CLIENT_FLAGS, "-Xverify:all", "-cp", str(jar), PACKAGE + "HttpLoadProbe",
+                classpath = os.pathsep.join(str(path) for path in (core, jar) if path)
+                flags = ["-Djfibers.jfr=true"] if profiled and not args.standard_jfr and backend == "JFIBERS" else []
+                client_command = [java, *CLIENT_FLAGS, *flags, "-Xverify:all", "-cp", classpath, PACKAGE + "HttpLoadProbe",
                                   backend, f"http://127.0.0.1:{ready['port']}", str(concurrency),
                                   str(warmup_ms), str(measure_ms)]
                 if profiled:
@@ -227,7 +298,8 @@ def main():
                 actual_bytes = server_after["body_bytes"] - server_before["body_bytes"]
                 server_failures = server_after["failures"] - server_before["failures"]
                 record = {
-                    "fork": fork, "delay_ms": delay, "profiled": profiled, "warmup": ready["warmup"],
+                    "fork": fork, "delay_ms": delay, "profiled": profiled, "variant": variant_name,
+                    "warmup": ready["warmup"],
                     **result,
                     "server_before": server_before, "server_after": server_after,
                     "server_http_requests": actual_requests, "server_body_bytes": actual_bytes,
@@ -261,16 +333,23 @@ def main():
 
     save()
     try:
-        for fork in range(forks):
+        for fork in range(0 if args.profiles_only else forks):
             # Rotate both scenarios and backends between fresh JVM repetitions.
-            ordered_scenarios = scenarios[fork:] + scenarios[:fork]
-            backends = BACKENDS[fork:] + BACKENDS[:fork]
+            offset = fork % len(scenarios)
+            ordered_scenarios = scenarios[offset:] + scenarios[:offset]
+            offset = fork % len(args.backends)
+            backends = args.backends[offset:] + args.backends[:offset]
             for concurrency, delay in ordered_scenarios:
                 for backend in backends:
-                    run_pair(backend, concurrency, delay, fork + 1)
-        if args.profiles:
-            for backend in BACKENDS:
-                run_pair(backend, 8 if args.quick else 256, 5, 1, profiled=True)
+                    choices = variants if backend == "JFIBERS" else [("bundled", None)]
+                    offset = fork % len(choices)
+                    for variant in choices[offset:] + choices[:offset]:
+                        run_pair(backend, concurrency, delay, fork + 1, variant)
+        if args.profiles or args.profiles_only:
+            for concurrency, delay in (scenarios if args.scenarios else [(8 if args.quick else 256, 5)]):
+                for backend in args.backends:
+                    for variant in variants if backend == "JFIBERS" else [("bundled", None)]:
+                        run_pair(backend, concurrency, delay, 1, variant, profiled=True)
         metadata["finished_utc"] = datetime.now(timezone.utc).isoformat()
     finally:
         metadata["cpu_stat_after"] = read_optional("/sys/fs/cgroup/cpu.stat")

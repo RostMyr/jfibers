@@ -18,6 +18,7 @@ public class FiberManager implements AutoCloseable {
     private volatile boolean closing;
     private volatile boolean cancelAllRequested;
     private volatile Thread runner;
+    private volatile FiberProfiler profiler;
     private Fiber<?> current;
     private Fiber<?> last;
     private Fiber<?> active;
@@ -89,6 +90,9 @@ public class FiberManager implements AutoCloseable {
             last.next = fiber;
         }
         last = fiber;
+        if (FiberProfiler.ENABLED && profiler != null) {
+            profiler.enqueue();
+        }
     }
 
     /** Includes ready and waiting fibers; safe to read from another thread. */
@@ -106,6 +110,9 @@ public class FiberManager implements AutoCloseable {
         }
         boolean restoreInterrupt = false;
         try {
+            if (FiberProfiler.ENABLED && size.get() != 0) {
+                profiler = new FiberProfiler(current);
+            }
             while ((!interrupted || closing) && size.get() != 0) {
                 if (Thread.currentThread().isInterrupted()) {
                     if (closing) {
@@ -127,16 +134,24 @@ public class FiberManager implements AutoCloseable {
                 }
             }
         } finally {
-            if (size.get() == 0) {
-                cancellations.clear();
-                signals.clear();
-            }
-            if (restoreInterrupt) {
-                Thread.currentThread().interrupt();
-            }
-            synchronized (this) {
-                runner = null;
-                notifyAll();
+            try {
+                if (FiberProfiler.ENABLED && profiler != null) {
+                    FiberProfiler completedProfile = profiler;
+                    profiler = null;
+                    completedProfile.finish(size.get());
+                }
+            } finally {
+                if (size.get() == 0) {
+                    cancellations.clear();
+                    signals.clear();
+                }
+                if (restoreInterrupt) {
+                    Thread.currentThread().interrupt();
+                }
+                synchronized (this) {
+                    runner = null;
+                    notifyAll();
+                }
             }
         }
     }
@@ -150,11 +165,26 @@ public class FiberManager implements AutoCloseable {
             }
             fiber.next = null;
             fiber.queued = false;
+            if (FiberProfiler.ENABLED && profiler != null) {
+                profiler.dequeue();
+            }
         }
         return fiber;
     }
 
     private void execute(Fiber<?> fiber) {
+        FiberProfiler trace = FiberProfiler.ENABLED ? profiler : null;
+        long started = trace == null ? 0 : trace.beforeExecute(fiber);
+        try {
+            executeFiber(fiber);
+        } finally {
+            if (trace != null) {
+                trace.afterExecute(started, size.get());
+            }
+        }
+    }
+
+    private void executeFiber(Fiber<?> fiber) {
         fiber.status(FiberStatus.RUNNING);
         if (fiber.finishing) {
             finish(fiber);
@@ -193,10 +223,18 @@ public class FiberManager implements AutoCloseable {
         if (!deadlines.isEmpty()) {
             delay = Math.min(delay, Math.max(1, deadlines.peek().deadlineNanos - now));
         }
-        if (delay == Long.MAX_VALUE) {
-            LockSupport.park(this);
-        } else {
-            LockSupport.parkNanos(this, delay);
+        FiberProfiler trace = FiberProfiler.ENABLED ? profiler : null;
+        long started = trace == null ? 0 : trace.beforePark();
+        try {
+            if (delay == Long.MAX_VALUE) {
+                LockSupport.park(this);
+            } else {
+                LockSupport.parkNanos(this, delay);
+            }
+        } finally {
+            if (trace != null) {
+                trace.afterPark(started, size.get());
+            }
         }
     }
 
@@ -210,6 +248,9 @@ public class FiberManager implements AutoCloseable {
             }
             fiber.current.dependents.add(wait);
             fiber.status(FiberStatus.WAITING);
+            if (FiberProfiler.ENABLED && profiler != null) {
+                profiler.waiting(wait, "child");
+            }
             return true;
         }
         if (fiber.future != null && !fiber.future.isDone()) {
@@ -217,8 +258,14 @@ public class FiberManager implements AutoCloseable {
             fiber.wait = wait;
             fiber.status(FiberStatus.WAITING);
             if (fiber.future instanceof CompletionStage<?> stage) {
+                if (FiberProfiler.ENABLED && profiler != null) {
+                    profiler.waiting(wait, "completionStage");
+                }
                 stage.whenComplete(wait);
             } else {
+                if (FiberProfiler.ENABLED && profiler != null) {
+                    profiler.waiting(wait, "poll");
+                }
                 polled.add(wait);
             }
             return true;
@@ -234,10 +281,19 @@ public class FiberManager implements AutoCloseable {
     }
 
     private void resume(FiberWait wait) {
+        resume(wait, false);
+    }
+
+    private void resume(FiberWait wait, boolean cancelled) {
         Fiber<?> fiber = wait.fiber;
         if (fiber != null && fiber.wait == wait) {
+            if (FiberProfiler.ENABLED && profiler != null) {
+                profiler.resumed(wait, fiber, cancelled);
+            }
             detachWait(fiber);
             enqueue(fiber);
+        } else if (FiberProfiler.ENABLED && profiler != null) {
+            profiler.staleSignal();
         }
     }
 
@@ -245,6 +301,9 @@ public class FiberManager implements AutoCloseable {
         FiberWait wait = fiber.wait;
         if (wait == null) {
             return;
+        }
+        if (FiberProfiler.ENABLED && profiler != null) {
+            profiler.detached(wait);
         }
         polled.remove(wait);
         if (wait.child != null && wait.child.dependents != null) {
@@ -286,7 +345,7 @@ public class FiberManager implements AutoCloseable {
 
     void cancelRequested(Fiber<?> fiber) {
         cancellations.add(fiber);
-        LockSupport.unpark(runner);
+        wakeup();
     }
 
     private void drainCancellations() {
@@ -303,7 +362,7 @@ public class FiberManager implements AutoCloseable {
             }
             cancelChildren(fiber);
             if (fiber.wait != null) {
-                resume(fiber.wait);
+                resume(fiber.wait, true);
             }
         }
     }
@@ -390,14 +449,31 @@ public class FiberManager implements AutoCloseable {
     }
 
     void signal(FiberWait wait) {
+        if (FiberProfiler.ENABLED) {
+            FiberProfiler trace = profiler;
+            if (trace != null) {
+                trace.signal(wait);
+            }
+        }
         signals.add(wait);
+        wakeup();
+    }
+
+    private void wakeup() {
+        if (FiberProfiler.ENABLED) {
+            FiberProfiler trace = profiler;
+            if (trace != null) {
+                trace.wakeRequested();
+                trace.unparked();
+            }
+        }
         LockSupport.unpark(runner);
     }
 
     /** Request cancellation of all currently scheduled work at the next scheduler turn. */
     public void cancelAll() {
         cancelAllRequested = true;
-        LockSupport.unpark(runner);
+        wakeup();
     }
 
     /** Reject new root tasks and request cancellation; run()/close() drains cooperative cleanup. */
@@ -429,6 +505,6 @@ public class FiberManager implements AutoCloseable {
     /** Stop is permanent, preserves unfinished fibers, and wakes an idle run(). close() can still clean them up. */
     public void stop() {
         interrupted = true;
-        LockSupport.unpark(runner);
+        wakeup();
     }
 }
