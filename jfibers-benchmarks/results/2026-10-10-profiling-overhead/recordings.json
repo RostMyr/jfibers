@@ -1,0 +1,71 @@
+[
+  {
+    "file": "1-owner-final-recording.jfr",
+    "sha256": "b884bb75a180326f222f1b5aba4cd77186e20aab976f1779f911947deade545d",
+    "command": [
+      "/workspace/.jfibers-tools/jdk-27+35/bin/jfr",
+      "summary",
+      "/workspace/jfibers/jfibers-benchmarks/results/2026-10-10-profiling-overhead/1-owner-final-recording.jfr"
+    ],
+    "fiber_event_counts": {
+      "com.github.rostmyr.jfibers.Scheduler": 134278,
+      "com.github.rostmyr.jfibers.Await": 14
+    }
+  },
+  {
+    "file": "1-owner-final-standard.jfr",
+    "sha256": "05943232d1e125b7552ed5a2bf0d407b3605d3365da7602f39bc751fcca9fa25",
+    "command": [
+      "/workspace/.jfibers-tools/jdk-27+35/bin/jfr",
+      "summary",
+      "/workspace/jfibers/jfibers-benchmarks/results/2026-10-10-profiling-overhead/1-owner-final-standard.jfr"
+    ],
+    "fiber_event_counts": {}
+  },
+  {
+    "file": "2-owner-final-recording.jfr",
+    "sha256": "f3ae94d05c257cfc38d5083a8ad1f610604edf5daecd48d4c7a996a7b46644ce",
+    "command": [
+      "/workspace/.jfibers-tools/jdk-27+35/bin/jfr",
+      "summary",
+      "/workspace/jfibers/jfibers-benchmarks/results/2026-10-10-profiling-overhead/2-owner-final-recording.jfr"
+    ],
+    "fiber_event_counts": {
+      "com.github.rostmyr.jfibers.Scheduler": 132877,
+      "com.github.rostmyr.jfibers.Await": 31
+    }
+  },
+  {
+    "file": "2-owner-final-standard.jfr",
+    "sha256": "e7995b26507dce1a143f4495961ceb5ff3d443f5c8377e85b28a4c03546ce60a",
+    "command": [
+      "/workspace/.jfibers-tools/jdk-27+35/bin/jfr",
+      "summary",
+      "/workspace/jfibers/jfibers-benchmarks/results/2026-10-10-profiling-overhead/2-owner-final-standard.jfr"
+    ],
+    "fiber_event_counts": {}
+  },
+  {
+    "file": "3-owner-final-recording.jfr",
+    "sha256": "6d6ae9bf1cbb99b0cb2db2fa3e76ef630d29927184a6ca335fbfa446778fd973",
+    "command": [
+      "/workspace/.jfibers-tools/jdk-27+35/bin/jfr",
+      "summary",
+      "/workspace/jfibers/jfibers-benchmarks/results/2026-10-10-profiling-overhead/3-owner-final-recording.jfr"
+    ],
+    "fiber_event_counts": {
+      "com.github.rostmyr.jfibers.Scheduler": 132578,
+      "com.github.rostmyr.jfibers.Await": 41
+    }
+  },
+  {
+    "file": "3-owner-final-standard.jfr",
+    "sha256": "f3b0e827f097ab9a2c068330c59936cea2b7eb51c39da635a1faf1fc39269b6d",
+    "command": [
+      "/workspace/.jfibers-tools/jdk-27+35/bin/jfr",
+      "summary",
+      "/workspace/jfibers/jfibers-benchmarks/results/2026-10-10-profiling-overhead/3-owner-final-standard.jfr"
+    ],
+    "fiber_event_counts": {}
+  }
+]

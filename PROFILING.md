@@ -76,3 +76,5 @@ diagnostic run. Timing comparisons always exclude these recordings.
 The [scheduler harness](jfibers-benchmarks/README.md) compares core JARs with the
 same JMH artifact and can separately measure diagnostic hooks with and without
 an active recording. Keep raw data and exact JVM flags when reporting a change.
+The [measured overhead and optimization report](jfibers-benchmarks/OPTIMIZATION.md)
+includes the cost of these events on very short tasks and the HTTP comparison.

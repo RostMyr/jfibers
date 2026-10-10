@@ -210,7 +210,11 @@ CompletableFuture remains cheapest for this small inline-continuation workload.
 Virtual threads use more parked heap here but support ordinary blocking Java
 stacks. This comparison does not establish application throughput or tail latency,
 and source cancellation remains distinct from the new task-cancellation API.
-# Scheduler notification comparisons
+## Scheduler notification comparisons
+
+The [profiling and optimization report](OPTIMIZATION.md) includes the final
+before/after results, JFR overhead, matched HTTP API controls and a rejected
+prototype. It distinguishes stable short-task gains from variable I/O results.
 
 `NotificationBenchmarks` measures a batch of 256 transformed fibers awaiting
 CompletableFutures. A sentinel runs after all fibers suspend, then completes the

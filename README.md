@@ -58,6 +58,8 @@ The [HTTP comparison](jfibers-benchmarks/HTTP.md) includes a virtual-thread
 the same benchmark artifact. [JFR diagnostics](PROFILING.md) expose scheduler
 counters and sampled completion-to-resumption delay with `-Djfibers.jfr=true`;
 they are disabled by default and do not require a runtime instrumentation agent.
+The [optimization report](jfibers-benchmarks/OPTIMIZATION.md) includes raw
+before/after measurements and the measured cost of enabling those diagnostics.
 
 ## Scheduling and Failures
 

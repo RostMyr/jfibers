@@ -235,10 +235,11 @@ advantage does not translate into an HTTP throughput advantage in this workload.
 Virtual threads are the stronger default for this kind of ordinary blocking Java
 application; this says little about custom cooperative scheduling or other I/O APIs.
 
-The next useful control is **virtual threads awaiting `sendAsync(...).get()`**,
-keeping the same transport/completion path as jfibers and CompletableFuture.
-That can separate the HTTP API's dispatch cost from the scheduler comparison.
-Follow it with a fixed-arrival-rate test that includes admission delay, bounded
+The follow-up [profiling and optimization experiment](OPTIMIZATION.md) implements
+the **virtual threads awaiting `sendAsync(...).get()`** control and compares runtime
+versions. It confirms that the HTTP API choice matters and reports the limits of
+the scheduler optimization, including an unsuccessful wakeup-coalescing prototype.
+The next workload test should use a fixed arrival rate, including admission delay, bounded
 queues, rejection, timeouts and cancellation in its latency/error accounting.
 The current profiles do not justify assuming the single fiber owner is saturated
 or rewriting the scheduler; parallel-manager experiments can follow evidence from

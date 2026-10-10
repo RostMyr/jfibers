@@ -1,0 +1,116 @@
+{
+  "started_utc": "2026-10-10T22:25:23.588819+00:00",
+  "quick_smoke_only": false,
+  "git_commit": "c51ffdfead5ff5482c3360c5dcbae264a1581b9a",
+  "git_status": "M jfibers-core/src/test/java/com/github/rostmyr/jfibers/TestFiberWaiting.java",
+  "java": "openjdk version \"27\" 2026-09-15\nOpenJDK Runtime Environment Temurin-27+35 (build 27+35)\nOpenJDK 64-Bit Server VM Temurin-27+35 (build 27+35, mixed mode, sharing)",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+  "cpu_model": "AMD EPYC 9V74 80-Core Processor",
+  "host_logical_cpus": 5,
+  "cpu_quota": "400000 100000",
+  "memory_limit": "17179869184",
+  "cpu_stat_before": "usage_usec 4983966472\nuser_usec 3632319335\nsystem_usec 1351647137\nnice_usec 0\nnr_periods 48738\nnr_throttled 2645\nthrottled_usec 108505094\nnr_bursts 0\nburst_usec 0",
+  "client_jvm_flags": [
+    "-Xms512m",
+    "-Xmx512m",
+    "-XX:+UseG1GC",
+    "-XX:ActiveProcessorCount=4",
+    "-Djdk.virtualThreadScheduler.parallelism=4",
+    "-Djava.util.concurrent.ForkJoinPool.common.parallelism=4"
+  ],
+  "server_jvm_flags": [
+    "-Xms256m",
+    "-Xmx256m",
+    "-XX:+UseG1GC",
+    "-XX:ActiveProcessorCount=4",
+    "-Djdk.virtualThreadScheduler.parallelism=4",
+    "-Djava.util.concurrent.ForkJoinPool.common.parallelism=4",
+    "-Dsun.net.httpserver.nodelay=true"
+  ],
+  "warmup_ms": 15000,
+  "measurement_ms": 10000,
+  "forks": 3,
+  "backends": [
+    "JFIBERS"
+  ],
+  "fiber_events_in_profiles": true,
+  "variants": {
+    "baseline": {
+      "core_jar": "/workspace/.jfibers-tools/jfr-optimization/baseline-core.jar",
+      "sha256": "344f987ed2147d483054ab9fffa7a9443f11d68094b4979ff59a5a6f30c06299"
+    }
+  },
+  "scenarios_concurrency_delay_ms": [
+    [
+      32,
+      0
+    ],
+    [
+      256,
+      0
+    ],
+    [
+      32,
+      5
+    ],
+    [
+      256,
+      5
+    ]
+  ],
+  "workload": "closed-loop, two sequential HTTP/1.1 GETs, 1024-byte checked bodies, reused connections",
+  "jar_sha256": "ffa73bbaa0c685987e1f37aee6a40789296240f541949989c59530883b1a8ba9",
+  "source_sha256": {
+    "jfibers-benchmarks/http_run.py": "f598e3ca8847293a3823fc3ff140b61e1605c7b154378b6206252b5d9639161d",
+    "jfibers-benchmarks/http_summarize.py": "24892795140c57177f9a50f97da1084ee5ab72fb903c58e5cba6e7105e4051cd",
+    "jfibers-benchmarks/run.py": "8d9cabcfca29ec22bccdba5ef7d2163c2ea378d03bdd02b0196143e135a36a83",
+    "jfibers-benchmarks/scheduler_run.py": "1501a1ba43292e0e806f7e75c136bf5aefc853e40a5bd4c3fa4e46ed02c243c1",
+    "jfibers-benchmarks/src/main/java/com/github/rostmyr/jfibers/benchmarks/FiberWorkload.java": "eba0a30c29e2548f5179d5fbb947e79c91faefaa5900191931e21ec508f3f169",
+    "jfibers-benchmarks/src/main/java/com/github/rostmyr/jfibers/benchmarks/HttpFiberWorkload.java": "9efc8f7155663b81404727660fac4b4fd73b99e7b3e94478963c3881668fa62c",
+    "jfibers-benchmarks/src/main/java/com/github/rostmyr/jfibers/benchmarks/HttpLoadProbe.java": "b11190bc69c5d62223186bb6ffd0c6f2ab5422fbb2f1e8ed8f2adc5b2012b21d",
+    "jfibers-benchmarks/src/main/java/com/github/rostmyr/jfibers/benchmarks/HttpSupport.java": "24db81a7134bb05a5f2f25461b3529d21ba49a739d86be846e63bec3a2d11052",
+    "jfibers-benchmarks/src/main/java/com/github/rostmyr/jfibers/benchmarks/HttpTestServer.java": "9b37aac20d437cd44797ee8f0fb9959d237700cb4a20f3b85affe0920d897d9d",
+    "jfibers-benchmarks/src/main/java/com/github/rostmyr/jfibers/benchmarks/NotificationBenchmarks.java": "1013d383574a633e806f9d759b685972d4b3705232f2895812109b83ed311c5a",
+    "jfibers-benchmarks/src/main/java/com/github/rostmyr/jfibers/benchmarks/TaskBenchmarks.java": "5b35d61b41593b738385b08f74b56e6d88840dea0be2c94e94d6f4056795f597",
+    "jfibers-benchmarks/src/main/java/com/github/rostmyr/jfibers/benchmarks/WaitingProbe.java": "91111d1109b1b5ebe03d03e2153bbcac01cb73a0e60969e3a8f2e9d57e71d0fa",
+    "jfibers-benchmarks/summarize.py": "b94fc3907e5655cc8dcd1366d09d148c754da2f4800b817af1341465fdf575ab"
+  },
+  "commands": [
+    [
+      "/workspace/.jfibers-tools/jdk-27+35/bin/java",
+      "-Xms256m",
+      "-Xmx256m",
+      "-XX:+UseG1GC",
+      "-XX:ActiveProcessorCount=4",
+      "-Djdk.virtualThreadScheduler.parallelism=4",
+      "-Djava.util.concurrent.ForkJoinPool.common.parallelism=4",
+      "-Dsun.net.httpserver.nodelay=true",
+      "-cp",
+      "/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar",
+      "com.github.rostmyr.jfibers.benchmarks.HttpTestServer",
+      "5"
+    ],
+    [
+      "/workspace/.jfibers-tools/jdk-27+35/bin/java",
+      "-Xms512m",
+      "-Xmx512m",
+      "-XX:+UseG1GC",
+      "-XX:ActiveProcessorCount=4",
+      "-Djdk.virtualThreadScheduler.parallelism=4",
+      "-Djava.util.concurrent.ForkJoinPool.common.parallelism=4",
+      "-Djfibers.jfr=true",
+      "-Xverify:all",
+      "-cp",
+      "/workspace/.jfibers-tools/jfr-optimization/baseline-core.jar:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar",
+      "com.github.rostmyr.jfibers.benchmarks.HttpLoadProbe",
+      "JFIBERS",
+      "http://127.0.0.1:35247",
+      "256",
+      "15000",
+      "10000",
+      "/workspace/jfibers/jfibers-benchmarks/results/2026-10-10-scheduler-profile-before/profile-1-256-5-jfibers-baseline.jfr"
+    ]
+  ],
+  "finished_utc": "2026-10-10T22:25:52.222596+00:00",
+  "cpu_stat_after": "usage_usec 5081078707\nuser_usec 3694468985\nsystem_usec 1386609721\nnice_usec 0\nnr_periods 49023\nnr_throttled 2718\nthrottled_usec 111689012\nnr_bursts 0\nburst_usec 0"
+}

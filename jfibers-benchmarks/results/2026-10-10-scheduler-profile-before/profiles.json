@@ -1,0 +1,1479 @@
+[
+  {
+    "measurement": {
+      "fork": 1,
+      "delay_ms": 5,
+      "profiled": true,
+      "variant": "baseline",
+      "warmup": {
+        "successful_operations": 206342,
+        "errors": 0,
+        "timeouts": 0,
+        "first_error": null,
+        "latency_mean_ms": 18.489866380736835,
+        "latency_p50_upper_ms": 14.079,
+        "latency_p95_upper_ms": 41.471,
+        "latency_p99_upper_ms": 89.087,
+        "latency_max_ms": 360.354855,
+        "successful_completions_per_second": [
+          1580,
+          3538,
+          5379,
+          7943,
+          11046,
+          15964,
+          17616,
+          17773,
+          18245,
+          17293,
+          16037,
+          18925,
+          16285,
+          18722,
+          19740,
+          256,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "backend": "JFIBERS",
+        "fiber_runtime_source": "file:/workspace/.jfibers-tools/jfr-optimization/baseline-core.jar",
+        "concurrency": 256,
+        "requested_seconds": 15.0,
+        "elapsed_seconds_including_drain": 15.021875554,
+        "drain_ms": 21.875554000000193,
+        "successful_operations_per_second": 13736.101012037449,
+        "successful_http_requests_per_second": 27472.202024074897,
+        "client_cpu_seconds": 36.84,
+        "client_cpu_cores": 2.4524234585467797,
+        "client_cpu_ms_per_success": 0.1785385428075719,
+        "heap_before_bytes": 17825792,
+        "heap_after_bytes": 115213736,
+        "heap_peak_sampled_bytes": 326616136,
+        "heap_mean_sampled_bytes": 155050114,
+        "heap_sample_count": 151,
+        "gc_count": 26,
+        "gc_millis": 135
+      },
+      "successful_operations": 177093,
+      "errors": 0,
+      "timeouts": 0,
+      "first_error": null,
+      "latency_mean_ms": 14.462283883558355,
+      "latency_p50_upper_ms": 13.439,
+      "latency_p95_upper_ms": 21.503,
+      "latency_p99_upper_ms": 32.255,
+      "latency_max_ms": 62.925617,
+      "successful_completions_per_second": [
+        12243,
+        18648,
+        19230,
+        18791,
+        17381,
+        18462,
+        17810,
+        18633,
+        18279,
+        17360,
+        256,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "backend": "JFIBERS",
+      "fiber_runtime_source": "file:/workspace/.jfibers-tools/jfr-optimization/baseline-core.jar",
+      "concurrency": 256,
+      "requested_seconds": 10.0,
+      "elapsed_seconds_including_drain": 10.012280934,
+      "drain_ms": 12.280934000000343,
+      "successful_operations_per_second": 17687.57800219352,
+      "successful_http_requests_per_second": 35375.15600438704,
+      "client_cpu_seconds": 22.88,
+      "client_cpu_cores": 2.28519356886036,
+      "client_cpu_ms_per_success": 0.12919765321046003,
+      "heap_before_bytes": 25798360,
+      "heap_after_bytes": 281081296,
+      "heap_peak_sampled_bytes": 347711192,
+      "heap_mean_sampled_bytes": 197925854,
+      "heap_sample_count": 101,
+      "gc_count": 18,
+      "gc_millis": 74,
+      "server_before": {
+        "wall_nanos": 11248531379810,
+        "cpu_nanos": 18870000000,
+        "requests": 412684,
+        "failures": 0,
+        "body_bytes": 422588416,
+        "active": 0,
+        "peak_active": 257
+      },
+      "server_after": {
+        "wall_nanos": 11258696497924,
+        "cpu_nanos": 31340000000,
+        "requests": 766870,
+        "failures": 0,
+        "body_bytes": 785274880,
+        "active": 0,
+        "peak_active": 256
+      },
+      "server_http_requests": 354186,
+      "server_body_bytes": 362686464,
+      "server_errors": 0,
+      "server_cpu_cores": 1.245470445965415,
+      "cpu_stat_before": "usage_usec 4983969901\nuser_usec 3632322763\nsystem_usec 1351647137\nnice_usec 0\nnr_periods 48738\nnr_throttled 2645\nthrottled_usec 108505094\nnr_bursts 0\nburst_usec 0",
+      "cpu_stat_after": "usage_usec 5077185300\nuser_usec 3691135392\nsystem_usec 1386049907\nnice_usec 0\nnr_periods 48999\nnr_throttled 2718\nthrottled_usec 111689012\nnr_bursts 0\nburst_usec 0"
+    },
+    "jfr": {
+      "recording": "profile-1-256-5-jfibers-baseline.jfr",
+      "recording_sha256": "d1ac973c549454ae7dd2bae9edc4396b5f54d9f4fb29fd8663a99433b58ee814",
+      "extraction_command": [
+        "/workspace/.jfibers-tools/jdk-27+35/bin/jfr",
+        "print",
+        "--json",
+        "--stack-depth",
+        "64",
+        "--events",
+        "jdk.ExecutionSample,jdk.NativeMethodSample,jdk.ObjectAllocationSample,jdk.ThreadPark,jdk.JavaMonitorEnter,jdk.GarbageCollection,com.github.rostmyr.jfibers.Scheduler,com.github.rostmyr.jfibers.Await",
+        "/workspace/jfibers/jfibers-benchmarks/results/2026-10-10-scheduler-profile-before/profile-1-256-5-jfibers-baseline.jfr"
+      ],
+      "event_counts": {
+        "jdk.ObjectAllocationSample": 2920,
+        "jdk.NativeMethodSample": 487,
+        "jdk.ExecutionSample": 715,
+        "jdk.ThreadPark": 429,
+        "com.github.rostmyr.jfibers.Await": 1384,
+        "jdk.GarbageCollection": 18,
+        "com.github.rostmyr.jfibers.Scheduler": 11
+      },
+      "fiber_diagnostics": {
+        "cumulative_scheduler_snapshots": [
+          {
+            "runId": 2,
+            "elapsedNanos": 1000142292.0,
+            "executionNanos": 97813933.0,
+            "parkedNanos": 894603281.0,
+            "executions": 24884,
+            "parks": 5842,
+            "callbackSignals": 24646,
+            "wakeRequests": 24646,
+            "unparkCalls": 24646,
+            "completionStageWaits": 24884,
+            "childWaits": 0,
+            "polledWaits": 0,
+            "staleSignals": 0,
+            "queuedFibers": 0,
+            "peakQueuedFibers": 256,
+            "pendingFibers": 256,
+            "waitSamplesRecorded": 97,
+            "waitSamplesAbandoned": 0,
+            "sampleEvery": 256,
+            "finalSnapshot": false
+          },
+          {
+            "runId": 2,
+            "elapsedNanos": 2000174298.0000002,
+            "executionNanos": 210467679.0,
+            "parkedNanos": 1771729148.0,
+            "executions": 62164,
+            "parks": 13761,
+            "callbackSignals": 61918,
+            "wakeRequests": 61918,
+            "unparkCalls": 61918,
+            "completionStageWaits": 62164,
+            "childWaits": 0,
+            "polledWaits": 0,
+            "staleSignals": 0,
+            "queuedFibers": 0,
+            "peakQueuedFibers": 256,
+            "pendingFibers": 256,
+            "waitSamplesRecorded": 242,
+            "waitSamplesAbandoned": 0,
+            "sampleEvery": 256,
+            "finalSnapshot": false
+          },
+          {
+            "runId": 2,
+            "elapsedNanos": 3000478092.0,
+            "executionNanos": 353214902.0,
+            "parkedNanos": 2615495291.0,
+            "executions": 100682,
+            "parks": 22953,
+            "callbackSignals": 100435,
+            "wakeRequests": 100435,
+            "unparkCalls": 100435,
+            "completionStageWaits": 100682,
+            "childWaits": 0,
+            "polledWaits": 0,
+            "staleSignals": 0,
+            "queuedFibers": 0,
+            "peakQueuedFibers": 256,
+            "pendingFibers": 256,
+            "waitSamplesRecorded": 393,
+            "waitSamplesAbandoned": 0,
+            "sampleEvery": 256,
+            "finalSnapshot": false
+          },
+          {
+            "runId": 2,
+            "elapsedNanos": 4000668771.0,
+            "executionNanos": 493340725.0,
+            "parkedNanos": 3464363921.0,
+            "executions": 138210,
+            "parks": 31957,
+            "callbackSignals": 137972,
+            "wakeRequests": 137972,
+            "unparkCalls": 137972,
+            "completionStageWaits": 138210,
+            "childWaits": 0,
+            "polledWaits": 0,
+            "staleSignals": 0,
+            "queuedFibers": 0,
+            "peakQueuedFibers": 256,
+            "pendingFibers": 256,
+            "waitSamplesRecorded": 539,
+            "waitSamplesAbandoned": 0,
+            "sampleEvery": 256,
+            "finalSnapshot": false
+          },
+          {
+            "runId": 2,
+            "elapsedNanos": 5003235355.0,
+            "executionNanos": 608876870.0,
+            "parkedNanos": 4338722473.0,
+            "executions": 172974,
+            "parks": 42451,
+            "callbackSignals": 172784,
+            "wakeRequests": 172784,
+            "unparkCalls": 172784,
+            "completionStageWaits": 172974,
+            "childWaits": 0,
+            "polledWaits": 0,
+            "staleSignals": 0,
+            "queuedFibers": 0,
+            "peakQueuedFibers": 256,
+            "pendingFibers": 256,
+            "waitSamplesRecorded": 675,
+            "waitSamplesAbandoned": 0,
+            "sampleEvery": 256,
+            "finalSnapshot": false
+          },
+          {
+            "runId": 2,
+            "elapsedNanos": 6003442252.0,
+            "executionNanos": 744351100.0,
+            "parkedNanos": 5190993167.0,
+            "executions": 210035,
+            "parks": 55365,
+            "callbackSignals": 209788,
+            "wakeRequests": 209788,
+            "unparkCalls": 209788,
+            "completionStageWaits": 210035,
+            "childWaits": 0,
+            "polledWaits": 0,
+            "staleSignals": 0,
+            "queuedFibers": 0,
+            "peakQueuedFibers": 256,
+            "pendingFibers": 256,
+            "waitSamplesRecorded": 820,
+            "waitSamplesAbandoned": 0,
+            "sampleEvery": 256,
+            "finalSnapshot": false
+          },
+          {
+            "runId": 2,
+            "elapsedNanos": 7005446953.0,
+            "executionNanos": 877752786.0,
+            "parkedNanos": 6044132138.0,
+            "executions": 245595,
+            "parks": 64814,
+            "callbackSignals": 245359,
+            "wakeRequests": 245359,
+            "unparkCalls": 245359,
+            "completionStageWaits": 245595,
+            "childWaits": 0,
+            "polledWaits": 0,
+            "staleSignals": 0,
+            "queuedFibers": 0,
+            "peakQueuedFibers": 256,
+            "pendingFibers": 256,
+            "waitSamplesRecorded": 959,
+            "waitSamplesAbandoned": 0,
+            "sampleEvery": 256,
+            "finalSnapshot": false
+          },
+          {
+            "runId": 2,
+            "elapsedNanos": 8005467880.999999,
+            "executionNanos": 1015217960.0,
+            "parkedNanos": 6890385286.0,
+            "executions": 282978,
+            "parks": 74857,
+            "callbackSignals": 282723,
+            "wakeRequests": 282723,
+            "unparkCalls": 282723,
+            "completionStageWaits": 282978,
+            "childWaits": 0,
+            "polledWaits": 0,
+            "staleSignals": 0,
+            "queuedFibers": 0,
+            "peakQueuedFibers": 256,
+            "pendingFibers": 256,
+            "waitSamplesRecorded": 1105,
+            "waitSamplesAbandoned": 0,
+            "sampleEvery": 256,
+            "finalSnapshot": false
+          },
+          {
+            "runId": 2,
+            "elapsedNanos": 9006114794.0,
+            "executionNanos": 1147202900.0,
+            "parkedNanos": 7745335707.0,
+            "executions": 319526,
+            "parks": 85167,
+            "callbackSignals": 319274,
+            "wakeRequests": 319274,
+            "unparkCalls": 319274,
+            "completionStageWaits": 319526,
+            "childWaits": 0,
+            "polledWaits": 0,
+            "staleSignals": 0,
+            "queuedFibers": 0,
+            "peakQueuedFibers": 256,
+            "pendingFibers": 256,
+            "waitSamplesRecorded": 1248,
+            "waitSamplesAbandoned": 0,
+            "sampleEvery": 256,
+            "finalSnapshot": false
+          },
+          {
+            "runId": 2,
+            "elapsedNanos": 10006472387.0,
+            "executionNanos": 1276059271.0,
+            "parkedNanos": 8601642439.0,
+            "executions": 354322,
+            "parks": 93212,
+            "callbackSignals": 354068,
+            "wakeRequests": 354068,
+            "unparkCalls": 354068,
+            "completionStageWaits": 354186,
+            "childWaits": 0,
+            "polledWaits": 0,
+            "staleSignals": 0,
+            "queuedFibers": 0,
+            "peakQueuedFibers": 256,
+            "pendingFibers": 120,
+            "waitSamplesRecorded": 1384,
+            "waitSamplesAbandoned": 0,
+            "sampleEvery": 256,
+            "finalSnapshot": false
+          },
+          {
+            "runId": 2,
+            "elapsedNanos": 10011718500.0,
+            "executionNanos": 1276199901.0,
+            "parkedNanos": 8606639786.0,
+            "executions": 354442,
+            "parks": 93245,
+            "callbackSignals": 354186,
+            "wakeRequests": 354186,
+            "unparkCalls": 354186,
+            "completionStageWaits": 354186,
+            "childWaits": 0,
+            "polledWaits": 0,
+            "staleSignals": 0,
+            "queuedFibers": 0,
+            "peakQueuedFibers": 256,
+            "pendingFibers": 0,
+            "waitSamplesRecorded": 1384,
+            "waitSamplesAbandoned": 0,
+            "sampleEvery": 256,
+            "finalSnapshot": true
+          }
+        ],
+        "sampled_waits_by_kind_and_outcome": {
+          "completionStage/ready": {
+            "samples": 1384,
+            "latency_us": {
+              "observedWaitNanos": {
+                "p50": 6511.321,
+                "p95": 10424.218,
+                "p99": 16267.817,
+                "max": 50598.124
+              },
+              "signalToRunnableNanos": {
+                "p50": 14.432,
+                "p95": 269.124,
+                "p99": 769.344,
+                "max": 3062.681
+              },
+              "runnableToExecutionNanos": {
+                "p50": 7.822000000000001,
+                "p95": 87.201,
+                "p99": 241.092,
+                "max": 822.043
+              },
+              "readyToExecutionNanos": {
+                "p50": 29.023,
+                "p95": 342.259,
+                "p99": 843.561,
+                "max": 3635.966
+              }
+            }
+          }
+        }
+      },
+      "sample_types": {
+        "jdk.ExecutionSample": {
+          "samples_with_stack": 715,
+          "inclusive_categories_samples_overlap": {
+            "jdk_http": 629,
+            "socket_io": 84,
+            "fiber_runtime": 66,
+            "compiled_http_workload": 56,
+            "fork_join_or_virtual_thread": 160
+          },
+          "top_sampled_leaf_methods": [
+            {
+              "method": "java.util.concurrent.locks.AbstractQueuedSynchronizer.signalNext",
+              "samples": 93
+            },
+            {
+              "method": "java.util.TreeMap.put",
+              "samples": 22
+            },
+            {
+              "method": "jdk.internal.net.http.HttpClientImpl.registerEvent",
+              "samples": 19
+            },
+            {
+              "method": "java.util.concurrent.CompletableFuture.postComplete",
+              "samples": 19
+            },
+            {
+              "method": "jdk.internal.net.http.ConnectionPool$ExpiryList.add",
+              "samples": 17
+            },
+            {
+              "method": "java.util.concurrent.ConcurrentLinkedDeque.peekFirst",
+              "samples": 17
+            },
+            {
+              "method": "jdk.internal.net.http.common.SequentialScheduler.runOrSchedule",
+              "samples": 17
+            },
+            {
+              "method": "java.util.concurrent.ConcurrentSkipListMap.cpr",
+              "samples": 16
+            },
+            {
+              "method": "java.lang.AbstractStringBuilder.needsNewBuffer",
+              "samples": 15
+            },
+            {
+              "method": "java.util.concurrent.ConcurrentSkipListMap.findPredecessor",
+              "samples": 14
+            },
+            {
+              "method": "java.util.concurrent.ForkJoinTask$AdaptedRunnableAction.exec",
+              "samples": 14
+            },
+            {
+              "method": "java.util.concurrent.CompletableFuture.postFire",
+              "samples": 13
+            },
+            {
+              "method": "jdk.internal.net.http.SocketTube$InternalReadPublisher$InternalReadSubscription.handleSubscribeEvent",
+              "samples": 13
+            },
+            {
+              "method": "java.util.concurrent.CompletableFuture$UniCompose.tryFire",
+              "samples": 12
+            },
+            {
+              "method": "jdk.internal.net.http.Http1Response$HeadersReader.handle",
+              "samples": 11
+            },
+            {
+              "method": "jdk.internal.net.http.HttpClientImpl$SelectorManager.eventUpdated",
+              "samples": 11
+            },
+            {
+              "method": "java.util.concurrent.ForkJoinPool.deactivate",
+              "samples": 10
+            },
+            {
+              "method": "jdk.internal.net.http.HttpClientImpl.sendAsync",
+              "samples": 9
+            },
+            {
+              "method": "java.util.concurrent.ForkJoinPool.signalWork",
+              "samples": 9
+            },
+            {
+              "method": "jdk.internal.net.http.HttpClientImpl$SelectorManager.run",
+              "samples": 8
+            }
+          ],
+          "top_sampled_stacks": [
+            {
+              "frames": [
+                "java.util.concurrent.locks.AbstractQueuedSynchronizer.signalNext",
+                "java.util.concurrent.locks.AbstractQueuedSynchronizer.release",
+                "java.util.concurrent.locks.ReentrantLock.unlock",
+                "java.util.concurrent.LinkedBlockingQueue.offer",
+                "java.util.concurrent.ThreadPoolExecutor.execute",
+                "jdk.internal.net.http.HttpClientImpl$DelegatingExecutor.ensureExecutedAsync",
+                "jdk.internal.net.http.HttpClientImpl$DelegatingExecutor.execute",
+                "jdk.internal.net.http.common.SequentialScheduler.runOrSchedule",
+                "jdk.internal.net.http.common.SequentialScheduler.runOrSchedule",
+                "jdk.internal.net.http.Http1AsyncReceiver$Http1TubeSubscriber.onSubscribe",
+                "jdk.internal.net.http.SocketTube$InternalReadPublisher$ReadSubscription.signalOnSubscribe",
+                "jdk.internal.net.http.SocketTube$InternalReadPublisher$InternalReadSubscription.handlePending",
+                "jdk.internal.net.http.SocketTube$InternalReadPublisher$InternalReadSubscription.handleSubscribeEvent",
+                "jdk.internal.net.http.SocketTube$InternalReadPublisher$InternalReadSubscription$$Lambda.0x000000003b3c3800.run",
+                "jdk.internal.net.http.AsyncTriggerEvent.handle",
+                "jdk.internal.net.http.HttpClientImpl$SelectorManager.run",
+                "java.lang.Thread.runWith",
+                "java.lang.VirtualThread.run",
+                "java.lang.VirtualThread$VThreadContinuation$1.run",
+                "jdk.internal.vm.Continuation.enter0",
+                "jdk.internal.vm.Continuation.enter",
+                "jdk.internal.vm.Continuation.enterSpecial"
+              ],
+              "samples": 29
+            },
+            {
+              "frames": [
+                "java.util.concurrent.locks.AbstractQueuedSynchronizer.signalNext",
+                "java.util.concurrent.locks.AbstractQueuedSynchronizer.release",
+                "java.util.concurrent.locks.ReentrantLock.unlock",
+                "java.util.concurrent.LinkedBlockingQueue.take",
+                "java.util.concurrent.ThreadPoolExecutor.getTask",
+                "java.util.concurrent.ThreadPoolExecutor.runWorker",
+                "java.util.concurrent.ThreadPoolExecutor$Worker.run",
+                "java.lang.Thread.runWith",
+                "java.lang.Thread.run"
+              ],
+              "samples": 21
+            },
+            {
+              "frames": [
+                "jdk.internal.net.http.ConnectionPool$ExpiryList.add",
+                "jdk.internal.net.http.ConnectionPool.returnToPool",
+                "jdk.internal.net.http.ConnectionPool.returnToPool",
+                "jdk.internal.net.http.HttpConnection.closeOrReturnToCache",
+                "jdk.internal.net.http.Http1Response.onFinished",
+                "jdk.internal.net.http.Http1Response$$Lambda.0x000000003b3e4800.run",
+                "jdk.internal.net.http.ResponseContent$FixedLengthBodyParser.accept",
+                "jdk.internal.net.http.ResponseContent$FixedLengthBodyParser.accept",
+                "jdk.internal.net.http.Http1Response$BodyReader.handle",
+                "jdk.internal.net.http.Http1Response$BodyReader.handle",
+                "jdk.internal.net.http.Http1Response$Receiver.accept",
+                "jdk.internal.net.http.Http1Response$BodyReader.tryAsyncReceive",
+                "jdk.internal.net.http.Http1AsyncReceiver.flush",
+                "jdk.internal.net.http.Http1AsyncReceiver$$Lambda.0x000000003b3c7400.run",
+                "jdk.internal.net.http.common.SequentialScheduler$LockingRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$CompleteRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$TryEndDeferredCompleter.complete",
+                "jdk.internal.net.http.common.SequentialScheduler$CompleteRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$SchedulableTask.run",
+                "java.util.concurrent.ThreadPoolExecutor.runWorker",
+                "java.util.concurrent.ThreadPoolExecutor$Worker.run",
+                "java.lang.Thread.runWith",
+                "java.lang.Thread.run"
+              ],
+              "samples": 17
+            },
+            {
+              "frames": [
+                "java.util.TreeMap.put",
+                "java.util.TreeMap.put",
+                "java.util.TreeSet.add",
+                "jdk.internal.net.http.HttpClientImpl.registerTimer",
+                "jdk.internal.net.http.MultiExchange.responseAsyncImpl",
+                "jdk.internal.net.http.MultiExchange.lambda$responseAsync0$0",
+                "jdk.internal.net.http.MultiExchange$$Lambda.0x000000003b35ca00.apply",
+                "java.util.concurrent.CompletableFuture$UniCompose.tryFire",
+                "java.util.concurrent.CompletableFuture.postComplete",
+                "java.util.concurrent.CompletableFuture$AsyncSupply.run",
+                "java.util.concurrent.ThreadPoolExecutor.runWorker",
+                "java.util.concurrent.ThreadPoolExecutor$Worker.run",
+                "java.lang.Thread.runWith",
+                "java.lang.Thread.run"
+              ],
+              "samples": 16
+            },
+            {
+              "frames": [
+                "java.lang.AbstractStringBuilder.needsNewBuffer",
+                "java.lang.AbstractStringBuilder.append",
+                "java.lang.StringBuilder.append",
+                "jdk.internal.net.http.Http1HeaderParser.readResumeHeader",
+                "jdk.internal.net.http.Http1HeaderParser.parse",
+                "jdk.internal.net.http.Http1Response$HeadersReader.handle",
+                "jdk.internal.net.http.Http1Response$HeadersReader.handle",
+                "jdk.internal.net.http.Http1Response$Receiver.accept",
+                "jdk.internal.net.http.Http1Response$HeadersReader.tryAsyncReceive",
+                "jdk.internal.net.http.Http1AsyncReceiver.flush",
+                "jdk.internal.net.http.Http1AsyncReceiver$$Lambda.0x000000003b3c7400.run",
+                "jdk.internal.net.http.common.SequentialScheduler$LockingRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$CompleteRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$SchedulableTask.run",
+                "java.util.concurrent.ThreadPoolExecutor.runWorker",
+                "java.util.concurrent.ThreadPoolExecutor$Worker.run",
+                "java.lang.Thread.runWith",
+                "java.lang.Thread.run"
+              ],
+              "samples": 14
+            },
+            {
+              "frames": [
+                "java.util.concurrent.ForkJoinTask$AdaptedRunnableAction.exec",
+                "java.util.concurrent.ForkJoinTask.doExec",
+                "java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec",
+                "java.util.concurrent.ForkJoinPool.runWorker",
+                "java.util.concurrent.ForkJoinWorkerThread.run"
+              ],
+              "samples": 14
+            },
+            {
+              "frames": [
+                "jdk.internal.net.http.SocketTube$InternalReadPublisher$InternalReadSubscription.handleSubscribeEvent",
+                "jdk.internal.net.http.SocketTube$InternalReadPublisher$InternalReadSubscription$$Lambda.0x000000003b3c3800.run",
+                "jdk.internal.net.http.AsyncTriggerEvent.handle",
+                "jdk.internal.net.http.HttpClientImpl$SelectorManager.run",
+                "java.lang.Thread.runWith",
+                "java.lang.VirtualThread.run",
+                "java.lang.VirtualThread$VThreadContinuation$1.run",
+                "jdk.internal.vm.Continuation.enter0",
+                "jdk.internal.vm.Continuation.enter",
+                "jdk.internal.vm.Continuation.enterSpecial"
+              ],
+              "samples": 13
+            },
+            {
+              "frames": [
+                "java.util.concurrent.CompletableFuture$UniCompose.tryFire",
+                "java.util.concurrent.CompletableFuture.postComplete",
+                "java.util.concurrent.CompletableFuture.postFire",
+                "java.util.concurrent.CompletableFuture$UniApply.tryFire",
+                "java.util.concurrent.CompletableFuture$Completion.run",
+                "jdk.internal.net.http.HttpClientImpl$DelegatingExecutor.execute",
+                "java.util.concurrent.CompletableFuture$UniCompletion.claim",
+                "java.util.concurrent.CompletableFuture$UniApply.tryFire",
+                "java.util.concurrent.CompletableFuture.postComplete",
+                "java.util.concurrent.CompletableFuture.complete",
+                "jdk.internal.net.http.Http1Response$HeadersReader.handle",
+                "jdk.internal.net.http.Http1Response$HeadersReader.handle",
+                "jdk.internal.net.http.Http1Response$Receiver.accept",
+                "jdk.internal.net.http.Http1Response$HeadersReader.tryAsyncReceive",
+                "jdk.internal.net.http.Http1AsyncReceiver.flush",
+                "jdk.internal.net.http.Http1AsyncReceiver$$Lambda.0x000000003b3c7400.run",
+                "jdk.internal.net.http.common.SequentialScheduler$LockingRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$CompleteRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$SchedulableTask.run",
+                "java.util.concurrent.ThreadPoolExecutor.runWorker",
+                "java.util.concurrent.ThreadPoolExecutor$Worker.run",
+                "java.lang.Thread.runWith",
+                "java.lang.Thread.run"
+              ],
+              "samples": 10
+            },
+            {
+              "frames": [
+                "java.util.concurrent.ForkJoinPool.deactivate",
+                "java.util.concurrent.ForkJoinPool.runWorker",
+                "java.util.concurrent.ForkJoinWorkerThread.run"
+              ],
+              "samples": 10
+            },
+            {
+              "frames": [
+                "jdk.internal.net.http.Http1Response$HeadersReader.handle",
+                "jdk.internal.net.http.Http1Response$HeadersReader.handle",
+                "jdk.internal.net.http.Http1Response$Receiver.accept",
+                "jdk.internal.net.http.Http1Response$HeadersReader.tryAsyncReceive",
+                "jdk.internal.net.http.Http1AsyncReceiver.flush",
+                "jdk.internal.net.http.Http1AsyncReceiver$$Lambda.0x000000003b3c7400.run",
+                "jdk.internal.net.http.common.SequentialScheduler$LockingRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$CompleteRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$SchedulableTask.run",
+                "java.util.concurrent.ThreadPoolExecutor.runWorker",
+                "java.util.concurrent.ThreadPoolExecutor$Worker.run",
+                "java.lang.Thread.runWith",
+                "java.lang.Thread.run"
+              ],
+              "samples": 9
+            },
+            {
+              "frames": [
+                "java.util.concurrent.ConcurrentSkipListMap.findPredecessor",
+                "java.util.concurrent.ConcurrentSkipListMap.doRemove",
+                "java.util.concurrent.ConcurrentSkipListMap.remove",
+                "java.util.concurrent.ConcurrentSkipListSet.remove",
+                "jdk.internal.net.http.HttpClientImpl.unregisterSubscriber",
+                "jdk.internal.net.http.Http1Exchange.unregisterResponseSubscriber",
+                "jdk.internal.net.http.Http1Exchange$Http1ResponseBodySubscriber.unregister",
+                "jdk.internal.net.http.common.HttpBodySubscriberWrapper.tryUnregister",
+                "jdk.internal.net.http.common.HttpBodySubscriberWrapper.complete",
+                "jdk.internal.net.http.common.HttpBodySubscriberWrapper.onComplete",
+                "jdk.internal.net.http.ResponseContent$FixedLengthBodyParser.accept",
+                "jdk.internal.net.http.ResponseContent$FixedLengthBodyParser.accept",
+                "jdk.internal.net.http.Http1Response$BodyReader.handle",
+                "jdk.internal.net.http.Http1Response$BodyReader.handle",
+                "jdk.internal.net.http.Http1Response$Receiver.accept",
+                "jdk.internal.net.http.Http1Response$BodyReader.tryAsyncReceive",
+                "jdk.internal.net.http.Http1AsyncReceiver.flush",
+                "jdk.internal.net.http.Http1AsyncReceiver$$Lambda.0x000000003b3c7400.run",
+                "jdk.internal.net.http.common.SequentialScheduler$LockingRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$CompleteRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$TryEndDeferredCompleter.complete",
+                "jdk.internal.net.http.common.SequentialScheduler$CompleteRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$SchedulableTask.run",
+                "java.util.concurrent.ThreadPoolExecutor.runWorker",
+                "java.util.concurrent.ThreadPoolExecutor$Worker.run",
+                "java.lang.Thread.runWith",
+                "java.lang.Thread.run"
+              ],
+              "samples": 9
+            },
+            {
+              "frames": [
+                "jdk.internal.net.http.HttpClientImpl.registerEvent",
+                "jdk.internal.net.http.SocketTube$InternalReadPublisher$InternalReadSubscription.signalSubscribe",
+                "jdk.internal.net.http.SocketTube$InternalReadPublisher$InternalReadSubscription.offer",
+                "jdk.internal.net.http.SocketTube$InternalReadPublisher.subscribe",
+                "jdk.internal.net.http.SocketTube.subscribe",
+                "jdk.internal.net.http.SocketTube.connectFlows",
+                "jdk.internal.net.http.ConnectionPool.registerCleanupTrigger",
+                "jdk.internal.net.http.ConnectionPool.returnToPool",
+                "jdk.internal.net.http.ConnectionPool.returnToPool",
+                "jdk.internal.net.http.HttpConnection.closeOrReturnToCache",
+                "jdk.internal.net.http.Http1Response.onFinished",
+                "jdk.internal.net.http.Http1Response$$Lambda.0x000000003b3e4800.run",
+                "jdk.internal.net.http.ResponseContent$FixedLengthBodyParser.accept",
+                "jdk.internal.net.http.ResponseContent$FixedLengthBodyParser.accept",
+                "jdk.internal.net.http.Http1Response$BodyReader.handle",
+                "jdk.internal.net.http.Http1Response$BodyReader.handle",
+                "jdk.internal.net.http.Http1Response$Receiver.accept",
+                "jdk.internal.net.http.Http1Response$BodyReader.tryAsyncReceive",
+                "jdk.internal.net.http.Http1AsyncReceiver.flush",
+                "jdk.internal.net.http.Http1AsyncReceiver$$Lambda.0x000000003b3c7400.run",
+                "jdk.internal.net.http.common.SequentialScheduler$LockingRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$CompleteRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$TryEndDeferredCompleter.complete",
+                "jdk.internal.net.http.common.SequentialScheduler$CompleteRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$SchedulableTask.run",
+                "java.util.concurrent.ThreadPoolExecutor.runWorker",
+                "java.util.concurrent.ThreadPoolExecutor$Worker.run",
+                "java.lang.Thread.runWith",
+                "java.lang.Thread.run"
+              ],
+              "samples": 9
+            },
+            {
+              "frames": [
+                "java.util.concurrent.locks.AbstractQueuedSynchronizer.signalNext",
+                "java.util.concurrent.locks.AbstractQueuedSynchronizer.release",
+                "java.util.concurrent.locks.ReentrantLock.unlock",
+                "jdk.internal.net.http.RedirectFilter.response",
+                "jdk.internal.net.http.MultiExchange.responseFilters",
+                "jdk.internal.net.http.MultiExchange.lambda$responseAsyncImpl$0",
+                "jdk.internal.net.http.MultiExchange$$Lambda.0x000000003b3c8c00.apply",
+                "java.util.concurrent.CompletableFuture$UniCompose.tryFire",
+                "java.util.concurrent.CompletableFuture.postComplete",
+                "java.util.concurrent.CompletableFuture.postFire",
+                "java.util.concurrent.CompletableFuture$UniApply.tryFire",
+                "java.util.concurrent.CompletableFuture$Completion.run",
+                "jdk.internal.net.http.HttpClientImpl$DelegatingExecutor.execute",
+                "java.util.concurrent.CompletableFuture$UniCompletion.claim",
+                "java.util.concurrent.CompletableFuture$UniApply.tryFire",
+                "java.util.concurrent.CompletableFuture.postComplete",
+                "java.util.concurrent.CompletableFuture.complete",
+                "jdk.internal.net.http.Http1Response$HeadersReader.handle",
+                "jdk.internal.net.http.Http1Response$HeadersReader.handle",
+                "jdk.internal.net.http.Http1Response$Receiver.accept",
+                "jdk.internal.net.http.Http1Response$HeadersReader.tryAsyncReceive",
+                "jdk.internal.net.http.Http1AsyncReceiver.flush",
+                "jdk.internal.net.http.Http1AsyncReceiver$$Lambda.0x000000003b3c7400.run",
+                "jdk.internal.net.http.common.SequentialScheduler$LockingRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$CompleteRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$SchedulableTask.run",
+                "java.util.concurrent.ThreadPoolExecutor.runWorker",
+                "java.util.concurrent.ThreadPoolExecutor$Worker.run",
+                "java.lang.Thread.runWith",
+                "java.lang.Thread.run"
+              ],
+              "samples": 9
+            },
+            {
+              "frames": [
+                "jdk.internal.net.http.HttpClientImpl.sendAsync",
+                "jdk.internal.net.http.HttpClientImpl.sendAsync",
+                "jdk.internal.net.http.HttpClientFacade.sendAsync",
+                "com.github.rostmyr.jfibers.benchmarks.HttpSupport$Api.firstAsync",
+                "com.github.rostmyr.jfibers.benchmarks.HttpFiberWorkload.run_FiberUpdate",
+                "com.github.rostmyr.jfibers.benchmarks.HttpFiberWorkload$run_Fiber.update",
+                "com.github.rostmyr.jfibers.FiberManager.executeFiber",
+                "com.github.rostmyr.jfibers.FiberManager.execute",
+                "com.github.rostmyr.jfibers.FiberManager.run",
+                "com.github.rostmyr.jfibers.benchmarks.HttpLoadProbe.runFibers",
+                "com.github.rostmyr.jfibers.benchmarks.HttpLoadProbe.runPhase",
+                "com.github.rostmyr.jfibers.benchmarks.HttpLoadProbe.main"
+              ],
+              "samples": 8
+            },
+            {
+              "frames": [
+                "java.util.concurrent.ConcurrentLinkedDeque.peekFirst",
+                "java.util.concurrent.ConcurrentLinkedDeque.isEmpty",
+                "jdk.internal.net.http.Http1AsyncReceiver.subscribe",
+                "jdk.internal.net.http.Http1Response.lambda$readBody$1",
+                "jdk.internal.net.http.Http1Response$$Lambda.0x000000003b3dd800.run",
+                "jdk.internal.net.http.HttpClientImpl$DelegatingExecutor.execute",
+                "jdk.internal.net.http.Http1Response.readBody",
+                "jdk.internal.net.http.Http1Exchange.readBodyAsync",
+                "jdk.internal.net.http.Exchange.readBodyAsync",
+                "jdk.internal.net.http.MultiExchange.lambda$responseAsync0$1",
+                "jdk.internal.net.http.MultiExchange$$Lambda.0x000000003b35d200.apply",
+                "java.util.concurrent.CompletableFuture$UniCompose.tryFire",
+                "java.util.concurrent.CompletableFuture.postComplete",
+                "java.util.concurrent.CompletableFuture.postFire",
+                "java.util.concurrent.CompletableFuture$UniApply.tryFire",
+                "java.util.concurrent.CompletableFuture$Completion.run",
+                "jdk.internal.net.http.HttpClientImpl$DelegatingExecutor.execute",
+                "java.util.concurrent.CompletableFuture$UniCompletion.claim",
+                "java.util.concurrent.CompletableFuture$UniApply.tryFire",
+                "java.util.concurrent.CompletableFuture.postComplete",
+                "java.util.concurrent.CompletableFuture.complete",
+                "jdk.internal.net.http.Http1Response$HeadersReader.handle",
+                "jdk.internal.net.http.Http1Response$HeadersReader.handle",
+                "jdk.internal.net.http.Http1Response$Receiver.accept",
+                "jdk.internal.net.http.Http1Response$HeadersReader.tryAsyncReceive",
+                "jdk.internal.net.http.Http1AsyncReceiver.flush",
+                "jdk.internal.net.http.Http1AsyncReceiver$$Lambda.0x000000003b3c7400.run",
+                "jdk.internal.net.http.common.SequentialScheduler$LockingRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$CompleteRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$SchedulableTask.run",
+                "java.util.concurrent.ThreadPoolExecutor.runWorker",
+                "java.util.concurrent.ThreadPoolExecutor$Worker.run",
+                "java.lang.Thread.runWith",
+                "java.lang.Thread.run"
+              ],
+              "samples": 8
+            },
+            {
+              "frames": [
+                "jdk.internal.net.http.HttpClientImpl$SelectorManager.eventUpdated",
+                "jdk.internal.net.http.HttpClientImpl.eventUpdated",
+                "jdk.internal.net.http.SocketTube.resumeEvent",
+                "jdk.internal.net.http.SocketTube$InternalReadPublisher$InternalReadSubscription.resumeReadEvent",
+                "jdk.internal.net.http.SocketTube$InternalReadPublisher$InternalReadSubscription.request",
+                "jdk.internal.net.http.SocketTube$InternalReadPublisher$ReadSubscription.request",
+                "jdk.internal.net.http.Http1AsyncReceiver$Http1TubeSubscriber.requestMore",
+                "jdk.internal.net.http.Http1AsyncReceiver.checkRequestMore",
+                "jdk.internal.net.http.Http1AsyncReceiver.flush",
+                "jdk.internal.net.http.Http1AsyncReceiver$$Lambda.0x000000003b3c7400.run",
+                "jdk.internal.net.http.common.SequentialScheduler$LockingRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$CompleteRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$SchedulableTask.run",
+                "java.util.concurrent.ThreadPoolExecutor.runWorker",
+                "java.util.concurrent.ThreadPoolExecutor$Worker.run",
+                "java.lang.Thread.runWith",
+                "java.lang.Thread.run"
+              ],
+              "samples": 8
+            },
+            {
+              "frames": [
+                "java.util.TreeMap.fixAfterDeletion",
+                "java.util.TreeMap.deleteEntry",
+                "java.util.TreeMap.remove",
+                "java.util.TreeSet.remove",
+                "jdk.internal.net.http.HttpClientImpl.cancelTimer",
+                "jdk.internal.net.http.MultiExchange.cancelTimer",
+                "jdk.internal.net.http.Http1Exchange$Http1ResponseBodySubscriber.onTermination",
+                "jdk.internal.net.http.common.HttpBodySubscriberWrapper.complete",
+                "jdk.internal.net.http.common.HttpBodySubscriberWrapper.onComplete",
+                "jdk.internal.net.http.ResponseContent$FixedLengthBodyParser.accept",
+                "jdk.internal.net.http.ResponseContent$FixedLengthBodyParser.accept",
+                "jdk.internal.net.http.Http1Response$BodyReader.handle",
+                "jdk.internal.net.http.Http1Response$BodyReader.handle",
+                "jdk.internal.net.http.Http1Response$Receiver.accept",
+                "jdk.internal.net.http.Http1Response$BodyReader.tryAsyncReceive",
+                "jdk.internal.net.http.Http1AsyncReceiver.flush",
+                "jdk.internal.net.http.Http1AsyncReceiver$$Lambda.0x000000003b3c7400.run",
+                "jdk.internal.net.http.common.SequentialScheduler$LockingRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$CompleteRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$TryEndDeferredCompleter.complete",
+                "jdk.internal.net.http.common.SequentialScheduler$CompleteRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$SchedulableTask.run",
+                "java.util.concurrent.ThreadPoolExecutor.runWorker",
+                "java.util.concurrent.ThreadPoolExecutor$Worker.run",
+                "java.lang.Thread.runWith",
+                "java.lang.Thread.run"
+              ],
+              "samples": 8
+            },
+            {
+              "frames": [
+                "jdk.internal.net.http.HttpClientImpl$SelectorManager.run",
+                "java.lang.Thread.runWith",
+                "java.lang.VirtualThread.run",
+                "java.lang.VirtualThread$VThreadContinuation$1.run",
+                "jdk.internal.vm.Continuation.enter0",
+                "jdk.internal.vm.Continuation.enter",
+                "jdk.internal.vm.Continuation.enterSpecial"
+              ],
+              "samples": 7
+            },
+            {
+              "frames": [
+                "jdk.internal.net.http.SocketTube$InternalWriteSubscriber$WriteSubscription.requestMore",
+                "jdk.internal.net.http.SocketTube$InternalWriteSubscriber.requestMore",
+                "jdk.internal.net.http.SocketTube$InternalWriteSubscriber$$Lambda.0x000000003b3d2800.run",
+                "java.util.concurrent.ThreadPoolExecutor.runWorker",
+                "java.util.concurrent.ThreadPoolExecutor$Worker.run",
+                "java.lang.Thread.runWith",
+                "java.lang.Thread.run"
+              ],
+              "samples": 7
+            },
+            {
+              "frames": [
+                "com.github.rostmyr.jfibers.benchmarks.HttpFiberWorkload.run_FiberUpdate",
+                "com.github.rostmyr.jfibers.benchmarks.HttpFiberWorkload$run_Fiber.update",
+                "com.github.rostmyr.jfibers.FiberManager.executeFiber",
+                "com.github.rostmyr.jfibers.FiberManager.execute",
+                "com.github.rostmyr.jfibers.FiberManager.run",
+                "com.github.rostmyr.jfibers.benchmarks.HttpLoadProbe.runFibers",
+                "com.github.rostmyr.jfibers.benchmarks.HttpLoadProbe.runPhase",
+                "com.github.rostmyr.jfibers.benchmarks.HttpLoadProbe.main"
+              ],
+              "samples": 7
+            }
+          ]
+        },
+        "jdk.NativeMethodSample": {
+          "samples_with_stack": 487,
+          "inclusive_categories_samples_overlap": {
+            "socket_io": 487,
+            "jdk_http": 125,
+            "fork_join_or_virtual_thread": 25
+          },
+          "top_sampled_leaf_methods": [
+            {
+              "method": "sun.nio.ch.EPoll.wait",
+              "samples": 370
+            },
+            {
+              "method": "sun.nio.ch.SocketDispatcher.writev0",
+              "samples": 79
+            },
+            {
+              "method": "sun.nio.ch.EventFD.set0",
+              "samples": 17
+            },
+            {
+              "method": "sun.nio.ch.SocketDispatcher.read0",
+              "samples": 15
+            },
+            {
+              "method": "sun.nio.ch.EPoll.ctl",
+              "samples": 4
+            },
+            {
+              "method": "sun.nio.ch.Net.connect0",
+              "samples": 1
+            },
+            {
+              "method": "sun.nio.ch.IOUtil.drain",
+              "samples": 1
+            }
+          ],
+          "top_sampled_stacks": [
+            {
+              "frames": [
+                "sun.nio.ch.EPoll.wait",
+                "sun.nio.ch.EPollPoller.poll",
+                "sun.nio.ch.Poller.pollerLoop",
+                "sun.nio.ch.Poller$VThreadsPollerGroup$$Lambda.0x000000003b31d000.run",
+                "java.lang.Thread.runWith",
+                "java.lang.Thread.run",
+                "jdk.internal.misc.InnocuousThread.run"
+              ],
+              "samples": 362
+            },
+            {
+              "frames": [
+                "sun.nio.ch.SocketDispatcher.writev0",
+                "sun.nio.ch.SocketDispatcher.writev",
+                "sun.nio.ch.IOUtil.write",
+                "sun.nio.ch.IOUtil.write",
+                "sun.nio.ch.SocketChannelImpl.implWrite",
+                "sun.nio.ch.SocketChannelImpl.write",
+                "java.nio.channels.SocketChannel.write",
+                "jdk.internal.net.http.SocketTube.writeAvailable",
+                "jdk.internal.net.http.SocketTube$InternalWriteSubscriber.tryFlushCurrent",
+                "jdk.internal.net.http.SocketTube$InternalWriteSubscriber.onNext",
+                "jdk.internal.net.http.SocketTube.onNext",
+                "jdk.internal.net.http.SocketTube.onNext",
+                "jdk.internal.net.http.Http1Exchange$Http1Publisher$WriteTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$LockingRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$CompleteRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$SchedulableTask.run",
+                "jdk.internal.net.http.HttpClientImpl$DelegatingExecutor.execute",
+                "jdk.internal.net.http.common.SequentialScheduler.runOrSchedule",
+                "jdk.internal.net.http.common.SequentialScheduler.runOrSchedule",
+                "jdk.internal.net.http.Http1Exchange$Http1Publisher$Http1WriteSubscription.request",
+                "jdk.internal.net.http.SocketTube$InternalWriteSubscriber$WriteSubscription.requestMore",
+                "jdk.internal.net.http.SocketTube$InternalWriteSubscriber.requestMore",
+                "jdk.internal.net.http.SocketTube$InternalWriteSubscriber$$Lambda.0x000000003b3d2800.run",
+                "java.util.concurrent.ThreadPoolExecutor.runWorker",
+                "java.util.concurrent.ThreadPoolExecutor$Worker.run",
+                "java.lang.Thread.runWith",
+                "java.lang.Thread.run"
+              ],
+              "samples": 77
+            },
+            {
+              "frames": [
+                "sun.nio.ch.SocketDispatcher.read0",
+                "sun.nio.ch.SocketDispatcher.read",
+                "sun.nio.ch.IOUtil.readIntoNativeBuffer",
+                "sun.nio.ch.IOUtil.read",
+                "sun.nio.ch.IOUtil.read",
+                "sun.nio.ch.SocketChannelImpl.implRead",
+                "sun.nio.ch.SocketChannelImpl.read",
+                "jdk.internal.net.http.SocketTube.readAvailable",
+                "jdk.internal.net.http.SocketTube$InternalReadPublisher$InternalReadSubscription.read",
+                "jdk.internal.net.http.SocketTube$InternalReadPublisher$InternalReadSubscription$$Lambda.0x000000003b3c3000.run",
+                "jdk.internal.net.http.SocketTube$SocketFlowTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$SchedulableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler.runOrSchedule",
+                "jdk.internal.net.http.common.SequentialScheduler.runOrSchedule",
+                "jdk.internal.net.http.SocketTube$InternalReadPublisher$InternalReadSubscription.signalReadable",
+                "jdk.internal.net.http.SocketTube$InternalReadPublisher$ReadEvent.signalEvent",
+                "jdk.internal.net.http.SocketTube$SocketFlowEvent.handle",
+                "jdk.internal.net.http.HttpClientImpl$SelectorManager.handleEvent",
+                "jdk.internal.net.http.HttpClientImpl$SelectorManager.lambda$run$3",
+                "jdk.internal.net.http.HttpClientImpl$SelectorManager$$Lambda.0x000000003b3d0800.accept",
+                "java.util.ArrayList.forEach",
+                "jdk.internal.net.http.HttpClientImpl$SelectorManager.run",
+                "java.lang.Thread.runWith",
+                "java.lang.VirtualThread.run",
+                "java.lang.VirtualThread$VThreadContinuation$1.run",
+                "jdk.internal.vm.Continuation.enter0",
+                "jdk.internal.vm.Continuation.enter",
+                "jdk.internal.vm.Continuation.enterSpecial"
+              ],
+              "samples": 12
+            },
+            {
+              "frames": [
+                "sun.nio.ch.EventFD.set0",
+                "sun.nio.ch.EventFD.set",
+                "sun.nio.ch.EPollSelectorImpl.wakeup",
+                "jdk.internal.net.http.HttpClientImpl$SelectorManager.register",
+                "jdk.internal.net.http.HttpClientImpl.registerEvent",
+                "jdk.internal.net.http.SocketTube$InternalReadPublisher$InternalReadSubscription.signalSubscribe",
+                "jdk.internal.net.http.SocketTube$InternalReadPublisher$InternalReadSubscription.offer",
+                "jdk.internal.net.http.SocketTube$InternalReadPublisher.subscribe",
+                "jdk.internal.net.http.SocketTube.subscribe",
+                "jdk.internal.net.http.SocketTube.connectFlows",
+                "jdk.internal.net.http.ConnectionPool.registerCleanupTrigger",
+                "jdk.internal.net.http.ConnectionPool.returnToPool",
+                "jdk.internal.net.http.ConnectionPool.returnToPool",
+                "jdk.internal.net.http.HttpConnection.closeOrReturnToCache",
+                "jdk.internal.net.http.Http1Response.onFinished",
+                "jdk.internal.net.http.Http1Response$$Lambda.0x000000003b3e4800.run",
+                "jdk.internal.net.http.ResponseContent$FixedLengthBodyParser.accept",
+                "jdk.internal.net.http.ResponseContent$FixedLengthBodyParser.accept",
+                "jdk.internal.net.http.Http1Response$BodyReader.handle",
+                "jdk.internal.net.http.Http1Response$BodyReader.handle",
+                "jdk.internal.net.http.Http1Response$Receiver.accept",
+                "jdk.internal.net.http.Http1Response$BodyReader.tryAsyncReceive",
+                "jdk.internal.net.http.Http1AsyncReceiver.flush",
+                "jdk.internal.net.http.Http1AsyncReceiver$$Lambda.0x000000003b3c7400.run",
+                "jdk.internal.net.http.common.SequentialScheduler$LockingRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$CompleteRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$TryEndDeferredCompleter.complete",
+                "jdk.internal.net.http.common.SequentialScheduler$CompleteRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$SchedulableTask.run",
+                "java.util.concurrent.ThreadPoolExecutor.runWorker",
+                "java.util.concurrent.ThreadPoolExecutor$Worker.run",
+                "java.lang.Thread.runWith",
+                "java.lang.Thread.run"
+              ],
+              "samples": 9
+            },
+            {
+              "frames": [
+                "sun.nio.ch.EPoll.wait",
+                "sun.nio.ch.EPollSelectorImpl.timedPoll",
+                "sun.nio.ch.EPollSelectorImpl.doSelect",
+                "sun.nio.ch.SelectorImpl.lockAndDoSelect",
+                "sun.nio.ch.SelectorImpl.select",
+                "jdk.internal.net.http.HttpClientImpl$SelectorManager.run",
+                "java.lang.Thread.runWith",
+                "java.lang.VirtualThread.run",
+                "java.lang.VirtualThread$VThreadContinuation$1.run",
+                "jdk.internal.vm.Continuation.enter0",
+                "jdk.internal.vm.Continuation.enter",
+                "jdk.internal.vm.Continuation.enterSpecial"
+              ],
+              "samples": 5
+            },
+            {
+              "frames": [
+                "sun.nio.ch.EventFD.set0",
+                "sun.nio.ch.EventFD.set",
+                "sun.nio.ch.EPollSelectorImpl.wakeup",
+                "jdk.internal.net.http.HttpClientImpl$SelectorManager.wakeupSelector",
+                "jdk.internal.net.http.HttpClientImpl.registerTimer",
+                "jdk.internal.net.http.MultiExchange.responseAsyncImpl",
+                "jdk.internal.net.http.MultiExchange.lambda$responseAsync0$0",
+                "jdk.internal.net.http.MultiExchange$$Lambda.0x000000003b35ca00.apply",
+                "java.util.concurrent.CompletableFuture$UniCompose.tryFire",
+                "java.util.concurrent.CompletableFuture.postComplete",
+                "java.util.concurrent.CompletableFuture$AsyncSupply.run",
+                "java.util.concurrent.ThreadPoolExecutor.runWorker",
+                "java.util.concurrent.ThreadPoolExecutor$Worker.run",
+                "java.lang.Thread.runWith",
+                "java.lang.Thread.run"
+              ],
+              "samples": 5
+            },
+            {
+              "frames": [
+                "sun.nio.ch.EventFD.set0",
+                "sun.nio.ch.EventFD.set",
+                "sun.nio.ch.EPollSelectorImpl.wakeup",
+                "jdk.internal.net.http.HttpClientImpl$SelectorManager.register",
+                "jdk.internal.net.http.HttpClientImpl$SelectorManager.eventUpdated",
+                "jdk.internal.net.http.HttpClientImpl.eventUpdated",
+                "jdk.internal.net.http.SocketTube.resumeEvent",
+                "jdk.internal.net.http.SocketTube$InternalReadPublisher$InternalReadSubscription.resumeReadEvent",
+                "jdk.internal.net.http.SocketTube$InternalReadPublisher$InternalReadSubscription.request",
+                "jdk.internal.net.http.SocketTube$InternalReadPublisher$ReadSubscription.request",
+                "jdk.internal.net.http.Http1AsyncReceiver$Http1TubeSubscriber.requestMore",
+                "jdk.internal.net.http.Http1AsyncReceiver.checkRequestMore",
+                "jdk.internal.net.http.Http1AsyncReceiver.flush",
+                "jdk.internal.net.http.Http1AsyncReceiver$$Lambda.0x000000003b3c7400.run",
+                "jdk.internal.net.http.common.SequentialScheduler$LockingRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$CompleteRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$SchedulableTask.run",
+                "java.util.concurrent.ThreadPoolExecutor.runWorker",
+                "java.util.concurrent.ThreadPoolExecutor$Worker.run",
+                "java.lang.Thread.runWith",
+                "java.lang.Thread.run"
+              ],
+              "samples": 3
+            },
+            {
+              "frames": [
+                "sun.nio.ch.EPoll.wait",
+                "sun.nio.ch.EPollSelectorImpl.untimedPoll",
+                "sun.nio.ch.EPollSelectorImpl.doSelect",
+                "sun.nio.ch.SelectorImpl.lockAndDoSelect",
+                "sun.nio.ch.SelectorImpl.selectNow",
+                "jdk.internal.net.http.HttpClientImpl$SelectorManager.run",
+                "java.lang.Thread.runWith",
+                "java.lang.VirtualThread.run",
+                "java.lang.VirtualThread$VThreadContinuation$1.run",
+                "jdk.internal.vm.Continuation.enter0",
+                "jdk.internal.vm.Continuation.enter",
+                "jdk.internal.vm.Continuation.enterSpecial"
+              ],
+              "samples": 3
+            },
+            {
+              "frames": [
+                "sun.nio.ch.SocketDispatcher.read0",
+                "sun.nio.ch.SocketDispatcher.read",
+                "sun.nio.ch.IOUtil.readIntoNativeBuffer",
+                "sun.nio.ch.IOUtil.read",
+                "sun.nio.ch.IOUtil.read",
+                "sun.nio.ch.SocketChannelImpl.implRead",
+                "sun.nio.ch.SocketChannelImpl.read",
+                "jdk.internal.net.http.HttpConnection.checkOpen",
+                "jdk.internal.net.http.HttpConnection.getConnection",
+                "jdk.internal.net.http.Http1Exchange.<init>",
+                "jdk.internal.net.http.ExchangeImpl.createHttp1Exchange",
+                "jdk.internal.net.http.ExchangeImpl.get",
+                "jdk.internal.net.http.Exchange.establishExchange",
+                "jdk.internal.net.http.Exchange.responseAsyncImpl",
+                "jdk.internal.net.http.Exchange.responseAsync",
+                "jdk.internal.net.http.MultiExchange.responseAsyncImpl",
+                "jdk.internal.net.http.MultiExchange.lambda$responseAsync0$0",
+                "jdk.internal.net.http.MultiExchange$$Lambda.0x000000003b35ca00.apply",
+                "java.util.concurrent.CompletableFuture$UniCompose.tryFire",
+                "java.util.concurrent.CompletableFuture.postComplete",
+                "java.util.concurrent.CompletableFuture$AsyncSupply.run",
+                "java.util.concurrent.ThreadPoolExecutor.runWorker",
+                "java.util.concurrent.ThreadPoolExecutor$Worker.run",
+                "java.lang.Thread.runWith",
+                "java.lang.Thread.run"
+              ],
+              "samples": 3
+            },
+            {
+              "frames": [
+                "sun.nio.ch.EPoll.ctl",
+                "sun.nio.ch.EPollSelectorImpl.processUpdateQueue",
+                "sun.nio.ch.EPollSelectorImpl.doSelect",
+                "sun.nio.ch.SelectorImpl.lockAndDoSelect",
+                "sun.nio.ch.SelectorImpl.select",
+                "jdk.internal.net.http.HttpClientImpl$SelectorManager.run",
+                "java.lang.Thread.runWith",
+                "java.lang.VirtualThread.run",
+                "java.lang.VirtualThread$VThreadContinuation$1.run",
+                "jdk.internal.vm.Continuation.enter0",
+                "jdk.internal.vm.Continuation.enter",
+                "jdk.internal.vm.Continuation.enterSpecial"
+              ],
+              "samples": 2
+            },
+            {
+              "frames": [
+                "sun.nio.ch.SocketDispatcher.writev0",
+                "sun.nio.ch.SocketDispatcher.writev",
+                "sun.nio.ch.IOUtil.write",
+                "sun.nio.ch.IOUtil.write",
+                "sun.nio.ch.SocketChannelImpl.implWrite",
+                "sun.nio.ch.SocketChannelImpl.write",
+                "java.nio.channels.SocketChannel.write",
+                "jdk.internal.net.http.SocketTube.writeAvailable",
+                "jdk.internal.net.http.SocketTube$InternalWriteSubscriber.tryFlushCurrent",
+                "jdk.internal.net.http.SocketTube$InternalWriteSubscriber.onNext",
+                "jdk.internal.net.http.SocketTube.onNext",
+                "jdk.internal.net.http.SocketTube.onNext",
+                "jdk.internal.net.http.Http1Exchange$Http1Publisher$WriteTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$LockingRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$CompleteRestartableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler$SchedulableTask.run",
+                "jdk.internal.net.http.common.SequentialScheduler.runOrSchedule",
+                "jdk.internal.net.http.common.SequentialScheduler.runOrSchedule",
+                "jdk.internal.net.http.Http1Exchange.appendToOutgoing",
+                "jdk.internal.net.http.Http1Exchange.appendToOutgoing",
+                "jdk.internal.net.http.Http1Exchange.lambda$sendHeadersAsync$2",
+                "jdk.internal.net.http.Http1Exchange$$Lambda.0x000000003b3c9400.apply",
+                "java.util.concurrent.CompletableFuture.uniComposeStage",
+                "java.util.concurrent.CompletableFuture.thenCompose",
+                "jdk.internal.net.http.Http1Exchange.sendHeadersAsync",
+                "jdk.internal.net.http.Exchange.lambda$responseAsyncImpl$0",
+                "jdk.internal.net.http.Exchange$$Lambda.0x000000003b360400.apply",
+                "jdk.internal.net.http.Exchange.checkFor407",
+                "jdk.internal.net.http.Exchange.lambda$responseAsyncImpl$2",
+                "jdk.internal.net.http.Exchange$$Lambda.0x000000003b3cc800.apply",
+                "java.util.concurrent.CompletableFuture.uniHandle",
+                "java.util.concurrent.CompletableFuture.uniHandleStage",
+                "java.util.concurrent.CompletableFuture.handle",
+                "jdk.internal.net.http.Exchange.responseAsyncImpl",
+                "jdk.internal.net.http.Exchange.responseAsync",
+                "jdk.internal.net.http.MultiExchange.responseAsyncImpl",
+                "jdk.internal.net.http.MultiExchange.lambda$responseAsync0$0",
+                "jdk.internal.net.http.MultiExchange$$Lambda.0x000000003b35ca00.apply",
+                "java.util.concurrent.CompletableFuture$UniCompose.tryFire",
+                "java.util.concurrent.CompletableFuture.postComplete",
+                "java.util.concurrent.CompletableFuture$AsyncSupply.run",
+                "java.util.concurrent.ThreadPoolExecutor.runWorker",
+                "java.util.concurrent.ThreadPoolExecutor$Worker.run",
+                "java.lang.Thread.runWith",
+                "java.lang.Thread.run"
+              ],
+              "samples": 2
+            },
+            {
+              "frames": [
+                "sun.nio.ch.Net.connect0",
+                "sun.nio.ch.Net.connect",
+                "sun.nio.ch.Net.connect",
+                "sun.nio.ch.SocketChannelImpl.connect",
+                "jdk.internal.net.http.PlainHttpConnection.connectAsync",
+                "jdk.internal.net.http.Http1Exchange.sendHeadersAsync",
+                "jdk.internal.net.http.Exchange.lambda$responseAsyncImpl$0",
+                "jdk.internal.net.http.Exchange$$Lambda.0x000000003b360400.apply",
+                "jdk.internal.net.http.Exchange.checkFor407",
+                "jdk.internal.net.http.Exchange.lambda$responseAsyncImpl$2",
+                "jdk.internal.net.http.Exchange$$Lambda.0x000000003b3cc800.apply",
+                "java.util.concurrent.CompletableFuture.uniHandle",
+                "java.util.concurrent.CompletableFuture.uniHandleStage",
+                "java.util.concurrent.CompletableFuture.handle",
+                "jdk.internal.net.http.Exchange.responseAsyncImpl",
+                "jdk.internal.net.http.Exchange.responseAsync",
+                "jdk.internal.net.http.MultiExchange.responseAsyncImpl",
+                "jdk.internal.net.http.MultiExchange.lambda$responseAsync0$0",
+                "jdk.internal.net.http.MultiExchange$$Lambda.0x000000003b35ca00.apply",
+                "java.util.concurrent.CompletableFuture$UniCompose.tryFire",
+                "java.util.concurrent.CompletableFuture.postComplete",
+                "java.util.concurrent.CompletableFuture$AsyncSupply.run",
+                "java.util.concurrent.ThreadPoolExecutor.runWorker",
+                "java.util.concurrent.ThreadPoolExecutor$Worker.run",
+                "java.lang.Thread.runWith",
+                "java.lang.Thread.run"
+              ],
+              "samples": 1
+            },
+            {
+              "frames": [
+                "sun.nio.ch.EPoll.ctl",
+                "sun.nio.ch.EPollSelectorImpl.implDereg",
+                "sun.nio.ch.SelectorImpl.processDeregisterQueue",
+                "sun.nio.ch.EPollSelectorImpl.doSelect",
+                "sun.nio.ch.SelectorImpl.lockAndDoSelect",
+                "sun.nio.ch.SelectorImpl.select",
+                "jdk.internal.net.http.HttpClientImpl$SelectorManager.run",
+                "java.lang.Thread.runWith",
+                "java.lang.VirtualThread.run",
+                "java.lang.VirtualThread$VThreadContinuation$1.run",
+                "jdk.internal.vm.Continuation.enter0",
+                "jdk.internal.vm.Continuation.enter",
+                "jdk.internal.vm.Continuation.enterSpecial"
+              ],
+              "samples": 1
+            },
+            {
+              "frames": [
+                "sun.nio.ch.EPoll.ctl",
+                "sun.nio.ch.EPollPoller.implStartPoll",
+                "sun.nio.ch.Poller.startPoll",
+                "sun.nio.ch.Poller.poll",
+                "sun.nio.ch.Poller$VThreadsPollerGroup.pollSelector",
+                "sun.nio.ch.Poller.pollSelector",
+                "sun.nio.ch.EPollSelectorImpl.timedPoll",
+                "sun.nio.ch.EPollSelectorImpl.doSelect",
+                "sun.nio.ch.SelectorImpl.lockAndDoSelect",
+                "sun.nio.ch.SelectorImpl.select",
+                "jdk.internal.net.http.HttpClientImpl$SelectorManager.run",
+                "java.lang.Thread.runWith",
+                "java.lang.VirtualThread.run",
+                "java.lang.VirtualThread$VThreadContinuation$1.run",
+                "jdk.internal.vm.Continuation.enter0",
+                "jdk.internal.vm.Continuation.enter",
+                "jdk.internal.vm.Continuation.enterSpecial"
+              ],
+              "samples": 1
+            },
+            {
+              "frames": [
+                "sun.nio.ch.IOUtil.drain",
+                "sun.nio.ch.EventFD.reset",
+                "sun.nio.ch.EPollSelectorImpl.clearInterrupt",
+                "sun.nio.ch.EPollSelectorImpl.processEvents",
+                "sun.nio.ch.EPollSelectorImpl.doSelect",
+                "sun.nio.ch.SelectorImpl.lockAndDoSelect",
+                "sun.nio.ch.SelectorImpl.select",
+                "jdk.internal.net.http.HttpClientImpl$SelectorManager.run",
+                "java.lang.Thread.runWith",
+                "java.lang.VirtualThread.run",
+                "java.lang.VirtualThread$VThreadContinuation$1.run",
+                "jdk.internal.vm.Continuation.enter0",
+                "jdk.internal.vm.Continuation.enter",
+                "jdk.internal.vm.Continuation.enterSpecial"
+              ],
+              "samples": 1
+            }
+          ]
+        }
+      },
+      "total_allocation_sample_weight_bytes": 5621307656,
+      "top_allocation_classes_by_sample_weight": [
+        {
+          "class": "[B",
+          "weight_bytes": 1429405016
+        },
+        {
+          "class": "jdk.internal.net.http.common.MinimalFuture",
+          "weight_bytes": 541949808
+        },
+        {
+          "class": "[Ljava.lang.Object;",
+          "weight_bytes": 227061624
+        },
+        {
+          "class": "java.lang.String",
+          "weight_bytes": 224520728
+        },
+        {
+          "class": "java.util.TreeMap",
+          "weight_bytes": 194752320
+        },
+        {
+          "class": "java.util.concurrent.CompletableFuture$UniWhenComplete",
+          "weight_bytes": 133399496
+        },
+        {
+          "class": "java.util.concurrent.CompletableFuture$UniCompose",
+          "weight_bytes": 121591352
+        },
+        {
+          "class": "java.util.stream.ReferencePipeline$Head",
+          "weight_bytes": 118924960
+        },
+        {
+          "class": "java.util.ArrayList",
+          "weight_bytes": 105992992
+        },
+        {
+          "class": "java.util.TreeMap$Entry",
+          "weight_bytes": 100210616
+        },
+        {
+          "class": "java.lang.reflect.Constructor",
+          "weight_bytes": 88503040
+        },
+        {
+          "class": "java.util.concurrent.CompletableFuture$AsyncSupply",
+          "weight_bytes": 82835632
+        },
+        {
+          "class": "java.util.concurrent.locks.ReentrantLock",
+          "weight_bytes": 74220504
+        },
+        {
+          "class": "java.util.HashMap$Node",
+          "weight_bytes": 70671488
+        },
+        {
+          "class": "java.util.AbstractList$RandomAccessSpliterator",
+          "weight_bytes": 70202976
+        },
+        {
+          "class": "java.time.Instant",
+          "weight_bytes": 68251416
+        },
+        {
+          "class": "java.util.TreeSet",
+          "weight_bytes": 61891784
+        },
+        {
+          "class": "java.util.concurrent.CompletableFuture$UniRelay",
+          "weight_bytes": 50912840
+        },
+        {
+          "class": "java.nio.HeapByteBuffer",
+          "weight_bytes": 47752552
+        },
+        {
+          "class": "java.lang.Long",
+          "weight_bytes": 47249312
+        }
+      ]
+    }
+  }
+]
