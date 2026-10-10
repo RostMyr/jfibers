@@ -120,6 +120,12 @@
 
     <profiles>
         <profile>
+            <id>benchmarks</id>
+            <modules>
+                <module>jfibers-benchmarks</module>
+            </modules>
+        </profile>
+        <profile>
             <id>code-analysis</id>
             <build>
                 <plugins>

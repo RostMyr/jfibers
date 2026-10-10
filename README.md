@@ -36,6 +36,18 @@ The build compiles to Java 27 bytecode, so the resulting artifacts also require
 Java 27 or newer. Fiber methods require line numbers and local variable metadata;
 the parent POM enables both. Consumers must also compile with this debug metadata.
 
+## Performance Benchmarks
+
+The optional [benchmark module](jfibers-benchmarks/README.md) compares the current
+build-time-instrumented fibers with virtual threads and `CompletableFuture`.
+It measures batch completion time, allocations, idle CPU, retained Java heap,
+and propagation of cancellation from the input futures.
+
+```sh
+./mvnw -Pbenchmarks -pl jfibers-benchmarks -am clean verify
+python3 jfibers-benchmarks/run.py
+```
+
 ## Scheduling and Failures
 
 `FiberManager.run()` updates fibers in round-robin order and returns when its
