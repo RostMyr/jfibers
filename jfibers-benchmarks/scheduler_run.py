@@ -20,8 +20,8 @@ def main():
     parser.add_argument("--variant", action="append", help="LABEL=/path/to/core.jar; repeat for paired comparisons")
     parser.add_argument("--scenarios", nargs="+", choices=["ready", "owner", "external"],
                         default=["ready", "owner", "external"])
-    parser.add_argument("--diagnostics", nargs="+", choices=["off", "on", "recording"], default=["off"],
-                        help="on enables hooks without a recording; recording also starts profile JFR")
+    parser.add_argument("--diagnostics", nargs="+", choices=["off", "on", "standard", "recording"], default=["off"],
+                        help="on: hooks only; standard: JDK profile JFR only; recording: hooks and profile JFR")
     parser.add_argument("--forks", type=int, default=3)
     parser.add_argument("--quick", action="store_true")
     parser.add_argument("--output", type=Path, required=True)
@@ -76,8 +76,8 @@ def main():
                 for (label, core), mode in choices[offset:] + choices[:offset]:
                     name = f"{fork + 1}-{scenario}-{label}-{mode}"
                     print(name, flush=True)
-                    flags = [*JVM_FLAGS, "-Xverify:all", "-Djfibers.jfr=" + str(mode != "off").lower()]
-                    if mode == "recording":
+                    flags = [*JVM_FLAGS, "-Xverify:all", "-Djfibers.jfr=" + str(mode in {"on", "recording"}).lower()]
+                    if mode in {"standard", "recording"}:
                         flags.append(f"-XX:StartFlightRecording=settings=profile,filename={output / (name + '.jfr')}")
                     benchmark, parameter = ("TaskBenchmarks.jfibers", "delayMillis=0") if scenario == "ready" else (
                         "NotificationBenchmarks.notifications", "producer=" + scenario.upper())

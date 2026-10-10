@@ -8,7 +8,6 @@ import java.util.Set;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.LockSupport;
 
@@ -24,7 +23,6 @@ public class FiberManager implements AutoCloseable {
     private Fiber<?> last;
     private Fiber<?> active;
     private final AtomicInteger size = new AtomicInteger();
-    private final AtomicBoolean wakeupArmed = new AtomicBoolean();
     private final ConcurrentLinkedQueue<FiberWait> signals = new ConcurrentLinkedQueue<>();
     private final ConcurrentLinkedQueue<Fiber<?>> cancellations = new ConcurrentLinkedQueue<>();
     private final Set<FiberWait> polled = new HashSet<>();
@@ -131,6 +129,8 @@ public class FiberManager implements AutoCloseable {
                 Fiber<?> fiber = dequeue();
                 if (fiber == null) {
                     park();
+                } else if (FiberProfiler.ENABLED) {
+                    executeProfiled(fiber);
                 } else {
                     execute(fiber);
                 }
@@ -174,19 +174,17 @@ public class FiberManager implements AutoCloseable {
         return fiber;
     }
 
-    private void execute(Fiber<?> fiber) {
-        FiberProfiler trace = FiberProfiler.ENABLED ? profiler : null;
-        long started = trace == null ? 0 : trace.beforeExecute(fiber);
+    private void executeProfiled(Fiber<?> fiber) {
+        FiberProfiler trace = profiler;
+        long started = trace.beforeExecute(fiber);
         try {
-            executeFiber(fiber);
+            execute(fiber);
         } finally {
-            if (trace != null) {
-                trace.afterExecute(started, size.get());
-            }
+            trace.afterExecute(started, size.get());
         }
     }
 
-    private void executeFiber(Fiber<?> fiber) {
+    private void execute(Fiber<?> fiber) {
         fiber.status(FiberStatus.RUNNING);
         if (fiber.finishing) {
             finish(fiber);
@@ -227,29 +225,24 @@ public class FiberManager implements AutoCloseable {
                 delay = Math.min(delay, Math.max(1, deadlines.peek().deadlineNanos - now));
             }
         }
-        // Publish intent before checking mailboxes: a racing producer either appears in
-        // this check or supplies an unpark permit for the park below. Only one producer
-        // needs to unpark; notifications remain in the queues until the owner drains them.
-        wakeupArmed.set(true);
+        // Owner-thread callbacks need no unpark, but may have queued work since the
+        // last drain. External producers always supply a permit, including races
+        // between this check and park. LockSupport already coalesces those permits.
+        if (!signals.isEmpty() || !cancellations.isEmpty() || cancelAllRequested || (interrupted && !closing)) {
+            return;
+        }
+        FiberProfiler trace = FiberProfiler.ENABLED ? profiler : null;
+        long started = trace == null ? 0 : trace.beforePark();
         try {
-            if (!signals.isEmpty() || !cancellations.isEmpty() || cancelAllRequested || (interrupted && !closing)) {
-                return;
-            }
-            FiberProfiler trace = FiberProfiler.ENABLED ? profiler : null;
-            long started = trace == null ? 0 : trace.beforePark();
-            try {
-                if (delay == Long.MAX_VALUE) {
-                    LockSupport.park(this);
-                } else {
-                    LockSupport.parkNanos(this, delay);
-                }
-            } finally {
-                if (trace != null) {
-                    trace.afterPark(started, size.get());
-                }
+            if (delay == Long.MAX_VALUE) {
+                LockSupport.park(this);
+            } else {
+                LockSupport.parkNanos(this, delay);
             }
         } finally {
-            wakeupArmed.set(false);
+            if (trace != null) {
+                trace.afterPark(started, size.get());
+            }
         }
     }
 
@@ -484,14 +477,15 @@ public class FiberManager implements AutoCloseable {
                 trace.wakeRequested();
             }
         }
-        if (wakeupArmed.get() && wakeupArmed.compareAndSet(true, false)) {
+        Thread owner = runner;
+        if (owner != null && owner != Thread.currentThread()) {
             if (FiberProfiler.ENABLED) {
                 FiberProfiler trace = profiler;
                 if (trace != null) {
                     trace.unparked();
                 }
             }
-            LockSupport.unpark(runner);
+            LockSupport.unpark(owner);
         }
     }
 

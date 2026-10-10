@@ -79,7 +79,7 @@ public class TestFiberWaiting {
     }
 
     @Test(timeout = 10000)
-    public void shouldHandleBurstsOfCompletionsAndCancellationsWhileRearming() throws Exception {
+    public void shouldHandleConcurrentCompletionAndCancellationBurstsAcrossRuns() throws Exception {
         FiberManager manager = new FiberManager();
         try (var producers = Executors.newFixedThreadPool(4)) {
             for (int round = 0; round < 40; round++) {

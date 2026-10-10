@@ -24,5 +24,7 @@ jobs:
         run: ./mvnw --batch-mode --no-transfer-progress -Pbenchmarks -pl jfibers-benchmarks -am -DskipTests package
       - name: Smoke test HTTP benchmark correctness
         run: python3 jfibers-benchmarks/http_run.py --quick
+      - name: Smoke test scheduler benchmark correctness
+        run: python3 jfibers-benchmarks/scheduler_run.py --quick --output jfibers-benchmarks/target/scheduler-smoke
       - name: Run the example
         run: timeout 15s java -cp 'jfibers-example/target/classes:jfibers-example/target/lib/*' com.github.rostmyr.jfibers.example.Application

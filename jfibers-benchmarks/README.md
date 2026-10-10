@@ -234,7 +234,8 @@ five 1-second measurement iterations, with JMH's GC profiler. Scores are
 microseconds **per fiber**; multiply by 256 for a batch. Raw fork/iteration data,
 commands, hashes and environment are retained. `--quick` is only a smoke test.
 
-`--diagnostics off on recording` separately compares disabled hooks, enabled
-hooks without a recording, and enabled hooks with JFR's `profile` recording.
+`--diagnostics off standard recording` separately compares normal execution,
+JDK JFR's `profile` recording alone, and the same recording with fiber events.
+`--diagnostics on` enables hooks without an active recording.
 These costs depend on workload, event thresholds and sampling frequency; do not
 combine them into ordinary throughput results. See [PROFILING.md](../PROFILING.md).

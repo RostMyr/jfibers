@@ -53,6 +53,8 @@ not when another thread requests it. Plain Futures and child fibers have no
 external completion timestamp, so their `signalToRunnableNanos` is zero and their
 observed wait includes polling/observation delay. The duration also includes the
 short diagnostic work at either end. These fields do not isolate network time.
+Counters cover explicit wait registrations; a finishing parent waiting for
+automatic cleanup of its owned children is not recorded as a sampled await.
 
 The default takes every 256th newly registered wait and commits it only if its
 total duration exceeds JFR's default 1 ms threshold. Set
