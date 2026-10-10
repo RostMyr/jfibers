@@ -60,17 +60,20 @@ public class AgentApplication {
         Fiber<?> string = (Fiber<?>) type.getMethod("echo", String.class).invoke(worker, "hello");
         Fiber<?> future = (Fiber<?>) type.getMethod("future").invoke(worker);
         Fiber<?> failure = (Fiber<?>) type.getMethod("failure").invoke(worker);
+        Fiber<?> controlFlow = (Fiber<?>) type.getMethod("controlFlow").invoke(worker);
         FiberManager manager = new FiberManager();
         manager.schedule(integer);
         manager.schedule(string);
         manager.schedule(future);
         manager.schedule(failure);
+        manager.schedule(controlFlow);
         manager.run();
 
         require(Objects.equals(integer.getResult(), "42"), "integer overload result");
         require(Objects.equals(string.getResult(), "hello"), "string overload result");
         require(Objects.equals(future.getResult(), "future"), "future result");
         require(failure.getException() != null, "child failure propagation");
+        require(controlFlow.getException() == null && Objects.equals(controlFlow.getResult(), 6), "control flow and finally");
         require(manager.getSize() == 0, "queue drained");
         require(integer.getClass() != string.getClass(), "overload class names are distinct");
         require(integer.getClass().getClassLoader() == type.getClassLoader(), "defining loader preserved");

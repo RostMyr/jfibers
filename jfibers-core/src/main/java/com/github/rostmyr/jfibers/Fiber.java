@@ -221,6 +221,32 @@ public abstract class Fiber<E> {
         return completeFuture(-1);
     }
 
+    /** Resume at the source await instruction so Java catch/finally handlers can observe failures. */
+    public Object resumeAwait() throws Exception {
+        if (current != null) {
+            Fiber<?> completed = current;
+            current = null;
+            if (!completed.isReady()) {
+                throw new IllegalStateException("Child resumed before completion");
+            }
+            if (completed.exception != null) {
+                throw completed.exception;
+            }
+            return completed.result;
+        }
+        Future<?> completed = future;
+        future = null;
+        if (completed == null || !completed.isDone()) {
+            throw new IllegalStateException("Future resumed before completion");
+        }
+        try {
+            return completed.get();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw e;
+        }
+    }
+
     private int completeFiber(int nextState) {
         Fiber<?> completed = current;
         current = null;

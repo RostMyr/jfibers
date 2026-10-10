@@ -3,7 +3,6 @@ package com.github.rostmyr.jfibers;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;

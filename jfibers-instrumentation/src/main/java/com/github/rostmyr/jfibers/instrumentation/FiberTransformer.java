@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static org.objectweb.asm.ClassReader.SKIP_FRAMES;
-import static org.objectweb.asm.ClassWriter.COMPUTE_FRAMES;
 import static org.objectweb.asm.Opcodes.*;
 
 /**
@@ -48,19 +47,49 @@ public class FiberTransformer {
     }
 
     private static FiberTransformerResult instrument(ClassReader cr, boolean debug, ClassLoader loader) throws IOException {
+        ClassNode owner = new ClassNode();
+        cr.accept(owner, SKIP_FRAMES);
+        FiberValidation.validate(owner);
+        var methods = owner.methods.stream().filter(FiberValidation::hasMarkers).toList();
         FiberTransformerResult result = new FiberTransformerResult();
-        ClassWriter cw = createClassWriter(loader);
-        FiberClassNodeAdapter cv = new FiberClassNodeAdapter(cw, debug, result, loader);
-        cr.accept(cv, SKIP_FRAMES);
-
-        if (cv.isInstrumented()) {
-            result.setMainClass(cw.toByteArray());
-            FiberValidation.verify(result.getMainClass());
-            for (byte[] fiber : result.getFibers().values()) {
-                FiberValidation.verify(fiber);
-            }
+        if (methods.isEmpty()) {
+            return result;
         }
+        ClassHierarchy hierarchy = new ClassHierarchy(loader, owner);
+        java.util.Map<MethodNode, String> names = new java.util.LinkedHashMap<>();
+        for (MethodNode method : methods) {
+            long overloads = methods.stream().filter(other -> other.name.equals(method.name)).count();
+            String suffix = overloads > 1 ? "$" + descriptorId(method.desc) : "";
+            String name = owner.name + "$" + method.name + "_Fiber" + suffix;
+            names.put(method, name);
+            hierarchy.generated(name);
+        }
+        for (MethodNode method : methods) {
+            String name = names.get(method);
+            byte[] generated = new FiberMethodCompiler(owner, method, name, hierarchy).compile();
+            FiberValidation.verify(generated);
+            result.addFiber(name.substring(name.lastIndexOf('/') + 1), generated);
+        }
+        ClassWriter writer = hierarchy.writer();
+        owner.accept(writer);
+        byte[] main = writer.toByteArray();
+        FiberValidation.verify(main);
+        if (debug) {
+            new ClassReader(main).accept(new org.objectweb.asm.util.TraceClassVisitor(
+                new java.io.PrintWriter(System.out, true, java.nio.charset.StandardCharsets.UTF_8)), 0);
+        }
+        result.setMainClass(main);
         return result;
+    }
+
+    private static String descriptorId(String descriptor) {
+        try {
+            byte[] hash = java.security.MessageDigest.getInstance("SHA-256")
+                .digest(descriptor.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+            return java.util.HexFormat.of().formatHex(hash);
+        } catch (java.security.NoSuchAlgorithmException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     // A transformer exception alone is ignored by the JVM. Reject calls explicitly instead.
@@ -88,12 +117,4 @@ public class FiberTransformer {
         return writer.toByteArray();
     }
 
-    static ClassWriter createClassWriter(ClassLoader loader) {
-        return new ClassWriter(COMPUTE_FRAMES) {
-            @Override
-            protected ClassLoader getClassLoader() {
-                return loader;
-            }
-        };
-    }
 }

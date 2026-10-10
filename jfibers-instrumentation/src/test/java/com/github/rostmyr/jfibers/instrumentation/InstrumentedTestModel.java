@@ -16,6 +16,10 @@ final class InstrumentedTestModel extends ClassLoader {
 
     static Class<?> load(Class<?> template) throws IOException {
         FiberTransformerResult result = FiberTransformer.instrument(template, false);
+        return load(template, result);
+    }
+
+    static Class<?> load(Class<?> template, FiberTransformerResult result) {
         Map<String, byte[]> definitions = new HashMap<>();
         for (byte[] bytes : result.getFibers().values()) {
             definitions.put(new ClassReader(bytes).getClassName().replace('/', '.'), bytes);

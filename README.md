@@ -33,8 +33,8 @@ Use `;` instead of `:` as the classpath separator on Windows. The example prints
 the user's ID, updated phone number, and data, then stops its scheduler.
 
 The build compiles to Java 27 bytecode, so the resulting artifacts also require
-Java 27 or newer. Fiber methods require line numbers and local variable metadata;
-the parent POM enables both. Consumers must also compile with this debug metadata.
+Java 27 or newer. Debug metadata improves source diagnostics, but is not required for instrumentation.
+The parent POM keeps it enabled for useful stack traces.
 
 ## Performance Benchmarks
 
@@ -52,10 +52,17 @@ python3 jfibers-benchmarks/run.py
 
 Build-time instrumentation is the recommended integration. Unsupported fiber
 methods fail the build with the class, method descriptor and source location.
-The current validated subset is linear instance methods with debug metadata,
-one terminal `result`/`nothing`, and awaited values assigned to reference locals.
-Branches, loops, exception handlers, static/synchronized methods and reused local
-slots are rejected. Generated methods are checked by ASM before class files are
+The transformer supports instance and static methods, branches, loops, switches,
+scoped/reused locals, primitive and reference values, nested expressions, and
+`try/catch/finally` including try-with-resources. JVM data-flow analysis determines
+which local and operand-stack values must survive suspension. Source line numbers
+and local-variable tables do not determine execution semantics.
+
+Interface fiber methods, synchronized methods/monitor blocks and suspension while
+an object constructor is incomplete are rejected explicitly. For example, await a
+constructor argument in a local variable before passing it to `new SomeType(...)`.
+Blocking calls and loops without a `call` remain cooperative responsibilities.
+Generated methods are checked by ASM before class files are
 written. The Maven plugin validates the whole output directory before writing
 any transformed class and resolves types on the project's compile classpath.
 
@@ -82,15 +89,16 @@ source lifetime. Cancelling the adapter does not cancel the source or its waiter
 
 Failed and cancelled futures complete their fiber with an exception accessible
 through `getException()`. Child failures propagate through both `call(child)`
-and `result(child)`, aborting the caller. Future failures retain their
+and `result(child)`. Instrumented methods observe failures at the original await
+instruction: surrounding catch/finally handlers execute normally. Uncaught failures
+terminate the fiber. Future failures retain their
 `ExecutionException` wrapper; its cause is the original failure. Interrupted
 waits preserve the thread's interrupt flag. An unchecked exception in `update()`
 fails that fiber while allowing other scheduled fibers to continue.
 
 ## Runtime Java Agent
 
-For runtime instrumentation, compile your application's fiber methods with
-debug metadata and launch it with the assembled agent JAR:
+For runtime instrumentation, launch the application with the assembled agent JAR:
 
 ```sh
 java -javaagent:jfibers-instrumentation/target/jfibers-instrumentation-1.0.0-SNAPSHOT-jar-with-dependencies.jar -cp YOUR_APPLICATION_CLASSPATH your.package.Main
@@ -131,36 +139,15 @@ public class MyClass {
 }
 ```
 
-#### After Instrumentation
-```
-public class MyClass {
-  private UserService userService;
-  
-  public Fiber<User> updateUserPhone(long userId, String phone) {
-    return new updateUserPhone_Fiber(userId, phone);
-  }
-  
-  protected int updateUserPhone_FiberUpdate(updateUserPhone_Fiber fiber) {
-    switch(fiber.getState()) {
-      TODO
-    }
-  }
-  
-  public class updateUserPhone_Fiber extends Fiber<User> {
-    public long userId;
-    public String phone;
+#### Generated state machine
 
-    public updateUserPhone_Fiber(long userId, String phone) {
-      this.userId = userId;
-      this.phone = phone;
-    }
-
-    public int update() {
-      return MyClass.this.updateUserPhone_FiberUpdate(this);
-    }
-  }
-}
-```
+The public method constructs a fiber. A synthetic method in the original class
+executes its body, preserving access to private members. At each `call`, generated
+code stores JVM locals and operand-stack values in the fiber, returns to the
+scheduler, and later restores them at that continuation. Exception tables and
+branches retain their original source relationships. Terminal `result`/`nothing`
+markers preserve Java's return/finally ordering, including a suspended cleanup.
+Generated classes keep deterministic names and are verified before publication.
 
 ## Inspired By
 http://ssw.jku.at/General/Staff/LS/coro/  

@@ -5,6 +5,17 @@ import com.github.rostmyr.jfibers.Fiber;
 import java.util.concurrent.CompletableFuture;
 
 public class AgentWorker {
+    public Fiber<Integer> controlFlow() {
+        int sum = 0;
+        try {
+            for (int i = 0; i < 4; i++) {
+                sum += Fiber.call(CompletableFuture.completedFuture(i));
+            }
+            return Fiber.result(sum);
+        } finally {
+            Fiber.call(CompletableFuture.completedFuture("cleanup"));
+        }
+    }
     public Fiber<String> echo(int value) {
         return Fiber.result(Integer.toString(value));
     }

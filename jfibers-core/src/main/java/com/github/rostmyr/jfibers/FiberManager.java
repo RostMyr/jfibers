@@ -20,7 +20,7 @@ public class FiberManager {
     private final AtomicInteger size = new AtomicInteger();
     private final ConcurrentLinkedQueue<FiberWait> signals = new ConcurrentLinkedQueue<>();
     private final Set<FiberWait> polled = new HashSet<>();
-    private long nextPoll;
+    private volatile long nextPoll;
 
     /** Schedule before run(), or from the thread currently executing run(). */
     public void schedule(Fiber<?> fiber) {
@@ -99,7 +99,7 @@ public class FiberManager {
                     } else if (!suspend(fiber)) {
                         enqueue(fiber);
                     }
-                } catch (RuntimeException e) {
+                } catch (Exception e) {
                     fiber.setState(fiber.fail(e));
                     finish(fiber);
                 }

@@ -81,7 +81,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <!-- Fiber instrumentation needs line numbers and local variable names. -->
+                    <!-- Preserve source locations for instrumentation diagnostics and stack traces. -->
                     <debug>true</debug>
                     <debuglevel>lines,vars,source</debuglevel>
                 </configuration>
