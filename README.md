@@ -50,6 +50,19 @@ python3 jfibers-benchmarks/run.py
 
 ## Scheduling and Failures
 
+Build-time instrumentation is the recommended integration. Unsupported fiber
+methods fail the build with the class, method descriptor and source location.
+The current validated subset is linear instance methods with debug metadata,
+one terminal `result`/`nothing`, and awaited values assigned to reference locals.
+Branches, loops, exception handlers, static/synchronized methods and reused local
+slots are rejected. Generated methods are checked by ASM before class files are
+written. The Maven plugin validates the whole output directory before writing
+any transformed class and resolves types on the project's compile classpath.
+
+Calling a marker without instrumentation throws an explicit exception. If the
+runtime agent rejects a class, calls to its fiber methods report the validation
+error instead of falling back to uninstrumented marker execution.
+
 `FiberManager.run()` updates fibers in round-robin order and returns when its
 queue is empty or `stop()` is called. Schedule and run fibers on the same thread;
 `stop()` may be called from another thread. A stop request takes effect between

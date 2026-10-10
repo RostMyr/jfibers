@@ -62,6 +62,7 @@ public class FiberClassNodeAdapter extends ClassNode {
 
     @Override
     public void visitEnd() {
+        FiberValidation.validate(this);
         List<MethodNode> methodsForInstrumentation = methods.stream()
             .filter(method -> getReturnType(method.desc).getDescriptor().equals(FIBER_RETURN_TYPE))
             .filter(FiberClassNodeAdapter::hasTerminateMethodInvocation)

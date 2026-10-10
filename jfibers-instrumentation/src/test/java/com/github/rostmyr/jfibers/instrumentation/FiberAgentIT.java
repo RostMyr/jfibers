@@ -17,6 +17,11 @@ public class FiberAgentIT {
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Test
+    public void shouldFailExplicitlyWhenInstrumentationIsRejected() throws Exception {
+        runAgent("invalid");
+    }
+
+    @Test
     public void shouldInstrumentTheSystemLoader() throws Exception {
         runAgent("system");
     }

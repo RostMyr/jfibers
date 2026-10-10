@@ -13,6 +13,9 @@ import org.apache.maven.project.MavenProject;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.*;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -52,30 +55,48 @@ public class FiberSourceMogo extends AbstractMojo {
             return;
         }
 
-        try (Stream<Path> paths = Files.walk(outputDirectory)) {
+        try (URLClassLoader loader = projectLoader(); Stream<Path> paths = Files.walk(outputDirectory)) {
+            Map<Path, byte[]> changes = new LinkedHashMap<>();
             // Collect first so that generated classes are not visited during this execution.
             for (Path path : paths.filter(Files::isRegularFile)
                 .filter(file -> file.toString().endsWith(".class")).toList()) {
-                processCompiledClass(path);
+                processCompiledClass(path, loader, changes);
+            }
+            // A validation error must leave all original classes intact.
+            for (Map.Entry<Path, byte[]> change : changes.entrySet()) {
+                Files.write(change.getKey(), change.getValue());
             }
         } catch (IOException | UncheckedIOException e) {
             throw new MojoExecutionException("Error during processing the files in " + outputDirectory, e);
         }
     }
 
-    private void processCompiledClass(Path path) throws MojoExecutionException {
+    private URLClassLoader projectLoader() throws MojoExecutionException {
         try {
-            FiberTransformerResult result = FiberTransformer.instrument(readAllBytes(path), false);
+            var elements = project.getCompileClasspathElements();
+            URL[] urls = new URL[elements.size()];
+            for (int i = 0; i < urls.length; i++) {
+                urls[i] = Paths.get(elements.get(i)).toUri().toURL();
+            }
+            return new URLClassLoader(urls, getClass().getClassLoader());
+        } catch (Exception e) {
+            throw new MojoExecutionException("Cannot resolve the project classpath for fiber instrumentation", e);
+        }
+    }
+
+    private void processCompiledClass(Path path, ClassLoader loader, Map<Path, byte[]> changes) throws MojoExecutionException {
+        try {
+            FiberTransformerResult result = FiberTransformer.instrument(readAllBytes(path), false, loader);
             if (result.getMainClass() == null) {
                 return;
             }
 
             for (Map.Entry<String, byte[]> fiber : result.getFibers().entrySet()) {
-                Files.write(path.resolveSibling(fiber.getKey() + ".class"), fiber.getValue());
+                changes.put(path.resolveSibling(fiber.getKey() + ".class"), fiber.getValue());
             }
-            Files.write(path, result.getMainClass(), StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE);
+            changes.put(path, result.getMainClass());
         } catch (IOException | RuntimeException e) {
-            throw new MojoExecutionException("Error during processing the file: " + path, e);
+            throw new MojoExecutionException("Error during processing the file: " + path + ": " + e.getMessage(), e);
         }
     }
 }

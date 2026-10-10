@@ -50,6 +50,27 @@ public class TestFiberSourceMojo {
     }
 
     @Test
+    public void shouldLeaveClassesUntouchedWhenValidationFails() throws Exception {
+        Path output = temporaryFolder.newFolder().toPath();
+        byte[] original;
+        try (InputStream bytes = SampleFiber.class.getResourceAsStream("/"
+            + SampleFiber.class.getName().replace('.', '/') + ".class")) {
+            original = bytes.readAllBytes();
+        }
+        Files.write(output.resolve("Valid.class"), original);
+        try (InputStream bytes = InvalidFiber.class.getResourceAsStream("/"
+            + InvalidFiber.class.getName().replace('.', '/') + ".class")) {
+            Files.write(output.resolve("Invalid.class"), bytes.readAllBytes());
+        }
+        assertThatThrownBy(() -> mojo(output).execute())
+            .isInstanceOf(MojoExecutionException.class).hasMessageContaining("must return Fiber");
+        assertThat(Files.readAllBytes(output.resolve("Valid.class"))).isEqualTo(original);
+        try (var paths = Files.list(output)) {
+            assertThat(paths.count()).isEqualTo(2);
+        }
+    }
+
+    @Test
     public void shouldAllowModulesWithoutCompiledClasses() throws Exception {
         mojo(temporaryFolder.getRoot().toPath().resolve("missing")).execute();
     }
@@ -69,6 +90,12 @@ public class TestFiberSourceMojo {
     public static class SampleFiber {
         public Fiber<String> success() {
             return Fiber.result("ok");
+        }
+    }
+
+    public static class InvalidFiber {
+        public String invalid() {
+            return Fiber.call("invalid");
         }
     }
 }

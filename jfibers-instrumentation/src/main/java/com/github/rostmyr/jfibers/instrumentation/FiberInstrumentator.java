@@ -78,8 +78,8 @@ public class FiberInstrumentator {
                     defineClass(loader, content, protectionDomain);
                 }
                 return mainClass;
-            } catch (IOException e) {
-                throw new RuntimeException("Error during runtime class instrumentation", e);
+            } catch (IOException | RuntimeException | LinkageError e) {
+                return FiberTransformer.reject(classfileBuffer, e.getMessage());
             }
         }
 

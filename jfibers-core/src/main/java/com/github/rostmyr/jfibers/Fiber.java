@@ -96,14 +96,14 @@ public abstract class Fiber<E> {
      * A marker method
      */
     public static <T> T call(T call) {
-        return call;
+        throw uninstrumented();
     }
 
     /**
      * A marker method
      */
     public static <T> T call(Fiber<T> call) {
-        return null;
+        throw uninstrumented();
     }
 
     /**
@@ -129,7 +129,7 @@ public abstract class Fiber<E> {
      * A marker method
      */
     public static <T, F extends Future<T>> T call(F call) {
-        return null;
+        throw uninstrumented();
     }
 
     /**
@@ -155,7 +155,7 @@ public abstract class Fiber<E> {
      * A marker method
      */
     public static <T> Fiber<T> result(T result) {
-        return null;
+        throw uninstrumented();
     }
 
     /**
@@ -174,7 +174,7 @@ public abstract class Fiber<E> {
      * A marker method
      */
     public static <T, F extends Fiber<T>> F result(F fiber) {
-        return null;
+        throw uninstrumented();
     }
 
     /**
@@ -198,7 +198,7 @@ public abstract class Fiber<E> {
      * A marker method
      */
     public static <T, F extends Future<T>> Fiber<T> result(F call) {
-        return null;
+        throw uninstrumented();
     }
 
     /**
@@ -253,7 +253,12 @@ public abstract class Fiber<E> {
      * A marker method
      */
     public static Fiber<Void> nothing() {
-        return null;
+        throw uninstrumented();
+    }
+
+    private static IllegalStateException uninstrumented() {
+        return new IllegalStateException("Fiber marker executed without instrumentation; enable the jfibers Maven plugin"
+            + " at process-classes or use the jfibers javaagent");
     }
 
     /**

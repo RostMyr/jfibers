@@ -14,6 +14,15 @@ public class AgentApplication {
 
     public static void main(String[] args) throws Exception {
         switch (args[0]) {
+            case "invalid":
+                try {
+                    new InvalidAgentWorker().invalid();
+                    throw new AssertionError("invalid fiber was executed");
+                } catch (IllegalStateException expected) {
+                    require(expected.getMessage().contains("InvalidAgentWorker#invalid"), "method diagnostic");
+                    require(expected.getMessage().contains("must return Fiber"), "validation reason");
+                }
+                break;
             case "system":
                 verify(Class.forName(WORKER));
                 break;
