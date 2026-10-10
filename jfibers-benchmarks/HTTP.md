@@ -125,3 +125,105 @@ jfr view allocation-by-site path/to/profile.jfr
 The test does not cover TLS, HTTP/2, WAN latency, JSON/business-heavy processing,
 framework request handling, JDBC, mixed blocking libraries, task cancellation or
 an open-loop overload/SLO test. Those require separate workload decisions.
+
+## Recorded results: 10 October 2026
+
+Revision `223880c`, Temurin 27+35, Linux x86-64, AMD EPYC 9V74 VM with a shared
+four-core CPU quota. The complete dataset is in
+[results/2026-10-10-http](results/2026-10-10-http): `environment.json`, `http.json`
+and `profiles.json`. Source, JAR and recording hashes were verified after the run.
+`summary.md` retains the full comparison with ranges; `*-thread-cpu.txt` retains
+the standard JFR thread CPU views and their extraction commands.
+All 36 unprofiled measurements and three separate profiles completed. The
+unprofiled measurements validated **6,269,736 operations / 12,539,472 HTTP requests**
+with zero client errors, timeouts, server errors or byte-count mismatches.
+
+The tables below show medians across three fresh JVMs. Brackets are the observed
+minimum and maximum, not confidence intervals. One operation is **two requests**;
+the configured delay applies to each request.
+
+| Concurrent flows | Delay/request, ms | jfibers, ops/s | Virtual threads, ops/s | CompletableFuture, ops/s |
+| ---: | ---: | ---: | ---: | ---: |
+| 32 | 0 | 21,300 [17,806–22,552] | 24,154 [22,515–25,752] | 23,202 [22,023–23,358] |
+| 256 | 0 | 23,171 [23,095–23,672] | 27,285 [25,587–27,807] | 26,502 [22,289–26,850] |
+| 32 | 5 | 2,818 [2,809–2,887] | 2,901 [2,899–2,907] | 2,856 [2,794–2,866] |
+| 256 | 5 | 18,413 [17,836–18,659] | 19,698 [19,178–20,739] | 19,054 [18,887–19,347] |
+
+Latency below is **p95 / p99**, in milliseconds, for the complete two-request
+operation. These are medians of each run's histogram upper bounds. The raw results
+and `http_summarize.py` retain all percentile ranges, means and maxima.
+
+| Concurrent flows | Delay/request, ms | jfibers, p95 / p99 | Virtual threads, p95 / p99 | CompletableFuture, p95 / p99 |
+| ---: | ---: | ---: | ---: | ---: |
+| 32 | 0 | 2.27 / 4.74 | 2.00 / 3.39 | 2.08 / 3.55 |
+| 256 | 0 | 17.41 / 23.55 | 16.25 / 22.27 | 15.49 / 20.99 |
+| 32 | 5 | 12.80 / 14.72 | 11.78 / 13.82 | 12.16 / 14.34 |
+| 256 | 5 | 19.20 / 29.18 | 17.15 / 23.04 | 18.18 / 25.60 |
+
+Resources at **256 flows, 5 ms per request**, again medians [min–max]:
+
+| Backend | Client CPU, cores | Server CPU, cores | Sampled mean client heap, MiB |
+| --- | ---: | ---: | ---: |
+| jfibers | 2.12 [1.86–2.19] | 1.26 [1.16–1.26] | 172.18 [166.17–172.89] |
+| Virtual threads | 2.10 [1.80–2.11] | 1.29 [1.22–1.31] | 176.14 [172.54–182.34] |
+| CompletableFuture | 2.08 [2.06–2.16] | 1.28 [1.25–1.36] | 171.66 [164.20–173.43] |
+
+At 32 flows with the same delay, median client CPU is 0.46, 0.46 and 0.45 cores,
+respectively. Sampled used heap is broadly similar; it does not demonstrate the
+large retained-task memory advantage of the separate 10,000-waiter microbenchmark.
+HTTP buffers, connections, futures, histograms and floating garbage contribute
+here, and this measurement cannot isolate retained fiber or virtual-thread memory.
+
+Cgroup throttling occurred: `nr_throttled` increased by 2,111 and `throttled_usec`
+by 89,231,714 over the whole run, including warmup and profiling. The latter is a
+cgroup counter, not a request-latency or wall-time correction. Client and server
+compete for the shared quota, especially with zero server delay. Per-second rates
+still fluctuate after warmup; the ranges and the machine configuration matter.
+These short, local runs do not establish portable throughput rankings or SLOs.
+
+### What the profiles show
+
+The separate 10-second JFR recordings contain the following **Java execution
+samples with stacks**, excluding native-method samples:
+
+| Backend | Execution samples | Samples with a JDK HTTP frame | Samples with a jfibers runtime frame |
+| --- | ---: | ---: | ---: |
+| jfibers | 711 | 642 (90.3%) | 42 (5.9%) |
+| Virtual threads | 526 | 458 (87.1%) | 0 |
+| CompletableFuture | 581 | 512 (88.1%) | 0 |
+
+Categories overlap: a runtime frame may contain downstream HTTP work. These are
+inclusive sampled stacks, **not percentages of total process CPU or an isolated
+cost of FiberManager**. They also omit native VM/JIT/GC CPU. In the jfibers recording,
+38 samples contain the compiled HTTP workload. Frequently sampled methods include
+JDK HTTP's `SequentialScheduler.runOrSchedule`, completion processing,
+`AbstractQueuedSynchronizer.signalNext` and selector/connection-pool work.
+Weighted allocation samples are led by byte arrays, HTTP `MinimalFuture` objects,
+object arrays and strings. Native selector waits are kept in a separate category.
+The standard JFR data is sufficient to identify these areas without a new agent.
+
+There is also a meaningful API difference inside this JDK: `HttpClient.send()`
+starts exchange work inline until asynchronous I/O is necessary, whereas public
+`sendAsync()` explicitly dispatches exchange work and, when pending, forwards
+completion through the default CompletableFuture executor. This is documented
+in the bundled JDK source, `HttpClientImpl.sendAsync` (the `exchangeExecutor`
+overload). The test intentionally compares idiomatic application usage; it does
+not isolate the scheduling primitive from these HTTP API costs.
+
+### Implications and next experiment
+
+jfibers delivers 2.9–15.1% fewer operations per second than virtual threads when
+comparing the four scenario medians. With 256 flows and 5 ms per request, the gap
+is 6.5%, and median p99 is 29.18 versus 23.04 ms. Its previous ready-future batch
+advantage does not translate into an HTTP throughput advantage in this workload.
+Virtual threads are the stronger default for this kind of ordinary blocking Java
+application; this says little about custom cooperative scheduling or other I/O APIs.
+
+The next useful control is **virtual threads awaiting `sendAsync(...).get()`**,
+keeping the same transport/completion path as jfibers and CompletableFuture.
+That can separate the HTTP API's dispatch cost from the scheduler comparison.
+Follow it with a fixed-arrival-rate test that includes admission delay, bounded
+queues, rejection, timeouts and cancellation in its latency/error accounting.
+The current profiles do not justify assuming the single fiber owner is saturated
+or rewriting the scheduler; parallel-manager experiments can follow evidence from
+those controls. Re-run the relevant workloads after any resulting optimization.

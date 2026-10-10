@@ -1,0 +1,30 @@
+Command: /workspace/.jfibers-tools/jdk-27+35/bin/jfr view thread-cpu-load jfibers-benchmarks/results/2026-10-10-http/profile-1-256-5-completable_future.jfr
+
+                                Thread CPU Load
+
+Thread                                                             System  User
+------------------------------------------------------------------ ------ -----
+C2 CompilerThread0                                                  0.05% 4.72%
+pool-1-thread-4                                                     2.92% 4.54%
+pool-1-thread-3                                                     3.04% 4.35%
+pool-1-thread-2                                                     3.12% 4.08%
+pool-1-thread-1                                                     3.11% 4.05%
+ForkJoinPool-1-worker-4                                             1.56% 1.96%
+ForkJoinPool-1-worker-2                                             0.85% 1.21%
+ForkJoinPool.commonPool-worker-3                                    0.41% 1.17%
+ForkJoinPool-1-worker-1                                             0.90% 1.14%
+ForkJoinPool.commonPool-worker-1                                    0.40% 1.12%
+ForkJoinPool.commonPool-worker-4                                    0.45% 1.11%
+ForkJoinPool.commonPool-worker-2                                    0.60% 0.98%
+C1 CompilerThread0                                                  0.09% 0.77%
+main                                                                0.07% 0.52%
+C2 CompilerThread1                                                  0.00% 0.48%
+ForkJoinPool-1-delayScheduler                                       0.38% 0.17%
+Master-Poller                                                       0.65% 0.13%
+VirtualThread-unblocker                                             0.10% 0.03%
+JFR Recorder Thread                                                 0.00% 0.02%
+Reference Handler                                                   0.00% 0.00%
+Service Thread                                                      0.00% 0.00%
+Monitor Deflation Thread                                            0.00% 0.00%
+JFR Periodic Tasks                                                  0.01% 0.00%
+pool-3-thread-1                                                     0.02% 0.00%

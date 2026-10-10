@@ -1,0 +1,26 @@
+Command: /workspace/.jfibers-tools/jdk-27+35/bin/jfr view thread-cpu-load jfibers-benchmarks/results/2026-10-10-http/profile-1-256-5-virtual_threads.jfr
+
+                                Thread CPU Load
+
+Thread                                                             System  User
+------------------------------------------------------------------ ------ -----
+C2 CompilerThread0                                                  0.23% 4.23%
+ForkJoinPool-1-worker-2                                             1.57% 3.73%
+ForkJoinPool-1-worker-3                                             1.50% 3.66%
+ForkJoinPool-1-worker-4                                             1.56% 3.58%
+ForkJoinPool-1-worker-1                                             1.65% 3.53%
+pool-1-thread-3                                                     2.21% 3.14%
+pool-1-thread-1                                                     2.18% 3.10%
+pool-1-thread-4                                                     2.23% 3.03%
+pool-1-thread-2                                                     2.22% 2.98%
+C2 CompilerThread1                                                  0.00% 0.95%
+C1 CompilerThread0                                                  0.10% 0.77%
+main                                                                0.07% 0.47%
+ForkJoinPool-1-delayScheduler                                       0.32% 0.17%
+Master-Poller                                                       0.58% 0.13%
+VirtualThread-unblocker                                             0.22% 0.08%
+JFR Recorder Thread                                                 0.01% 0.01%
+Service Thread                                                      0.00% 0.00%
+Monitor Deflation Thread                                            0.00% 0.00%
+JFR Periodic Tasks                                                  0.01% 0.00%
+pool-3-thread-1                                                     0.02% 0.00%
