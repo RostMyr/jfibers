@@ -5,6 +5,8 @@ or transformer. It is included only with the Maven `benchmarks` profile.
 
 For the bounded HTTP workload, latency percentiles and separate JFR profiling,
 see [HTTP.md](HTTP.md). The task microbenchmarks below measure different work.
+The [four-use-case probes](SCENARIOS.md) cover mass waiting, fan-out cleanup,
+fixed-rate overload, and mixed waiting/computation with per-class latency.
 
 ## Run
 
