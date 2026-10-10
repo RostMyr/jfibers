@@ -124,7 +124,7 @@ These measurements support three architectural conclusions:
   `CompletableFuture` pipeline for this workload. Virtual threads retain more heap
   while parked; their footprint varies noticeably between JVM repetitions, so the
   measured range should not be treated as a fixed per-thread size.
-- Repeated polling is the main observed waiting cost in the current scheduler.
+- Repeated polling was the main observed waiting cost in the baseline scheduler.
   Its slightly shorter delayed-batch time comes with approximately one occupied
   core. Completion-driven wakeups are the first performance change to investigate.
 - Synchronous `CompletableFuture` continuations have the lowest cost for these
@@ -137,3 +137,31 @@ Cancellation results describe input cancellation plus exception observation.
 They do not supply a missing task-cancellation API for jfibers, and the overlap
 and variation between samples should be retained when interpreting the timings.
 Runtime-agent startup overhead is outside these measurements.
+
+
+## Completion notifications: 10 October 2026
+
+A second complete run, using library commit `0beb313` and unchanged benchmark
+sources/JVM settings, is retained in
+[results/2026-10-10-notifications](results/2026-10-10-notifications).
+The original measurements above remain the polling baseline. CPU throttling
+counters did not increase during this run.
+
+| jfibers measurement | Polling baseline | Completion notifications |
+| --- | ---: | ---: |
+| Ready 256-task batch, us (99.9% CI) | 8.27 ± 0.15 | 10.66 ± 0.24 |
+| Ready allocation, bytes/task | 72.3 | 80.3 |
+| 1 ms delayed batch, us (99.9% CI) | 1092.80 ± 5.69 | 1120.79 ± 10.01 |
+| Delayed allocation, bytes/task | 73.0 | 169.0 |
+| 10,000 waiting tasks: retained heap, MiB | 0.688 | 1.483 |
+| 10,000 waiting tasks: idle CPU, cores | 1.000 | 0.000 |
+| Cancel sources + drain, median ms | 8.527 | 20.382 |
+
+Heap and idle CPU values were the same to three decimals across all three new
+waiting-probe JVMs; cancellation ranged from 19.993 to 21.974 ms. For 1,000 tasks,
+retained heap was 0.146 MiB and idle CPU 0.000 cores in all three probes.
+Notifications remove the busy wait, at a measurable allocation, memory and
+scheduling cost. Near-zero CPU is limited by the process counter's resolution.
+These tests use CompletableFuture inputs: ordinary Future implementations without
+callbacks use the documented bounded polling fallback or an explicit adapter.
+Use `summarize.py` to inspect the full comparison, including both other backends.
