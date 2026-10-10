@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.LockSupport;
 
@@ -23,6 +24,7 @@ public class FiberManager implements AutoCloseable {
     private Fiber<?> last;
     private Fiber<?> active;
     private final AtomicInteger size = new AtomicInteger();
+    private final AtomicBoolean wakeupArmed = new AtomicBoolean();
     private final ConcurrentLinkedQueue<FiberWait> signals = new ConcurrentLinkedQueue<>();
     private final ConcurrentLinkedQueue<Fiber<?>> cancellations = new ConcurrentLinkedQueue<>();
     private final Set<FiberWait> polled = new HashSet<>();
@@ -216,25 +218,38 @@ public class FiberManager implements AutoCloseable {
 
     private void park() {
         long delay = Long.MAX_VALUE;
-        long now = System.nanoTime();
-        if (!polled.isEmpty()) {
-            delay = Math.max(1, nextPoll - now);
+        if (!polled.isEmpty() || !deadlines.isEmpty()) {
+            long now = System.nanoTime();
+            if (!polled.isEmpty()) {
+                delay = Math.max(1, nextPoll - now);
+            }
+            if (!deadlines.isEmpty()) {
+                delay = Math.min(delay, Math.max(1, deadlines.peek().deadlineNanos - now));
+            }
         }
-        if (!deadlines.isEmpty()) {
-            delay = Math.min(delay, Math.max(1, deadlines.peek().deadlineNanos - now));
-        }
-        FiberProfiler trace = FiberProfiler.ENABLED ? profiler : null;
-        long started = trace == null ? 0 : trace.beforePark();
+        // Publish intent before checking mailboxes: a racing producer either appears in
+        // this check or supplies an unpark permit for the park below. Only one producer
+        // needs to unpark; notifications remain in the queues until the owner drains them.
+        wakeupArmed.set(true);
         try {
-            if (delay == Long.MAX_VALUE) {
-                LockSupport.park(this);
-            } else {
-                LockSupport.parkNanos(this, delay);
+            if (!signals.isEmpty() || !cancellations.isEmpty() || cancelAllRequested || (interrupted && !closing)) {
+                return;
+            }
+            FiberProfiler trace = FiberProfiler.ENABLED ? profiler : null;
+            long started = trace == null ? 0 : trace.beforePark();
+            try {
+                if (delay == Long.MAX_VALUE) {
+                    LockSupport.park(this);
+                } else {
+                    LockSupport.parkNanos(this, delay);
+                }
+            } finally {
+                if (trace != null) {
+                    trace.afterPark(started, size.get());
+                }
             }
         } finally {
-            if (trace != null) {
-                trace.afterPark(started, size.get());
-            }
+            wakeupArmed.set(false);
         }
     }
 
@@ -335,6 +350,9 @@ public class FiberManager implements AutoCloseable {
     }
 
     private void expireDeadlines() {
+        if (deadlines.isEmpty()) {
+            return;
+        }
         long now = System.nanoTime();
         while (!deadlines.isEmpty() && now - deadlines.peek().deadlineNanos >= 0) {
             Fiber<?> fiber = deadlines.remove();
@@ -464,10 +482,17 @@ public class FiberManager implements AutoCloseable {
             FiberProfiler trace = profiler;
             if (trace != null) {
                 trace.wakeRequested();
-                trace.unparked();
             }
         }
-        LockSupport.unpark(runner);
+        if (wakeupArmed.get() && wakeupArmed.compareAndSet(true, false)) {
+            if (FiberProfiler.ENABLED) {
+                FiberProfiler trace = profiler;
+                if (trace != null) {
+                    trace.unparked();
+                }
+            }
+            LockSupport.unpark(runner);
+        }
     }
 
     /** Request cancellation of all currently scheduled work at the next scheduler turn. */

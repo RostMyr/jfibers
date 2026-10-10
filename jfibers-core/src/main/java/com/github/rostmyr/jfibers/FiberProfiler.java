@@ -21,38 +21,26 @@ final class FiberProfiler {
     private static final AtomicLong NEXT_RUN = new AtomicLong();
     private final long runId = NEXT_RUN.incrementAndGet();
     private final long started = System.nanoTime();
-    private long lastSnapshot = started;
+    private final OwnerCounters owner = new OwnerCounters(started);
     private final LongAdder callbackSignals = new LongAdder();
     private final LongAdder wakeRequests = new LongAdder();
     private final LongAdder unparkCalls = new LongAdder();
     private final ConcurrentHashMap<FiberWait, AwaitEvent> waitingSamples = new ConcurrentHashMap<>();
     private final IdentityHashMap<Fiber<?>, AwaitEvent> readySamples = new IdentityHashMap<>();
-    private long executions;
-    private long executionNanos;
-    private long parks;
-    private long parkedNanos;
-    private long completionStageWaits;
-    private long childWaits;
-    private long polledWaits;
-    private long staleSignals;
-    private long samplesRecorded;
-    private long samplesAbandoned;
-    private int queued;
-    private int peakQueued;
 
     FiberProfiler(Fiber<?> firstReady) {
         for (Fiber<?> fiber = firstReady; fiber != null; fiber = fiber.next) {
-            queued++;
+            owner.queued++;
         }
-        peakQueued = queued;
+        owner.peakQueued = owner.queued;
     }
 
     void enqueue() {
-        peakQueued = Math.max(peakQueued, ++queued);
+        owner.peakQueued = Math.max(owner.peakQueued, ++owner.queued);
     }
 
     void dequeue() {
-        queued--;
+        owner.queued--;
     }
 
     long beforeExecute(Fiber<?> fiber) {
@@ -66,38 +54,38 @@ final class FiberProfiler {
                 event.runnableToExecutionNanos = Math.max(0, now - event.enqueuedAt);
                 event.readyToExecutionNanos = Math.max(0, now - event.readyAt);
                 event.commit();
-                samplesRecorded++;
+                owner.samplesRecorded++;
             }
         }
-        executions++;
+        owner.executions++;
         return now;
     }
 
     void afterExecute(long start, int pending) {
         long now = System.nanoTime();
-        executionNanos += now - start;
+        owner.executionNanos += now - start;
         snapshot(now, pending, false);
     }
 
     long beforePark() {
-        parks++;
+        owner.parks++;
         return System.nanoTime();
     }
 
     void afterPark(long start, int pending) {
         long now = System.nanoTime();
-        parkedNanos += now - start;
+        owner.parkedNanos += now - start;
         snapshot(now, pending, false);
     }
 
     void waiting(FiberWait wait, String kind) {
         switch (kind) {
-            case "completionStage" -> completionStageWaits++;
-            case "child" -> childWaits++;
-            case "poll" -> polledWaits++;
+            case "completionStage" -> owner.completionStageWaits++;
+            case "child" -> owner.childWaits++;
+            case "poll" -> owner.polledWaits++;
             default -> throw new IllegalArgumentException("Unknown wait kind: " + kind);
         }
-        long sequence = completionStageWaits + childWaits + polledWaits;
+        long sequence = owner.completionStageWaits + owner.childWaits + owner.polledWaits;
         if ((sequence - 1) % SAMPLE_EVERY != 0 || !Types.AWAIT.isEnabled()) {
             return;
         }
@@ -128,7 +116,7 @@ final class FiberProfiler {
     }
 
     void staleSignal() {
-        staleSignals++;
+        owner.staleSignals++;
     }
 
     void resumed(FiberWait wait, Fiber<?> fiber, boolean cancelled) {
@@ -147,47 +135,68 @@ final class FiberProfiler {
 
     void detached(FiberWait wait) {
         if (waitingSamples.remove(wait) != null) {
-            samplesAbandoned++;
+            owner.samplesAbandoned++;
         }
     }
 
     void finish(int pending) {
-        samplesAbandoned += waitingSamples.size() + readySamples.size();
+        owner.samplesAbandoned += waitingSamples.size() + readySamples.size();
         waitingSamples.clear();
         readySamples.clear();
         snapshot(System.nanoTime(), pending, true);
     }
 
     private void snapshot(long now, int pending, boolean finished) {
-        if (!finished && now - lastSnapshot < 1_000_000_000L) {
+        if (!finished && now - owner.lastSnapshot < 1_000_000_000L) {
             return;
         }
-        lastSnapshot = now;
+        owner.lastSnapshot = now;
         if (!Types.SCHEDULER.isEnabled()) {
             return;
         }
         SchedulerEvent event = new SchedulerEvent();
         event.runId = runId;
         event.elapsedNanos = now - started;
-        event.executionNanos = executionNanos;
-        event.parkedNanos = parkedNanos;
-        event.executions = executions;
-        event.parks = parks;
+        event.executionNanos = owner.executionNanos;
+        event.parkedNanos = owner.parkedNanos;
+        event.executions = owner.executions;
+        event.parks = owner.parks;
         event.callbackSignals = callbackSignals.sum();
         event.wakeRequests = wakeRequests.sum();
         event.unparkCalls = unparkCalls.sum();
-        event.completionStageWaits = completionStageWaits;
-        event.childWaits = childWaits;
-        event.polledWaits = polledWaits;
-        event.staleSignals = staleSignals;
-        event.queuedFibers = queued;
-        event.peakQueuedFibers = peakQueued;
+        event.completionStageWaits = owner.completionStageWaits;
+        event.childWaits = owner.childWaits;
+        event.polledWaits = owner.polledWaits;
+        event.staleSignals = owner.staleSignals;
+        event.queuedFibers = owner.queued;
+        event.peakQueuedFibers = owner.peakQueued;
         event.pendingFibers = pending;
-        event.waitSamplesRecorded = samplesRecorded;
-        event.waitSamplesAbandoned = samplesAbandoned;
+        event.waitSamplesRecorded = owner.samplesRecorded;
+        event.waitSamplesAbandoned = owner.samplesAbandoned;
         event.sampleEvery = SAMPLE_EVERY;
         event.finalSnapshot = finished;
         event.commit();
+    }
+
+    /** Only the run() owner accesses these fields; callbacks use the adders and concurrent map above. */
+    private static final class OwnerCounters {
+        private long lastSnapshot;
+        private long executions;
+        private long executionNanos;
+        private long parks;
+        private long parkedNanos;
+        private long completionStageWaits;
+        private long childWaits;
+        private long polledWaits;
+        private long staleSignals;
+        private long samplesRecorded;
+        private long samplesAbandoned;
+        private int queued;
+        private int peakQueued;
+
+        private OwnerCounters(long started) {
+            lastSnapshot = started;
+        }
     }
 
     // Lazy registration: no JFR initialization is needed with -Djfibers.jfr=false (the default).

@@ -2,7 +2,10 @@ package com.github.rostmyr.jfibers;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
@@ -72,6 +75,67 @@ public class TestFiberWaiting {
             completer.join();
             assertThat(fiber.getResult()).isEqualTo(42);
             assertThat(manager.getSize()).isZero();
+        }
+    }
+
+    @Test(timeout = 10000)
+    public void shouldHandleBurstsOfCompletionsAndCancellationsWhileRearming() throws Exception {
+        FiberManager manager = new FiberManager();
+        try (var producers = Executors.newFixedThreadPool(4)) {
+            for (int round = 0; round < 40; round++) {
+                CountDownLatch suspended = new CountDownLatch(1);
+                List<CompletableFuture<Integer>> inputs = new ArrayList<>();
+                List<Fiber<Integer>> fibers = new ArrayList<>();
+                List<Future<?>> releases = new ArrayList<>();
+                for (int i = 0; i < 64; i++) {
+                    CompletableFuture<Integer> input = new CompletableFuture<>();
+                    inputs.add(input);
+                    Fiber<Integer> fiber = waiting(input, new AtomicInteger());
+                    fibers.add(fiber);
+                    manager.schedule(fiber);
+                }
+                for (int producer = 0; producer < 4; producer++) {
+                    int offset = producer;
+                    releases.add(producers.submit(() -> {
+                        if (!suspended.await(2, TimeUnit.SECONDS)) {
+                            throw new AssertionError("Consumers did not suspend");
+                        }
+                        for (int i = offset; i < inputs.size(); i += 4) {
+                            if (i % 3 == 0) {
+                                fibers.get(i).cancel();
+                            }
+                            inputs.get(i).complete(42);
+                        }
+                        return null;
+                    }));
+                }
+                manager.schedule(new Fiber<Void>() {
+                    @Override
+                    public int update() {
+                        suspended.countDown();
+                        return -1;
+                    }
+                });
+                Thread runner = start(manager);
+                try {
+                    for (Future<?> release : releases) {
+                        release.get(3, TimeUnit.SECONDS);
+                    }
+                    runner.join(3000);
+                    assertThat(runner.isAlive()).as("Round %s lost a wakeup", round).isFalse();
+                    assertThat(manager.getSize()).isZero();
+                    for (int i = 0; i < fibers.size(); i++) {
+                        assertThat(fibers.get(i).getStatus()).isEqualTo(
+                            i % 3 == 0 ? FiberStatus.CANCELLED : FiberStatus.COMPLETED);
+                        assertThat(fibers.get(i).getResult()).isEqualTo(i % 3 == 0 ? null : 42);
+                    }
+                } finally {
+                    if (runner.isAlive()) {
+                        manager.stop();
+                        runner.join(2000);
+                    }
+                }
+            }
         }
     }
 

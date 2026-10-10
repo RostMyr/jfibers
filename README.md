@@ -53,6 +53,12 @@ and propagation of cancellation from the input futures.
 python3 jfibers-benchmarks/run.py
 ```
 
+The [HTTP comparison](jfibers-benchmarks/HTTP.md) includes a virtual-thread
+`sendAsync().get()` control. The scheduler harness compares runtime JARs using
+the same benchmark artifact. [JFR diagnostics](PROFILING.md) expose scheduler
+counters and sampled completion-to-resumption delay with `-Djfibers.jfr=true`;
+they are disabled by default and do not require a runtime instrumentation agent.
+
 ## Scheduling and Failures
 
 Build-time instrumentation is the recommended integration. Unsupported fiber

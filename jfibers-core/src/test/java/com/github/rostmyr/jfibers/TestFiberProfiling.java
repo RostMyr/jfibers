@@ -27,6 +27,7 @@ public class TestFiberProfiling {
         assertThat(burst.getLong("executions")).isEqualTo(129);
         assertThat(burst.getLong("callbackSignals")).isEqualTo(64);
         assertThat(burst.getLong("wakeRequests")).isEqualTo(64);
+        assertThat(burst.getLong("unparkCalls")).isZero();
         assertThat(burst.getLong("parks")).isZero();
         assertThat(burst.getInt("pendingFibers")).isZero();
         assertThat(burst.getInt("queuedFibers")).isZero();
