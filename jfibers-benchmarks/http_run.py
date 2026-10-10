@@ -144,7 +144,7 @@ def main():
     output = (args.output or MODULE / "target/http-results" / datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")).resolve()
     output.mkdir(parents=True, exist_ok=False)
     cpuinfo = read_optional("/proc/cpuinfo") or ""
-    warmup_ms, measure_ms = (1000, 1000) if args.quick else (5000, 10000)
+    warmup_ms, measure_ms = (1000, 1000) if args.quick else (15000, 10000)
     forks = 1 if args.quick else 3
     scenarios = [(8, 0), (8, 5)] if args.quick else SCENARIOS
     metadata = {
