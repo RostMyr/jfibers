@@ -63,12 +63,22 @@ Calling a marker without instrumentation throws an explicit exception. If the
 runtime agent rejects a class, calls to its fiber methods report the validation
 error instead of falling back to uninstrumented marker execution.
 
-`FiberManager.run()` updates fibers in round-robin order and returns when its
-queue is empty or `stop()` is called. Schedule and run fibers on the same thread;
+`FiberManager.run()` updates ready fibers in round-robin order and returns when
+all scheduled fibers complete or `stop()` is called. Waiting fibers leave the ready
+queue; completion of a child or `CompletableFuture` makes them ready again.
+When only notification-based waits remain, the scheduler parks without polling.
+Schedule before `run()` or from its executing thread;
 `stop()` may be called from another thread. A stop request takes effect between
 updates, so `update()` must remain cooperative and return promptly. Stopping
 does not cancel unfinished fibers, and a stopped manager cannot be restarted.
 Scheduling a completed fiber or scheduling the same fiber twice is rejected.
+
+A plain `Future` has no completion notification API. The compatibility fallback
+checks such futures at most once per millisecond per waiting fiber, parking
+between checks when idle. To use notifications instead, explicitly wrap it with
+`FiberFutures.observe(future, executor)`. This runs blocking `get()` on the supplied
+executor; a virtual-thread executor is suitable. The caller owns its executor and
+source lifetime. Cancelling the adapter does not cancel the source or its waiter.
 
 Failed and cancelled futures complete their fiber with an exception accessible
 through `getException()`. Child failures propagate through both `call(child)`

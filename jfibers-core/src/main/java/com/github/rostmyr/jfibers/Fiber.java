@@ -1,6 +1,7 @@
 package com.github.rostmyr.jfibers;
 
 import java.util.Objects;
+import java.util.List;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -11,11 +12,13 @@ import java.util.concurrent.Future;
  */
 @SuppressWarnings("unchecked")
 public abstract class Fiber<E> {
-    protected FiberManager scheduler;
+    protected volatile FiberManager scheduler;
     protected Object result;
     protected Exception exception;
-    protected int state;
+    protected volatile int state;
     protected Fiber<?> next;
+    FiberWait wait;
+    List<FiberWait> dependents;
 
     // the current fiber we are waiting for
     protected Fiber<?> current;
