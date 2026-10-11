@@ -10,6 +10,8 @@ in admission policy or CPU budget.
 The [recorded 60-run comparison](DOWNSTREAM_HTTP_RESULTS.md) includes both
 compute widths, raw data, the rejected initial series and the cancellation
 regression corrected before the final measurements.
+The [separate JFR investigation](DOWNSTREAM_JFR_RESULTS.md) attributes execution,
+allocations, waits and HTTP monitor contention across 12 diagnostic runs.
 
 ## Request and cancellation contract
 

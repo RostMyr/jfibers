@@ -25,6 +25,8 @@ dependency calls, physical I/O cleanup and disjoint CPU affinity for JVM roles.
 Its [60-run results](DOWNSTREAM_HTTP_RESULTS.md) show the tradeoffs between
 heavy admission, compute width and light-request latency, including the
 cancellation regression found and fixed during validation.
+The [12-run JFR investigation](DOWNSTREAM_JFR_RESULTS.md) separates heavy compute
+queueing, fiber resumption and HTTP callback contention from throughput results.
 
 ## Run
 

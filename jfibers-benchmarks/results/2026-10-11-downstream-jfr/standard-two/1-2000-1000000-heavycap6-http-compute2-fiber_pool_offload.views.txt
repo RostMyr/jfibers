@@ -1,0 +1,336 @@
+Command: /workspace/.jfibers-tools/jdk-27+35/bin/jfr summary /workspace/.jfibers-tools/downstream-jfr/final/standard-two/1-2000-1000000-heavycap6-http-compute2-fiber_pool_offload.jfr
+
+ Version: 2.1
+ Chunks: 1
+ Start: 2026-10-11 12:24:35 (UTC)
+ Duration: 20 s
+
+ Event Type                              Count  Size (bytes)
+=============================================================
+ jdk.ThreadPark                          99200       3753886
+ jdk.ObjectAllocationSample               5872         87583
+ jdk.ExecutionSample                      3838         41263
+ jdk.GCPhaseParallel                      2492         67015
+ jdk.JavaExceptionThrow                   1652         24944
+ jdk.NativeMethodSample                    999         10717
+ jdk.JavaMonitorEnter                      762         17723
+ jdk.ThreadCPULoad                         518          8389
+ jdk.ModuleExport                          507          5936
+ jdk.BooleanFlag                           477         14497
+ jdk.ActiveSetting                         381          9830
+ jdk.SocketWrite                           178          7284
+ jdk.PromoteObjectInNewPLAB                160          2895
+ jdk.ModuleRequire                         155          1705
+ jdk.LongFlag                              136          4369
+ jdk.Checkpoint                            130        344569
+ jdk.TenuringDistribution                  105          1184
+ jdk.ThreadAllocationStatistics             86           994
+ jdk.UnsignedLongFlag                       83          2756
+ jdk.SystemProcess                          54          1419
+ jdk.InitialSecurityProperty                46          2323
+ jdk.IntFlag                                44          1567
+ jdk.UnsignedIntFlag                        44          1428
+ jdk.NativeLibrary                          36          2458
+ jdk.Deoptimization                         35           834
+ jdk.StringFlag                             34          1003
+ jdk.SocketRead                             32          1380
+ jdk.GCReferenceStatistics                  28           287
+ jdk.MetaspaceChunkFreeListSummary          28           508
+ jdk.GCPhasePauseLevel1                     21           847
+ jdk.CPULoad                                20           384
+ jdk.ClassLoadingStatistics                 20           204
+ jdk.CompilerStatistics                     20           604
+ jdk.ExceptionStatistics                    20           203
+ jdk.JavaThreadStatistics                   20           224
+ jdk.ResidentSetSize                        20           344
+ jdk.DoubleFlag                             16           645
+ jdk.G1HeapSummary                          14           380
+ jdk.GCHeapSummary                          14           541
+ jdk.MetaspaceSummary                       14           716
+ jdk.SafepointBegin                         12           166
+ jdk.ExecuteVMOperation                     10           170
+ jdk.Compilation                             8           226
+ jdk.CompilerQueueUtilization                8           160
+ jdk.EvacuationInformation                   7           211
+ jdk.G1AdaptiveIHOP                          7           302
+ jdk.G1BasicIHOP                             7           176
+ jdk.G1EvacuationOldStatistics               7           134
+ jdk.G1EvacuationYoungStatistics             7           200
+ jdk.G1GarbageCollection                     7            92
+ jdk.G1MMU                                   7            92
+ jdk.GCCPUTime                               7           108
+ jdk.GCPhasePause                            7           162
+ jdk.GarbageCollection                       7           162
+ jdk.YoungGarbageCollection                  7            92
+ jdk.ClassLoaderStatistics                   6           179
+ jdk.CodeCacheStatistics                     6           201
+ jdk.GCHeapMemoryPoolUsage                   6           233
+ jdk.NetworkUtilization                      5            74
+ jdk.OldObjectSample                         5           173
+ jdk.PromoteObjectOutsidePLAB                5            80
+ jdk.DirectBufferStatistics                  4            65
+ jdk.ClassRedefinition                       2            22
+ jdk.CompilationFailure                      2           110
+ jdk.GCConfiguration                         2            51
+ jdk.GCHeapMemoryUsage                       2            44
+ jdk.JavaMonitorStatistics                   2            18
+ jdk.PhysicalMemory                          2            35
+ jdk.StringTableStatistics                   2            73
+ jdk.SwapSpace                               2            19
+ jdk.SymbolTableStatistics                   2            77
+ jdk.ThreadContextSwitchRate                 2            23
+ jdk.ActiveRecording                         1            60
+ jdk.CPUInformation                          1          1533
+ jdk.CPUTimeStampCounter                     1            19
+ jdk.CodeCacheConfiguration                  1            46
+ jdk.CompilerConfiguration                   1            11
+ jdk.ContainerConfiguration                  1            55
+ jdk.FileRead                                1            19
+ jdk.GCHeapConfiguration                     1            27
+ jdk.GCSurvivorConfiguration                 1            10
+ jdk.GCTLABConfiguration                     1            12
+ jdk.JVMInformation                          1           659
+ jdk.JavaMonitorWait                         1            28
+ jdk.Metadata                                1        110939
+ jdk.OSInformation                           1           391
+ jdk.RetransformClasses                      1            15
+ jdk.VirtualizationInformation               1            27
+ jdk.YoungGenerationConfiguration            1            17
+ jdk.AllocationRequiringGC                   0             0
+ jdk.BooleanFlagChanged                      0             0
+ jdk.CPUTimeSample                           0             0
+ jdk.CPUTimeSamplesLost                      0             0
+ jdk.ClassDefine                             0             0
+ jdk.ClassLoad                               0             0
+ jdk.ClassUnload                             0             0
+ jdk.CodeCacheFull                           0             0
+ jdk.CompilerInlining                        0             0
+ jdk.CompilerPhase                           0             0
+ jdk.ConcurrentModeFailure                   0             0
+ jdk.ContainerCPUThrottling                  0             0
+ jdk.ContainerCPUUsage                       0             0
+ jdk.ContainerIOUsage                        0             0
+ jdk.ContainerMemoryUsage                    0             0
+ jdk.ContinuationFreeze                      0             0
+ jdk.ContinuationFreezeFast                  0             0
+ jdk.ContinuationFreezeSlow                  0             0
+ jdk.ContinuationThaw                        0             0
+ jdk.ContinuationThawFast                    0             0
+ jdk.ContinuationThawSlow                    0             0
+ jdk.DataLoss                                0             0
+ jdk.DeprecatedInvocation                    0             0
+ jdk.Deserialization                         0             0
+ jdk.DoubleFlagChanged                       0             0
+ jdk.DumpReason                              0             0
+ jdk.EvacuationFailed                        0             0
+ jdk.FileForce                               0             0
+ jdk.FileWrite                               0             0
+ jdk.FinalFieldMutation                      0             0
+ jdk.FinalizerStatistics                     0             0
+ jdk.Flush                                   0             0
+ jdk.G1HeapRegionInformation                 0             0
+ jdk.G1HeapRegionTypeChange                  0             0
+ jdk.GCPhaseConcurrent                       0             0
+ jdk.GCPhaseConcurrentLevel1                 0             0
+ jdk.GCPhaseConcurrentLevel2                 0             0
+ jdk.GCPhasePauseLevel2                      0             0
+ jdk.GCPhasePauseLevel3                      0             0
+ jdk.GCPhasePauseLevel4                      0             0
+ jdk.HeapDump                                0             0
+ jdk.InitialEnvironmentVariable              0             0
+ jdk.InitialSystemProperty                   0             0
+ jdk.IntFlagChanged                          0             0
+ jdk.JITRestart                              0             0
+ jdk.JavaAgent                               0             0
+ jdk.JavaErrorThrow                          0             0
+ jdk.JavaMonitorDeflate                      0             0
+ jdk.JavaMonitorInflate                      0             0
+ jdk.JavaMonitorNotify                       0             0
+ jdk.LongFlagChanged                         0             0
+ jdk.MetaspaceAllocationFailure              0             0
+ jdk.MetaspaceGCThreshold                    0             0
+ jdk.MetaspaceOOM                            0             0
+ jdk.MethodTiming                            0             0
+ jdk.MethodTrace                             0             0
+ jdk.NativeAgent                             0             0
+ jdk.NativeLibraryLoad                       0             0
+ jdk.NativeLibraryUnload                     0             0
+ jdk.NativeMemoryUsage                       0             0
+ jdk.NativeMemoryUsageTotal                  0             0
+ jdk.ObjectAllocationInNewTLAB               0             0
+ jdk.ObjectAllocationOutsideTLAB             0             0
+ jdk.ObjectCount                             0             0
+ jdk.ObjectCountAfterGC                      0             0
+ jdk.OldGarbageCollection                    0             0
+ jdk.PSHeapSummary                           0             0
+ jdk.ParallelOldGarbageCollection            0             0
+ jdk.ProcessStart                            0             0
+ jdk.PromotionFailed                         0             0
+ jdk.RedefineClasses                         0             0
+ jdk.ReservedStackActivation                 0             0
+ jdk.SafepointEnd                            0             0
+ jdk.SafepointLatency                        0             0
+ jdk.SafepointStateSynchronization           0             0
+ jdk.SecurityPropertyModification            0             0
+ jdk.SecurityProviderService                 0             0
+ jdk.SerializationMisdeclaration             0             0
+ jdk.ShenandoahEvacuationInformation         0             0
+ jdk.ShenandoahHeapRegionInformation         0             0
+ jdk.ShenandoahHeapRegionStateChange         0             0
+ jdk.ShenandoahPromotionInformation          0             0
+ jdk.Shutdown                                0             0
+ jdk.StringDeduplication                     0             0
+ jdk.StringFlagChanged                       0             0
+ jdk.SyncOnValueBasedClass                   0             0
+ jdk.SystemGC                                0             0
+ jdk.TLSHandshake                            0             0
+ jdk.ThreadDump                              0             0
+ jdk.ThreadEnd                               0             0
+ jdk.ThreadSleep                             0             0
+ jdk.ThreadStart                             0             0
+ jdk.UnsignedIntFlagChanged                  0             0
+ jdk.UnsignedLongFlagChanged                 0             0
+ jdk.VirtualThreadEnd                        0             0
+ jdk.VirtualThreadPinned                     0             0
+ jdk.VirtualThreadStart                      0             0
+ jdk.VirtualThreadSubmitFailed               0             0
+ jdk.X509Certificate                         0             0
+ jdk.X509Validation                          0             0
+ jdk.ZAllocationStall                        0             0
+ jdk.ZOldGarbageCollection                   0             0
+ jdk.ZPageAllocation                         0             0
+ jdk.ZRelocationSet                          0             0
+ jdk.ZRelocationSetGroup                     0             0
+ jdk.ZStatisticsCounter                      0             0
+ jdk.ZStatisticsSampler                      0             0
+ jdk.ZThreadPhase                            0             0
+ jdk.ZUncommit                               0             0
+ jdk.ZYoungGarbageCollection                 0             0
+
+
+Command: /workspace/.jfibers-tools/jdk-27+35/bin/jfr view --width 180 --verbose hot-methods /workspace/.jfibers-tools/downstream-jfr/final/standard-two/1-2000-1000000-heavycap6-http-compute2-fiber_pool_offload.jfr
+
+                                                                         Java Methods that Execute the Most
+
+Method                                                                                                                                                          Samples     Percent
+(stackTrace.topFrame)                                                                                                                                       (startTime) (startTime)
+----------------------------------------------------------------------------------------------------------------------------------------------------------- ----------- -----------
+com.github.rostmyr.jfibers.benchmarks.ScenarioProbe.cpuWork(long, int)                                                                                            3,387      88.25%
+java.util.concurrent.ForkJoinPool.signalWork()                                                                                                                       18       0.47%
+java.util.concurrent.CompletableFuture.postFire(CompletableFuture, int)                                                                                              13       0.34%
+jdk.internal.net.http.HttpClientImpl.registerEvent(AsyncEvent)                                                                                                       13       0.34%
+jdk.internal.net.http.ConnectionPool$ExpiryList.add(HttpConnection, Deadline, long)                                                                                  12       0.31%
+java.util.concurrent.ForkJoinPool.deactivate(ForkJoinPool$WorkQueue, int)                                                                                            12       0.31%
+jdk.internal.net.http.common.SequentialScheduler.runOrSchedule(Executor)                                                                                             12       0.31%
+java.util.concurrent.CompletableFuture$UniCompose.tryFire(int)                                                                                                       10       0.26%
+java.lang.VirtualThread.submitRunContinuation()                                                                                                                      10       0.26%
+java.util.HashMap.put(Object, Object)                                                                                                                                 8       0.21%
+jdk.internal.net.http.Http1AsyncReceiver.unsubscribe(Http1AsyncReceiver$Http1AsyncDelegate)                                                                           8       0.21%
+sun.net.httpserver.FixedLengthOutputStream.close()                                                                                                                    7       0.18%
+java.util.concurrent.ConcurrentLinkedDeque.peekFirst()                                                                                                                7       0.18%
+java.util.concurrent.CompletableFuture.postComplete()                                                                                                                 7       0.18%
+jdk.internal.net.http.common.SequentialScheduler.runOrSchedule(SequentialScheduler$SchedulableTask, Executor)                                                         6       0.16%
+jdk.internal.net.http.HttpClientImpl$SelectorManager.eventUpdated(AsyncEvent)                                                                                         6       0.16%
+java.lang.AbstractStringBuilder.append(char)                                                                                                                          6       0.16%
+jdk.internal.net.http.SocketTube$InternalWriteSubscriber$WriteSubscription.requestMore()                                                                              5       0.13%
+jdk.internal.net.http.AuthenticationFilter.request(HttpRequestImpl, MultiExchange)                                                                                    5       0.13%
+java.util.concurrent.ConcurrentSkipListMap.findPredecessor(Object, Comparator)                                                                                        5       0.13%
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor$Worker)                                                                                          5       0.13%
+jdk.internal.net.http.HttpClientImpl$SelectorManager.run()                                                                                                            5       0.13%
+sun.nio.ch.SelectorImpl.processDeregisterQueue()                                                                                                                      5       0.13%
+jdk.internal.net.http.SocketTube$InternalReadPublisher$InternalReadSubscription.request(long)                                                                         5       0.13%
+jdk.internal.net.http.HttpClientImpl$DelegatingExecutor.ensureExecutedAsync(Runnable)                                                                                 4       0.10%
+
+COLUMN 'Method', 'Samples', 'Percent' FORMAT none, none, normalized SELECT stackTrace.topFrame AS T, COUNT(*), COUNT(*) FROM ExecutionSample GROUP BY T LIMIT 25
+
+Execution: query-validation=2.91 ms, aggregation=124 ms, formatting=24.3 ms
+
+
+
+Command: /workspace/.jfibers-tools/jdk-27+35/bin/jfr view --width 180 --verbose allocation-by-site /workspace/.jfibers-tools/downstream-jfr/final/standard-two/1-2000-1000000-heavycap6-http-compute2-fiber_pool_offload.jfr
+
+                                                                                 Allocation by Site
+
+Method                                                                                                                                                          Allocation Pressure
+(stackTrace.topFrame)                                                                                                                                                      (weight)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------- -------------------
+sun.net.httpserver.Request.<init>(InputStream, OutputStream, boolean)                                                                                                         6.96%
+java.lang.invoke.DirectMethodHandle.allocateInstance(Object)                                                                                                                  5.80%
+jdk.internal.net.http.common.MinimalFuture.newIncompleteFuture()                                                                                                              5.24%
+java.util.Arrays.copyOfRange(byte[], int, int)                                                                                                                                4.69%
+sun.net.httpserver.LeftOverInputStream.skip(long)                                                                                                                             3.42%
+java.net.http.HttpHeaders.headersOf(Map, BiPredicate)                                                                                                                         2.78%
+java.util.ArrayList.grow(int)                                                                                                                                                 2.72%
+java.util.concurrent.CompletableFuture.uniWhenCompleteStage(Executor, BiConsumer)                                                                                             2.61%
+java.util.Arrays.copyOf(byte[], int)                                                                                                                                          2.57%
+java.util.stream.StreamSupport.stream(Spliterator, boolean)                                                                                                                   2.50%
+java.lang.StringLatin1.newString(byte[], int, int)                                                                                                                            2.28%
+java.lang.AbstractStringBuilder.<init>(int)                                                                                                                                   1.89%
+jdk.internal.misc.Unsafe.allocateUninitializedArray(Class, int)                                                                                                               1.82%
+java.util.concurrent.CompletableFuture.uniComposeStage(Executor, Function)                                                                                                    1.70%
+java.util.HashMap.resize()                                                                                                                                                    1.67%
+java.util.HashMap.newNode(int, Object, Object, HashMap$Node)                                                                                                                  1.44%
+jdk.internal.net.http.common.MinimalFuture.completedFuture(Object)                                                                                                            1.26%
+java.util.concurrent.CompletableFuture$UniCompose.tryFire(int)                                                                                                                1.21%
+jdk.internal.net.http.Http1Exchange.<init>(Exchange, HttpConnection)                                                                                                          1.11%
+java.lang.reflect.Constructor.copy()                                                                                                                                          1.02%
+java.util.concurrent.locks.ReentrantLock.<init>()                                                                                                                             0.95%
+java.util.TreeSet.<init>(Comparator)                                                                                                                                          0.94%
+java.util.TreeMap.addEntry(Object, Object, TreeMap$Entry, boolean)                                                                                                            0.92%
+jdk.internal.net.http.HttpClientImpl.sendAsync(HttpRequest, HttpResponse$BodyHandler, HttpResponse$PushPromiseHandler, Executor)                                              0.90%
+java.time.Instant.create(long, int)                                                                                                                                           0.85%
+
+COLUMN 'Method', 'Allocation Pressure' FORMAT none, normalized SELECT stackTrace.topFrame AS S, SUM(weight) AS W FROM ObjectAllocationSample GROUP BY S ORDER BY W DESC LIMIT 25
+
+Execution: query-validation=2.83 ms, aggregation=132 ms, formatting=24.2 ms
+
+
+
+Command: /workspace/.jfibers-tools/jdk-27+35/bin/jfr view --width 180 --verbose thread-cpu-load /workspace/.jfibers-tools/downstream-jfr/final/standard-two/1-2000-1000000-heavycap6-http-compute2-fiber_pool_offload.jfr
+
+                                                                                  Thread CPU Load
+
+Thread                                                                                                                                                                System   User
+(eventThread)                                                                                                                                                       (system) (user)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------- ------
+C2 CompilerThread0                                                                                                                                                     0.00% 43.88%
+jfibers-compute-1-0                                                                                                                                                    0.00% 24.51%
+jfibers-compute-1-1                                                                                                                                                    2.36% 23.11%
+Attach Listener                                                                                                                                                        0.60%  5.33%
+jfibers-pool-1-0                                                                                                                                                       0.80%  2.49%
+ForkJoinPool-1-worker-1                                                                                                                                                4.18%  2.38%
+request-dependency-client-1                                                                                                                                            2.99%  1.79%
+request-dependency-client-3                                                                                                                                            1.95%  1.58%
+ForkJoinPool-1-worker-2                                                                                                                                                0.47%  1.20%
+main                                                                                                                                                                   0.04%  1.00%
+request-dependency-client-2                                                                                                                                            3.74%  0.95%
+ForkJoinPool.commonPool-worker-1                                                                                                                                       0.12%  0.60%
+request-http-writer-0                                                                                                                                                  0.61%  0.60%
+request-http-writer-2                                                                                                                                                  0.55%  0.40%
+request-dependency-client-0                                                                                                                                            3.25%  0.40%
+ForkJoinPool.commonPool-worker-4                                                                                                                                       0.16%  0.40%
+JFR Periodic Tasks                                                                                                                                                     0.00%  0.39%
+ForkJoinPool-1-delayScheduler                                                                                                                                          0.74%  0.39%
+ForkJoinPool.commonPool-worker-2                                                                                                                                       0.45%  0.30%
+C1 CompilerThread0                                                                                                                                                     0.01%  0.20%
+VirtualThread-unblocker                                                                                                                                                0.02%  0.20%
+Master-Poller                                                                                                                                                          2.30%  0.20%
+request-http-handler-1                                                                                                                                                 0.34%  0.20%
+request-http-handler-2                                                                                                                                                 0.44%  0.20%
+pool-1-thread-3                                                                                                                                                        0.00%  0.20%
+request-http-writer-1                                                                                                                                                  0.65%  0.20%
+request-http-handler-0                                                                                                                                                 0.47%  0.20%
+pool-1-thread-4                                                                                                                                                        0.02%  0.01%
+idle-timeout-task                                                                                                                                                      0.00%  0.01%
+Monitor Deflation Thread                                                                                                                                               0.00%  0.00%
+HTTP-Dispatcher                                                                                                                                                        1.78%  0.00%
+pool-1-thread-1                                                                                                                                                        0.02%  0.00%
+request-http-handler-3                                                                                                                                                 0.86%  0.00%
+pool-1-thread-2                                                                                                                                                        0.02%  0.00%
+request-http-writer-3                                                                                                                                                  0.76%  0.00%
+ForkJoinPool.commonPool-worker-3                                                                                                                                       0.54%  0.00%
+JFR Recorder Thread                                                                                                                                                    0.06%  0.00%
+
+COLUMN 'Thread', 'System', 'User' SELECT eventThread AS E, LAST(system), LAST(user) AS U FROM ThreadCPULoad GROUP BY E ORDER BY U DESC
+
+Execution: query-validation=3.91 ms, aggregation=121 ms, formatting=19.4 ms

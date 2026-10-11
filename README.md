@@ -77,6 +77,8 @@ for the application, load generator and dependency.
 Its [60-run results](jfibers-benchmarks/DOWNSTREAM_HTTP_RESULTS.md) compare
 admission and compute width, and document a cancellation/cleanup race corrected
 before the final measurements.
+The [12-run JFR investigation](jfibers-benchmarks/DOWNSTREAM_JFR_RESULTS.md)
+separates heavy compute queueing, fiber resumption and HTTP callback contention.
 
 ## Scheduling and Failures
 

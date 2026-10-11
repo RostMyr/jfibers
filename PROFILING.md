@@ -85,3 +85,6 @@ all three roles, per-thread stack attribution, allocation weights, parks and
 sampled awaits by continuation. Use `--standard-jfr` controls to separate library
 hooks from standard JFR diagnostics. Its profile files cannot be summarized as
 ordinary performance measurements.
+The [downstream JFR report](jfibers-benchmarks/DOWNSTREAM_JFR_RESULTS.md) records
+12 diagnostic runs and separates compute waits from owner resumption and HTTP
+callback contention.

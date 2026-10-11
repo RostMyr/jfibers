@@ -1,0 +1,469 @@
+Compiled from "RequestFiberWorkload.java"
+public final class com.github.rostmyr.jfibers.benchmarks.RequestFiberWorkload {
+  private com.github.rostmyr.jfibers.benchmarks.RequestFiberWorkload();
+    Code:
+         0: aload_0
+         1: invokespecial #14                 // Method java/lang/Object."<init>":()V
+         4: return
+
+  static com.github.rostmyr.jfibers.Fiber<java.lang.Void> run(com.github.rostmyr.jfibers.benchmarks.RequestTaskEngine$Request);
+    Code:
+         0: new           #21                 // class com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber
+         3: dup
+         4: aload_0
+         5: invokespecial #24                 // Method com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber."<init>":(Lcom/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request;)V
+         8: areturn
+
+  public static int run_FiberUpdate(com.github.rostmyr.jfibers.benchmarks.RequestFiberWorkload$run_Fiber);
+    Code:
+         0: aload_0
+         1: astore        11
+         3: aload         11
+         5: invokevirtual #36                 // Method com/github/rostmyr/jfibers/Fiber.getState:()I
+         8: tableswitch   { // 0 to 7
+                       0: 56
+                       1: 68
+                       2: 80
+                       3: 107
+                       4: 134
+                       5: 171
+                       6: 215
+                       7: 269
+                 default: 313
+            }
+        56: aload         11
+        58: getfield      #40                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$0$10:Ljava/lang/Object;
+        61: checkcast     #7                  // class com/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request
+        64: astore_0
+        65: goto          323
+        68: aload         11
+        70: getfield      #40                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$0$10:Ljava/lang/Object;
+        73: checkcast     #7                  // class com/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request
+        76: astore_0
+        77: goto          368
+        80: aload         11
+        82: getfield      #40                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$0$10:Ljava/lang/Object;
+        85: checkcast     #7                  // class com/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request
+        88: astore_0
+        89: aload         11
+        91: getfield      #44                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$1$7:J
+        94: lstore_1
+        95: aconst_null
+        96: astore_3
+        97: aload         11
+        99: getfield      #48                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$4$5:I
+       102: istore        4
+       104: goto          444
+       107: aload         11
+       109: getfield      #40                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$0$10:Ljava/lang/Object;
+       112: checkcast     #7                  // class com/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request
+       115: astore_0
+       116: aload         11
+       118: getfield      #44                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$1$7:J
+       121: lstore_1
+       122: aconst_null
+       123: astore_3
+       124: aload         11
+       126: getfield      #48                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$4$5:I
+       129: istore        4
+       131: goto          510
+       134: aload         11
+       136: getfield      #40                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$0$10:Ljava/lang/Object;
+       139: checkcast     #7                  // class com/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request
+       142: astore_0
+       143: aload         11
+       145: getfield      #44                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$1$7:J
+       148: lstore_1
+       149: aconst_null
+       150: astore_3
+       151: aload         11
+       153: getfield      #51                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$4$10:Ljava/lang/Object;
+       156: checkcast     #53                 // class java/util/concurrent/CompletableFuture
+       159: astore        4
+       161: aload         11
+       163: getfield      #56                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$5$5:I
+       166: istore        5
+       168: goto          617
+       171: aload         11
+       173: getfield      #40                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$0$10:Ljava/lang/Object;
+       176: checkcast     #7                  // class com/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request
+       179: astore_0
+       180: aload         11
+       182: getfield      #44                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$1$7:J
+       185: lstore_1
+       186: aload         11
+       188: getfield      #59                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$3$10:Ljava/lang/Object;
+       191: checkcast     #30                 // class java/lang/Exception
+       194: astore_3
+       195: aload         11
+       197: getfield      #51                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$4$10:Ljava/lang/Object;
+       200: checkcast     #53                 // class java/util/concurrent/CompletableFuture
+       203: astore        4
+       205: aload         11
+       207: getfield      #56                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$5$5:I
+       210: istore        5
+       212: goto          715
+       215: aload         11
+       217: getfield      #40                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$0$10:Ljava/lang/Object;
+       220: checkcast     #7                  // class com/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request
+       223: astore_0
+       224: aload         11
+       226: getfield      #44                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$1$7:J
+       229: lstore_1
+       230: aload         11
+       232: getfield      #59                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$3$10:Ljava/lang/Object;
+       235: checkcast     #30                 // class java/lang/Exception
+       238: astore_3
+       239: aload         11
+       241: getfield      #62                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$7$10:Ljava/lang/Object;
+       244: checkcast     #64                 // class java/lang/Throwable
+       247: astore        7
+       249: aload         11
+       251: getfield      #67                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$8$10:Ljava/lang/Object;
+       254: checkcast     #53                 // class java/util/concurrent/CompletableFuture
+       257: astore        8
+       259: aload         11
+       261: getfield      #70                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$9$5:I
+       264: istore        9
+       266: goto          817
+       269: aload         11
+       271: getfield      #40                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$0$10:Ljava/lang/Object;
+       274: checkcast     #7                  // class com/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request
+       277: astore_0
+       278: aload         11
+       280: getfield      #44                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$1$7:J
+       283: lstore_1
+       284: aload         11
+       286: getfield      #59                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$3$10:Ljava/lang/Object;
+       289: checkcast     #30                 // class java/lang/Exception
+       292: astore_3
+       293: aload         11
+       295: getfield      #51                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$4$10:Ljava/lang/Object;
+       298: checkcast     #53                 // class java/util/concurrent/CompletableFuture
+       301: astore        4
+       303: aload         11
+       305: getfield      #56                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$5$5:I
+       308: istore        5
+       310: goto          912
+       313: new           #72                 // class java/lang/IllegalStateException
+       316: dup
+       317: ldc           #74                 // String Invalid fiber continuation: com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload#run
+       319: invokespecial #77                 // Method java/lang/IllegalStateException."<init>":(Ljava/lang/String;)V
+       322: athrow
+       323: aload_0
+       324: invokevirtual #81                 // Method com/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request.start:()Z
+       327: ifne          385
+       330: aconst_null
+       331: aload         11
+       333: swap
+       334: invokevirtual #85                 // Method com/github/rostmyr/jfibers/Fiber.resultLiteral:(Ljava/lang/Object;)I
+       337: pop
+       338: aload         11
+       340: dup
+       341: aload         11
+       343: if_acmpne     349
+       346: pop
+       347: iconst_m1
+       348: ireturn
+       349: astore        14
+       351: aload         11
+       353: aload_0
+       354: putfield      #40                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$0$10:Ljava/lang/Object;
+       357: aload         11
+       359: aload         14
+       361: invokevirtual #89                 // Method com/github/rostmyr/jfibers/Fiber.awaitFor:(Lcom/github/rostmyr/jfibers/Fiber;)I
+       364: pop
+       365: ldc           #90                 // int 1
+       367: ireturn
+       368: aload         11
+       370: invokevirtual #93                 // Method com/github/rostmyr/jfibers/Fiber.checkCancellation:()V
+       373: aload         11
+       375: invokevirtual #97                 // Method com/github/rostmyr/jfibers/Fiber.resumeAwait:()Ljava/lang/Object;
+       378: aload         11
+       380: swap
+       381: invokevirtual #85                 // Method com/github/rostmyr/jfibers/Fiber.resultLiteral:(Ljava/lang/Object;)I
+       384: ireturn
+       385: lconst_0
+       386: lstore_1
+       387: aconst_null
+       388: astore_3
+       389: iconst_0
+       390: istore        4
+       392: iload         4
+       394: iconst_3
+       395: if_icmpge     551
+       398: aload_0
+       399: invokevirtual #100                // Method com/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request.checkRunning:()V
+       402: aload_0
+       403: invokevirtual #104                // Method com/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request.openStep:()Ljava/util/concurrent/CompletableFuture;
+       406: astore        14
+       408: aload         11
+       410: aload_0
+       411: putfield      #40                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$0$10:Ljava/lang/Object;
+       414: aload         11
+       416: lload_1
+       417: putfield      #44                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$1$7:J
+       420: aload         11
+       422: aload_3
+       423: putfield      #59                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$3$10:Ljava/lang/Object;
+       426: aload         11
+       428: iload         4
+       430: putfield      #48                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$4$5:I
+       433: aload         11
+       435: aload         14
+       437: invokevirtual #107                // Method com/github/rostmyr/jfibers/Fiber.awaitFor:(Ljava/util/concurrent/Future;)I
+       440: pop
+       441: ldc           #108                // int 2
+       443: ireturn
+       444: aload         11
+       446: invokevirtual #93                 // Method com/github/rostmyr/jfibers/Fiber.checkCancellation:()V
+       449: aload         11
+       451: invokevirtual #97                 // Method com/github/rostmyr/jfibers/Fiber.resumeAwait:()Ljava/lang/Object;
+       454: pop
+       455: aload_0
+       456: invokevirtual #100                // Method com/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request.checkRunning:()V
+       459: aload_0
+       460: getfield      #112                // Field com/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request.offload:Z
+       463: ifeq          536
+       466: aload_0
+       467: iload         4
+       469: invokevirtual #116                // Method com/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request.computeAsync:(I)Ljava/util/concurrent/CompletableFuture;
+       472: astore        14
+       474: aload         11
+       476: aload_0
+       477: putfield      #40                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$0$10:Ljava/lang/Object;
+       480: aload         11
+       482: lload_1
+       483: putfield      #44                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$1$7:J
+       486: aload         11
+       488: aload_3
+       489: putfield      #59                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$3$10:Ljava/lang/Object;
+       492: aload         11
+       494: iload         4
+       496: putfield      #48                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$4$5:I
+       499: aload         11
+       501: aload         14
+       503: invokevirtual #107                // Method com/github/rostmyr/jfibers/Fiber.awaitFor:(Ljava/util/concurrent/Future;)I
+       506: pop
+       507: ldc           #117                // int 3
+       509: ireturn
+       510: aload         11
+       512: invokevirtual #93                 // Method com/github/rostmyr/jfibers/Fiber.checkCancellation:()V
+       515: aload         11
+       517: invokevirtual #97                 // Method com/github/rostmyr/jfibers/Fiber.resumeAwait:()Ljava/lang/Object;
+       520: checkcast     #119                // class java/lang/Long
+       523: astore        5
+       525: lload_1
+       526: aload         5
+       528: invokevirtual #123                // Method java/lang/Long.longValue:()J
+       531: ladd
+       532: lstore_1
+       533: goto          545
+       536: lload_1
+       537: aload_0
+       538: iload         4
+       540: invokevirtual #127                // Method com/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request.computeInline:(I)J
+       543: ladd
+       544: lstore_1
+       545: iinc          4, 1
+       548: goto          392
+       551: aload_0
+       552: invokevirtual #100                // Method com/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request.checkRunning:()V
+       555: aload_0
+       556: aload_3
+       557: invokevirtual #131                // Method com/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request.beginCleanup:(Ljava/lang/Throwable;)Ljava/util/concurrent/CompletableFuture;
+       560: astore        4
+       562: iconst_0
+       563: istore        5
+       565: iload         5
+       567: ifne          639
+       570: aload         4
+       572: astore        14
+       574: aload         11
+       576: aload_0
+       577: putfield      #40                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$0$10:Ljava/lang/Object;
+       580: aload         11
+       582: lload_1
+       583: putfield      #44                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$1$7:J
+       586: aload         11
+       588: aload_3
+       589: putfield      #59                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$3$10:Ljava/lang/Object;
+       592: aload         11
+       594: aload         4
+       596: putfield      #51                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$4$10:Ljava/lang/Object;
+       599: aload         11
+       601: iload         5
+       603: putfield      #56                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$5$5:I
+       606: aload         11
+       608: aload         14
+       610: invokevirtual #107                // Method com/github/rostmyr/jfibers/Fiber.awaitFor:(Ljava/util/concurrent/Future;)I
+       613: pop
+       614: ldc           #132                // int 4
+       616: ireturn
+       617: aload         11
+       619: invokevirtual #93                 // Method com/github/rostmyr/jfibers/Fiber.checkCancellation:()V
+       622: aload         11
+       624: invokevirtual #97                 // Method com/github/rostmyr/jfibers/Fiber.resumeAwait:()Ljava/lang/Object;
+       627: pop
+       628: iconst_1
+       629: istore        5
+       631: goto          565
+       634: astore        6
+       636: goto          565
+       639: aload_0
+       640: lload_1
+       641: aload_3
+       642: invokevirtual #136                // Method com/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request.bodyFinished:(JLjava/lang/Throwable;)V
+       645: goto          848
+       648: astore        4
+       650: aload         4
+       652: astore_3
+       653: aload_0
+       654: aload_3
+       655: invokevirtual #131                // Method com/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request.beginCleanup:(Ljava/lang/Throwable;)Ljava/util/concurrent/CompletableFuture;
+       658: astore        4
+       660: iconst_0
+       661: istore        5
+       663: iload         5
+       665: ifne          737
+       668: aload         4
+       670: astore        14
+       672: aload         11
+       674: aload_0
+       675: putfield      #40                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$0$10:Ljava/lang/Object;
+       678: aload         11
+       680: lload_1
+       681: putfield      #44                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$1$7:J
+       684: aload         11
+       686: aload_3
+       687: putfield      #59                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$3$10:Ljava/lang/Object;
+       690: aload         11
+       692: aload         4
+       694: putfield      #51                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$4$10:Ljava/lang/Object;
+       697: aload         11
+       699: iload         5
+       701: putfield      #56                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$5$5:I
+       704: aload         11
+       706: aload         14
+       708: invokevirtual #107                // Method com/github/rostmyr/jfibers/Fiber.awaitFor:(Ljava/util/concurrent/Future;)I
+       711: pop
+       712: ldc           #137                // int 5
+       714: ireturn
+       715: aload         11
+       717: invokevirtual #93                 // Method com/github/rostmyr/jfibers/Fiber.checkCancellation:()V
+       720: aload         11
+       722: invokevirtual #97                 // Method com/github/rostmyr/jfibers/Fiber.resumeAwait:()Ljava/lang/Object;
+       725: pop
+       726: iconst_1
+       727: istore        5
+       729: goto          663
+       732: astore        6
+       734: goto          663
+       737: aload_0
+       738: lload_1
+       739: aload_3
+       740: invokevirtual #136                // Method com/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request.bodyFinished:(JLjava/lang/Throwable;)V
+       743: goto          848
+       746: astore        7
+       748: aload_0
+       749: aload_3
+       750: invokevirtual #131                // Method com/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request.beginCleanup:(Ljava/lang/Throwable;)Ljava/util/concurrent/CompletableFuture;
+       753: astore        8
+       755: iconst_0
+       756: istore        9
+       758: iload         9
+       760: ifne          839
+       763: aload         8
+       765: astore        14
+       767: aload         11
+       769: aload_0
+       770: putfield      #40                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$0$10:Ljava/lang/Object;
+       773: aload         11
+       775: lload_1
+       776: putfield      #44                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$1$7:J
+       779: aload         11
+       781: aload_3
+       782: putfield      #59                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$3$10:Ljava/lang/Object;
+       785: aload         11
+       787: aload         7
+       789: putfield      #62                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$7$10:Ljava/lang/Object;
+       792: aload         11
+       794: aload         8
+       796: putfield      #67                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$8$10:Ljava/lang/Object;
+       799: aload         11
+       801: iload         9
+       803: putfield      #70                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$9$5:I
+       806: aload         11
+       808: aload         14
+       810: invokevirtual #107                // Method com/github/rostmyr/jfibers/Fiber.awaitFor:(Ljava/util/concurrent/Future;)I
+       813: pop
+       814: ldc           #138                // int 6
+       816: ireturn
+       817: aload         11
+       819: invokevirtual #93                 // Method com/github/rostmyr/jfibers/Fiber.checkCancellation:()V
+       822: aload         11
+       824: invokevirtual #97                 // Method com/github/rostmyr/jfibers/Fiber.resumeAwait:()Ljava/lang/Object;
+       827: pop
+       828: iconst_1
+       829: istore        9
+       831: goto          758
+       834: astore        10
+       836: goto          758
+       839: aload_0
+       840: lload_1
+       841: aload_3
+       842: invokevirtual #136                // Method com/github/rostmyr/jfibers/benchmarks/RequestTaskEngine$Request.bodyFinished:(JLjava/lang/Throwable;)V
+       845: aload         7
+       847: athrow
+       848: aconst_null
+       849: aload         11
+       851: swap
+       852: invokevirtual #85                 // Method com/github/rostmyr/jfibers/Fiber.resultLiteral:(Ljava/lang/Object;)I
+       855: pop
+       856: aload         11
+       858: dup
+       859: aload         11
+       861: if_acmpne     867
+       864: pop
+       865: iconst_m1
+       866: ireturn
+       867: astore        14
+       869: aload         11
+       871: aload_0
+       872: putfield      #40                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$0$10:Ljava/lang/Object;
+       875: aload         11
+       877: lload_1
+       878: putfield      #44                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$1$7:J
+       881: aload         11
+       883: aload_3
+       884: putfield      #59                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$3$10:Ljava/lang/Object;
+       887: aload         11
+       889: aload         4
+       891: putfield      #51                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$4$10:Ljava/lang/Object;
+       894: aload         11
+       896: iload         5
+       898: putfield      #56                 // Field com/github/rostmyr/jfibers/benchmarks/RequestFiberWorkload$run_Fiber.local$5$5:I
+       901: aload         11
+       903: aload         14
+       905: invokevirtual #89                 // Method com/github/rostmyr/jfibers/Fiber.awaitFor:(Lcom/github/rostmyr/jfibers/Fiber;)I
+       908: pop
+       909: ldc           #139                // int 7
+       911: ireturn
+       912: aload         11
+       914: invokevirtual #93                 // Method com/github/rostmyr/jfibers/Fiber.checkCancellation:()V
+       917: aload         11
+       919: invokevirtual #97                 // Method com/github/rostmyr/jfibers/Fiber.resumeAwait:()Ljava/lang/Object;
+       922: aload         11
+       924: swap
+       925: invokevirtual #85                 // Method com/github/rostmyr/jfibers/Fiber.resultLiteral:(Ljava/lang/Object;)I
+       928: ireturn
+      Exception table:
+         from    to  target type
+           570   631   634   Class java/util/concurrent/CancellationException
+           389   555   648   Class java/lang/Exception
+           668   729   732   Class java/util/concurrent/CancellationException
+           389   555   746   any
+           648   653   746   any
+           763   831   834   Class java/util/concurrent/CancellationException
+           746   748   746   any
+}

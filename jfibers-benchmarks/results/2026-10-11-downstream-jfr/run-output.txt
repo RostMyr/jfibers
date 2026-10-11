@@ -1,0 +1,28 @@
+1-500-1000000-heavycap6-http-compute1-fiber_pool_offload
+  success 500/s, goodput 500/s; HTTP {'200': 10000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+1-500-1000000-heavycap6-http-compute1-virtual_threads
+  success 500/s, goodput 500/s; HTTP {'200': 10000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+1-2000-1000000-heavycap6-http-compute1-virtual_threads
+  success 1950/s, goodput 1950/s; HTTP {'200': 39047, '409': 0, '503': 953, '504': 0, '500': 0}, local rejects 0
+1-2000-1000000-heavycap6-http-compute1-fiber_pool_offload
+  success 1905/s, goodput 1905/s; HTTP {'200': 38153, '409': 0, '503': 1723, '504': 124, '500': 0}, local rejects 0
+Results: /workspace/.jfibers-tools/downstream-jfr/final/standard-one
+1-500-1000000-heavycap6-http-compute2-fiber_pool_offload
+  success 500/s, goodput 500/s; HTTP {'200': 10000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+1-500-1000000-heavycap6-http-compute2-virtual_threads
+  success 500/s, goodput 500/s; HTTP {'200': 10000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+1-2000-1000000-heavycap6-http-compute2-virtual_threads
+  success 1926/s, goodput 1926/s; HTTP {'200': 38571, '409': 0, '503': 1429, '504': 0, '500': 0}, local rejects 0
+1-2000-1000000-heavycap6-http-compute2-fiber_pool_offload
+  success 1919/s, goodput 1919/s; HTTP {'200': 38418, '409': 0, '503': 1582, '504': 0, '500': 0}, local rejects 0
+Results: /workspace/.jfibers-tools/downstream-jfr/final/standard-two
+1-500-1000000-heavycap6-http-compute1-fiber_pool_offload
+  success 500/s, goodput 500/s; HTTP {'200': 10000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+1-2000-1000000-heavycap6-http-compute1-fiber_pool_offload
+  success 1921/s, goodput 1921/s; HTTP {'200': 38478, '409': 0, '503': 1522, '504': 0, '500': 0}, local rejects 0
+Results: /workspace/.jfibers-tools/downstream-jfr/final/fiber-events-one
+1-500-1000000-heavycap6-http-compute2-fiber_pool_offload
+  success 500/s, goodput 500/s; HTTP {'200': 10000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+1-2000-1000000-heavycap6-http-compute2-fiber_pool_offload
+  success 1919/s, goodput 1919/s; HTTP {'200': 38417, '409': 0, '503': 1581, '504': 2, '500': 0}, local rejects 0
+Results: /workspace/.jfibers-tools/downstream-jfr/final/fiber-events-two
