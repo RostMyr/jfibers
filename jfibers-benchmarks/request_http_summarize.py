@@ -22,10 +22,12 @@ def summarize(directory):
     for record in json.loads((directory / "results.json").read_text()):
         if not record.get("validated"):
             raise ValueError("Refusing to summarize incomplete or unvalidated JVM pairs")
-        groups[record["rate"], record["heavy_iterations"], record["backend"],
-               record.get("heavy_capacity", -1)].append(record["measurement"]["result"])
+        configuration = {key: record[key] for key in ("wait_mode", "compute_threads", "dependency_delay_ms", "cpu_affinity")
+                         if key in record}
+        groups[record["rate"], record["heavy_iterations"], record["backend"], record.get("heavy_capacity", -1),
+               json.dumps(configuration, sort_keys=True)].append(record["measurement"]["result"])
     summary = []
-    for (rate, iterations, backend, heavy_capacity), records in sorted(groups.items()):
+    for (rate, iterations, backend, heavy_capacity, configuration), records in sorted(groups.items()):
         values = defaultdict(list)
         for record in records:
             for name, number in flatten(record):
@@ -70,6 +72,7 @@ def summarize(directory):
                                   "samples": len(numbers)} for name, numbers in sorted(values.items())}}
         if heavy_capacity >= 0:
             row["heavy_capacity"] = heavy_capacity
+        row.update(json.loads(configuration))
         summary.append(row)
     return summary
 
@@ -85,7 +88,12 @@ def main():
         return
     for row in rows:
         cap = f" heavy_capacity={row['heavy_capacity']}" if "heavy_capacity" in row else ""
-        print(f"rate={row['rate']} heavy={row['heavy_iterations']} {row['backend']}{cap} (n={row['forks']})")
+        configuration = "" if "wait_mode" not in row else (
+            f" wait={row['wait_mode']} compute_threads={row['compute_threads']} delay_ms={row['dependency_delay_ms']}")
+        if "cpu_affinity" in row:
+            assignments = [f"{role}:{','.join(map(str, cpus))}" for role, cpus in row["cpu_affinity"].items() if cpus is not None]
+            configuration += " cpus=" + ("/".join(assignments) if assignments else "inherited")
+        print(f"rate={row['rate']} heavy={row['heavy_iterations']} {row['backend']}{cap}{configuration} (n={row['forks']})")
         for name in ["successful_per_second", "goodput_per_second", "on_time_percent_of_offered",
                      "server_rejected_percent_of_offered", "timeout_percent_of_offered", "local_rejected_percent_of_offered",
                      "successful_latency.p99_ms", "light_success_latency.p99_ms", "heavy_success_latency.p99_ms",
@@ -93,7 +101,7 @@ def main():
                      "light_on_time_percent_of_offered", "heavy_on_time_percent_of_offered",
                      "heavy_server_rejected_percent_of_offered", "heavy_timeout_percent_of_accepted",
                      "mean_cpu_steps_per_timed_out", "mean_cpu_iterations_per_timed_out",
-                     "non_success_cpu_iteration_percent"]:
+                     "non_success_cpu_iteration_percent", "server_downstream_completed", "dependency_cpu_cores"]:
             if name in row["metrics"]:
                 metric = row["metrics"][name]
                 print(f"  {name}: {metric['median']:.3f} [{metric['min']:.3f}, {metric['max']:.3f}]")

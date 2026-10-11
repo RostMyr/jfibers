@@ -10,6 +10,9 @@ per-class outcomes and the limitations of the shared-machine measurements.
 The optional [heavy admission experiment](HEAVY_ADMISSION.md) extends the current
 protocol with a separate limit for heavy requests and completed-work counters.
 Historical reports and raw data retain their recorded source/protocol versions.
+The [downstream HTTP extension](DOWNSTREAM_HTTP.md) adds a separate dependency
+JVM and optional disjoint CPU affinity. The defaults described here retain local
+timer waits; explicit modes and CPU/compute options are recorded separately.
 
 The client and server run in separate JVMs on the same machine. The transport is
 real loopback HTTP/1.1; the work behind the endpoint uses synthetic asynchronous

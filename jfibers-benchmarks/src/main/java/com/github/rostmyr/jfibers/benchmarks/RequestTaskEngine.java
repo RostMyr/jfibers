@@ -3,6 +3,7 @@ package com.github.rostmyr.jfibers.benchmarks;
 import com.github.rostmyr.jfibers.FiberFutures;
 import com.github.rostmyr.jfibers.FiberPool;
 import com.github.rostmyr.jfibers.FiberTask;
+import java.net.URI;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -66,10 +67,13 @@ final class RequestTaskEngine implements AutoCloseable {
     private final int capacity;
     private final int heavyIterations;
     private final int heavyCapacity;
+    private final int computeThreads;
+    private final int dependencyDelayMillis;
     private final FiberPool pool;
     private final ExecutorService virtualThreads;
     private final Semaphore permits;
     private final ExecutorService compute;
+    private final RequestDependencyClient dependency;
     private final ScheduledThreadPoolExecutor timer = new ScheduledThreadPoolExecutor(4);
     private final Set<Request> roots = new HashSet<>();
     private final LongAdder pendingSources = new LongAdder();
@@ -100,20 +104,29 @@ final class RequestTaskEngine implements AutoCloseable {
     }
 
     RequestTaskEngine(Backend backend, int capacity, int heavyIterations, int heavyCapacity) {
-        if (capacity < 1 || heavyIterations < 1 || heavyCapacity < 0) {
-            throw new IllegalArgumentException("Capacity and CPU iterations must be positive; heavy capacity nonnegative");
+        this(backend, capacity, heavyIterations, heavyCapacity, 3, null, 1);
+    }
+
+    RequestTaskEngine(Backend backend, int capacity, int heavyIterations, int heavyCapacity,
+                      int computeThreads, URI dependencyBase, int dependencyDelayMillis) {
+        if (capacity < 1 || heavyIterations < 1 || heavyCapacity < 0 || computeThreads < 1
+            || dependencyDelayMillis < 0) {
+            throw new IllegalArgumentException("Capacities/iterations/threads must be positive; heavy cap/delay nonnegative");
         }
         this.backend = java.util.Objects.requireNonNull(backend);
         this.capacity = capacity;
         this.heavyIterations = heavyIterations;
         this.heavyCapacity = heavyCapacity;
+        this.computeThreads = computeThreads;
+        this.dependencyDelayMillis = dependencyDelayMillis;
+        dependency = dependencyBase == null ? null : new RequestDependencyClient(dependencyBase, capacity);
         timer.setRemoveOnCancelPolicy(true);
         pool = backend == Backend.VIRTUAL_THREADS ? null
             : new FiberPool(backend == Backend.FIBER_POOL_4 ? 4 : 1, capacity);
         virtualThreads = pool == null ? Executors.newVirtualThreadPerTaskExecutor() : null;
         permits = pool == null ? new Semaphore(capacity) : null;
         compute = backend == Backend.FIBER_POOL_OFFLOAD
-            ? FiberFutures.newComputeExecutor(3, capacity) : null;
+            ? FiberFutures.newComputeExecutor(computeThreads, capacity) : null;
     }
 
     Submission submit(long id, boolean hold, int deadlineMillis, int cleanupMillis) {
@@ -300,6 +313,18 @@ final class RequestTaskEngine implements AutoCloseable {
             }
             result.put("cpu_steps", totalSteps);
             result.put("cpu_iterations", totalIterations);
+            result.put("compute_threads", computeThreads);
+            result.put("compute_executor_threads", compute == null ? 0 : computeThreads);
+            result.put("wait_mode", dependency == null ? "timer" : "http");
+            result.put("dependency_delay_ms", dependencyDelayMillis);
+            if (dependency != null) {
+                result.putAll(dependency.snapshot());
+            } else {
+                for (String counter : new String[] {"started", "completed", "succeeded", "failed", "active", "peak",
+                    "executor_queue", "executor_active"}) {
+                    result.put("downstream_" + counter, 0L);
+                }
+            }
             result.put("active_roots", pool == null ? capacity - permits.availablePermits() : pool.getTaskCount());
             result.put("pending_completions", roots.size() + publishing);
             result.put("peak_roots", peakRoots);
@@ -320,6 +345,7 @@ final class RequestTaskEngine implements AutoCloseable {
                 if (roots.isEmpty() && publishing == 0 && activeHeavy == 0
                     && pendingSources.sum() == 0 && pendingTimers.sum() == 0
                     && activeCompute.sum() == 0 && timer.getQueue().isEmpty()
+                    && (dependency == null || dependency.isQuiescent())
                     && (!(compute instanceof ThreadPoolExecutor executor) || executor.getQueue().isEmpty())) {
                     return true;
                 }
@@ -335,13 +361,17 @@ final class RequestTaskEngine implements AutoCloseable {
     void assertQuiescent() {
         Map<String, Object> values = snapshot();
         for (String field : new String[] {"active_roots", "active_heavy", "pending_completions", "pending_sources", "pending_timers",
-            "active_compute", "compute_queue_size", "timer_queue_size"}) {
+            "active_compute", "compute_queue_size", "timer_queue_size", "downstream_active",
+            "downstream_executor_queue", "downstream_executor_active"}) {
             if (((Number) values.get(field)).longValue() != 0) {
                 throw new IllegalStateException("Request engine did not drain: " + values);
             }
         }
         if (!values.get("accepted").equals(values.get("completed"))) {
             throw new IllegalStateException("Lost request completions: " + values);
+        }
+        if (!values.get("downstream_started").equals(values.get("downstream_completed"))) {
+            throw new IllegalStateException("Lost dependency completions: " + values);
         }
     }
 
@@ -371,6 +401,9 @@ final class RequestTaskEngine implements AutoCloseable {
         }
         if (compute != null) {
             compute.close();
+        }
+        if (dependency != null) {
+            dependency.close();
         }
         timer.shutdown();
         try {
@@ -408,6 +441,7 @@ final class RequestTaskEngine implements AutoCloseable {
         // publishes the final values before finish aggregates them under the engine lock.
         private long cpuSteps;
         private long cpuIterations;
+        private int nextStep;
         private boolean finished;
 
         Request(long id, boolean hold, int deadlineMillis, int cleanupMillis) {
@@ -478,7 +512,9 @@ final class RequestTaskEngine implements AutoCloseable {
 
         synchronized CompletableFuture<Integer> openStep() {
             checkRunning();
-            source = new Source(hold ? -1 : 1_000_000);
+            source = hold || dependency == null
+                ? new Source(hold ? -1 : TimeUnit.MILLISECONDS.toNanos(dependencyDelayMillis))
+                : new Source(id, nextStep++);
             return source.future;
         }
 
@@ -502,14 +538,15 @@ final class RequestTaskEngine implements AutoCloseable {
             }
             cleanupStarted = System.nanoTime();
             RequestTaskEngine.this.cleanupStarted.incrementAndGet();
+            CompletableFuture<Void> exited = CompletableFuture.completedFuture(null);
             if (source != null) {
                 source.cancel();
+                exited = source.exited;
                 source = null;
             }
-            CompletableFuture<Void> exited = CompletableFuture.completedFuture(null);
             if (computation != null) {
                 computation.cancel();
-                exited = computation.exited;
+                exited = exited.isDone() ? computation.exited : CompletableFuture.allOf(exited, computation.exited);
             }
             // Cancellation targets only body sources, never this cleanup future.
             cleanup = exited.thenCompose(ignored -> cleanupMillis == 0
@@ -581,19 +618,43 @@ final class RequestTaskEngine implements AutoCloseable {
     }
 
     private final class Source {
-        private final CompletableFuture<Integer> future = new CompletableFuture<>();
-        private final TimerTicket ticket = new TimerTicket();
+        private final CompletableFuture<Integer> future;
+        private final CompletableFuture<Void> exited;
+        private final TimerTicket ticket;
 
         Source(long delayNanos) {
+            future = new CompletableFuture<>();
+            exited = new CompletableFuture<>();
+            ticket = new TimerTicket();
             pendingSources.increment();
-            future.whenComplete((ignored, failure) -> pendingSources.decrement());
+            future.whenComplete((ignored, failure) -> {
+                pendingSources.decrement();
+                exited.complete(null);
+            });
             if (delayNanos >= 0) {
                 ticket.arm(delayNanos, () -> future.complete(42));
             }
         }
 
+        Source(long id, int step) {
+            ticket = null;
+            pendingSources.increment();
+            RequestDependencyClient.Call call;
+            try {
+                call = dependency.start(id, step, dependencyDelayMillis);
+            } catch (RuntimeException | Error failure) {
+                pendingSources.decrement();
+                throw failure;
+            }
+            future = call.value;
+            exited = call.exited;
+            exited.whenComplete((ignored, failure) -> pendingSources.decrement());
+        }
+
         void cancel() {
-            ticket.cancel();
+            if (ticket != null) {
+                ticket.cancel();
+            }
             future.cancel(false);
         }
     }

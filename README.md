@@ -71,6 +71,9 @@ The [heavy-request admission experiment](jfibers-benchmarks/HEAVY_ADMISSION.md)
 compares whole-request limits on the same workload and both execution models.
 Its [repeated results](jfibers-benchmarks/HEAVY_ADMISSION_RESULTS.md) quantify
 improved overload behavior and the cost of rejecting heavy work early.
+The [downstream HTTP experiment](jfibers-benchmarks/DOWNSTREAM_HTTP.md) replaces
+timer waits with real asynchronous HTTP calls and supports disjoint CPU affinity
+for the application, load generator and dependency.
 
 ## Scheduling and Failures
 

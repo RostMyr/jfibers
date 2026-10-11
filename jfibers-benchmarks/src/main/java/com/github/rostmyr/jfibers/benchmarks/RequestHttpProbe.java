@@ -138,6 +138,8 @@ public final class RequestHttpProbe {
             && field(json, "pending_sources") == 0
             && field(json, "pending_timers") == 0 && field(json, "active_compute") == 0
             && field(json, "compute_queue_size") == 0 && field(json, "timer_queue_size") == 0
+            && field(json, "downstream_active") == 0 && field(json, "downstream_executor_queue") == 0
+            && field(json, "downstream_executor_active") == 0
             && field(json, "active_exchanges") == 0
             && field(json, "response_queue") == 0 && field(json, "response_active") == 0;
     }

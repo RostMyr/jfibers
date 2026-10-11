@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.management.ManagementFactory;
 import java.net.InetSocketAddress;
+import java.net.URI;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -44,7 +45,11 @@ public final class RequestHttpServer {
 
     private RequestHttpServer(RequestTaskEngine.Backend backend, int capacity, int heavyIterations,
                               int heavyCapacity) {
-        engine = new RequestTaskEngine(backend, capacity, heavyIterations, heavyCapacity);
+        String dependency = System.getProperty("jfibers.benchmark.dependencyUrl");
+        engine = new RequestTaskEngine(backend, capacity, heavyIterations, heavyCapacity,
+            Integer.getInteger("jfibers.benchmark.computeThreads", 3),
+            dependency == null ? null : URI.create(dependency),
+            Integer.getInteger("jfibers.benchmark.dependencyDelayMillis", 1));
     }
 
     public static void main(String[] args) throws Exception {
