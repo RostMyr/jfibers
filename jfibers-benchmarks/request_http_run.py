@@ -22,7 +22,7 @@ PACKAGE = "com.github.rostmyr.jfibers.benchmarks."
 BACKENDS = ["FIBER_POOL_1", "FIBER_POOL_4", "FIBER_POOL_OFFLOAD", "VIRTUAL_THREADS"]
 FLAGS = [*JVM_FLAGS, "-Djfibers.jfr=false", "-Djava.util.concurrent.ForkJoinPool.common.parallelism=4"]
 SERVER_FLAGS = [*FLAGS, "-Dsun.net.httpserver.nodelay=true"]
-DRAIN_FIELDS = ["active_roots", "pending_completions", "pending_sources", "pending_timers", "active_compute",
+DRAIN_FIELDS = ["active_roots", "active_heavy", "pending_completions", "pending_sources", "pending_timers", "active_compute",
                 "compute_queue_size", "timer_queue_size", "active_exchanges", "response_queue", "response_active"]
 DEFAULT_CASES = ["1000:1000", "1000:1000000", "2000:1000000", "4000:1000000"]
 
@@ -50,7 +50,7 @@ def delta(before, after):
             and isinstance(before[name], (int, float))}
 
 
-def validate(result, before, after, capacity, lifecycle_check=False):
+def validate(result, before, after, capacity, heavy_capacity=0, lifecycle_check=False):
     difference = delta(before, after)
     statuses = result["http_status"]
     offered = result["offered"]
@@ -61,17 +61,27 @@ def validate(result, before, after, capacity, lifecycle_check=False):
         raise RuntimeError("Client transport/dispatch failure")
     if statuses["500"] or (statuses["409"] and not lifecycle_check):
         raise RuntimeError("Unexpected error/cancellation in normal traffic")
-    if result["successful"] != statuses["200"] \
+    if not lifecycle_check and (result["successful"] != statuses["200"] \
             or result["successful"] != result["on_time_success"] + result["late_success"] \
-            or sum(result["successful_completions_per_second"]) != result["successful"]:
+            or sum(result["successful_completions_per_second"]) != result["successful"]):
         raise RuntimeError("Incomplete success/SLO accounting")
+    reasons = result["rejection_reasons"]
+    if set(reasons) != {"heavy", "global"} or sum(reasons.values()) != statuses["503"]:
+        raise RuntimeError("Incomplete admission rejection reason accounting")
     if "light_outcomes" in result:
         for name, expected in {"offered": offered, "local_rejected": result["local_rejected"],
                                "transport_errors": result["transport_errors"],
                                "on_time_success": result["on_time_success"], "late_success": result["late_success"],
+                               "rejected_heavy": reasons["heavy"], "rejected_global": reasons["global"],
                                **statuses}.items():
             if result["light_outcomes"][name] + result["heavy_outcomes"][name] != expected:
                 raise RuntimeError(f"Incomplete light/heavy outcome accounting: {name}")
+        for name in ("light_outcomes", "heavy_outcomes"):
+            outcomes = result[name]
+            if outcomes["rejected_heavy"] + outcomes["rejected_global"] != outcomes["503"]:
+                raise RuntimeError(f"Incomplete {name} admission rejection reasons")
+        if result["light_outcomes"]["rejected_heavy"]:
+            raise RuntimeError("Heavy admission gate rejected a light request")
     if difference["requests"] != dispatched or difference["responses"] != dispatched \
             or difference["response_bytes"] != 56 * dispatched:
         raise RuntimeError("Server/client request/response accounting differs")
@@ -80,10 +90,33 @@ def validate(result, before, after, capacity, lifecycle_check=False):
             raise RuntimeError(f"Server/client HTTP {status} accounting differs")
     expected = {"accepted": dispatched - statuses["503"], "completed": dispatched - statuses["503"],
                 "success": statuses["200"], "cancelled": statuses["409"], "timed_out": statuses["504"],
-                "rejected": statuses["503"], "errors": 0, "server_errors": 0, "response_errors": 0}
+                "rejected": statuses["503"], "rejected_heavy": reasons["heavy"], "rejected_global": reasons["global"],
+                "rejected_closed": 0, "errors": 0, "server_errors": 0, "response_errors": 0,
+                "cpu_steps_success": 3 * statuses["200"]}
+    if lifecycle_check:
+        expected["cpu_steps_success"] = result["expected_cpu_steps_success"]
+        expected["cpu_iterations_success"] = result["expected_cpu_iterations_success"]
+        for outcome in ("cancelled", "timed_out", "errors"):
+            expected["cpu_steps_" + outcome] = 0
+            expected["cpu_iterations_" + outcome] = 0
+    else:
+        expected["cpu_iterations_success"] = 3 * (result["light_outcomes"]["200"] * 1000
+            + result["heavy_outcomes"]["200"] * result["heavy_iterations"])
     for key, count in expected.items():
         if difference[key] != count:
             raise RuntimeError(f"Server {key}={difference[key]}, expected {count}")
+    for prefix in ("cpu_steps", "cpu_iterations"):
+        if difference[prefix] != sum(difference[prefix + "_" + outcome]
+                                     for outcome in ("success", "cancelled", "timed_out", "errors")):
+            raise RuntimeError(f"Incomplete terminal {prefix} accounting")
+    for outcome, status in (("success", "200"), ("cancelled", "409"), ("timed_out", "504"), ("errors", "500")):
+        steps = difference["cpu_steps_" + outcome]
+        iterations = difference["cpu_iterations_" + outcome]
+        if not 0 <= steps <= 3 * statuses[status] or not steps * min(1000, result["heavy_iterations"]) \
+                <= iterations <= steps * max(1000, result["heavy_iterations"]):
+            raise RuntimeError(f"Impossible completed CPU work for {outcome} outcomes")
+    if after["heavy_capacity"] != heavy_capacity or (heavy_capacity and after["peak_heavy"] > heavy_capacity):
+        raise RuntimeError("Heavy capacity exceeded or incorrectly configured")
     if after["peak_roots"] > capacity or any(after[field] for field in DRAIN_FIELDS):
         raise RuntimeError("Capacity exceeded or asynchronous resources not drained")
     return difference
@@ -95,6 +128,8 @@ def main():
     parser.add_argument("--backends", nargs="+", choices=BACKENDS, default=BACKENDS)
     parser.add_argument("--cases", nargs="+", default=DEFAULT_CASES, help="RATE:HEAVY_ITERATIONS pairs")
     parser.add_argument("--capacity", type=int, default=64)
+    parser.add_argument("--heavy-capacities", nargs="+", type=int, default=[0],
+                        help="Concurrent heavy-root limits; zero disables the heavy gate")
     parser.add_argument("--max-in-flight", type=int, default=512)
     parser.add_argument("--deadline-ms", type=int, default=100)
     parser.add_argument("--slo-ms", type=int, default=150)
@@ -113,6 +148,9 @@ def main():
             or not 1 <= args.deadline_ms <= 5000 or not 1 <= args.slo_ms <= 10000 \
             or not 100 <= args.warmup_ms <= 60000 or not 100 <= args.measure_ms <= 60000 or args.forks < 1:
         parser.error("Invalid bounds, durations or forks")
+    if any(not 0 <= cap <= args.capacity for cap in args.heavy_capacities) \
+            or len(set(args.heavy_capacities)) != len(args.heavy_capacities):
+        parser.error("Heavy capacities must be unique integers from zero through root capacity")
     forks = 1 if args.quick else args.forks
     warmup, measure = (300, 400) if args.quick else (args.warmup_ms, args.measure_ms)
     if any(rate * max(warmup, measure) > 2_000_000_000 for rate, _ in cases):
@@ -138,6 +176,7 @@ def main():
         "client_jvm_flags": FLAGS, "server_jvm_flags": SERVER_FLAGS,
         "warmup_ms": warmup, "measure_ms": measure, "forks": forks, "backends": args.backends,
         "cases_rate_heavy_iterations": cases, "capacity": args.capacity, "max_in_flight": args.max_in_flight,
+        "heavy_capacities": args.heavy_capacities,
         "deadline_ms": args.deadline_ms, "slo_ms": args.slo_ms,
         "workload": "open-loop HTTP/1.1, one fresh root per accepted request; 3 x (1ms async wait + CPU), 10% heavy",
         "jar_sha256": hashlib.sha256(jar.read_bytes()).hexdigest(),
@@ -151,19 +190,20 @@ def main():
         write_json(output / "environment.json", metadata)
         write_json(output / "results.json", records)
 
-    def run_pair(backend, rate, iterations, fork):
-        label = f"{fork}-{rate}-{iterations}-{backend.lower()}"
+    def run_pair(backend, rate, iterations, fork, heavy_capacity):
+        label = f"{fork}-{rate}-{iterations}-heavycap{heavy_capacity}-{backend.lower()}"
         print(label, flush=True)
         server = client = None
         before_cgroup = read_optional("/sys/fs/cgroup/cpu.stat")
         record = {"fork": fork, "backend": backend, "rate": rate, "heavy_iterations": iterations,
+                  "heavy_capacity": heavy_capacity,
                   "cpu_stat_before": before_cgroup}
         records.append(record)
         with (output / (label + "-server.log")).open("w") as server_log, \
                 (output / (label + "-client.log")).open("w") as client_log:
             try:
                 server_command = [java, *SERVER_FLAGS, "-Xverify:all", "-cp", str(jar), PACKAGE + "RequestHttpServer",
-                                  backend, str(args.capacity), str(iterations)]
+                                  backend, str(args.capacity), str(iterations), str(heavy_capacity)]
                 metadata["commands"].append(server_command)
                 save()
                 server = subprocess.Popen(server_command, cwd=REPOSITORY, stdin=subprocess.PIPE,
@@ -174,7 +214,7 @@ def main():
                 client_command = [java, *FLAGS, "-Xverify:all", "-cp", str(jar), PACKAGE + "RequestHttpProbe",
                                   f"http://127.0.0.1:{ready['port']}", str(rate), str(warmup), str(measure),
                                   str(iterations), str(args.deadline_ms), str(args.slo_ms),
-                                  str(args.max_in_flight), str(args.capacity)]
+                                  str(args.max_in_flight), str(args.capacity), str(heavy_capacity)]
                 metadata["commands"].append(client_command)
                 save()
                 client = subprocess.Popen(client_command, cwd=REPOSITORY, stdin=subprocess.PIPE,
@@ -187,12 +227,10 @@ def main():
                 if not record["check"]["passed"]:
                     raise RuntimeError("Lifecycle self-checks failed")
                 check_delta = delta(record["check_server_before"], record["check_server_after"])
-                check_status = {"200": 0, "409": args.capacity + 1, "503": 1, "504": 1, "500": 0}
-                validate({"offered": args.capacity + 3, "dispatched": args.capacity + 3,
-                          "local_rejected": 0, "transport_errors": 0, "http_status": check_status,
-                          "successful": 0, "on_time_success": 0, "late_success": 0,
-                          "successful_completions_per_second": []},
-                         record["check_server_before"], record["check_server_after"], args.capacity, lifecycle_check=True)
+                check_result = {**record["check"], "dispatched": record["check"]["offered"],
+                                "local_rejected": 0, "transport_errors": 0, "heavy_iterations": iterations}
+                validate(check_result, record["check_server_before"], record["check_server_after"],
+                         args.capacity, heavy_capacity, lifecycle_check=True)
                 record["check_server_delta"] = check_delta
                 save()
                 for phase, duration in (("warmup", warmup), ("measurement", measure)):
@@ -204,7 +242,12 @@ def main():
                                     "server_delta": delta(before, after)}
                     record[phase] = phase_record
                     save()
-                    difference = validate(result, before, after, args.capacity)
+                    expected_first_id = 1_000_000 + (0 if phase == "warmup" else (rate * warmup + 999) // 1000)
+                    if result["first_request_id"] != expected_first_id or result["offered"] != (rate * duration + 999) // 1000:
+                        raise RuntimeError("Client arrival trace differs from the fixed phase schedule")
+                    if result["heavy_capacity"] != heavy_capacity:
+                        raise RuntimeError("Client heavy-capacity metadata mismatch")
+                    difference = validate(result, before, after, args.capacity, heavy_capacity)
                     result["server_window_seconds"] = difference["snapshot_nanos"] / 1e9
                     result["server_cpu_seconds"] = difference["cpu_nanos"] / 1e9
                     result["server_cpu_cores"] = difference["cpu_nanos"] / difference["snapshot_nanos"]
@@ -213,6 +256,9 @@ def main():
                     result["server_gc_millis"] = difference["gc_millis"]
                     result["server_allocated_bytes_per_accepted"] = difference["allocated_bytes"] / max(1, difference["accepted"])
                     result["server_allocated_bytes_per_dispatched"] = difference["allocated_bytes"] / max(1, result["dispatched"])
+                    for prefix in ("cpu_steps", "cpu_iterations"):
+                        for suffix in ("", "_success", "_cancelled", "_timed_out", "_errors"):
+                            result["server_" + prefix + suffix] = difference[prefix + suffix]
                 result = record["measurement"]["result"]
                 print(f"  success {result['successful_per_second']:.0f}/s, goodput {result['goodput_per_second']:.0f}/s; "
                       f"HTTP {result['http_status']}, local rejects {result['local_rejected']}", flush=True)
@@ -237,10 +283,13 @@ def main():
     try:
         for fork in range(forks):
             case_offset = fork % len(cases)
-            backend_offset = fork % len(args.backends)
-            for rate, iterations in cases[case_offset:] + cases[:case_offset]:
-                for backend in args.backends[backend_offset:] + args.backends[:backend_offset]:
-                    run_pair(backend, rate, iterations, fork + 1)
+            for case_index, (rate, iterations) in enumerate(cases[case_offset:] + cases[:case_offset]):
+                cap_offset = (fork + case_index) % len(args.heavy_capacities)
+                caps = args.heavy_capacities[cap_offset:] + args.heavy_capacities[:cap_offset]
+                for cap_index, heavy_capacity in enumerate(caps):
+                    backend_offset = (fork + case_index + cap_index) % len(args.backends)
+                    for backend in args.backends[backend_offset:] + args.backends[:backend_offset]:
+                        run_pair(backend, rate, iterations, fork + 1, heavy_capacity)
         metadata["finished_utc"] = datetime.now(timezone.utc).isoformat()
         write_json(output / "summary.json", summarize(output))
     finally:

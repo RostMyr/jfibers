@@ -7,6 +7,9 @@ cancellation and cleanup through the public `FiberPool`, `FiberTask` and
 flows process many operations after a single pool submission.
 The [recorded comparison](REQUEST_HTTP_RESULTS.md) includes three repetitions,
 per-class outcomes and the limitations of the shared-machine measurements.
+The optional [heavy admission experiment](HEAVY_ADMISSION.md) extends the current
+protocol with a separate limit for heavy requests and completed-work counters.
+Historical reports and raw data retain their recorded source/protocol versions.
 
 The client and server run in separate JVMs on the same machine. The transport is
 real loopback HTTP/1.1; the work behind the endpoint uses synthetic asynchronous
@@ -47,11 +50,15 @@ requests per second and integer-mixing iterations per heavy step. The default
 cases are `1000:1000`, `1000:1000000`, `2000:1000000` and `4000:1000000`.
 `--quick` selects one repetition, 300 ms of warmup and 400 ms of measurement;
 it retains the selected cases and all lifecycle checks.
+`--heavy-capacities 0` is the default and disables the separate heavy limit.
+Supply a list such as `--heavy-capacities 0 3 6 12` to compare policies; positive
+values must not exceed `--capacity`.
 
 The normal protocol uses 15 seconds of warmup and 10 seconds of measurement,
 then drains every dispatched request. Each case/backend/repetition gets a fresh
-client/server JVM pair. Cases and backends rotate between the three repetitions;
-pairs execute sequentially. Both JVMs use G1, fixed 512 MiB heaps, four active
+client/server JVM pair. Cases, heavy capacities and backends rotate between the
+three repetitions; each case interleaves the selected capacities and backends,
+and pairs execute sequentially. Both JVMs use G1, fixed 512 MiB heaps, four active
 processors and four virtual-thread carriers. JFR and custom fiber events are
 disabled. Client full GC precedes the measured phase and is outside its counters;
 the server is not forced through a full GC between phases.
@@ -82,6 +89,16 @@ threads and a queue whose capacity equals the root capacity. Root admission is
 nonblocking: overload returns HTTP 503. The virtual-thread semaphore does not
 wait for a permit either.
 
+When enabled, the harness's heavy admission gate limits the number of accepted
+heavy roots throughout their entire lifetime: root queueing, every asynchronous
+wait, all three compute steps and cancellation cleanup. It releases the heavy
+slot only after terminal cleanup and any offloaded computation's actual exit.
+Heavy admission is checked before global root admission; if both limits are
+full, a heavy request reports the heavy reason. A global rejection rolls back
+any provisional heavy reservation. Light requests consume only global capacity.
+The same policy wraps fibers and virtual threads. It is implemented by this
+benchmark's request engine, not a change to the public `FiberPool` policy.
+
 The common JDK `HttpServer` adapter has four handler threads and four response
 writer threads, each with a 1,024-entry queue. Socket response writes do not run
 on a fiber owner or business-task thread. These transport queues are distinct
@@ -105,6 +122,13 @@ has no permit, that arrival becomes `local_rejected`; it is not sent over HTTP
 and is not silently delayed. Admitted requests use the same JDK
 `HttpClient.sendAsync` pipeline, HTTP/1.1, reused connections and a four-thread
 client executor for every server backend.
+
+Lifecycle checks use negative request IDs. After all checks drain, the first
+warmup request ID is reset to `1_000_000`; measurement starts immediately after
+the warmup's complete sequence of offered IDs. Each phase records
+`first_request_id`, and the runner validates this sequence and its offered count.
+Thus different heavy capacities and backends see the same intended light/heavy
+arrival pattern even though their admission outcomes differ.
 
 The default **server deadline is 100 ms**, starting at the server's attempt to
 submit the root. It includes root queueing, waits, computation and cleanup, but
@@ -153,6 +177,12 @@ Each work response is exactly 56 bytes: seven big-endian signed 64-bit integers
 in this order: `status`, `id`, `checksum`, `queueNanos`, `serviceNanos`,
 `cleanupNanos`, `computeQueueNanos`. The HTTP status must equal the encoded
 status, and the ID and successful checksum must match the request.
+HTTP 503 additionally carries exactly one `X-Admission-Rejection` header whose
+value is `heavy` or `global`; all other statuses must omit it. The binary body
+remains 56 bytes. The client reports `rejection_reasons` for the whole phase and
+`rejected_heavy`/`rejected_global` inside each class's outcome counters. A closed
+engine or an unexpected execution failure is a failed run, not an extra
+ordinary overload category.
 
 | HTTP status | Meaning |
 | --- | --- |
@@ -179,7 +209,10 @@ The runner validates warmup and measurement separately after complete draining:
   root success, cancellation and timeout counters match the HTTP outcomes.
 - Successful responses split exactly into timely and late success, per-second
   completions sum correctly, and light/heavy counts reconcile with the totals.
-- Roots, pending completion publication, sources, timers, compute work, compute
+- Heavy/global rejection reasons sum to HTTP 503, match server counters, and
+  reconcile within each request class; light work cannot be rejected by the
+  heavy gate.
+- Roots, heavy reservations, pending completion publication, sources, timers, compute work, compute
   and timer queues, active exchanges and response writers drain to zero.
 
 Any transport error, unexpected HTTP 409 during normal traffic, HTTP 500,
@@ -189,7 +222,8 @@ and are preserved in the measurements.
 
 ## Lifecycle checks outside measured traffic
 
-Every JVM pair runs the same checks before warmup:
+Every JVM pair runs these common checks before warmup, using only light IDs so
+that the optional heavy gate cannot mask global-capacity behavior:
 
 1. Start a `hold` request with a five-second deadline, wait until its source is
    pending, cancel it, and verify HTTP 409 after the requested 20 ms asynchronous
@@ -200,6 +234,16 @@ Every JVM pair runs the same checks before warmup:
    receive HTTP 503. Cancel the admitted requests, verify all original responses
    and their cleanup, then require every tracked resource to drain.
 
+With a positive heavy capacity, the client additionally fills that many slots
+with heavy `hold` requests and verifies that an extra heavy request receives
+HTTP 503 with reason `heavy`. A normal light request must still succeed when
+global capacity remains. The held roots are cancelled, their cleanup is checked,
+and a subsequent heavy request must succeed after draining. If heavy and global
+capacities are equal, the light probe correctly receives reason `global` while
+all slots are occupied, then must succeed after release. Check responses and
+their expected successful compute work are counted dynamically and reconciled
+separately from timed traffic.
+
 `hold` sources do not complete by themselves. The checks use their own IDs and
 counter intervals; deliberate cancellation and timeout do not enter normal
 traffic statistics. A queued request cancelled before its body starts has no
@@ -207,10 +251,13 @@ body cleanup to perform. Started roots retain admission capacity through cleanup
 For offloaded computation, cleanup waits for actual worker exit even if the
 completion future has already been cancelled.
 
-Peak root/exchange counters are cumulative over the process lifetime. The
+Peak root/heavy/exchange counters are cumulative over the process lifetime. The
 saturation check intentionally raises them before warmup, so they cannot be
 interpreted as measured-traffic peaks. The root peak is used only to verify that
-the configured capacity was never exceeded.
+the configured capacity was never exceeded; the heavy peak is similarly checked
+against a positive heavy capacity. With the gate disabled, heavy lifecycle
+bookkeeping can briefly outlive release of a native root slot, so its peak is
+not an independent bound on native scheduler concurrency.
 
 ## Metrics and interpretation limits
 
@@ -237,6 +284,30 @@ from those timing distributions. Success distributions include HTTP 200 only;
 the server `light`/`heavy` distributions include responses of that class with a
 valid value for the particular timing field. Server timings exclude final task
 publication and transport writes, which remain part of client latency.
+
+The engine also records completed synthetic CPU work by terminal request outcome:
+`cpu_steps_success/cancelled/timed_out/errors` and the matching
+`cpu_iterations_*`, plus their totals. One step means a complete integer-mixing
+loop. Counters are accumulated once when a request terminates, after cleanup has
+waited for any running offloaded computation to exit. Cancelling a compute future
+does not erase work that its worker actually finishes. Rejected requests perform
+no synthetic CPU steps, and pending `hold` checks perform none either.
+
+The runner independently requires exactly three completed steps per HTTP 200
+and exactly `3 * (light_successes * 1000 + heavy_successes * heavy_iterations)`
+successful iterations. Each other outcome permits zero through three steps per
+request. Its iteration count must lie between the completed-step count times
+the smaller and larger configured iteration counts; outcome totals must also
+sum exactly. Lifecycle hold cancellation/timeouts require zero completed work.
+
+The current summarizer derives per-class timely-success, rejection and timeout
+fractions against offered traffic, heavy timeout fraction against accepted heavy
+traffic, mean completed steps/iterations per terminal outcome, and
+`non_success_cpu_iteration_percent`. The last metric is the fraction of recorded
+iterations belonging to cancelled, timed-out or failed requests. These are work
+proxies, not measured CPU-time shares: they exclude transport, scheduling, GC
+and other runtime work. Archived datasets without `heavy_capacity` retain their
+original summary schema and are not populated with inferred new metrics.
 
 Client CPU, allocation and GC counters cover its timed phase, with sample arrays
 allocated beforehand and percentile sorting afterward. Server counters span

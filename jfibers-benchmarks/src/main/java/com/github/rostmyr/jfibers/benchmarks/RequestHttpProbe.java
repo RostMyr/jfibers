@@ -43,12 +43,13 @@ public final class RequestHttpProbe {
     private final int sloMillis;
     private final int maxInFlight;
     private final int capacity;
+    private final int heavyCapacity;
     private final long heavyChecksum;
     private final long lightChecksum;
-    private final AtomicLong nextId = new AtomicLong(1_000_000);
+    private final AtomicLong nextId = new AtomicLong(-1_000_000);
 
     private RequestHttpProbe(URI base, HttpClient client, int rate, int heavyIterations,
-                             int deadlineMillis, int sloMillis, int maxInFlight, int capacity) {
+                             int deadlineMillis, int sloMillis, int maxInFlight, int capacity, int heavyCapacity) {
         this.base = base;
         this.client = client;
         this.rate = rate;
@@ -57,14 +58,18 @@ public final class RequestHttpProbe {
         this.sloMillis = sloMillis;
         this.maxInFlight = maxInFlight;
         this.capacity = capacity;
+        if (heavyCapacity < 0 || heavyCapacity > capacity) {
+            throw new IllegalArgumentException("Heavy capacity must be zero or at most the root capacity");
+        }
+        this.heavyCapacity = heavyCapacity;
         // The computation uses the same seed for each request: validate without repeating CPU work on the client.
         heavyChecksum = RequestTaskEngine.expected(0, heavyIterations);
         lightChecksum = RequestTaskEngine.expected(1, heavyIterations);
     }
 
     public static void main(String[] args) throws Exception {
-        if (args.length != 9) {
-            throw new IllegalArgumentException("baseURI rate warmupMs measureMs heavyIterations deadlineMs sloMs maxInFlight capacity");
+        if (args.length != 9 && args.length != 10) {
+            throw new IllegalArgumentException("baseURI rate warmupMs measureMs heavyIterations deadlineMs sloMs maxInFlight capacity [heavyCapacity]");
         }
         int rate = positive(args[1]);
         int warmupMillis = positive(args[2]);
@@ -74,7 +79,8 @@ public final class RequestHttpProbe {
                  .connectTimeout(Duration.ofSeconds(5)).executor(executor).build();
              BufferedReader commands = new BufferedReader(new InputStreamReader(System.in))) {
             RequestHttpProbe probe = new RequestHttpProbe(URI.create(args[0]), client, rate,
-                positive(args[4]), positive(args[5]), positive(args[6]), positive(args[7]), positive(args[8]));
+                positive(args[4]), positive(args[5]), positive(args[6]), positive(args[7]), positive(args[8]),
+                args.length == 10 ? Integer.parseInt(args[9]) : 0);
             emit(Map.of("ready", true));
             for (String command; (command = commands.readLine()) != null;) {
                 switch (command) {
@@ -127,7 +133,8 @@ public final class RequestHttpProbe {
     }
 
     private static boolean drained(String json) {
-        return field(json, "active_roots") == 0 && field(json, "pending_completions") == 0
+        return field(json, "active_roots") == 0 && field(json, "active_heavy") == 0
+            && field(json, "pending_completions") == 0
             && field(json, "pending_sources") == 0
             && field(json, "pending_timers") == 0 && field(json, "active_compute") == 0
             && field(json, "compute_queue_size") == 0 && field(json, "timer_queue_size") == 0
@@ -148,8 +155,9 @@ public final class RequestHttpProbe {
 
     /** Cancellation, asynchronous cleanup, deadlines and hard admission limits, outside timed traffic. */
     private Map<String, Object> check() throws Exception {
+        CheckCounts counts = new CheckCounts();
         awaitDrained();
-        long cancelId = nextId.getAndIncrement();
+        long cancelId = nextId(false);
         CompletableFuture<HttpResponse<byte[]>> pending = client.sendAsync(work(cancelId, "hold", 5000, 20), BODY);
         long startLimit = System.nanoTime() + TimeUnit.SECONDS.toNanos(4);
         while (field(stats(), "pending_sources") == 0) {
@@ -166,48 +174,134 @@ public final class RequestHttpProbe {
         } while (System.nanoTime() < limit);
         if (cancellation != 202) throw new IllegalStateException("Cancellation was never admitted");
         Wire cancelled = validate(pending.get(10, TimeUnit.SECONDS), cancelId);
+        counts.record(cancelled);
         checkTermination(cancelled, 409);
         awaitDrained();
-        long timeoutId = nextId.getAndIncrement();
+        long timeoutId = nextId(false);
         Wire timedOut = validate(client.send(work(timeoutId, "hold", 100, 20), BODY), timeoutId);
+        counts.record(timedOut);
         checkTermination(timedOut, 504);
         awaitDrained();
 
-        List<CompletableFuture<HttpResponse<byte[]>>> blocked = new ArrayList<>();
-        long first = nextId.getAndAdd(capacity);
-        for (int i = 0; i < capacity; i++) {
-            blocked.add(client.sendAsync(work(first + i, "hold", 5000, 20), BODY));
+        Map<Long, CompletableFuture<HttpResponse<byte[]>>> blocked = hold(capacity, false);
+        awaitHolding(capacity, false);
+        long extraId = nextId(false);
+        Wire rejected = validate(client.send(work(extraId, "normal", 5000, 0), BODY), extraId);
+        counts.record(rejected);
+        checkRejection(rejected, "global");
+        cancelHeld(blocked, counts);
+        awaitDrained();
+        if (heavyCapacity > 0) {
+            blocked = hold(heavyCapacity, true);
+            awaitHolding(heavyCapacity, true);
+            long heavyExtraId = nextId(true);
+            Wire heavyRejected = validate(client.send(work(heavyExtraId, "hold", 5000, 0), BODY), heavyExtraId);
+            counts.record(heavyRejected);
+            checkRejection(heavyRejected, "heavy");
+            long lightId = nextId(false);
+            Wire light = validate(client.send(work(lightId, "normal", 5000, 0), BODY), lightId);
+            counts.record(light);
+            if (heavyCapacity == capacity) checkRejection(light, "global");
+            else if (light.status != 200) throw new IllegalStateException("Heavy gate blocked light work: " + light);
+            cancelHeld(blocked, counts);
+            awaitDrained();
+            long readmittedId = nextId(true);
+            Wire readmitted = validate(client.send(work(readmittedId, "normal", 5000, 0), BODY), readmittedId);
+            counts.record(readmitted);
+            if (readmitted.status != 200) throw new IllegalStateException("Heavy admission slot leaked: " + readmitted);
+            if (heavyCapacity == capacity) {
+                lightId = nextId(false);
+                light = validate(client.send(work(lightId, "normal", 5000, 0), BODY), lightId);
+                counts.record(light);
+                if (light.status != 200) throw new IllegalStateException("Global admission slot leaked: " + light);
+            }
+            awaitDrained();
         }
-        limit = System.nanoTime() + TimeUnit.SECONDS.toNanos(4);
-        boolean saturated = false;
+        // Keep the measured heavy/light arrival pattern identical across cap variants.
+        nextId.set(1_000_000);
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("passed", true);
+        result.put("explicit_cancellation", 1);
+        result.put("deadlines", 1);
+        result.put("global_overload_cancelled", capacity);
+        result.put("heavy_overload_cancelled", heavyCapacity);
+        result.put("cancellation_cleanup_ms", cancelled.cleanupNanos / 1e6);
+        result.put("deadline_cleanup_ms", timedOut.cleanupNanos / 1e6);
+        result.put("http_status", counts.statuses);
+        result.put("rejection_reasons", counts.rejections);
+        result.put("offered", counts.statuses.values().stream().mapToLong(Long::longValue).sum());
+        result.put("expected_cpu_steps_success", counts.cpuSteps);
+        result.put("expected_cpu_iterations_success", counts.cpuIterations);
+        return result;
+    }
+
+    private long nextId(boolean heavyClass) {
+        long id;
+        do { id = nextId.getAndIncrement(); } while (heavy(id) != heavyClass);
+        return id;
+    }
+
+    private Map<Long, CompletableFuture<HttpResponse<byte[]>>> hold(int count, boolean heavyClass) {
+        Map<Long, CompletableFuture<HttpResponse<byte[]>>> blocked = new LinkedHashMap<>();
+        for (int i = 0; i < count; i++) {
+            long id = nextId(heavyClass);
+            blocked.put(id, client.sendAsync(work(id, "hold", 5000, 20), BODY));
+        }
+        return blocked;
+    }
+
+    private void awaitHolding(int count, boolean heavyClass) throws Exception {
+        long limit = System.nanoTime() + TimeUnit.SECONDS.toNanos(4);
         do {
             String current = stats();
-            if (field(current, "active_roots") == capacity && field(current, "pending_sources") >= capacity) {
-                saturated = true;
-                break;
-            }
+            if (field(current, "active_roots") == count && field(current, "pending_sources") >= count
+                && (!heavyClass || field(current, "active_heavy") == count)) return;
             Thread.sleep(5);
         } while (System.nanoTime() < limit);
-        if (!saturated) throw new IllegalStateException("Could not fill the root capacity");
-        long extraId = nextId.getAndIncrement();
-        Wire rejected = validate(client.send(work(extraId, "normal", 5000, 0), BODY), extraId);
-        if (rejected.status != 503) throw new IllegalStateException("Admission limit did not reject: " + rejected);
+        throw new IllegalStateException("Could not fill the " + (heavyClass ? "heavy" : "global") + " capacity");
+    }
+
+    private void cancelHeld(Map<Long, CompletableFuture<HttpResponse<byte[]>>> blocked, CheckCounts counts) throws Exception {
         List<CompletableFuture<HttpResponse<byte[]>>> cancellations = new ArrayList<>();
-        for (int i = 0; i < capacity; i++) {
-            cancellations.add(client.sendAsync(HttpRequest.newBuilder(base.resolve("/cancel?id=" + (first + i)))
+        for (long id : blocked.keySet()) {
+            cancellations.add(client.sendAsync(HttpRequest.newBuilder(base.resolve("/cancel?id=" + id))
                 .timeout(Duration.ofSeconds(10)).POST(HttpRequest.BodyPublishers.noBody()).build(), BODY));
         }
-        for (int i = 0; i < capacity; i++) {
-            if (cancellations.get(i).get(10, TimeUnit.SECONDS).statusCode() != 202) {
+        int index = 0;
+        for (var entry : blocked.entrySet()) {
+            if (cancellations.get(index++).get(10, TimeUnit.SECONDS).statusCode() != 202) {
                 throw new IllegalStateException("Saturated request cancellation failed");
             }
-            checkTermination(validate(blocked.get(i).get(10, TimeUnit.SECONDS), first + i), 409);
+            Wire result = validate(entry.getValue().get(10, TimeUnit.SECONDS), entry.getKey());
+            counts.record(result);
+            checkTermination(result, 409);
         }
-        awaitDrained();
-        return Map.of("passed", true, "explicit_cancellation", 1, "deadlines", 1,
-            "overload_rejected", 1, "overload_cancelled", capacity,
-            "cancellation_cleanup_ms", cancelled.cleanupNanos / 1e6,
-            "deadline_cleanup_ms", timedOut.cleanupNanos / 1e6);
+    }
+
+    private static void checkRejection(Wire result, String reason) {
+        if (result.status != 503 || !reason.equals(result.rejectionReason)) {
+            throw new IllegalStateException("Incorrect admission rejection: " + result);
+        }
+    }
+
+    private final class CheckCounts {
+        final Map<String, Long> statuses = new LinkedHashMap<>();
+        final Map<String, Long> rejections = new LinkedHashMap<>(Map.of("heavy", 0L, "global", 0L));
+        long cpuSteps;
+        long cpuIterations;
+
+        CheckCounts() {
+            for (int code : new int[] {200, 409, 503, 504, 500}) statuses.put(Integer.toString(code), 0L);
+        }
+
+        void record(Wire result) {
+            statuses.merge(Integer.toString(result.status), 1L, Long::sum);
+            if (result.status == 503) rejections.merge(result.rejectionReason, 1L, Long::sum);
+            if (result.status == 200) {
+                cpuSteps += 3;
+                cpuIterations += 3L * (heavy(result.id) ? heavyIterations : 1_000);
+            }
+        }
     }
 
     private static void checkTermination(Wire result, int expectedStatus) {
@@ -257,6 +351,7 @@ public final class RequestHttpProbe {
                             samples.service[index] = wire.serviceNanos;
                             samples.cleanup[index] = wire.cleanupNanos;
                             samples.computeQueue[index] = wire.computeQueueNanos;
+                            samples.rejectionReason[index] = wire.rejectionReason;
                         } else {
                             samples.status[index] = 0;
                             transportFailure.compareAndSet(null, failure.toString());
@@ -298,7 +393,9 @@ public final class RequestHttpProbe {
         if (permits.availablePermits() != maxInFlight) throw new IllegalStateException("Leaked client permits");
         Map<String, Object> result = samples.summarize(firstId, sloMillis, durationMillis, elapsed);
         result.put("rate", rate);
+        result.put("first_request_id", firstId);
         result.put("heavy_iterations", heavyIterations);
+        result.put("heavy_capacity", heavyCapacity);
         result.put("deadline_ms", deadlineMillis);
         result.put("slo_ms", sloMillis);
         result.put("max_in_flight", maxInFlight);
@@ -317,8 +414,14 @@ public final class RequestHttpProbe {
         long status = body.getLong();
         long actualId = body.getLong();
         long checksum = body.getLong();
+        List<String> reasons = response.headers().allValues("X-Admission-Rejection");
+        String reason = reasons.isEmpty() ? null : reasons.getFirst();
+        if (status == 503 ? reasons.size() != 1 || !("heavy".equals(reason) || "global".equals(reason))
+            : !reasons.isEmpty()) {
+            throw new IllegalStateException("Invalid admission rejection header: " + reasons + ", status=" + status);
+        }
         Wire result = new Wire(Math.toIntExact(status), actualId, checksum, body.getLong(),
-            body.getLong(), body.getLong(), body.getLong());
+            body.getLong(), body.getLong(), body.getLong(), reason);
         if (response.statusCode() != status || actualId != id
             || (status != 200 && status != 409 && status != 503 && status != 504 && status != 500)
             || (status == 200 && checksum != (heavy(id) ? heavyChecksum : lightChecksum))) {
@@ -334,7 +437,7 @@ public final class RequestHttpProbe {
     private static boolean heavy(long id) { return Math.floorMod(id * 37, 100) < 10; }
 
     private record Wire(int status, long id, long checksum, long queueNanos, long serviceNanos,
-                        long cleanupNanos, long computeQueueNanos) { }
+                        long cleanupNanos, long computeQueueNanos, String rejectionReason) { }
 
     private static final class Samples {
         final int[] status;
@@ -345,6 +448,7 @@ public final class RequestHttpProbe {
         final long[] service;
         final long[] cleanup;
         final long[] computeQueue;
+        final String[] rejectionReason;
 
         Samples(int count) {
             status = new int[count];
@@ -355,6 +459,7 @@ public final class RequestHttpProbe {
             service = new long[count];
             cleanup = new long[count];
             computeQueue = new long[count];
+            rejectionReason = new String[count];
             Arrays.fill(queue, -1);
             Arrays.fill(service, -1);
             Arrays.fill(cleanup, -1);
@@ -364,6 +469,7 @@ public final class RequestHttpProbe {
         Map<String, Object> summarize(long firstId, int sloMillis, int durationMillis, long elapsed) {
             Map<String, Object> result = new LinkedHashMap<>();
             Map<String, Long> statuses = new LinkedHashMap<>();
+            Map<String, Long> rejections = new LinkedHashMap<>(Map.of("heavy", 0L, "global", 0L));
             for (int code : new int[] {200, 409, 503, 504, 500}) statuses.put(Integer.toString(code), 0L);
             long localRejected = 0;
             long transportErrors = 0;
@@ -374,6 +480,7 @@ public final class RequestHttpProbe {
                 if (code == -1) localRejected++;
                 else if (code == 0) transportErrors++;
                 else statuses.merge(Integer.toString(code), 1L, Long::sum);
+                if (code == 503) rejections.merge(rejectionReason[i], 1L, Long::sum);
                 if (code == 200) {
                     if (latency[i] <= sloMillis * 1_000_000L) onTime++;
                     perSecond[(int) (completedOffset[i] / 1_000_000_000)]++;
@@ -385,6 +492,7 @@ public final class RequestHttpProbe {
             result.put("local_rejected", localRejected);
             result.put("transport_errors", transportErrors);
             result.put("http_status", statuses);
+            result.put("rejection_reasons", rejections);
             result.put("successful", successful);
             result.put("on_time_success", onTime);
             result.put("late_success", successful - onTime);
@@ -403,12 +511,14 @@ public final class RequestHttpProbe {
             for (boolean heavyClass : new boolean[] {false, true}) {
                 Map<String, Long> outcomes = new LinkedHashMap<>();
                 for (String key : List.of("offered", "200", "409", "503", "504", "500", "local_rejected",
-                                         "transport_errors", "on_time_success", "late_success")) outcomes.put(key, 0L);
+                                         "transport_errors", "on_time_success", "late_success", "rejected_heavy",
+                                         "rejected_global")) outcomes.put(key, 0L);
                 for (int i = 0; i < status.length; i++) {
                     if (heavy(firstId + i) != heavyClass) continue;
                     outcomes.merge("offered", 1L, Long::sum);
                     outcomes.merge(status[i] == -1 ? "local_rejected" : status[i] == 0 ? "transport_errors"
                         : Integer.toString(status[i]), 1L, Long::sum);
+                    if (status[i] == 503) outcomes.merge("rejected_" + rejectionReason[i], 1L, Long::sum);
                     if (status[i] == 200) outcomes.merge(latency[i] <= sloMillis * 1_000_000L
                         ? "on_time_success" : "late_success", 1L, Long::sum);
                 }

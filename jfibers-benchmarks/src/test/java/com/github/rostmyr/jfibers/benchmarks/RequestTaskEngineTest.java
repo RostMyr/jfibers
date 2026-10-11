@@ -4,6 +4,8 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BooleanSupplier;
@@ -99,14 +101,19 @@ public class RequestTaskEngineTest {
     @Test(timeout = 30_000)
     public void cancellationWaitsForActualOffloadedComputeExit() throws Exception {
         try (RequestTaskEngine engine = new RequestTaskEngine(
-            RequestTaskEngine.Backend.FIBER_POOL_OFFLOAD, 1, 20_000_000)) {
-            RequestTaskEngine.Submission submission = engine.submit(0, false, 0, 0);
+            RequestTaskEngine.Backend.FIBER_POOL_OFFLOAD, 2, 20_000_000, 1)) {
+            RequestTaskEngine.Submission submission = engine.submit(0, false, 0, 100);
             await(() -> ((Number) engine.snapshot().get("active_compute")).longValue() == 1);
             assertTrue(submission.cancel());
+            assertRejection(engine, 100, "heavy");
             RequestTaskEngine.Result result = submission.completion().toCompletableFuture().get(5, TimeUnit.SECONDS);
             assertEquals(409, result.status());
             assertTrue(result.computeQueueNanos() > 0);
             assertEquals(0L, engine.snapshot().get("active_compute"));
+            long steps = ((Number) engine.snapshot().get("cpu_steps_cancelled")).longValue();
+            assertTrue(steps >= 1 && steps <= 3);
+            assertEquals(steps * 20_000_000, engine.snapshot().get("cpu_iterations_cancelled"));
+            assertEquals(0L, engine.snapshot().get("cpu_steps_success"));
             assertTrue(engine.awaitQuiescent(Duration.ofSeconds(5)));
             engine.assertQuiescent();
         }
@@ -203,6 +210,168 @@ public class RequestTaskEngineTest {
             published.get(5, TimeUnit.SECONDS);
             assertTrue(engine.awaitQuiescent(Duration.ofSeconds(5)));
             engine.assertQuiescent();
+        }
+    }
+
+    @Test(timeout = 30_000)
+    public void heavyAdmissionIsAtomicUnderConcurrentSubmissionsAndLeavesRoomForLightWork() throws Exception {
+        for (RequestTaskEngine.Backend backend : RequestTaskEngine.Backend.values()) {
+            try (RequestTaskEngine engine = new RequestTaskEngine(backend, 16, 100_000, 3);
+                 var producers = Executors.newFixedThreadPool(8)) {
+                CountDownLatch start = new CountDownLatch(1);
+                ArrayList<Future<RequestTaskEngine.Submission>> attempts = new ArrayList<>();
+                for (int id = 0; id < 16; id++) {
+                    long requestId = id * 100L;
+                    attempts.add(producers.submit(() -> {
+                        start.await();
+                        try {
+                            return engine.submit(requestId, true, 0, 0);
+                        } catch (RequestTaskEngine.AdmissionRejectedException rejected) {
+                            assertEquals("heavy", rejected.reason());
+                            return null;
+                        }
+                    }));
+                }
+                start.countDown();
+                ArrayList<RequestTaskEngine.Submission> admitted = new ArrayList<>();
+                for (Future<RequestTaskEngine.Submission> attempt : attempts) {
+                    RequestTaskEngine.Submission submission = attempt.get(5, TimeUnit.SECONDS);
+                    if (submission != null) {
+                        admitted.add(submission);
+                    }
+                }
+                assertEquals(3, admitted.size());
+                assertEquals(3, engine.snapshot().get("active_heavy"));
+                assertEquals(3, engine.snapshot().get("peak_heavy"));
+                assertEquals(13L, engine.snapshot().get("rejected_heavy"));
+                assertEquals(0L, engine.snapshot().get("rejected_global"));
+                assertEquals(0L, engine.snapshot().get("cpu_steps"));
+                assertEquals(200, engine.submit(1, false, 5_000, 0).completion().toCompletableFuture()
+                    .get(5, TimeUnit.SECONDS).status());
+                assertEquals(3L, engine.snapshot().get("cpu_steps_success"));
+                assertEquals(3_000L, engine.snapshot().get("cpu_iterations_success"));
+                for (RequestTaskEngine.Submission submission : admitted) {
+                    assertTrue(submission.cancel());
+                    assertEquals(409, submission.completion().toCompletableFuture().get(5, TimeUnit.SECONDS).status());
+                }
+                assertTrue(engine.awaitQuiescent(Duration.ofSeconds(5)));
+                engine.assertQuiescent();
+                assertEquals(0L, engine.snapshot().get("cpu_steps_cancelled"));
+                assertEquals(0, engine.snapshot().get("active_heavy"));
+            }
+        }
+    }
+
+    @Test(timeout = 30_000)
+    public void heavyReservationRollsBackWhenNativeGlobalAdmissionRejects() throws Exception {
+        for (RequestTaskEngine.Backend backend : RequestTaskEngine.Backend.values()) {
+            try (RequestTaskEngine engine = new RequestTaskEngine(backend, 1, 100_000, 1)) {
+                RequestTaskEngine.Submission light = engine.submit(1, true, 0, 0);
+                assertRejection(engine, 0, "global");
+                assertRejection(engine, 100, "global");
+                assertEquals(0, engine.snapshot().get("active_heavy"));
+                assertEquals(0, engine.snapshot().get("peak_heavy"));
+                light.cancel();
+                assertEquals(409, light.completion().toCompletableFuture().get(5, TimeUnit.SECONDS).status());
+                RequestTaskEngine.Submission heavy = engine.submit(0, true, 0, 0);
+                // Heavy admission is checked first when both limits are full.
+                assertRejection(engine, 100, "heavy");
+                assertEquals(1, engine.snapshot().get("active_heavy"));
+                heavy.cancel();
+                assertEquals(409, heavy.completion().toCompletableFuture().get(5, TimeUnit.SECONDS).status());
+                assertTrue(engine.awaitQuiescent(Duration.ofSeconds(5)));
+                assertEquals(2L, engine.snapshot().get("rejected_global"));
+                assertEquals(1L, engine.snapshot().get("rejected_heavy"));
+                assertEquals(3L, engine.snapshot().get("rejected"));
+                assertEquals(0L, engine.snapshot().get("cpu_steps"));
+                engine.assertQuiescent();
+            }
+        }
+    }
+
+    @Test(timeout = 30_000)
+    public void disabledHeavyLimitStillTracksWholeHeavyRequestLifetimes() throws Exception {
+        for (RequestTaskEngine.Backend backend : RequestTaskEngine.Backend.values()) {
+            try (RequestTaskEngine engine = new RequestTaskEngine(backend, 4, 100_000)) {
+                ArrayList<RequestTaskEngine.Submission> admitted = new ArrayList<>();
+                for (int id = 0; id < 4; id++) {
+                    admitted.add(engine.submit(id * 100L, true, 0, 0));
+                }
+                assertEquals(0, engine.snapshot().get("heavy_capacity"));
+                assertEquals(4, engine.snapshot().get("active_heavy"));
+                assertEquals(4, engine.snapshot().get("peak_heavy"));
+                assertRejection(engine, 400, "global");
+                assertEquals(0L, engine.snapshot().get("rejected_heavy"));
+                for (RequestTaskEngine.Submission submission : admitted) {
+                    submission.cancel();
+                    submission.completion().toCompletableFuture().get(5, TimeUnit.SECONDS);
+                }
+                assertTrue(engine.awaitQuiescent(Duration.ofSeconds(5)));
+                assertEquals(0, engine.snapshot().get("active_heavy"));
+                engine.assertQuiescent();
+            }
+        }
+    }
+
+    @Test(timeout = 30_000)
+    public void heavySlotSpansAllCpuStepsAndCancellationOrDeadlineCleanup() throws Exception {
+        for (RequestTaskEngine.Backend backend : RequestTaskEngine.Backend.values()) {
+            try (RequestTaskEngine engine = new RequestTaskEngine(backend, 4, 100_000, 1)) {
+                RequestTaskEngine.Submission cancelled = engine.submit(0, false, 0, 150);
+                await(() -> ((Number) engine.snapshot().get("cleanup_started")).longValue() == 1);
+                assertRejection(engine, 100, "heavy");
+                assertTrue(cancelled.cancel());
+                assertRejection(engine, 200, "heavy");
+                assertEquals(200, engine.submit(1, false, 5_000, 0).completion().toCompletableFuture()
+                    .get(5, TimeUnit.SECONDS).status());
+                assertEquals(409, cancelled.completion().toCompletableFuture().get(5, TimeUnit.SECONDS).status());
+                assertEquals(3L, engine.snapshot().get("cpu_steps_cancelled"));
+                assertEquals(300_000L, engine.snapshot().get("cpu_iterations_cancelled"));
+                RequestTaskEngine.Submission timed = engine.submit(0, false, 100, 200);
+                await(() -> ((Number) engine.snapshot().get("cleanup_started")).longValue() == 3);
+                assertRejection(engine, 100, "heavy");
+                assertEquals(504, timed.completion().toCompletableFuture().get(5, TimeUnit.SECONDS).status());
+                assertEquals(3L, engine.snapshot().get("cpu_steps_timed_out"));
+                assertEquals(300_000L, engine.snapshot().get("cpu_iterations_timed_out"));
+                assertEquals(9L, engine.snapshot().get("cpu_steps"));
+                assertEquals(603_000L, engine.snapshot().get("cpu_iterations"));
+                assertEquals(0L, engine.snapshot().get("cpu_steps_errors"));
+                assertEquals(1, engine.snapshot().get("peak_heavy"));
+                assertTrue(engine.awaitQuiescent(Duration.ofSeconds(5)));
+                engine.assertQuiescent();
+            }
+        }
+    }
+
+    @Test(timeout = 30_000)
+    public void successfulWorkIsAttributedOnlyAfterAllActualCpuStepsFinish() throws Exception {
+        for (RequestTaskEngine.Backend backend : RequestTaskEngine.Backend.values()) {
+            try (RequestTaskEngine engine = new RequestTaskEngine(backend, 2, 100_000, 1)) {
+                RequestTaskEngine.Submission heavy = engine.submit(0, false, 5_000, 0);
+                RequestTaskEngine.Submission light = engine.submit(1, false, 5_000, 0);
+                assertEquals(200, heavy.completion().toCompletableFuture().get(5, TimeUnit.SECONDS).status());
+                assertEquals(200, light.completion().toCompletableFuture().get(5, TimeUnit.SECONDS).status());
+                assertEquals(6L, engine.snapshot().get("cpu_steps_success"));
+                assertEquals(303_000L, engine.snapshot().get("cpu_iterations_success"));
+                assertEquals(6L, engine.snapshot().get("cpu_steps"));
+                assertTrue(engine.awaitQuiescent(Duration.ofSeconds(5)));
+                engine.assertQuiescent();
+                engine.close();
+                assertRejected(engine);
+                assertEquals(1L, engine.snapshot().get("rejected_closed"));
+                assertEquals(0L, engine.snapshot().get("rejected_global"));
+                assertEquals(0L, engine.snapshot().get("rejected_heavy"));
+                assertEquals(1L, engine.snapshot().get("rejected"));
+            }
+        }
+    }
+
+    private static void assertRejection(RequestTaskEngine engine, long id, String reason) {
+        try {
+            engine.submit(id, false, 5_000, 0);
+            fail("Expected admission rejection: " + reason);
+        } catch (RequestTaskEngine.AdmissionRejectedException rejected) {
+            assertEquals(reason, rejected.reason());
         }
     }
 

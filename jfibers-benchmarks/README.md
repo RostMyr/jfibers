@@ -16,6 +16,8 @@ accepted request, bounded admission, cancellation cleanup, server deadlines and
 an independently measured client latency objective.
 Its [recorded results](REQUEST_HTTP_RESULTS.md) separate light and heavy request
 success from total throughput under overload.
+The [heavy-request admission experiment](HEAVY_ADMISSION.md) adds a separate
+whole-request budget and compares the same limits with virtual threads.
 
 ## Run
 

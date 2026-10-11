@@ -67,6 +67,8 @@ fresh fibers and virtual threads with bounded admission, deadlines, cancellation
 and fixed-rate traffic.
 The [recorded results](jfibers-benchmarks/REQUEST_HTTP_RESULTS.md) include three
 repetitions and separate success rates for light and heavy requests.
+The [heavy-request admission experiment](jfibers-benchmarks/HEAVY_ADMISSION.md)
+compares whole-request limits on the same workload and both execution models.
 
 ## Scheduling and Failures
 

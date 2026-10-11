@@ -28,6 +28,20 @@ import java.util.concurrent.atomic.LongAdder;
 final class RequestTaskEngine implements AutoCloseable {
     enum Backend { FIBER_POOL_1, FIBER_POOL_4, FIBER_POOL_OFFLOAD, VIRTUAL_THREADS }
 
+    static final class AdmissionRejectedException extends RejectedExecutionException {
+        private static final long serialVersionUID = 1L;
+        private final String reason;
+
+        AdmissionRejectedException(String reason, Throwable cause) {
+            super("Request admission exhausted: " + reason, cause);
+            this.reason = reason;
+        }
+
+        String reason() {
+            return reason;
+        }
+    }
+
     record Result(int status, long id, long checksum, long queueNanos, long serviceNanos,
                   long cleanupNanos, long computeQueueNanos) { }
 
@@ -51,6 +65,7 @@ final class RequestTaskEngine implements AutoCloseable {
     private final Backend backend;
     private final int capacity;
     private final int heavyIterations;
+    private final int heavyCapacity;
     private final FiberPool pool;
     private final ExecutorService virtualThreads;
     private final Semaphore permits;
@@ -68,17 +83,30 @@ final class RequestTaskEngine implements AutoCloseable {
     private final AtomicLong timedOut = new AtomicLong();
     private final AtomicLong errors = new AtomicLong();
     private final AtomicLong cleanupStarted = new AtomicLong();
+    // Admission and terminal work accounting use the engine lock; no shared counter on each CPU step.
+    private final long[] cpuSteps = new long[4];
+    private final long[] cpuIterations = new long[4];
+    private long rejectedHeavy;
+    private long rejectedGlobal;
+    private long rejectedClosed;
+    private int activeHeavy;
+    private int peakHeavy;
     private int peakRoots;
     private int publishing;
     private boolean closed;
 
     RequestTaskEngine(Backend backend, int capacity, int heavyIterations) {
-        if (capacity < 1 || heavyIterations < 1) {
-            throw new IllegalArgumentException("Capacity and CPU iterations must be positive");
+        this(backend, capacity, heavyIterations, 0);
+    }
+
+    RequestTaskEngine(Backend backend, int capacity, int heavyIterations, int heavyCapacity) {
+        if (capacity < 1 || heavyIterations < 1 || heavyCapacity < 0) {
+            throw new IllegalArgumentException("Capacity and CPU iterations must be positive; heavy capacity nonnegative");
         }
         this.backend = java.util.Objects.requireNonNull(backend);
         this.capacity = capacity;
         this.heavyIterations = heavyIterations;
+        this.heavyCapacity = heavyCapacity;
         timer.setRemoveOnCancelPolicy(true);
         pool = backend == Backend.VIRTUAL_THREADS ? null
             : new FiberPool(backend == Backend.FIBER_POOL_4 ? 4 : 1, capacity);
@@ -96,14 +124,27 @@ final class RequestTaskEngine implements AutoCloseable {
         synchronized (lock) {
             if (closed) {
                 rejected.incrementAndGet();
+                rejectedClosed++;
                 throw new RejectedExecutionException("Request engine is closed");
             }
+            // The whole heavy request owns a slot across every wait, CPU step, and cleanup.
+            // This gate has precedence over global admission when both limits are full.
+            if (request.heavy) {
+                if (heavyCapacity > 0 && activeHeavy == heavyCapacity) {
+                    rejected.incrementAndGet();
+                    rejectedHeavy++;
+                    throw new AdmissionRejectedException("heavy", null);
+                }
+                activeHeavy++;
+            }
+            int reservedHeavy = activeHeavy;
             roots.add(request);
             try {
                 if (pool != null) {
                     FiberTask<Void> handle = pool.submit(() -> RequestFiberWorkload.run(request));
                     request.install(handle);
                     accepted.incrementAndGet();
+                    peakHeavy = Math.max(peakHeavy, reservedHeavy);
                     peakRoots = Math.max(peakRoots, pool.getTaskCount());
                     handle.completion().whenComplete((ignored, failure) -> finish(request, failure));
                 } else {
@@ -127,16 +168,28 @@ final class RequestTaskEngine implements AutoCloseable {
                         throw failure;
                     }
                     accepted.incrementAndGet();
+                    peakHeavy = Math.max(peakHeavy, reservedHeavy);
                     peakRoots = Math.max(peakRoots, capacity - permits.availablePermits());
                 }
-            } catch (RuntimeException | Error failure) {
-                roots.remove(request);
+            } catch (RejectedExecutionException failure) {
+                rollback(request);
                 rejected.incrementAndGet();
+                rejectedGlobal++;
+                throw new AdmissionRejectedException("global", failure);
+            } catch (RuntimeException | Error failure) {
+                // Unexpected executor/factory setup failures are not capacity rejections.
+                rollback(request);
                 throw failure;
             }
             request.armDeadline();
         }
         return new Submission(request);
+    }
+
+    private void rollback(Request request) {
+        if (roots.remove(request) && request.heavy) {
+            activeHeavy--;
+        }
     }
 
     static long expected(long id, int heavyIterations) {
@@ -148,7 +201,7 @@ final class RequestTaskEngine implements AutoCloseable {
         return checksum;
     }
 
-    private static boolean heavy(long id) {
+    static boolean heavy(long id) {
         return Math.floorMod(id * 37, 100) < 10;
     }
 
@@ -192,14 +245,22 @@ final class RequestTaskEngine implements AutoCloseable {
             if (!roots.remove(request)) {
                 return;
             }
+            if (request.heavy) {
+                activeHeavy--;
+            }
             publishing++;
             completed.incrementAndGet();
+            int outcome;
             switch (result.status()) {
-                case 200 -> success.incrementAndGet();
-                case 409 -> cancelled.incrementAndGet();
-                case 504 -> timedOut.incrementAndGet();
-                default -> errors.incrementAndGet();
+                case 200 -> { success.incrementAndGet(); outcome = 0; }
+                case 409 -> { cancelled.incrementAndGet(); outcome = 1; }
+                case 504 -> { timedOut.incrementAndGet(); outcome = 2; }
+                default -> { errors.incrementAndGet(); outcome = 3; }
             }
+            // A compute future's cancellation is insufficient: result() is reached only after
+            // cleanup awaits its actual-exit gate, publishing these per-request writes.
+            cpuSteps[outcome] += request.cpuSteps;
+            cpuIterations[outcome] += request.cpuIterations;
         }
         try {
             request.completion.complete(result);
@@ -222,6 +283,23 @@ final class RequestTaskEngine implements AutoCloseable {
             result.put("errors", errors.get());
             result.put("cleanup_started", cleanupStarted.get());
             result.put("rejected", rejected.get());
+            result.put("heavy_capacity", heavyCapacity);
+            result.put("active_heavy", activeHeavy);
+            result.put("peak_heavy", peakHeavy);
+            result.put("rejected_heavy", rejectedHeavy);
+            result.put("rejected_global", rejectedGlobal);
+            result.put("rejected_closed", rejectedClosed);
+            String[] outcomes = {"success", "cancelled", "timed_out", "errors"};
+            long totalSteps = 0;
+            long totalIterations = 0;
+            for (int i = 0; i < outcomes.length; i++) {
+                result.put("cpu_steps_" + outcomes[i], cpuSteps[i]);
+                result.put("cpu_iterations_" + outcomes[i], cpuIterations[i]);
+                totalSteps += cpuSteps[i];
+                totalIterations += cpuIterations[i];
+            }
+            result.put("cpu_steps", totalSteps);
+            result.put("cpu_iterations", totalIterations);
             result.put("active_roots", pool == null ? capacity - permits.availablePermits() : pool.getTaskCount());
             result.put("pending_completions", roots.size() + publishing);
             result.put("peak_roots", peakRoots);
@@ -239,7 +317,8 @@ final class RequestTaskEngine implements AutoCloseable {
         long deadline = System.nanoTime() + timeout.toNanos();
         while (true) {
             synchronized (lock) {
-                if (roots.isEmpty() && publishing == 0 && pendingSources.sum() == 0 && pendingTimers.sum() == 0
+                if (roots.isEmpty() && publishing == 0 && activeHeavy == 0
+                    && pendingSources.sum() == 0 && pendingTimers.sum() == 0
                     && activeCompute.sum() == 0 && timer.getQueue().isEmpty()
                     && (!(compute instanceof ThreadPoolExecutor executor) || executor.getQueue().isEmpty())) {
                     return true;
@@ -255,7 +334,7 @@ final class RequestTaskEngine implements AutoCloseable {
 
     void assertQuiescent() {
         Map<String, Object> values = snapshot();
-        for (String field : new String[] {"active_roots", "pending_completions", "pending_sources", "pending_timers",
+        for (String field : new String[] {"active_roots", "active_heavy", "pending_completions", "pending_sources", "pending_timers",
             "active_compute", "compute_queue_size", "timer_queue_size"}) {
             if (((Number) values.get(field)).longValue() != 0) {
                 throw new IllegalStateException("Request engine did not drain: " + values);
@@ -312,6 +391,7 @@ final class RequestTaskEngine implements AutoCloseable {
         final int deadlineMillis;
         final int cleanupMillis;
         final boolean offload;
+        final boolean heavy;
         final CompletableFuture<Result> completion = new CompletableFuture<>();
         final AtomicLong computeQueue = new AtomicLong();
         private FiberTask<Void> handle;
@@ -324,6 +404,10 @@ final class RequestTaskEngine implements AutoCloseable {
         private long cleanupStarted;
         private long bodyEnded;
         private long checksum;
+        // One CPU loop at a time per request. Inline completion or the offload exit gate
+        // publishes the final values before finish aggregates them under the engine lock.
+        private long cpuSteps;
+        private long cpuIterations;
         private boolean finished;
 
         Request(long id, boolean hold, int deadlineMillis, int cleanupMillis) {
@@ -331,7 +415,8 @@ final class RequestTaskEngine implements AutoCloseable {
             this.hold = hold;
             this.deadlineMillis = deadlineMillis;
             this.cleanupMillis = cleanupMillis;
-            offload = backend == Backend.FIBER_POOL_OFFLOAD && heavy(id);
+            heavy = heavy(id);
+            offload = backend == Backend.FIBER_POOL_OFFLOAD && heavy;
         }
 
         synchronized void install(FiberTask<Void> installed) {
@@ -398,7 +483,11 @@ final class RequestTaskEngine implements AutoCloseable {
         }
 
         long computeInline(int step) {
-            return ScenarioProbe.cpuWork(42 ^ step, heavy(id) ? heavyIterations : 1_000);
+            int iterations = heavy ? heavyIterations : 1_000;
+            long value = ScenarioProbe.cpuWork(42 ^ step, iterations);
+            cpuSteps++;
+            cpuIterations += iterations;
+            return value;
         }
 
         synchronized CompletableFuture<Long> computeAsync(int step) {

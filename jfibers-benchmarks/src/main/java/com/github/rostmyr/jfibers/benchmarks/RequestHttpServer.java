@@ -42,13 +42,17 @@ public final class RequestHttpServer {
         200, new AtomicLong(), 409, new AtomicLong(), 503, new AtomicLong(),
         504, new AtomicLong(), 500, new AtomicLong());
 
-    private RequestHttpServer(RequestTaskEngine.Backend backend, int capacity, int heavyIterations) {
-        engine = new RequestTaskEngine(backend, capacity, heavyIterations);
+    private RequestHttpServer(RequestTaskEngine.Backend backend, int capacity, int heavyIterations,
+                              int heavyCapacity) {
+        engine = new RequestTaskEngine(backend, capacity, heavyIterations, heavyCapacity);
     }
 
     public static void main(String[] args) throws Exception {
+        if (args.length < 3 || args.length > 4) {
+            throw new IllegalArgumentException("backend capacity heavyIterations [heavyCapacity]");
+        }
         RequestHttpServer application = new RequestHttpServer(RequestTaskEngine.Backend.valueOf(args[0]),
-            Integer.parseInt(args[1]), Integer.parseInt(args[2]));
+            Integer.parseInt(args[1]), Integer.parseInt(args[2]), args.length == 4 ? Integer.parseInt(args[3]) : 0);
         HttpServer server = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 1024);
         server.setExecutor(application.handlers);
         server.createContext("/", application::handle);
@@ -132,8 +136,8 @@ public final class RequestHttpServer {
                         respond(entry, result);
                     }
                 });
-            } catch (RejectedExecutionException rejected) {
-                respond(entry, failed(503, id));
+            } catch (RequestTaskEngine.AdmissionRejectedException rejected) {
+                respond(entry, failed(503, id), rejected.reason());
             } catch (RuntimeException failure) {
                 errors.incrementAndGet();
                 respond(entry, failed(500, id));
@@ -146,13 +150,17 @@ public final class RequestHttpServer {
     }
 
     private void respond(Entry entry, RequestTaskEngine.Result result) {
+        respond(entry, result, null);
+    }
+
+    private void respond(Entry entry, RequestTaskEngine.Result result, String rejectionReason) {
         if (!entry.finished.compareAndSet(false, true)) {
             errors.incrementAndGet();
             return;
         }
         entries.remove(entry.id, entry);
         try {
-            writers.execute(() -> write(entry, result));
+            writers.execute(() -> write(entry, result, rejectionReason));
         } catch (RejectedExecutionException rejected) {
             // A bounded adapter queue is visible as a failed run, never hidden as business throughput.
             responseErrors.incrementAndGet();
@@ -161,7 +169,7 @@ public final class RequestHttpServer {
         }
     }
 
-    private void write(Entry entry, RequestTaskEngine.Result result) {
+    private void write(Entry entry, RequestTaskEngine.Result result, String rejectionReason) {
         HttpExchange exchange = entry.exchange;
         try {
             byte[] body = ByteBuffer.allocate(RESPONSE_BYTES)
@@ -169,6 +177,9 @@ public final class RequestHttpServer {
                 .putLong(result.queueNanos()).putLong(result.serviceNanos())
                 .putLong(result.cleanupNanos()).putLong(result.computeQueueNanos()).array();
             exchange.getResponseHeaders().set("Content-Type", "application/octet-stream");
+            if (rejectionReason != null) {
+                exchange.getResponseHeaders().set("X-Admission-Rejection", rejectionReason);
+            }
             exchange.sendResponseHeaders(result.status(), body.length);
             exchange.getResponseBody().write(body);
             exchange.getResponseBody().close();
