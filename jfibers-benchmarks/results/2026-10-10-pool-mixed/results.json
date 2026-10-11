@@ -1,0 +1,6302 @@
+[
+  {
+    "fork": 1,
+    "case": "mixed-0-jfibers-1",
+    "result": {
+      "offered": 318425,
+      "accepted": 318425,
+      "successful": 318425,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 318425,
+        "p50_ms": 3.863612,
+        "p95_ms": 4.455676,
+        "p99_ms": 9.462765,
+        "max_ms": 17.828677
+      },
+      "successful_latency": {
+        "count": 318425,
+        "p50_ms": 3.863612,
+        "p95_ms": 4.455676,
+        "p99_ms": 9.462765,
+        "max_ms": 17.828677
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 318425,
+        "p50_ms": 0.133651,
+        "p95_ms": 0.322234,
+        "p99_ms": 0.477606,
+        "max_ms": 7.281479
+      },
+      "service_time": {
+        "count": 318425,
+        "p50_ms": 3.709156,
+        "p95_ms": 4.275571,
+        "p99_ms": 9.294497,
+        "max_ms": 17.777169
+      },
+      "light_latency": {
+        "count": 318425,
+        "p50_ms": 3.863612,
+        "p95_ms": 4.455676,
+        "p99_ms": 9.462765,
+        "max_ms": 17.828677
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "JFIBERS",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.00359071,
+      "requested_seconds": 5.0,
+      "drain_ms": 3.5907100000003993,
+      "completed_per_second": 63639.29794729353,
+      "successful_per_second": 63639.29794729353,
+      "cpu_cores": 1.3570254630199359,
+      "allocated_bytes": 313017224,
+      "allocated_bytes_per_accepted": 983.0171123498469,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "warmup": {
+      "offered": 324172,
+      "accepted": 324172,
+      "successful": 324172,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 324172,
+        "p50_ms": 3.831412,
+        "p95_ms": 4.439414,
+        "p99_ms": 9.02958,
+        "max_ms": 17.281734
+      },
+      "successful_latency": {
+        "count": 324172,
+        "p50_ms": 3.831412,
+        "p95_ms": 4.439414,
+        "p99_ms": 9.02958,
+        "max_ms": 17.281734
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 324172,
+        "p50_ms": 0.129674,
+        "p95_ms": 0.322454,
+        "p99_ms": 0.532109,
+        "max_ms": 8.061136
+      },
+      "service_time": {
+        "count": 324172,
+        "p50_ms": 3.678893,
+        "p95_ms": 4.240887,
+        "p99_ms": 8.748839,
+        "max_ms": 15.168952
+      },
+      "light_latency": {
+        "count": 324172,
+        "p50_ms": 3.831412,
+        "p95_ms": 4.439414,
+        "p99_ms": 9.02958,
+        "max_ms": 17.281734
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "JFIBERS",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.006695775,
+      "requested_seconds": 5.0,
+      "drain_ms": 6.69577500000014,
+      "completed_per_second": 64747.6928034438,
+      "successful_per_second": 64747.6928034438,
+      "cpu_cores": 1.4560501231972698,
+      "allocated_bytes": 319776992,
+      "allocated_bytes_per_accepted": 986.4423577606949,
+      "gc_count": 2,
+      "gc_millis": 3,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 1,
+    "case": "mixed-0-jfibers_4-1",
+    "warmup": {
+      "offered": 373267,
+      "accepted": 373267,
+      "successful": 373267,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 373267,
+        "p50_ms": 3.301768,
+        "p95_ms": 3.940467,
+        "p99_ms": 5.568528,
+        "max_ms": 25.335655
+      },
+      "successful_latency": {
+        "count": 373267,
+        "p50_ms": 3.301768,
+        "p95_ms": 3.940467,
+        "p99_ms": 5.568528,
+        "max_ms": 25.335655
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 373267,
+        "p50_ms": 0.021873,
+        "p95_ms": 0.135904,
+        "p99_ms": 0.312689,
+        "max_ms": 10.909623
+      },
+      "service_time": {
+        "count": 373267,
+        "p50_ms": 3.26941,
+        "p95_ms": 3.850611,
+        "p99_ms": 5.379589,
+        "max_ms": 22.007637
+      },
+      "light_latency": {
+        "count": 373267,
+        "p50_ms": 3.301768,
+        "p95_ms": 3.940467,
+        "p99_ms": 5.568528,
+        "max_ms": 25.335655
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "JFIBERS_4",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.004835828,
+      "requested_seconds": 5.0,
+      "drain_ms": 4.83582800000022,
+      "completed_per_second": 74581.26756360808,
+      "successful_per_second": 74581.26756360808,
+      "cpu_cores": 1.5325178015010006,
+      "allocated_bytes": 365879808,
+      "allocated_bytes_per_accepted": 980.2093621991764,
+      "gc_count": 2,
+      "gc_millis": 3,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 377196,
+      "accepted": 377196,
+      "successful": 377196,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 377196,
+        "p50_ms": 3.296535,
+        "p95_ms": 3.87622,
+        "p99_ms": 5.527856,
+        "max_ms": 11.476002
+      },
+      "successful_latency": {
+        "count": 377196,
+        "p50_ms": 3.296535,
+        "p95_ms": 3.87622,
+        "p99_ms": 5.527856,
+        "max_ms": 11.476002
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 377196,
+        "p50_ms": 0.022845,
+        "p95_ms": 0.121923,
+        "p99_ms": 0.236425,
+        "max_ms": 8.267564
+      },
+      "service_time": {
+        "count": 377196,
+        "p50_ms": 3.264662,
+        "p95_ms": 3.79565,
+        "p99_ms": 5.397455,
+        "max_ms": 11.475712
+      },
+      "light_latency": {
+        "count": 377196,
+        "p50_ms": 3.296535,
+        "p95_ms": 3.87622,
+        "p99_ms": 5.527856,
+        "max_ms": 11.476002
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "JFIBERS_4",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.004289662,
+      "requested_seconds": 5.0,
+      "drain_ms": 4.289662000000135,
+      "completed_per_second": 75374.53374536496,
+      "successful_per_second": 75374.53374536496,
+      "cpu_cores": 1.338851356042867,
+      "allocated_bytes": 367858392,
+      "allocated_bytes_per_accepted": 975.2446791588458,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 1,
+    "case": "mixed-0-fiber_pool_1-1",
+    "warmup": {
+      "offered": 349869,
+      "accepted": 349869,
+      "successful": 349869,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 349869,
+        "p50_ms": 3.413045,
+        "p95_ms": 4.539617,
+        "p99_ms": 7.385658,
+        "max_ms": 15.775208
+      },
+      "successful_latency": {
+        "count": 349869,
+        "p50_ms": 3.413045,
+        "p95_ms": 4.539617,
+        "p99_ms": 7.385658,
+        "max_ms": 15.775208
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 349869,
+        "p50_ms": 0.056645,
+        "p95_ms": 0.27355,
+        "p99_ms": 0.570587,
+        "max_ms": 4.748901
+      },
+      "service_time": {
+        "count": 349869,
+        "p50_ms": 3.349138,
+        "p95_ms": 4.345726,
+        "p99_ms": 7.278186,
+        "max_ms": 15.181577
+      },
+      "light_latency": {
+        "count": 349869,
+        "p50_ms": 3.413045,
+        "p95_ms": 4.539617,
+        "p99_ms": 7.385658,
+        "max_ms": 15.775208
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "FIBER_POOL_1",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.007071989,
+      "requested_seconds": 5.0,
+      "drain_ms": 7.0719890000000305,
+      "completed_per_second": 69874.96899757476,
+      "successful_per_second": 69874.96899757476,
+      "cpu_cores": 1.3421017342596868,
+      "allocated_bytes": 344665408,
+      "allocated_bytes_per_accepted": 985.1270275445953,
+      "gc_count": 2,
+      "gc_millis": 4,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 360859,
+      "accepted": 360859,
+      "successful": 360859,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 360859,
+        "p50_ms": 3.34987,
+        "p95_ms": 3.993196,
+        "p99_ms": 6.042073,
+        "max_ms": 35.185177
+      },
+      "successful_latency": {
+        "count": 360859,
+        "p50_ms": 3.34987,
+        "p95_ms": 3.993196,
+        "p99_ms": 6.042073,
+        "max_ms": 35.185177
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 360859,
+        "p50_ms": 0.046831,
+        "p95_ms": 0.197547,
+        "p99_ms": 0.314202,
+        "max_ms": 21.292711
+      },
+      "service_time": {
+        "count": 360859,
+        "p50_ms": 3.300285,
+        "p95_ms": 3.837713,
+        "p99_ms": 5.693981,
+        "max_ms": 35.148772
+      },
+      "light_latency": {
+        "count": 360859,
+        "p50_ms": 3.34987,
+        "p95_ms": 3.993196,
+        "p99_ms": 6.042073,
+        "max_ms": 35.185177
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "FIBER_POOL_1",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.003917639,
+      "requested_seconds": 5.0,
+      "drain_ms": 3.9176390000002357,
+      "completed_per_second": 72115.29566104435,
+      "successful_per_second": 72115.29566104435,
+      "cpu_cores": 1.2390291861876106,
+      "allocated_bytes": 354752080,
+      "allocated_bytes_per_accepted": 983.07671417368,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 1,
+    "case": "mixed-0-fiber_pool_4-1",
+    "result": {
+      "offered": 374465,
+      "accepted": 374465,
+      "successful": 374465,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 374465,
+        "p50_ms": 3.315086,
+        "p95_ms": 3.839653,
+        "p99_ms": 4.917641,
+        "max_ms": 16.261818
+      },
+      "successful_latency": {
+        "count": 374465,
+        "p50_ms": 3.315086,
+        "p95_ms": 3.839653,
+        "p99_ms": 4.917641,
+        "max_ms": 16.261818
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 374465,
+        "p50_ms": 0.01973,
+        "p95_ms": 0.148092,
+        "p99_ms": 0.28592,
+        "max_ms": 11.148855
+      },
+      "service_time": {
+        "count": 374465,
+        "p50_ms": 3.280264,
+        "p95_ms": 3.765683,
+        "p99_ms": 4.812033,
+        "max_ms": 16.214236
+      },
+      "light_latency": {
+        "count": 374465,
+        "p50_ms": 3.315086,
+        "p95_ms": 3.839653,
+        "p99_ms": 4.917641,
+        "max_ms": 16.261818
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "FIBER_POOL_4",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.003742513,
+      "requested_seconds": 5.0,
+      "drain_ms": 3.7425130000001445,
+      "completed_per_second": 74836.98432265833,
+      "successful_per_second": 74836.98432265833,
+      "cpu_cores": 1.624783845067529,
+      "allocated_bytes": 366678080,
+      "allocated_bytes_per_accepted": 979.2052127702188,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "warmup": {
+      "offered": 368813,
+      "accepted": 368813,
+      "successful": 368813,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 368813,
+        "p50_ms": 3.32981,
+        "p95_ms": 4.018935,
+        "p99_ms": 5.3357,
+        "max_ms": 24.174908
+      },
+      "successful_latency": {
+        "count": 368813,
+        "p50_ms": 3.32981,
+        "p95_ms": 4.018935,
+        "p99_ms": 5.3357,
+        "max_ms": 24.174908
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 368813,
+        "p50_ms": 0.020381,
+        "p95_ms": 0.165268,
+        "p99_ms": 0.329765,
+        "max_ms": 11.319542
+      },
+      "service_time": {
+        "count": 368813,
+        "p50_ms": 3.292624,
+        "p95_ms": 3.928358,
+        "p99_ms": 5.247349,
+        "max_ms": 22.028205
+      },
+      "light_latency": {
+        "count": 368813,
+        "p50_ms": 3.32981,
+        "p95_ms": 4.018935,
+        "p99_ms": 5.3357,
+        "max_ms": 24.174908
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "FIBER_POOL_4",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.007017928,
+      "requested_seconds": 5.0,
+      "drain_ms": 7.017928000000211,
+      "completed_per_second": 73659.21298934083,
+      "successful_per_second": 73659.21298934083,
+      "cpu_cores": 1.725578003562523,
+      "allocated_bytes": 362410864,
+      "allocated_bytes_per_accepted": 982.6412409540878,
+      "gc_count": 2,
+      "gc_millis": 2,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 1,
+    "case": "mixed-0-fiber_pool_offload-1",
+    "warmup": {
+      "offered": 340535,
+      "accepted": 340535,
+      "successful": 340535,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 340535,
+        "p50_ms": 3.604713,
+        "p95_ms": 4.227306,
+        "p99_ms": 9.078922,
+        "max_ms": 14.818694
+      },
+      "successful_latency": {
+        "count": 340535,
+        "p50_ms": 3.604713,
+        "p95_ms": 4.227306,
+        "p99_ms": 9.078922,
+        "max_ms": 14.818694
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 340535,
+        "p50_ms": 0.084898,
+        "p95_ms": 0.274933,
+        "p99_ms": 0.455564,
+        "max_ms": 8.407233
+      },
+      "service_time": {
+        "count": 340535,
+        "p50_ms": 3.508168,
+        "p95_ms": 4.039385,
+        "p99_ms": 8.733954,
+        "max_ms": 14.201013
+      },
+      "light_latency": {
+        "count": 340535,
+        "p50_ms": 3.604713,
+        "p95_ms": 4.227306,
+        "p99_ms": 9.078922,
+        "max_ms": 14.818694
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "FIBER_POOL_OFFLOAD",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.006809247,
+      "requested_seconds": 5.0,
+      "drain_ms": 6.809247000000141,
+      "completed_per_second": 68014.37466467154,
+      "successful_per_second": 68014.37466467154,
+      "cpu_cores": 1.4340470438937016,
+      "allocated_bytes": 335942064,
+      "allocated_bytes_per_accepted": 986.5125875460673,
+      "gc_count": 1,
+      "gc_millis": 1,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 349100,
+      "accepted": 349100,
+      "successful": 349100,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 349100,
+        "p50_ms": 3.493235,
+        "p95_ms": 4.279636,
+        "p99_ms": 6.445869,
+        "max_ms": 19.429213
+      },
+      "successful_latency": {
+        "count": 349100,
+        "p50_ms": 3.493235,
+        "p95_ms": 4.279636,
+        "p99_ms": 6.445869,
+        "max_ms": 19.429213
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 349100,
+        "p50_ms": 0.065258,
+        "p95_ms": 0.274092,
+        "p99_ms": 0.428283,
+        "max_ms": 12.60068
+      },
+      "service_time": {
+        "count": 349100,
+        "p50_ms": 3.40985,
+        "p95_ms": 4.093937,
+        "p99_ms": 5.88451,
+        "max_ms": 19.383884
+      },
+      "light_latency": {
+        "count": 349100,
+        "p50_ms": 3.493235,
+        "p95_ms": 4.279636,
+        "p99_ms": 6.445869,
+        "max_ms": 19.429213
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "FIBER_POOL_OFFLOAD",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.003889854,
+      "requested_seconds": 5.0,
+      "drain_ms": 3.889854000000014,
+      "completed_per_second": 69765.7243036509,
+      "successful_per_second": 69765.7243036509,
+      "cpu_cores": 1.2969909788905598,
+      "allocated_bytes": 343018048,
+      "allocated_bytes_per_accepted": 982.5781953594958,
+      "gc_count": 1,
+      "gc_millis": 1,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 1,
+    "case": "mixed-0-virtual_threads-1",
+    "warmup": {
+      "offered": 376323,
+      "accepted": 376323,
+      "successful": 376323,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 376323,
+        "p50_ms": 3.34967,
+        "p95_ms": 3.502634,
+        "p99_ms": 4.961309,
+        "max_ms": 17.825594
+      },
+      "successful_latency": {
+        "count": 376323,
+        "p50_ms": 3.34967,
+        "p95_ms": 3.502634,
+        "p99_ms": 4.961309,
+        "max_ms": 17.825594
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 376323,
+        "p50_ms": 7e-05,
+        "p95_ms": 0.00028,
+        "p99_ms": 0.001682,
+        "max_ms": 6.04771
+      },
+      "service_time": {
+        "count": 376323,
+        "p50_ms": 3.349529,
+        "p95_ms": 3.50245,
+        "p99_ms": 4.961069,
+        "max_ms": 14.434172
+      },
+      "light_latency": {
+        "count": 376323,
+        "p50_ms": 3.34967,
+        "p95_ms": 3.502634,
+        "p99_ms": 4.961309,
+        "max_ms": 17.825594
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "VIRTUAL_THREADS",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.007067812,
+      "requested_seconds": 5.0,
+      "drain_ms": 7.067812000000231,
+      "completed_per_second": 75158.35896971471,
+      "successful_per_second": 75158.35896971471,
+      "cpu_cores": 1.404015336711002,
+      "allocated_bytes": 344921880,
+      "allocated_bytes_per_accepted": 916.5580631531956,
+      "gc_count": 1,
+      "gc_millis": 1,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 382467,
+      "accepted": 382467,
+      "successful": 382467,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 382467,
+        "p50_ms": 3.329159,
+        "p95_ms": 3.457511,
+        "p99_ms": 3.733145,
+        "max_ms": 8.041739
+      },
+      "successful_latency": {
+        "count": 382467,
+        "p50_ms": 3.329159,
+        "p95_ms": 3.457511,
+        "p99_ms": 3.733145,
+        "max_ms": 8.041739
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 382467,
+        "p50_ms": 6.1e-05,
+        "p95_ms": 0.000181,
+        "p99_ms": 0.00035,
+        "max_ms": 0.05957
+      },
+      "service_time": {
+        "count": 382467,
+        "p50_ms": 3.329068,
+        "p95_ms": 3.457412,
+        "p99_ms": 3.733025,
+        "max_ms": 8.041689
+      },
+      "light_latency": {
+        "count": 382467,
+        "p50_ms": 3.329159,
+        "p95_ms": 3.457511,
+        "p99_ms": 3.733145,
+        "max_ms": 8.041739
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "VIRTUAL_THREADS",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.004732884,
+      "requested_seconds": 5.0,
+      "drain_ms": 4.732884000000013,
+      "completed_per_second": 76421.0615960618,
+      "successful_per_second": 76421.0615960618,
+      "cpu_cores": 1.1529086833877866,
+      "allocated_bytes": 348813936,
+      "allocated_bytes_per_accepted": 912.0105420859838,
+      "gc_count": 1,
+      "gc_millis": 1,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 1,
+    "case": "mixed-0-completable_future-1",
+    "warmup": {
+      "offered": 367493,
+      "accepted": 367493,
+      "successful": 367493,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 367493,
+        "p50_ms": 3.42586,
+        "p95_ms": 3.663642,
+        "p99_ms": 5.052757,
+        "max_ms": 17.205147
+      },
+      "successful_latency": {
+        "count": 367493,
+        "p50_ms": 3.42586,
+        "p95_ms": 3.663642,
+        "p99_ms": 5.052757,
+        "max_ms": 17.205147
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 367493,
+        "p50_ms": 0.02313,
+        "p95_ms": 0.108052,
+        "p99_ms": 0.196325,
+        "max_ms": 3.109395
+      },
+      "service_time": {
+        "count": 367493,
+        "p50_ms": 3.392595,
+        "p95_ms": 3.623207,
+        "p99_ms": 4.916557,
+        "max_ms": 15.860803
+      },
+      "light_latency": {
+        "count": 367493,
+        "p50_ms": 3.42586,
+        "p95_ms": 3.663642,
+        "p99_ms": 5.052757,
+        "max_ms": 17.205147
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "COMPLETABLE_FUTURE",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.004584526,
+      "requested_seconds": 5.0,
+      "drain_ms": 4.5845259999996415,
+      "completed_per_second": 73431.27048624856,
+      "successful_per_second": 73431.27048624856,
+      "cpu_cores": 1.3687449906006444,
+      "allocated_bytes": 612654520,
+      "allocated_bytes_per_accepted": 1667.1188838971082,
+      "gc_count": 2,
+      "gc_millis": 2,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 372581,
+      "accepted": 372581,
+      "successful": 372581,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 372581,
+        "p50_ms": 3.417321,
+        "p95_ms": 3.587492,
+        "p99_ms": 3.759996,
+        "max_ms": 7.288955
+      },
+      "successful_latency": {
+        "count": 372581,
+        "p50_ms": 3.417321,
+        "p95_ms": 3.587492,
+        "p99_ms": 3.759996,
+        "max_ms": 7.288955
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 372581,
+        "p50_ms": 0.02032,
+        "p95_ms": 0.100631,
+        "p99_ms": 0.16379,
+        "max_ms": 0.465669
+      },
+      "service_time": {
+        "count": 372581,
+        "p50_ms": 3.385979,
+        "p95_ms": 3.551292,
+        "p99_ms": 3.716551,
+        "max_ms": 7.078338
+      },
+      "light_latency": {
+        "count": 372581,
+        "p50_ms": 3.417321,
+        "p95_ms": 3.587492,
+        "p99_ms": 3.759996,
+        "max_ms": 7.288955
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "COMPLETABLE_FUTURE",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.003143052,
+      "requested_seconds": 5.0,
+      "drain_ms": 3.1430520000003526,
+      "completed_per_second": 74469.38776836717,
+      "successful_per_second": 74469.38776836717,
+      "cpu_cores": 1.1372850907641807,
+      "allocated_bytes": 619499440,
+      "allocated_bytes_per_accepted": 1662.7241861501257,
+      "gc_count": 1,
+      "gc_millis": 2,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 1,
+    "case": "mixed-10-jfibers-1",
+    "warmup": {
+      "offered": 59452,
+      "accepted": 59452,
+      "successful": 59452,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 59452,
+        "p50_ms": 21.418227,
+        "p95_ms": 22.53732,
+        "p99_ms": 24.159135,
+        "max_ms": 32.380306
+      },
+      "successful_latency": {
+        "count": 59452,
+        "p50_ms": 21.418227,
+        "p95_ms": 22.53732,
+        "p99_ms": 24.159135,
+        "max_ms": 32.380306
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 59452,
+        "p50_ms": 3.898152,
+        "p95_ms": 6.073058,
+        "p99_ms": 6.326349,
+        "max_ms": 8.38472
+      },
+      "service_time": {
+        "count": 59452,
+        "p50_ms": 17.531462,
+        "p95_ms": 20.821382,
+        "p99_ms": 21.697276,
+        "max_ms": 26.071384
+      },
+      "light_latency": {
+        "count": 53507,
+        "p50_ms": 21.374374,
+        "p95_ms": 22.442957,
+        "p99_ms": 24.029919,
+        "max_ms": 32.380306
+      },
+      "heavy_latency": {
+        "count": 5945,
+        "p50_ms": 21.914903,
+        "p95_ms": 23.015095,
+        "p99_ms": 26.818068,
+        "max_ms": 32.154107
+      },
+      "backend": "JFIBERS",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.012879748,
+      "requested_seconds": 5.0,
+      "drain_ms": 12.87974800000029,
+      "completed_per_second": 11859.849625102159,
+      "successful_per_second": 11859.849625102159,
+      "cpu_cores": 1.1550247145485686,
+      "allocated_bytes": 59537792,
+      "allocated_bytes_per_accepted": 1001.4430464912871,
+      "gc_count": 1,
+      "gc_millis": 1,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 59648,
+      "accepted": 59648,
+      "successful": 59648,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 59648,
+        "p50_ms": 21.4833,
+        "p95_ms": 22.344002,
+        "p99_ms": 23.306917,
+        "max_ms": 28.083978
+      },
+      "successful_latency": {
+        "count": 59648,
+        "p50_ms": 21.4833,
+        "p95_ms": 22.344002,
+        "p99_ms": 23.306917,
+        "max_ms": 28.083978
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 59648,
+        "p50_ms": 3.652072,
+        "p95_ms": 6.013087,
+        "p99_ms": 6.171645,
+        "max_ms": 6.486688
+      },
+      "service_time": {
+        "count": 59648,
+        "p50_ms": 17.782604,
+        "p95_ms": 20.945292,
+        "p99_ms": 21.60319,
+        "max_ms": 27.409777
+      },
+      "light_latency": {
+        "count": 53683,
+        "p50_ms": 21.444041,
+        "p95_ms": 22.24994,
+        "p99_ms": 23.092737,
+        "max_ms": 27.937819
+      },
+      "heavy_latency": {
+        "count": 5965,
+        "p50_ms": 21.848217,
+        "p95_ms": 22.665545,
+        "p99_ms": 23.558145,
+        "max_ms": 28.083978
+      },
+      "backend": "JFIBERS",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.014316707,
+      "requested_seconds": 5.0,
+      "drain_ms": 14.316706999999951,
+      "completed_per_second": 11895.539010675418,
+      "successful_per_second": 11895.539010675418,
+      "cpu_cores": 1.1028421863102713,
+      "allocated_bytes": 59010976,
+      "allocated_bytes_per_accepted": 989.320278969957,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 1,
+    "case": "mixed-10-jfibers_4-1",
+    "warmup": {
+      "offered": 208038,
+      "accepted": 208038,
+      "successful": 208038,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 208038,
+        "p50_ms": 5.768722,
+        "p95_ms": 9.106604,
+        "p99_ms": 13.008041,
+        "max_ms": 28.492703
+      },
+      "successful_latency": {
+        "count": 208038,
+        "p50_ms": 5.768722,
+        "p95_ms": 9.106604,
+        "p99_ms": 13.008041,
+        "max_ms": 28.492703
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 208038,
+        "p50_ms": 0.57271,
+        "p95_ms": 1.353161,
+        "p99_ms": 2.33785,
+        "max_ms": 12.539934
+      },
+      "service_time": {
+        "count": 208038,
+        "p50_ms": 5.14367,
+        "p95_ms": 8.226712,
+        "p99_ms": 11.893818,
+        "max_ms": 27.284678
+      },
+      "light_latency": {
+        "count": 187235,
+        "p50_ms": 5.717344,
+        "p95_ms": 9.036498,
+        "p99_ms": 12.969508,
+        "max_ms": 28.386713
+      },
+      "heavy_latency": {
+        "count": 20803,
+        "p50_ms": 6.240536,
+        "p95_ms": 9.593004,
+        "p99_ms": 13.485098,
+        "max_ms": 28.492703
+      },
+      "backend": "JFIBERS_4",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.010476645,
+      "requested_seconds": 5.0,
+      "drain_ms": 10.476644999999735,
+      "completed_per_second": 41520.600681295065,
+      "successful_per_second": 41520.600681295065,
+      "cpu_cores": 3.9417407562828783,
+      "allocated_bytes": 205831368,
+      "allocated_bytes_per_accepted": 989.3931301012315,
+      "gc_count": 1,
+      "gc_millis": 2,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 215824,
+      "accepted": 215824,
+      "successful": 215824,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 215824,
+        "p50_ms": 5.638426,
+        "p95_ms": 8.421574,
+        "p99_ms": 11.589951,
+        "max_ms": 47.204299
+      },
+      "successful_latency": {
+        "count": 215824,
+        "p50_ms": 5.638426,
+        "p95_ms": 8.421574,
+        "p99_ms": 11.589951,
+        "max_ms": 47.204299
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 215824,
+        "p50_ms": 0.563426,
+        "p95_ms": 1.312741,
+        "p99_ms": 1.884198,
+        "max_ms": 10.97364
+      },
+      "service_time": {
+        "count": 215824,
+        "p50_ms": 5.020047,
+        "p95_ms": 7.59522,
+        "p99_ms": 10.41328,
+        "max_ms": 37.192522
+      },
+      "light_latency": {
+        "count": 194241,
+        "p50_ms": 5.576182,
+        "p95_ms": 8.347989,
+        "p99_ms": 11.500617,
+        "max_ms": 47.204299
+      },
+      "heavy_latency": {
+        "count": 21583,
+        "p50_ms": 6.09403,
+        "p95_ms": 8.922402,
+        "p99_ms": 12.184525,
+        "max_ms": 47.175927
+      },
+      "backend": "JFIBERS_4",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.010667855,
+      "requested_seconds": 5.0,
+      "drain_ms": 10.66785499999969,
+      "completed_per_second": 43072.90090773738,
+      "successful_per_second": 43072.90090773738,
+      "cpu_cores": 3.91963717579121,
+      "allocated_bytes": 212282184,
+      "allocated_bytes_per_accepted": 983.5893320483357,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 1,
+    "case": "mixed-10-fiber_pool_1-1",
+    "warmup": {
+      "offered": 58112,
+      "accepted": 58112,
+      "successful": 58112,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 58112,
+        "p50_ms": 21.646969,
+        "p95_ms": 24.029926,
+        "p99_ms": 30.743489,
+        "max_ms": 51.357834
+      },
+      "successful_latency": {
+        "count": 58112,
+        "p50_ms": 21.646969,
+        "p95_ms": 24.029926,
+        "p99_ms": 30.743489,
+        "max_ms": 51.357834
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 58112,
+        "p50_ms": 3.629959,
+        "p95_ms": 6.052677,
+        "p99_ms": 6.650044,
+        "max_ms": 15.604067
+      },
+      "service_time": {
+        "count": 58112,
+        "p50_ms": 18.178482,
+        "p95_ms": 21.591595,
+        "p99_ms": 27.058221,
+        "max_ms": 39.087002
+      },
+      "light_latency": {
+        "count": 52300,
+        "p50_ms": 21.618996,
+        "p95_ms": 24.014372,
+        "p99_ms": 30.702269,
+        "max_ms": 51.357834
+      },
+      "heavy_latency": {
+        "count": 5812,
+        "p50_ms": 21.898075,
+        "p95_ms": 24.280222,
+        "p99_ms": 31.22983,
+        "max_ms": 44.836664
+      },
+      "backend": "FIBER_POOL_1",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.019954744,
+      "requested_seconds": 5.0,
+      "drain_ms": 19.954743999999664,
+      "completed_per_second": 11576.1999785869,
+      "successful_per_second": 11576.1999785869,
+      "cpu_cores": 1.209174247487997,
+      "allocated_bytes": 58640840,
+      "allocated_bytes_per_accepted": 1009.1003579295154,
+      "gc_count": 1,
+      "gc_millis": 1,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 59648,
+      "accepted": 59648,
+      "successful": 59648,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 59648,
+        "p50_ms": 21.376943,
+        "p95_ms": 22.862884,
+        "p99_ms": 24.580252,
+        "max_ms": 29.173588
+      },
+      "successful_latency": {
+        "count": 59648,
+        "p50_ms": 21.376943,
+        "p95_ms": 22.862884,
+        "p99_ms": 24.580252,
+        "max_ms": 29.173588
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 59648,
+        "p50_ms": 3.866094,
+        "p95_ms": 6.080008,
+        "p99_ms": 6.548471,
+        "max_ms": 8.308283
+      },
+      "service_time": {
+        "count": 59648,
+        "p50_ms": 17.596528,
+        "p95_ms": 20.959998,
+        "p99_ms": 21.932201,
+        "max_ms": 24.755856
+      },
+      "light_latency": {
+        "count": 53683,
+        "p50_ms": 21.327273,
+        "p95_ms": 22.78474,
+        "p99_ms": 24.468534,
+        "max_ms": 29.173588
+      },
+      "heavy_latency": {
+        "count": 5965,
+        "p50_ms": 21.842393,
+        "p95_ms": 23.3068,
+        "p99_ms": 25.072982,
+        "max_ms": 28.526377
+      },
+      "backend": "FIBER_POOL_1",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.017258709,
+      "requested_seconds": 5.0,
+      "drain_ms": 17.258708999999726,
+      "completed_per_second": 11888.563747570546,
+      "successful_per_second": 11888.563747570546,
+      "cpu_cores": 1.0782780625395094,
+      "allocated_bytes": 59072408,
+      "allocated_bytes_per_accepted": 990.3501877682403,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 1,
+    "case": "mixed-10-fiber_pool_4-1",
+    "warmup": {
+      "offered": 212030,
+      "accepted": 212030,
+      "successful": 212030,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 212030,
+        "p50_ms": 5.708506,
+        "p95_ms": 8.71181,
+        "p99_ms": 12.694078,
+        "max_ms": 35.579051
+      },
+      "successful_latency": {
+        "count": 212030,
+        "p50_ms": 5.708506,
+        "p95_ms": 8.71181,
+        "p99_ms": 12.694078,
+        "max_ms": 35.579051
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 212030,
+        "p50_ms": 0.563355,
+        "p95_ms": 1.317317,
+        "p99_ms": 1.914292,
+        "max_ms": 22.756495
+      },
+      "service_time": {
+        "count": 212030,
+        "p50_ms": 5.10499,
+        "p95_ms": 7.833585,
+        "p99_ms": 11.623257,
+        "max_ms": 34.438999
+      },
+      "light_latency": {
+        "count": 190827,
+        "p50_ms": 5.656488,
+        "p95_ms": 8.644048,
+        "p99_ms": 12.629321,
+        "max_ms": 35.329977
+      },
+      "heavy_latency": {
+        "count": 21203,
+        "p50_ms": 6.173669,
+        "p95_ms": 9.18555,
+        "p99_ms": 13.326437,
+        "max_ms": 35.579051
+      },
+      "backend": "FIBER_POOL_4",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.009126061,
+      "requested_seconds": 5.0,
+      "drain_ms": 9.126060999999936,
+      "completed_per_second": 42328.741065396796,
+      "successful_per_second": 42328.741065396796,
+      "cpu_cores": 3.930825409506499,
+      "allocated_bytes": 209540880,
+      "allocated_bytes_per_accepted": 988.2605291704004,
+      "gc_count": 1,
+      "gc_millis": 1,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 222903,
+      "accepted": 222903,
+      "successful": 222903,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 222903,
+        "p50_ms": 5.571412,
+        "p95_ms": 7.733417,
+        "p99_ms": 9.614955,
+        "max_ms": 14.35843
+      },
+      "successful_latency": {
+        "count": 222903,
+        "p50_ms": 5.571412,
+        "p95_ms": 7.733417,
+        "p99_ms": 9.614955,
+        "max_ms": 14.35843
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 222903,
+        "p50_ms": 0.561162,
+        "p95_ms": 1.175765,
+        "p99_ms": 1.605099,
+        "max_ms": 6.845528
+      },
+      "service_time": {
+        "count": 222903,
+        "p50_ms": 4.974937,
+        "p95_ms": 6.916161,
+        "p99_ms": 8.820819,
+        "max_ms": 13.572451
+      },
+      "light_latency": {
+        "count": 200612,
+        "p50_ms": 5.519947,
+        "p95_ms": 7.65533,
+        "p99_ms": 9.534471,
+        "max_ms": 14.35843
+      },
+      "heavy_latency": {
+        "count": 22291,
+        "p50_ms": 6.04315,
+        "p95_ms": 8.189235,
+        "p99_ms": 10.146053,
+        "max_ms": 14.04105
+      },
+      "backend": "FIBER_POOL_4",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.00724621,
+      "requested_seconds": 5.0,
+      "drain_ms": 7.2462100000002465,
+      "completed_per_second": 44516.08541933471,
+      "successful_per_second": 44516.08541933471,
+      "cpu_cores": 3.9702461525254216,
+      "allocated_bytes": 219365096,
+      "allocated_bytes_per_accepted": 984.1280557013589,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 1,
+    "case": "mixed-10-fiber_pool_offload-1",
+    "result": {
+      "offered": 173235,
+      "accepted": 173235,
+      "successful": 173235,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 173235,
+        "p50_ms": 3.26394,
+        "p95_ms": 44.428809,
+        "p99_ms": 45.764043,
+        "max_ms": 56.454499
+      },
+      "successful_latency": {
+        "count": 173235,
+        "p50_ms": 3.26394,
+        "p95_ms": 44.428809,
+        "p99_ms": 45.764043,
+        "max_ms": 56.454499
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 173235,
+        "p50_ms": 0.025278,
+        "p95_ms": 0.088022,
+        "p99_ms": 0.211177,
+        "max_ms": 5.017482
+      },
+      "service_time": {
+        "count": 173235,
+        "p50_ms": 3.234665,
+        "p95_ms": 44.40364,
+        "p99_ms": 45.737612,
+        "max_ms": 56.453628
+      },
+      "light_latency": {
+        "count": 155912,
+        "p50_ms": 3.255917,
+        "p95_ms": 3.55062,
+        "p99_ms": 6.56925,
+        "max_ms": 12.399451
+      },
+      "heavy_latency": {
+        "count": 17323,
+        "p50_ms": 44.428809,
+        "p95_ms": 46.44864,
+        "p99_ms": 50.370151,
+        "max_ms": 56.454499
+      },
+      "backend": "FIBER_POOL_OFFLOAD",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.029415754,
+      "requested_seconds": 5.0,
+      "drain_ms": 29.41575399999965,
+      "completed_per_second": 34444.35864388872,
+      "successful_per_second": 34444.35864388872,
+      "cpu_cores": 3.5749679245944477,
+      "allocated_bytes": 181522512,
+      "allocated_bytes_per_accepted": 1047.83970906572,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "warmup": {
+      "offered": 170913,
+      "accepted": 170913,
+      "successful": 170913,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 170913,
+        "p50_ms": 3.292984,
+        "p95_ms": 44.052113,
+        "p99_ms": 45.126718,
+        "max_ms": 67.909573
+      },
+      "successful_latency": {
+        "count": 170913,
+        "p50_ms": 3.292984,
+        "p95_ms": 44.052113,
+        "p99_ms": 45.126718,
+        "max_ms": 67.909573
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 170913,
+        "p50_ms": 0.030646,
+        "p95_ms": 0.141162,
+        "p99_ms": 0.671959,
+        "max_ms": 16.651448
+      },
+      "service_time": {
+        "count": 170913,
+        "p50_ms": 3.25771,
+        "p95_ms": 44.019885,
+        "p99_ms": 45.097323,
+        "max_ms": 67.909363
+      },
+      "light_latency": {
+        "count": 153821,
+        "p50_ms": 3.284109,
+        "p95_ms": 5.932937,
+        "p99_ms": 10.834396,
+        "max_ms": 26.089377
+      },
+      "heavy_latency": {
+        "count": 17092,
+        "p50_ms": 44.052074,
+        "p95_ms": 46.460961,
+        "p99_ms": 59.234657,
+        "max_ms": 67.909573
+      },
+      "backend": "FIBER_POOL_OFFLOAD",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.033571281,
+      "requested_seconds": 5.0,
+      "drain_ms": 33.571281000000454,
+      "completed_per_second": 33954.61998226543,
+      "successful_per_second": 33954.61998226543,
+      "cpu_cores": 3.6634029738695975,
+      "allocated_bytes": 179598352,
+      "allocated_bytes_per_accepted": 1050.8173866236039,
+      "gc_count": 1,
+      "gc_millis": 2,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 1,
+    "case": "mixed-10-virtual_threads-1",
+    "warmup": {
+      "offered": 205091,
+      "accepted": 205091,
+      "successful": 205091,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 205091,
+        "p50_ms": 5.837964,
+        "p95_ms": 9.203737,
+        "p99_ms": 15.902533,
+        "max_ms": 80.268666
+      },
+      "successful_latency": {
+        "count": 205091,
+        "p50_ms": 5.837964,
+        "p95_ms": 9.203737,
+        "p99_ms": 15.902533,
+        "max_ms": 80.268666
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 205091,
+        "p50_ms": 9.1e-05,
+        "p95_ms": 0.00029,
+        "p99_ms": 0.001733,
+        "max_ms": 3.461737
+      },
+      "service_time": {
+        "count": 205091,
+        "p50_ms": 5.837799,
+        "p95_ms": 9.203216,
+        "p99_ms": 15.902283,
+        "max_ms": 80.268476
+      },
+      "light_latency": {
+        "count": 184582,
+        "p50_ms": 5.781274,
+        "p95_ms": 9.114598,
+        "p99_ms": 15.859108,
+        "max_ms": 34.815095
+      },
+      "heavy_latency": {
+        "count": 20509,
+        "p50_ms": 6.341985,
+        "p95_ms": 9.895756,
+        "p99_ms": 16.73981,
+        "max_ms": 80.268666
+      },
+      "backend": "VIRTUAL_THREADS",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.010256806,
+      "requested_seconds": 5.0,
+      "drain_ms": 10.256806000000324,
+      "completed_per_second": 40934.2291106505,
+      "successful_per_second": 40934.2291106505,
+      "cpu_cores": 3.9918113530725874,
+      "allocated_bytes": 188500144,
+      "allocated_bytes_per_accepted": 919.1049046520812,
+      "gc_count": 1,
+      "gc_millis": 2,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 216060,
+      "accepted": 216060,
+      "successful": 216060,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 216060,
+        "p50_ms": 5.666217,
+        "p95_ms": 8.021492,
+        "p99_ms": 11.81745,
+        "max_ms": 24.749075
+      },
+      "successful_latency": {
+        "count": 216060,
+        "p50_ms": 5.666217,
+        "p95_ms": 8.021492,
+        "p99_ms": 11.81745,
+        "max_ms": 24.749075
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 216060,
+        "p50_ms": 0.00014,
+        "p95_ms": 0.000281,
+        "p99_ms": 0.000762,
+        "max_ms": 0.055303
+      },
+      "service_time": {
+        "count": 216060,
+        "p50_ms": 5.666087,
+        "p95_ms": 8.021392,
+        "p99_ms": 11.81731,
+        "max_ms": 24.748914
+      },
+      "light_latency": {
+        "count": 194454,
+        "p50_ms": 5.614153,
+        "p95_ms": 7.917156,
+        "p99_ms": 11.713194,
+        "max_ms": 24.088903
+      },
+      "heavy_latency": {
+        "count": 21606,
+        "p50_ms": 6.157484,
+        "p95_ms": 8.699485,
+        "p99_ms": 12.732965,
+        "max_ms": 24.749075
+      },
+      "backend": "VIRTUAL_THREADS",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.005657329,
+      "requested_seconds": 5.0,
+      "drain_ms": 5.657328999999663,
+      "completed_per_second": 43163.162357972105,
+      "successful_per_second": 43163.162357972105,
+      "cpu_cores": 3.9974769914978334,
+      "allocated_bytes": 196040696,
+      "allocated_bytes_per_accepted": 907.3437748773489,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 1,
+    "case": "mixed-10-completable_future-1",
+    "warmup": {
+      "offered": 208034,
+      "accepted": 208034,
+      "successful": 208034,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 208034,
+        "p50_ms": 5.736546,
+        "p95_ms": 8.385889,
+        "p99_ms": 12.624637,
+        "max_ms": 38.414904
+      },
+      "successful_latency": {
+        "count": 208034,
+        "p50_ms": 5.736546,
+        "p95_ms": 8.385889,
+        "p99_ms": 12.624637,
+        "max_ms": 38.414904
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 208034,
+        "p50_ms": 0.528673,
+        "p95_ms": 0.754342,
+        "p99_ms": 1.264183,
+        "max_ms": 6.611455
+      },
+      "service_time": {
+        "count": 208034,
+        "p50_ms": 5.322846,
+        "p95_ms": 7.946148,
+        "p99_ms": 12.161457,
+        "max_ms": 37.543726
+      },
+      "light_latency": {
+        "count": 187231,
+        "p50_ms": 5.698289,
+        "p95_ms": 8.297997,
+        "p99_ms": 12.59252,
+        "max_ms": 24.69655
+      },
+      "heavy_latency": {
+        "count": 20803,
+        "p50_ms": 6.260288,
+        "p95_ms": 8.885138,
+        "p99_ms": 13.327307,
+        "max_ms": 38.414904
+      },
+      "backend": "COMPLETABLE_FUTURE",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.007520445,
+      "requested_seconds": 5.0,
+      "drain_ms": 7.520445000000109,
+      "completed_per_second": 41544.313654819234,
+      "successful_per_second": 41544.313654819234,
+      "cpu_cores": 3.9300887966719027,
+      "allocated_bytes": 347435000,
+      "allocated_bytes_per_accepted": 1670.0875818375841,
+      "gc_count": 2,
+      "gc_millis": 3,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 213017,
+      "accepted": 213017,
+      "successful": 213017,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 213017,
+        "p50_ms": 5.827947,
+        "p95_ms": 7.184783,
+        "p99_ms": 9.304578,
+        "max_ms": 29.787644
+      },
+      "successful_latency": {
+        "count": 213017,
+        "p50_ms": 5.827947,
+        "p95_ms": 7.184783,
+        "p99_ms": 9.304578,
+        "max_ms": 29.787644
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 213017,
+        "p50_ms": 0.550787,
+        "p95_ms": 0.729019,
+        "p99_ms": 0.955845,
+        "max_ms": 3.966925
+      },
+      "service_time": {
+        "count": 213017,
+        "p50_ms": 5.372403,
+        "p95_ms": 6.716548,
+        "p99_ms": 8.701075,
+        "max_ms": 29.714444
+      },
+      "light_latency": {
+        "count": 191715,
+        "p50_ms": 5.792915,
+        "p95_ms": 7.110258,
+        "p99_ms": 9.231068,
+        "max_ms": 16.699215
+      },
+      "heavy_latency": {
+        "count": 21302,
+        "p50_ms": 6.333406,
+        "p95_ms": 7.68198,
+        "p99_ms": 10.071196,
+        "max_ms": 29.787644
+      },
+      "backend": "COMPLETABLE_FUTURE",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.0078625,
+      "requested_seconds": 5.0,
+      "drain_ms": 7.862500000000182,
+      "completed_per_second": 42536.51133592426,
+      "successful_per_second": 42536.51133592426,
+      "cpu_cores": 3.9298203574878503,
+      "allocated_bytes": 355241336,
+      "allocated_bytes_per_accepted": 1667.6665993793922,
+      "gc_count": 1,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 2,
+    "case": "mixed-0-jfibers_4-2",
+    "warmup": {
+      "offered": 352689,
+      "accepted": 352689,
+      "successful": 352689,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 352689,
+        "p50_ms": 3.393253,
+        "p95_ms": 4.462575,
+        "p99_ms": 8.568832,
+        "max_ms": 25.559448
+      },
+      "successful_latency": {
+        "count": 352689,
+        "p50_ms": 3.393253,
+        "p95_ms": 4.462575,
+        "p99_ms": 8.568832,
+        "max_ms": 25.559448
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 352689,
+        "p50_ms": 0.021573,
+        "p95_ms": 0.212679,
+        "p99_ms": 0.450196,
+        "max_ms": 10.437637
+      },
+      "service_time": {
+        "count": 352689,
+        "p50_ms": 3.344119,
+        "p95_ms": 4.353324,
+        "p99_ms": 8.287739,
+        "max_ms": 22.111468
+      },
+      "light_latency": {
+        "count": 352689,
+        "p50_ms": 3.393253,
+        "p95_ms": 4.462575,
+        "p99_ms": 8.568832,
+        "max_ms": 25.559448
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "JFIBERS_4",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.004747731,
+      "requested_seconds": 5.0,
+      "drain_ms": 4.747731000000385,
+      "completed_per_second": 70470.88463928014,
+      "successful_per_second": 70470.88463928014,
+      "cpu_cores": 1.8122791572129293,
+      "allocated_bytes": 346807400,
+      "allocated_bytes_per_accepted": 983.323551344102,
+      "gc_count": 2,
+      "gc_millis": 3,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 367658,
+      "accepted": 367658,
+      "successful": 367658,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 367658,
+        "p50_ms": 3.371968,
+        "p95_ms": 4.008864,
+        "p99_ms": 5.207733,
+        "max_ms": 17.360645
+      },
+      "successful_latency": {
+        "count": 367658,
+        "p50_ms": 3.371968,
+        "p95_ms": 4.008864,
+        "p99_ms": 5.207733,
+        "max_ms": 17.360645
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 367658,
+        "p50_ms": 0.020771,
+        "p95_ms": 0.182514,
+        "p99_ms": 0.34688,
+        "max_ms": 13.45853
+      },
+      "service_time": {
+        "count": 367658,
+        "p50_ms": 3.32583,
+        "p95_ms": 3.93201,
+        "p99_ms": 5.128044,
+        "max_ms": 17.339964
+      },
+      "light_latency": {
+        "count": 367658,
+        "p50_ms": 3.371968,
+        "p95_ms": 4.008864,
+        "p99_ms": 5.207733,
+        "max_ms": 17.360645
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "JFIBERS_4",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.004186949,
+      "requested_seconds": 5.0,
+      "drain_ms": 4.186948999999913,
+      "completed_per_second": 73470.07690699286,
+      "successful_per_second": 73470.07690699286,
+      "cpu_cores": 1.7325491809878424,
+      "allocated_bytes": 360243152,
+      "allocated_bytes_per_accepted": 979.8322136333222,
+      "gc_count": 1,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 2,
+    "case": "mixed-0-fiber_pool_1-2",
+    "result": {
+      "offered": 335658,
+      "accepted": 335658,
+      "successful": 335658,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 335658,
+        "p50_ms": 3.714836,
+        "p95_ms": 4.384231,
+        "p99_ms": 6.774688,
+        "max_ms": 13.67402
+      },
+      "successful_latency": {
+        "count": 335658,
+        "p50_ms": 3.714836,
+        "p95_ms": 4.384231,
+        "p99_ms": 6.774688,
+        "max_ms": 13.67402
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 335658,
+        "p50_ms": 0.097216,
+        "p95_ms": 0.305229,
+        "p99_ms": 0.440671,
+        "max_ms": 6.957881
+      },
+      "service_time": {
+        "count": 335658,
+        "p50_ms": 3.591611,
+        "p95_ms": 4.189008,
+        "p99_ms": 6.608969,
+        "max_ms": 13.437966
+      },
+      "light_latency": {
+        "count": 335658,
+        "p50_ms": 3.714836,
+        "p95_ms": 4.384231,
+        "p99_ms": 6.774688,
+        "max_ms": 13.67402
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "FIBER_POOL_1",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.004244008,
+      "requested_seconds": 5.0,
+      "drain_ms": 4.244007999999667,
+      "completed_per_second": 67074.66691540273,
+      "successful_per_second": 67074.66691540273,
+      "cpu_cores": 1.3728347356798194,
+      "allocated_bytes": 330014760,
+      "allocated_bytes_per_accepted": 983.1875301646319,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "warmup": {
+      "offered": 331003,
+      "accepted": 331003,
+      "successful": 331003,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 331003,
+        "p50_ms": 3.752736,
+        "p95_ms": 4.437163,
+        "p99_ms": 7.196556,
+        "max_ms": 14.446008
+      },
+      "successful_latency": {
+        "count": 331003,
+        "p50_ms": 3.752736,
+        "p95_ms": 4.437163,
+        "p99_ms": 7.196556,
+        "max_ms": 14.446008
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 331003,
+        "p50_ms": 0.111978,
+        "p95_ms": 0.336244,
+        "p99_ms": 0.534481,
+        "max_ms": 7.029088
+      },
+      "service_time": {
+        "count": 331003,
+        "p50_ms": 3.616659,
+        "p95_ms": 4.225394,
+        "p99_ms": 6.801343,
+        "max_ms": 14.337195
+      },
+      "light_latency": {
+        "count": 331003,
+        "p50_ms": 3.752736,
+        "p95_ms": 4.437163,
+        "p99_ms": 7.196556,
+        "max_ms": 14.446008
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "FIBER_POOL_1",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.007059487,
+      "requested_seconds": 5.0,
+      "drain_ms": 7.059487000000445,
+      "completed_per_second": 66107.2633267878,
+      "successful_per_second": 66107.2633267878,
+      "cpu_cores": 1.4319781937114422,
+      "allocated_bytes": 326510160,
+      "allocated_bytes_per_accepted": 986.4265882786561,
+      "gc_count": 2,
+      "gc_millis": 2,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 2,
+    "case": "mixed-0-fiber_pool_4-2",
+    "result": {
+      "offered": 378854,
+      "accepted": 378854,
+      "successful": 378854,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 378854,
+        "p50_ms": 3.300074,
+        "p95_ms": 3.777119,
+        "p99_ms": 4.76743,
+        "max_ms": 13.34355
+      },
+      "successful_latency": {
+        "count": 378854,
+        "p50_ms": 3.300074,
+        "p95_ms": 3.777119,
+        "p99_ms": 4.76743,
+        "max_ms": 13.34355
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 378854,
+        "p50_ms": 0.020611,
+        "p95_ms": 0.129965,
+        "p99_ms": 0.24689,
+        "max_ms": 3.270018
+      },
+      "service_time": {
+        "count": 378854,
+        "p50_ms": 3.267504,
+        "p95_ms": 3.709468,
+        "p99_ms": 4.689539,
+        "max_ms": 13.281067
+      },
+      "light_latency": {
+        "count": 378854,
+        "p50_ms": 3.300074,
+        "p95_ms": 3.777119,
+        "p99_ms": 4.76743,
+        "max_ms": 13.34355
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "FIBER_POOL_4",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.004635603,
+      "requested_seconds": 5.0,
+      "drain_ms": 4.635602999999719,
+      "completed_per_second": 75700.61639910369,
+      "successful_per_second": 75700.61639910369,
+      "cpu_cores": 1.4626439526610227,
+      "allocated_bytes": 370216256,
+      "allocated_bytes_per_accepted": 977.2003357493916,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "warmup": {
+      "offered": 363417,
+      "accepted": 363417,
+      "successful": 363417,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 363417,
+        "p50_ms": 3.37155,
+        "p95_ms": 4.113614,
+        "p99_ms": 6.280134,
+        "max_ms": 17.609216
+      },
+      "successful_latency": {
+        "count": 363417,
+        "p50_ms": 3.37155,
+        "p95_ms": 4.113614,
+        "p99_ms": 6.280134,
+        "max_ms": 17.609216
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 363417,
+        "p50_ms": 0.020511,
+        "p95_ms": 0.194281,
+        "p99_ms": 0.384898,
+        "max_ms": 6.361567
+      },
+      "service_time": {
+        "count": 363417,
+        "p50_ms": 3.326061,
+        "p95_ms": 4.012992,
+        "p99_ms": 6.148752,
+        "max_ms": 17.570007
+      },
+      "light_latency": {
+        "count": 363417,
+        "p50_ms": 3.37155,
+        "p95_ms": 4.113614,
+        "p99_ms": 6.280134,
+        "max_ms": 17.609216
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "FIBER_POOL_4",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.007670224,
+      "requested_seconds": 5.0,
+      "drain_ms": 7.670224000000417,
+      "completed_per_second": 72572.07119156336,
+      "successful_per_second": 72572.07119156336,
+      "cpu_cores": 1.8651387935325032,
+      "allocated_bytes": 357629296,
+      "allocated_bytes_per_accepted": 984.0742067652311,
+      "gc_count": 2,
+      "gc_millis": 2,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 2,
+    "case": "mixed-0-fiber_pool_offload-2",
+    "warmup": {
+      "offered": 321650,
+      "accepted": 321650,
+      "successful": 321650,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 321650,
+        "p50_ms": 3.893935,
+        "p95_ms": 4.47008,
+        "p99_ms": 7.891315,
+        "max_ms": 24.726757
+      },
+      "successful_latency": {
+        "count": 321650,
+        "p50_ms": 3.893935,
+        "p95_ms": 4.47008,
+        "p99_ms": 7.891315,
+        "max_ms": 24.726757
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 321650,
+        "p50_ms": 0.136615,
+        "p95_ms": 0.33309,
+        "p99_ms": 0.49987,
+        "max_ms": 10.439699
+      },
+      "service_time": {
+        "count": 321650,
+        "p50_ms": 3.7244,
+        "p95_ms": 4.282107,
+        "p99_ms": 7.574392,
+        "max_ms": 24.34251
+      },
+      "light_latency": {
+        "count": 321650,
+        "p50_ms": 3.893935,
+        "p95_ms": 4.47008,
+        "p99_ms": 7.891315,
+        "max_ms": 24.726757
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "FIBER_POOL_OFFLOAD",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.009852219,
+      "requested_seconds": 5.0,
+      "drain_ms": 9.852219000000332,
+      "completed_per_second": 64203.490629949854,
+      "successful_per_second": 64203.490629949854,
+      "cpu_cores": 1.4172074723228478,
+      "allocated_bytes": 317393208,
+      "allocated_bytes_per_accepted": 986.7657640292243,
+      "gc_count": 2,
+      "gc_millis": 3,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 359481,
+      "accepted": 359481,
+      "successful": 359481,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 359481,
+        "p50_ms": 3.427906,
+        "p95_ms": 4.114327,
+        "p99_ms": 5.885226,
+        "max_ms": 17.373631
+      },
+      "successful_latency": {
+        "count": 359481,
+        "p50_ms": 3.427906,
+        "p95_ms": 4.114327,
+        "p99_ms": 5.885226,
+        "max_ms": 17.373631
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 359481,
+        "p50_ms": 0.054461,
+        "p95_ms": 0.219891,
+        "p99_ms": 0.387352,
+        "max_ms": 4.116591
+      },
+      "service_time": {
+        "count": 359481,
+        "p50_ms": 3.362188,
+        "p95_ms": 3.952775,
+        "p99_ms": 5.746859,
+        "max_ms": 17.366421
+      },
+      "light_latency": {
+        "count": 359481,
+        "p50_ms": 3.427906,
+        "p95_ms": 4.114327,
+        "p99_ms": 5.885226,
+        "max_ms": 17.373631
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "FIBER_POOL_OFFLOAD",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.004515865,
+      "requested_seconds": 5.0,
+      "drain_ms": 4.5158650000003036,
+      "completed_per_second": 71831.32388771037,
+      "successful_per_second": 71831.32388771037,
+      "cpu_cores": 1.284839567593218,
+      "allocated_bytes": 353253376,
+      "allocated_bytes_per_accepted": 982.6760691107457,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 2,
+    "case": "mixed-0-virtual_threads-2",
+    "result": {
+      "offered": 382582,
+      "accepted": 382582,
+      "successful": 382582,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 382582,
+        "p50_ms": 3.339463,
+        "p95_ms": 3.468257,
+        "p99_ms": 3.620906,
+        "max_ms": 5.744644
+      },
+      "successful_latency": {
+        "count": 382582,
+        "p50_ms": 3.339463,
+        "p95_ms": 3.468257,
+        "p99_ms": 3.620906,
+        "max_ms": 5.744644
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 382582,
+        "p50_ms": 7e-05,
+        "p95_ms": 0.00023,
+        "p99_ms": 0.000351,
+        "max_ms": 0.344487
+      },
+      "service_time": {
+        "count": 382582,
+        "p50_ms": 3.339362,
+        "p95_ms": 3.468146,
+        "p99_ms": 3.620816,
+        "max_ms": 5.744564
+      },
+      "light_latency": {
+        "count": 382582,
+        "p50_ms": 3.339463,
+        "p95_ms": 3.468257,
+        "p99_ms": 3.620906,
+        "max_ms": 5.744644
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "VIRTUAL_THREADS",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.003736787,
+      "requested_seconds": 5.0,
+      "drain_ms": 3.736786999999822,
+      "completed_per_second": 76459.25760802813,
+      "successful_per_second": 76459.25760802813,
+      "cpu_cores": 1.2170903984842238,
+      "allocated_bytes": 347932736,
+      "allocated_bytes_per_accepted": 909.4331045370666,
+      "gc_count": 1,
+      "gc_millis": 1,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "warmup": {
+      "offered": 379252,
+      "accepted": 379252,
+      "successful": 379252,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 379252,
+        "p50_ms": 3.329634,
+        "p95_ms": 3.485903,
+        "p99_ms": 4.924512,
+        "max_ms": 16.771946
+      },
+      "successful_latency": {
+        "count": 379252,
+        "p50_ms": 3.329634,
+        "p95_ms": 3.485903,
+        "p99_ms": 4.924512,
+        "max_ms": 16.771946
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 379252,
+        "p50_ms": 7e-05,
+        "p95_ms": 0.000261,
+        "p99_ms": 0.001582,
+        "max_ms": 2.886899
+      },
+      "service_time": {
+        "count": 379252,
+        "p50_ms": 3.329503,
+        "p95_ms": 3.485742,
+        "p99_ms": 4.924472,
+        "max_ms": 16.771726
+      },
+      "light_latency": {
+        "count": 379252,
+        "p50_ms": 3.329634,
+        "p95_ms": 3.485903,
+        "p99_ms": 4.924512,
+        "max_ms": 16.771946
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "VIRTUAL_THREADS",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.006164084,
+      "requested_seconds": 5.0,
+      "drain_ms": 6.164084000000003,
+      "completed_per_second": 75757.00549091311,
+      "successful_per_second": 75757.00549091311,
+      "cpu_cores": 1.3463402091716177,
+      "allocated_bytes": 347473032,
+      "allocated_bytes_per_accepted": 916.2061953529579,
+      "gc_count": 1,
+      "gc_millis": 2,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 2,
+    "case": "mixed-0-completable_future-2",
+    "result": {
+      "offered": 363531,
+      "accepted": 363531,
+      "successful": 363531,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 363531,
+        "p50_ms": 3.429298,
+        "p95_ms": 3.801301,
+        "p99_ms": 6.260939,
+        "max_ms": 12.238444
+      },
+      "successful_latency": {
+        "count": 363531,
+        "p50_ms": 3.429298,
+        "p95_ms": 3.801301,
+        "p99_ms": 6.260939,
+        "max_ms": 12.238444
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 363531,
+        "p50_ms": 0.022684,
+        "p95_ms": 0.111653,
+        "p99_ms": 0.189524,
+        "max_ms": 3.731731
+      },
+      "service_time": {
+        "count": 363531,
+        "p50_ms": 3.396014,
+        "p95_ms": 3.741461,
+        "p99_ms": 6.216065,
+        "max_ms": 12.092986
+      },
+      "light_latency": {
+        "count": 363531,
+        "p50_ms": 3.429298,
+        "p95_ms": 3.801301,
+        "p99_ms": 6.260939,
+        "max_ms": 12.238444
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "COMPLETABLE_FUTURE",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.003608513,
+      "requested_seconds": 5.0,
+      "drain_ms": 3.60851300000013,
+      "completed_per_second": 72653.76558847501,
+      "successful_per_second": 72653.76558847501,
+      "cpu_cores": 1.2570927528917968,
+      "allocated_bytes": 605235120,
+      "allocated_bytes_per_accepted": 1664.8789786840737,
+      "gc_count": 1,
+      "gc_millis": 1,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "warmup": {
+      "offered": 367923,
+      "accepted": 367923,
+      "successful": 367923,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 367923,
+        "p50_ms": 3.406407,
+        "p95_ms": 3.713394,
+        "p99_ms": 5.440897,
+        "max_ms": 19.206688
+      },
+      "successful_latency": {
+        "count": 367923,
+        "p50_ms": 3.406407,
+        "p95_ms": 3.713394,
+        "p99_ms": 5.440897,
+        "max_ms": 19.206688
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 367923,
+        "p50_ms": 0.028102,
+        "p95_ms": 0.121863,
+        "p99_ms": 0.207372,
+        "max_ms": 8.56123
+      },
+      "service_time": {
+        "count": 367923,
+        "p50_ms": 3.367139,
+        "p95_ms": 3.662958,
+        "p99_ms": 5.335593,
+        "max_ms": 17.772595
+      },
+      "light_latency": {
+        "count": 367923,
+        "p50_ms": 3.406407,
+        "p95_ms": 3.713394,
+        "p99_ms": 5.440897,
+        "max_ms": 19.206688
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "COMPLETABLE_FUTURE",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.006194175,
+      "requested_seconds": 5.0,
+      "drain_ms": 6.194174999999632,
+      "completed_per_second": 73493.55361350921,
+      "successful_per_second": 73493.55361350921,
+      "cpu_cores": 1.8517060417457738,
+      "allocated_bytes": 617007128,
+      "allocated_bytes_per_accepted": 1677.000698515722,
+      "gc_count": 2,
+      "gc_millis": 2,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 2,
+    "case": "mixed-0-jfibers-2",
+    "result": {
+      "offered": 369887,
+      "accepted": 369887,
+      "successful": 369887,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 369887,
+        "p50_ms": 3.358812,
+        "p95_ms": 3.984902,
+        "p99_ms": 5.411824,
+        "max_ms": 12.244148
+      },
+      "successful_latency": {
+        "count": 369887,
+        "p50_ms": 3.358812,
+        "p95_ms": 3.984902,
+        "p99_ms": 5.411824,
+        "max_ms": 12.244148
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 369887,
+        "p50_ms": 0.046229,
+        "p95_ms": 0.182234,
+        "p99_ms": 0.357787,
+        "max_ms": 2.429367
+      },
+      "service_time": {
+        "count": 369887,
+        "p50_ms": 3.304661,
+        "p95_ms": 3.821195,
+        "p99_ms": 5.200411,
+        "max_ms": 12.19873
+      },
+      "light_latency": {
+        "count": 369887,
+        "p50_ms": 3.358812,
+        "p95_ms": 3.984902,
+        "p99_ms": 5.411824,
+        "max_ms": 12.244148
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "JFIBERS",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.005017649,
+      "requested_seconds": 5.0,
+      "drain_ms": 5.017649000000347,
+      "completed_per_second": 73903.23590045747,
+      "successful_per_second": 73903.23590045747,
+      "cpu_cores": 1.2207749159927088,
+      "allocated_bytes": 363049344,
+      "allocated_bytes_per_accepted": 981.5142029863174,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "warmup": {
+      "offered": 366318,
+      "accepted": 366318,
+      "successful": 366318,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 366318,
+        "p50_ms": 3.344861,
+        "p95_ms": 3.984841,
+        "p99_ms": 6.769591,
+        "max_ms": 17.764615
+      },
+      "successful_latency": {
+        "count": 366318,
+        "p50_ms": 3.344861,
+        "p95_ms": 3.984841,
+        "p99_ms": 6.769591,
+        "max_ms": 17.764615
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 366318,
+        "p50_ms": 0.045819,
+        "p95_ms": 0.176275,
+        "p99_ms": 0.476876,
+        "max_ms": 6.304404
+      },
+      "service_time": {
+        "count": 366318,
+        "p50_ms": 3.292863,
+        "p95_ms": 3.819493,
+        "p99_ms": 6.382906,
+        "max_ms": 17.62834
+      },
+      "light_latency": {
+        "count": 366318,
+        "p50_ms": 3.344861,
+        "p95_ms": 3.984841,
+        "p99_ms": 6.769591,
+        "max_ms": 17.764615
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "JFIBERS",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.006304504,
+      "requested_seconds": 5.0,
+      "drain_ms": 6.304503999999724,
+      "completed_per_second": 73171.33820112514,
+      "successful_per_second": 73171.33820112514,
+      "cpu_cores": 1.3043553373116994,
+      "allocated_bytes": 360591552,
+      "allocated_bytes_per_accepted": 984.3675495061668,
+      "gc_count": 2,
+      "gc_millis": 2,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 2,
+    "case": "mixed-10-jfibers_4-2",
+    "result": {
+      "offered": 221613,
+      "accepted": 221613,
+      "successful": 221613,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 221613,
+        "p50_ms": 5.549269,
+        "p95_ms": 7.78086,
+        "p99_ms": 10.067743,
+        "max_ms": 35.685976
+      },
+      "successful_latency": {
+        "count": 221613,
+        "p50_ms": 5.549269,
+        "p95_ms": 7.78086,
+        "p99_ms": 10.067743,
+        "max_ms": 35.685976
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 221613,
+        "p50_ms": 0.557787,
+        "p95_ms": 1.180311,
+        "p99_ms": 1.608925,
+        "max_ms": 12.79791
+      },
+      "service_time": {
+        "count": 221613,
+        "p50_ms": 4.957902,
+        "p95_ms": 6.972084,
+        "p99_ms": 9.283966,
+        "max_ms": 32.122251
+      },
+      "light_latency": {
+        "count": 199451,
+        "p50_ms": 5.500666,
+        "p95_ms": 7.714039,
+        "p99_ms": 10.028315,
+        "max_ms": 33.011595
+      },
+      "heavy_latency": {
+        "count": 22162,
+        "p50_ms": 6.030382,
+        "p95_ms": 8.226959,
+        "p99_ms": 10.525189,
+        "max_ms": 35.685976
+      },
+      "backend": "JFIBERS_4",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.005322745,
+      "requested_seconds": 5.0,
+      "drain_ms": 5.3227450000003955,
+      "completed_per_second": 44275.46659631036,
+      "successful_per_second": 44275.46659631036,
+      "cpu_cores": 3.973769727410455,
+      "allocated_bytes": 217955416,
+      "allocated_bytes_per_accepted": 983.4956252566411,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "warmup": {
+      "offered": 208679,
+      "accepted": 208679,
+      "successful": 208679,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 208679,
+        "p50_ms": 5.714838,
+        "p95_ms": 9.121552,
+        "p99_ms": 14.042798,
+        "max_ms": 80.000349
+      },
+      "successful_latency": {
+        "count": 208679,
+        "p50_ms": 5.714838,
+        "p95_ms": 9.121552,
+        "p99_ms": 14.042798,
+        "max_ms": 80.000349
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 208679,
+        "p50_ms": 0.56628,
+        "p95_ms": 1.337288,
+        "p99_ms": 2.191259,
+        "max_ms": 64.864782
+      },
+      "service_time": {
+        "count": 208679,
+        "p50_ms": 5.114396,
+        "p95_ms": 8.271025,
+        "p99_ms": 12.497089,
+        "max_ms": 79.70171
+      },
+      "light_latency": {
+        "count": 187811,
+        "p50_ms": 5.668388,
+        "p95_ms": 9.05016,
+        "p99_ms": 14.002579,
+        "max_ms": 79.984895
+      },
+      "heavy_latency": {
+        "count": 20868,
+        "p50_ms": 6.199436,
+        "p95_ms": 9.624447,
+        "p99_ms": 14.454477,
+        "max_ms": 80.000349
+      },
+      "backend": "JFIBERS_4",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.008167179,
+      "requested_seconds": 5.0,
+      "drain_ms": 8.167179000000033,
+      "completed_per_second": 41667.738424352625,
+      "successful_per_second": 41667.738424352625,
+      "cpu_cores": 3.9315780197121093,
+      "allocated_bytes": 206142200,
+      "allocated_bytes_per_accepted": 987.8435300149991,
+      "gc_count": 1,
+      "gc_millis": 2,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 2,
+    "case": "mixed-10-fiber_pool_1-2",
+    "result": {
+      "offered": 59395,
+      "accepted": 59395,
+      "successful": 59395,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 59395,
+        "p50_ms": 21.549063,
+        "p95_ms": 22.33866,
+        "p99_ms": 23.165522,
+        "max_ms": 25.384072
+      },
+      "successful_latency": {
+        "count": 59395,
+        "p50_ms": 21.549063,
+        "p95_ms": 22.33866,
+        "p99_ms": 23.165522,
+        "max_ms": 25.384072
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 59395,
+        "p50_ms": 3.599202,
+        "p95_ms": 6.017322,
+        "p99_ms": 6.204083,
+        "max_ms": 8.169947
+      },
+      "service_time": {
+        "count": 59395,
+        "p50_ms": 17.930144,
+        "p95_ms": 21.089226,
+        "p99_ms": 21.743204,
+        "max_ms": 23.703309
+      },
+      "light_latency": {
+        "count": 53455,
+        "p50_ms": 21.519198,
+        "p95_ms": 22.281055,
+        "p99_ms": 23.102287,
+        "max_ms": 24.906318
+      },
+      "heavy_latency": {
+        "count": 5940,
+        "p50_ms": 21.785056,
+        "p95_ms": 22.543469,
+        "p99_ms": 23.435301,
+        "max_ms": 25.384072
+      },
+      "backend": "FIBER_POOL_1",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.011697625,
+      "requested_seconds": 5.0,
+      "drain_ms": 11.697624999999789,
+      "completed_per_second": 11851.273649016286,
+      "successful_per_second": 11851.273649016286,
+      "cpu_cores": 1.113395184131844,
+      "allocated_bytes": 58918904,
+      "allocated_bytes_per_accepted": 991.9842410977355,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "warmup": {
+      "offered": 58381,
+      "accepted": 58381,
+      "successful": 58381,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 58381,
+        "p50_ms": 21.842027,
+        "p95_ms": 22.789459,
+        "p99_ms": 25.119926,
+        "max_ms": 28.049403
+      },
+      "successful_latency": {
+        "count": 58381,
+        "p50_ms": 21.842027,
+        "p95_ms": 22.789459,
+        "p99_ms": 25.119926,
+        "max_ms": 28.049403
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 58381,
+        "p50_ms": 3.991971,
+        "p95_ms": 5.967505,
+        "p99_ms": 6.309669,
+        "max_ms": 10.136892
+      },
+      "service_time": {
+        "count": 58381,
+        "p50_ms": 17.935214,
+        "p95_ms": 20.950059,
+        "p99_ms": 21.586294,
+        "max_ms": 25.057473
+      },
+      "light_latency": {
+        "count": 52543,
+        "p50_ms": 21.822297,
+        "p95_ms": 22.747225,
+        "p99_ms": 24.986095,
+        "max_ms": 27.833159
+      },
+      "heavy_latency": {
+        "count": 5838,
+        "p50_ms": 22.062689,
+        "p95_ms": 23.057411,
+        "p99_ms": 25.370272,
+        "max_ms": 28.049403
+      },
+      "backend": "FIBER_POOL_1",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.021039174,
+      "requested_seconds": 5.0,
+      "drain_ms": 21.039173999999548,
+      "completed_per_second": 11627.27435035941,
+      "successful_per_second": 11627.27435035941,
+      "cpu_cores": 1.2248460501654712,
+      "allocated_bytes": 59008048,
+      "allocated_bytes_per_accepted": 1010.7406176667066,
+      "gc_count": 1,
+      "gc_millis": 2,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 2,
+    "case": "mixed-10-fiber_pool_4-2",
+    "warmup": {
+      "offered": 210952,
+      "accepted": 210952,
+      "successful": 210952,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 210952,
+        "p50_ms": 5.688438,
+        "p95_ms": 8.937326,
+        "p99_ms": 13.318277,
+        "max_ms": 34.81111
+      },
+      "successful_latency": {
+        "count": 210952,
+        "p50_ms": 5.688438,
+        "p95_ms": 8.937326,
+        "p99_ms": 13.318277,
+        "max_ms": 34.81111
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 210952,
+        "p50_ms": 0.568043,
+        "p95_ms": 1.325119,
+        "p99_ms": 2.075255,
+        "max_ms": 18.672959
+      },
+      "service_time": {
+        "count": 210952,
+        "p50_ms": 5.061442,
+        "p95_ms": 8.15373,
+        "p99_ms": 11.98359,
+        "max_ms": 28.037785
+      },
+      "light_latency": {
+        "count": 189857,
+        "p50_ms": 5.624452,
+        "p95_ms": 8.877565,
+        "p99_ms": 13.26472,
+        "max_ms": 33.986101
+      },
+      "heavy_latency": {
+        "count": 21095,
+        "p50_ms": 6.150282,
+        "p95_ms": 9.401772,
+        "p99_ms": 13.701722,
+        "max_ms": 34.81111
+      },
+      "backend": "FIBER_POOL_4",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.015244327,
+      "requested_seconds": 5.0,
+      "drain_ms": 15.24432700000034,
+      "completed_per_second": 42062.158141393375,
+      "successful_per_second": 42062.158141393375,
+      "cpu_cores": 3.9180543795668203,
+      "allocated_bytes": 208446712,
+      "allocated_bytes_per_accepted": 988.1238954833327,
+      "gc_count": 1,
+      "gc_millis": 2,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 214315,
+      "accepted": 214315,
+      "successful": 214315,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 214315,
+        "p50_ms": 5.664331,
+        "p95_ms": 8.504183,
+        "p99_ms": 12.087912,
+        "max_ms": 70.121407
+      },
+      "successful_latency": {
+        "count": 214315,
+        "p50_ms": 5.664331,
+        "p95_ms": 8.504183,
+        "p99_ms": 12.087912,
+        "max_ms": 70.121407
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 214315,
+        "p50_ms": 0.564607,
+        "p95_ms": 1.296926,
+        "p99_ms": 1.876086,
+        "max_ms": 45.990111
+      },
+      "service_time": {
+        "count": 214315,
+        "p50_ms": 5.051311,
+        "p95_ms": 7.66227,
+        "p99_ms": 10.985001,
+        "max_ms": 68.508117
+      },
+      "light_latency": {
+        "count": 192883,
+        "p50_ms": 5.600726,
+        "p95_ms": 8.439378,
+        "p99_ms": 12.032786,
+        "max_ms": 70.121407
+      },
+      "heavy_latency": {
+        "count": 21432,
+        "p50_ms": 6.121187,
+        "p95_ms": 8.936301,
+        "p99_ms": 12.455774,
+        "max_ms": 69.304362
+      },
+      "backend": "FIBER_POOL_4",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.00652616,
+      "requested_seconds": 5.0,
+      "drain_ms": 6.5261600000003455,
+      "completed_per_second": 42807.12676831394,
+      "successful_per_second": 42807.12676831394,
+      "cpu_cores": 3.906900588331291,
+      "allocated_bytes": 210868656,
+      "allocated_bytes_per_accepted": 983.9192590345986,
+      "gc_count": 1,
+      "gc_millis": 1,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 2,
+    "case": "mixed-10-fiber_pool_offload-2",
+    "warmup": {
+      "offered": 168065,
+      "accepted": 168065,
+      "successful": 168065,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 168065,
+        "p50_ms": 3.28522,
+        "p95_ms": 44.732485,
+        "p99_ms": 47.851485,
+        "max_ms": 67.99189
+      },
+      "successful_latency": {
+        "count": 168065,
+        "p50_ms": 3.28522,
+        "p95_ms": 44.732485,
+        "p99_ms": 47.851485,
+        "max_ms": 67.99189
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 168065,
+        "p50_ms": 0.029844,
+        "p95_ms": 0.169304,
+        "p99_ms": 0.567221,
+        "max_ms": 24.561943
+      },
+      "service_time": {
+        "count": 168065,
+        "p50_ms": 3.25168,
+        "p95_ms": 44.701306,
+        "p99_ms": 47.812556,
+        "max_ms": 67.943698
+      },
+      "light_latency": {
+        "count": 151259,
+        "p50_ms": 3.275527,
+        "p95_ms": 6.280025,
+        "p99_ms": 11.608682,
+        "max_ms": 33.196993
+      },
+      "heavy_latency": {
+        "count": 16806,
+        "p50_ms": 44.732485,
+        "p95_ms": 48.606788,
+        "p99_ms": 56.217622,
+        "max_ms": 67.99189
+      },
+      "backend": "FIBER_POOL_OFFLOAD",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.038124887,
+      "requested_seconds": 5.0,
+      "drain_ms": 38.124886999999944,
+      "completed_per_second": 33358.64111540036,
+      "successful_per_second": 33358.64111540036,
+      "cpu_cores": 3.6720010747919356,
+      "allocated_bytes": 177343528,
+      "allocated_bytes_per_accepted": 1055.2079731056438,
+      "gc_count": 1,
+      "gc_millis": 2,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 185300,
+      "accepted": 185300,
+      "successful": 185300,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 185300,
+        "p50_ms": 3.252662,
+        "p95_ms": 35.883842,
+        "p99_ms": 45.998964,
+        "max_ms": 58.832974
+      },
+      "successful_latency": {
+        "count": 185300,
+        "p50_ms": 3.252662,
+        "p95_ms": 35.883842,
+        "p99_ms": 45.998964,
+        "max_ms": 58.832974
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 185300,
+        "p50_ms": 0.025849,
+        "p95_ms": 0.096585,
+        "p99_ms": 0.272059,
+        "max_ms": 3.688161
+      },
+      "service_time": {
+        "count": 185300,
+        "p50_ms": 3.223128,
+        "p95_ms": 35.857382,
+        "p99_ms": 45.972154,
+        "max_ms": 58.826534
+      },
+      "light_latency": {
+        "count": 166770,
+        "p50_ms": 3.24455,
+        "p95_ms": 4.018371,
+        "p99_ms": 7.652417,
+        "max_ms": 15.022188
+      },
+      "heavy_latency": {
+        "count": 18530,
+        "p50_ms": 35.883842,
+        "p95_ms": 46.743361,
+        "p99_ms": 49.500069,
+        "max_ms": 58.832974
+      },
+      "backend": "FIBER_POOL_OFFLOAD",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.024421781,
+      "requested_seconds": 5.0,
+      "drain_ms": 24.42178100000001,
+      "completed_per_second": 36879.86559980244,
+      "successful_per_second": 36879.86559980244,
+      "cpu_cores": 3.727792135371288,
+      "allocated_bytes": 194839376,
+      "allocated_bytes_per_accepted": 1051.4807123583378,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 2,
+    "case": "mixed-10-virtual_threads-2",
+    "warmup": {
+      "offered": 204466,
+      "accepted": 204466,
+      "successful": 204466,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 204466,
+        "p50_ms": 5.856492,
+        "p95_ms": 9.252929,
+        "p99_ms": 14.245441,
+        "max_ms": 33.79145
+      },
+      "successful_latency": {
+        "count": 204466,
+        "p50_ms": 5.856492,
+        "p95_ms": 9.252929,
+        "p99_ms": 14.245441,
+        "max_ms": 33.79145
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 204466,
+        "p50_ms": 0.000121,
+        "p95_ms": 0.00035,
+        "p99_ms": 0.001863,
+        "max_ms": 3.765833
+      },
+      "service_time": {
+        "count": 204466,
+        "p50_ms": 5.856261,
+        "p95_ms": 9.252338,
+        "p99_ms": 14.242367,
+        "max_ms": 33.789337
+      },
+      "light_latency": {
+        "count": 184019,
+        "p50_ms": 5.800288,
+        "p95_ms": 9.164548,
+        "p99_ms": 14.119814,
+        "max_ms": 30.742164
+      },
+      "heavy_latency": {
+        "count": 20447,
+        "p50_ms": 6.351049,
+        "p95_ms": 9.924359,
+        "p99_ms": 15.305513,
+        "max_ms": 33.79145
+      },
+      "backend": "VIRTUAL_THREADS",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.00936978,
+      "requested_seconds": 5.0,
+      "drain_ms": 9.369779999999992,
+      "completed_per_second": 40816.71127899845,
+      "successful_per_second": 40816.71127899845,
+      "cpu_cores": 3.9805406419807166,
+      "allocated_bytes": 188076968,
+      "allocated_bytes_per_accepted": 919.8447076775601,
+      "gc_count": 1,
+      "gc_millis": 2,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 210758,
+      "accepted": 210758,
+      "successful": 210758,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 210758,
+        "p50_ms": 5.846346,
+        "p95_ms": 8.093508,
+        "p99_ms": 12.037148,
+        "max_ms": 30.104875
+      },
+      "successful_latency": {
+        "count": 210758,
+        "p50_ms": 5.846346,
+        "p95_ms": 8.093508,
+        "p99_ms": 12.037148,
+        "max_ms": 30.104875
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 210758,
+        "p50_ms": 8e-05,
+        "p95_ms": 0.00026,
+        "p99_ms": 0.000541,
+        "max_ms": 2.476407
+      },
+      "service_time": {
+        "count": 210758,
+        "p50_ms": 5.846216,
+        "p95_ms": 8.093198,
+        "p99_ms": 12.036957,
+        "max_ms": 30.104745
+      },
+      "light_latency": {
+        "count": 189682,
+        "p50_ms": 5.789205,
+        "p95_ms": 8.006468,
+        "p99_ms": 11.948027,
+        "max_ms": 27.927651
+      },
+      "heavy_latency": {
+        "count": 21076,
+        "p50_ms": 6.348315,
+        "p95_ms": 8.696722,
+        "p99_ms": 12.735585,
+        "max_ms": 30.104875
+      },
+      "backend": "VIRTUAL_THREADS",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.006104104,
+      "requested_seconds": 5.0,
+      "drain_ms": 6.104104000000007,
+      "completed_per_second": 42100.20319625379,
+      "successful_per_second": 42100.20319625379,
+      "cpu_cores": 3.993125109808943,
+      "allocated_bytes": 191571584,
+      "allocated_bytes_per_accepted": 908.9647083384735,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 2,
+    "case": "mixed-10-completable_future-2",
+    "result": {
+      "offered": 207754,
+      "accepted": 207754,
+      "successful": 207754,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 207754,
+        "p50_ms": 5.937657,
+        "p95_ms": 7.512962,
+        "p99_ms": 10.434999,
+        "max_ms": 20.499378
+      },
+      "successful_latency": {
+        "count": 207754,
+        "p50_ms": 5.937657,
+        "p95_ms": 7.512962,
+        "p99_ms": 10.434999,
+        "max_ms": 20.499378
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 207754,
+        "p50_ms": 0.556701,
+        "p95_ms": 0.773035,
+        "p99_ms": 1.086941,
+        "max_ms": 8.122853
+      },
+      "service_time": {
+        "count": 207754,
+        "p50_ms": 5.477146,
+        "p95_ms": 7.05239,
+        "p99_ms": 9.918208,
+        "max_ms": 20.185188
+      },
+      "light_latency": {
+        "count": 186979,
+        "p50_ms": 5.904923,
+        "p95_ms": 7.445225,
+        "p99_ms": 10.368533,
+        "max_ms": 20.090144
+      },
+      "heavy_latency": {
+        "count": 20775,
+        "p50_ms": 6.447719,
+        "p95_ms": 8.033609,
+        "p99_ms": 12.104569,
+        "max_ms": 20.499378
+      },
+      "backend": "COMPLETABLE_FUTURE",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.00515157,
+      "requested_seconds": 5.0,
+      "drain_ms": 5.151569999999992,
+      "completed_per_second": 41508.033691774894,
+      "successful_per_second": 41508.033691774894,
+      "cpu_cores": 3.9119694431151864,
+      "allocated_bytes": 346389928,
+      "allocated_bytes_per_accepted": 1667.308104777766,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "warmup": {
+      "offered": 194211,
+      "accepted": 194211,
+      "successful": 194211,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 194211,
+        "p50_ms": 5.992105,
+        "p95_ms": 10.21277,
+        "p99_ms": 14.244017,
+        "max_ms": 28.576716
+      },
+      "successful_latency": {
+        "count": 194211,
+        "p50_ms": 5.992105,
+        "p95_ms": 10.21277,
+        "p99_ms": 14.244017,
+        "max_ms": 28.576716
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 194211,
+        "p50_ms": 0.547813,
+        "p95_ms": 0.934292,
+        "p99_ms": 1.652305,
+        "max_ms": 8.245356
+      },
+      "service_time": {
+        "count": 194211,
+        "p50_ms": 5.56295,
+        "p95_ms": 9.441883,
+        "p99_ms": 13.441337,
+        "max_ms": 26.898086
+      },
+      "light_latency": {
+        "count": 174790,
+        "p50_ms": 5.938785,
+        "p95_ms": 10.116977,
+        "p99_ms": 14.14973,
+        "max_ms": 27.011721
+      },
+      "heavy_latency": {
+        "count": 19421,
+        "p50_ms": 6.503932,
+        "p95_ms": 11.005851,
+        "p99_ms": 15.286276,
+        "max_ms": 28.576716
+      },
+      "backend": "COMPLETABLE_FUTURE",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.008148312,
+      "requested_seconds": 5.0,
+      "drain_ms": 8.14831200000026,
+      "completed_per_second": 38779.00331638581,
+      "successful_per_second": 38779.00331638581,
+      "cpu_cores": 3.8517229918649423,
+      "allocated_bytes": 324992408,
+      "allocated_bytes_per_accepted": 1673.3985613585223,
+      "gc_count": 2,
+      "gc_millis": 3,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 2,
+    "case": "mixed-10-jfibers-2",
+    "result": {
+      "offered": 58730,
+      "accepted": 58730,
+      "successful": 58730,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 58730,
+        "p50_ms": 21.610812,
+        "p95_ms": 23.030644,
+        "p99_ms": 28.874385,
+        "max_ms": 38.528983
+      },
+      "successful_latency": {
+        "count": 58730,
+        "p50_ms": 21.610812,
+        "p95_ms": 23.030644,
+        "p99_ms": 28.874385,
+        "max_ms": 38.528983
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 58730,
+        "p50_ms": 3.619803,
+        "p95_ms": 6.027716,
+        "p99_ms": 6.284862,
+        "max_ms": 18.283839
+      },
+      "service_time": {
+        "count": 58730,
+        "p50_ms": 18.071221,
+        "p95_ms": 21.437413,
+        "p99_ms": 24.390504,
+        "max_ms": 34.85481
+      },
+      "light_latency": {
+        "count": 52857,
+        "p50_ms": 21.580968,
+        "p95_ms": 22.98185,
+        "p99_ms": 28.67148,
+        "max_ms": 38.528983
+      },
+      "heavy_latency": {
+        "count": 5873,
+        "p50_ms": 21.824924,
+        "p95_ms": 23.348581,
+        "p99_ms": 28.904629,
+        "max_ms": 36.339068
+      },
+      "backend": "JFIBERS",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.013022876,
+      "requested_seconds": 5.0,
+      "drain_ms": 13.022875999999997,
+      "completed_per_second": 11715.486135355908,
+      "successful_per_second": 11715.486135355908,
+      "cpu_cores": 1.1430229108733077,
+      "allocated_bytes": 58203928,
+      "allocated_bytes_per_accepted": 991.0425336284693,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "warmup": {
+      "offered": 58114,
+      "accepted": 58114,
+      "successful": 58114,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 58114,
+        "p50_ms": 21.723836,
+        "p95_ms": 24.888566,
+        "p99_ms": 30.589443,
+        "max_ms": 36.962689
+      },
+      "successful_latency": {
+        "count": 58114,
+        "p50_ms": 21.723836,
+        "p95_ms": 24.888566,
+        "p99_ms": 30.589443,
+        "max_ms": 36.962689
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 58114,
+        "p50_ms": 3.672762,
+        "p95_ms": 6.020106,
+        "p99_ms": 6.396471,
+        "max_ms": 16.962159
+      },
+      "service_time": {
+        "count": 58114,
+        "p50_ms": 18.230383,
+        "p95_ms": 21.654212,
+        "p99_ms": 25.818577,
+        "max_ms": 33.19886
+      },
+      "light_latency": {
+        "count": 52302,
+        "p50_ms": 21.705659,
+        "p95_ms": 24.874475,
+        "p99_ms": 30.58796,
+        "max_ms": 36.962689
+      },
+      "heavy_latency": {
+        "count": 5812,
+        "p50_ms": 21.925238,
+        "p95_ms": 25.098071,
+        "p99_ms": 30.775683,
+        "max_ms": 36.898653
+      },
+      "backend": "JFIBERS",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.023659183,
+      "requested_seconds": 5.0,
+      "drain_ms": 23.659182999999757,
+      "completed_per_second": 11568.061821681107,
+      "successful_per_second": 11568.061821681107,
+      "cpu_cores": 1.2142543468399138,
+      "allocated_bytes": 58370000,
+      "allocated_bytes_per_accepted": 1004.4051347351757,
+      "gc_count": 1,
+      "gc_millis": 1,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 3,
+    "case": "mixed-0-fiber_pool_1-3",
+    "warmup": {
+      "offered": 330495,
+      "accepted": 330495,
+      "successful": 330495,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 330495,
+        "p50_ms": 3.654765,
+        "p95_ms": 4.611392,
+        "p99_ms": 9.895884,
+        "max_ms": 21.912394
+      },
+      "successful_latency": {
+        "count": 330495,
+        "p50_ms": 3.654765,
+        "p95_ms": 4.611392,
+        "p99_ms": 9.895884,
+        "max_ms": 21.912394
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 330495,
+        "p50_ms": 0.088804,
+        "p95_ms": 0.315203,
+        "p99_ms": 0.528934,
+        "max_ms": 18.322787
+      },
+      "service_time": {
+        "count": 330495,
+        "p50_ms": 3.541735,
+        "p95_ms": 4.394907,
+        "p99_ms": 9.624476,
+        "max_ms": 21.911492
+      },
+      "light_latency": {
+        "count": 330495,
+        "p50_ms": 3.654765,
+        "p95_ms": 4.611392,
+        "p99_ms": 9.895884,
+        "max_ms": 21.912394
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "FIBER_POOL_1",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.007092299,
+      "requested_seconds": 5.0,
+      "drain_ms": 7.092298999999912,
+      "completed_per_second": 66005.37403035398,
+      "successful_per_second": 66005.37403035398,
+      "cpu_cores": 1.4319688098084329,
+      "allocated_bytes": 325809776,
+      "allocated_bytes_per_accepted": 985.823616091015,
+      "gc_count": 2,
+      "gc_millis": 3,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 340362,
+      "accepted": 340362,
+      "successful": 340362,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 340362,
+        "p50_ms": 3.626273,
+        "p95_ms": 4.360574,
+        "p99_ms": 4.767024,
+        "max_ms": 35.409509
+      },
+      "successful_latency": {
+        "count": 340362,
+        "p50_ms": 3.626273,
+        "p95_ms": 4.360574,
+        "p99_ms": 4.767024,
+        "max_ms": 35.409509
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 340362,
+        "p50_ms": 0.082995,
+        "p95_ms": 0.296004,
+        "p99_ms": 0.433741,
+        "max_ms": 20.60635
+      },
+      "service_time": {
+        "count": 340362,
+        "p50_ms": 3.528516,
+        "p95_ms": 4.142838,
+        "p99_ms": 4.58403,
+        "max_ms": 35.154015
+      },
+      "light_latency": {
+        "count": 340362,
+        "p50_ms": 3.626273,
+        "p95_ms": 4.360574,
+        "p99_ms": 4.767024,
+        "max_ms": 35.409509
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "FIBER_POOL_1",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.004273125,
+      "requested_seconds": 5.0,
+      "drain_ms": 4.273124999999709,
+      "completed_per_second": 68014.27330167955,
+      "successful_per_second": 68014.27330167955,
+      "cpu_cores": 1.3388557803786938,
+      "allocated_bytes": 334590176,
+      "allocated_bytes_per_accepted": 983.0421022323291,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 3,
+    "case": "mixed-0-fiber_pool_4-3",
+    "result": {
+      "offered": 362640,
+      "accepted": 362640,
+      "successful": 362640,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 362640,
+        "p50_ms": 3.380093,
+        "p95_ms": 4.11729,
+        "p99_ms": 6.012234,
+        "max_ms": 26.639352
+      },
+      "successful_latency": {
+        "count": 362640,
+        "p50_ms": 3.380093,
+        "p95_ms": 4.11729,
+        "p99_ms": 6.012234,
+        "max_ms": 26.639352
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 362640,
+        "p50_ms": 0.021542,
+        "p95_ms": 0.190055,
+        "p99_ms": 0.371607,
+        "max_ms": 23.124541
+      },
+      "service_time": {
+        "count": 362640,
+        "p50_ms": 3.332763,
+        "p95_ms": 4.028456,
+        "p99_ms": 5.886456,
+        "max_ms": 26.6382
+      },
+      "light_latency": {
+        "count": 362640,
+        "p50_ms": 3.380093,
+        "p95_ms": 4.11729,
+        "p99_ms": 6.012234,
+        "max_ms": 26.639352
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "FIBER_POOL_4",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.003744533,
+      "requested_seconds": 5.0,
+      "drain_ms": 3.7445330000000467,
+      "completed_per_second": 72473.7239498074,
+      "successful_per_second": 72473.7239498074,
+      "cpu_cores": 1.6827397850688794,
+      "allocated_bytes": 355075720,
+      "allocated_bytes_per_accepted": 979.1410765497463,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "warmup": {
+      "offered": 362658,
+      "accepted": 362658,
+      "successful": 362658,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 362658,
+        "p50_ms": 3.338972,
+        "p95_ms": 4.235858,
+        "p99_ms": 6.949581,
+        "max_ms": 22.616526
+      },
+      "successful_latency": {
+        "count": 362658,
+        "p50_ms": 3.338972,
+        "p95_ms": 4.235858,
+        "p99_ms": 6.949581,
+        "max_ms": 22.616526
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 362658,
+        "p50_ms": 0.022043,
+        "p95_ms": 0.182294,
+        "p99_ms": 0.416245,
+        "max_ms": 9.428783
+      },
+      "service_time": {
+        "count": 362658,
+        "p50_ms": 3.299733,
+        "p95_ms": 4.137311,
+        "p99_ms": 6.748789,
+        "max_ms": 19.642933
+      },
+      "light_latency": {
+        "count": 362658,
+        "p50_ms": 3.338972,
+        "p95_ms": 4.235858,
+        "p99_ms": 6.949581,
+        "max_ms": 22.616526
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "FIBER_POOL_4",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.006512551,
+      "requested_seconds": 5.0,
+      "drain_ms": 6.512550999999803,
+      "completed_per_second": 72437.24974334934,
+      "successful_per_second": 72437.24974334934,
+      "cpu_cores": 1.7357391820108912,
+      "allocated_bytes": 356343440,
+      "allocated_bytes_per_accepted": 982.5881133188844,
+      "gc_count": 2,
+      "gc_millis": 3,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 3,
+    "case": "mixed-0-fiber_pool_offload-3",
+    "warmup": {
+      "offered": 336354,
+      "accepted": 336354,
+      "successful": 336354,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 336354,
+        "p50_ms": 3.62447,
+        "p95_ms": 4.523189,
+        "p99_ms": 8.535251,
+        "max_ms": 16.488074
+      },
+      "successful_latency": {
+        "count": 336354,
+        "p50_ms": 3.62447,
+        "p95_ms": 4.523189,
+        "p99_ms": 8.535251,
+        "max_ms": 16.488074
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 336354,
+        "p50_ms": 0.082775,
+        "p95_ms": 0.309014,
+        "p99_ms": 0.544177,
+        "max_ms": 8.931666
+      },
+      "service_time": {
+        "count": 336354,
+        "p50_ms": 3.513153,
+        "p95_ms": 4.29747,
+        "p99_ms": 8.297685,
+        "max_ms": 15.760916
+      },
+      "light_latency": {
+        "count": 336354,
+        "p50_ms": 3.62447,
+        "p95_ms": 4.523189,
+        "p99_ms": 8.535251,
+        "max_ms": 16.488074
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "FIBER_POOL_OFFLOAD",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.007541053,
+      "requested_seconds": 5.0,
+      "drain_ms": 7.54105299999992,
+      "completed_per_second": 67169.4942567653,
+      "successful_per_second": 67169.4942567653,
+      "cpu_cores": 1.4018856611858115,
+      "allocated_bytes": 331513776,
+      "allocated_bytes_per_accepted": 985.6097326031503,
+      "gc_count": 2,
+      "gc_millis": 3,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 337356,
+      "accepted": 337356,
+      "successful": 337356,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 337356,
+        "p50_ms": 3.745021,
+        "p95_ms": 4.25716,
+        "p99_ms": 5.413365,
+        "max_ms": 15.407626
+      },
+      "successful_latency": {
+        "count": 337356,
+        "p50_ms": 3.745021,
+        "p95_ms": 4.25716,
+        "p99_ms": 5.413365,
+        "max_ms": 15.407626
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 337356,
+        "p50_ms": 0.10641,
+        "p95_ms": 0.283846,
+        "p99_ms": 0.404147,
+        "max_ms": 10.909665
+      },
+      "service_time": {
+        "count": 337356,
+        "p50_ms": 3.613143,
+        "p95_ms": 4.075507,
+        "p99_ms": 5.219905,
+        "max_ms": 14.715677
+      },
+      "light_latency": {
+        "count": 337356,
+        "p50_ms": 3.745021,
+        "p95_ms": 4.25716,
+        "p99_ms": 5.413365,
+        "max_ms": 15.407626
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "FIBER_POOL_OFFLOAD",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.004720011,
+      "requested_seconds": 5.0,
+      "drain_ms": 4.720011000000341,
+      "completed_per_second": 67407.56710835306,
+      "successful_per_second": 67407.56710835306,
+      "cpu_cores": 1.3527230264870056,
+      "allocated_bytes": 331719296,
+      "allocated_bytes_per_accepted": 983.2915258658509,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 3,
+    "case": "mixed-0-virtual_threads-3",
+    "result": {
+      "offered": 379161,
+      "accepted": 379161,
+      "successful": 379161,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 379161,
+        "p50_ms": 3.349767,
+        "p95_ms": 3.513464,
+        "p99_ms": 4.339208,
+        "max_ms": 9.532167
+      },
+      "successful_latency": {
+        "count": 379161,
+        "p50_ms": 3.349767,
+        "p95_ms": 3.513464,
+        "p99_ms": 4.339208,
+        "max_ms": 9.532167
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 379161,
+        "p50_ms": 7e-05,
+        "p95_ms": 0.0002,
+        "p99_ms": 0.000341,
+        "max_ms": 1.13612
+      },
+      "service_time": {
+        "count": 379161,
+        "p50_ms": 3.349667,
+        "p95_ms": 3.513369,
+        "p99_ms": 4.338918,
+        "max_ms": 9.532057
+      },
+      "light_latency": {
+        "count": 379161,
+        "p50_ms": 3.349767,
+        "p95_ms": 3.513464,
+        "p99_ms": 4.339208,
+        "max_ms": 9.532167
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "VIRTUAL_THREADS",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.004407464,
+      "requested_seconds": 5.0,
+      "drain_ms": 4.407463999999891,
+      "completed_per_second": 75765.41333365736,
+      "successful_per_second": 75765.41333365736,
+      "cpu_cores": 1.1769625160162618,
+      "allocated_bytes": 344773672,
+      "allocated_bytes_per_accepted": 909.3067905190671,
+      "gc_count": 1,
+      "gc_millis": 1,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "warmup": {
+      "offered": 373323,
+      "accepted": 373323,
+      "successful": 373323,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 373323,
+        "p50_ms": 3.346082,
+        "p95_ms": 3.804811,
+        "p99_ms": 5.147526,
+        "max_ms": 17.369876
+      },
+      "successful_latency": {
+        "count": 373323,
+        "p50_ms": 3.346082,
+        "p95_ms": 3.804811,
+        "p99_ms": 5.147526,
+        "max_ms": 17.369876
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 373323,
+        "p50_ms": 7e-05,
+        "p95_ms": 0.000431,
+        "p99_ms": 0.001802,
+        "max_ms": 9.155327
+      },
+      "service_time": {
+        "count": 373323,
+        "p50_ms": 3.345917,
+        "p95_ms": 3.804545,
+        "p99_ms": 5.147116,
+        "max_ms": 15.065448
+      },
+      "light_latency": {
+        "count": 373323,
+        "p50_ms": 3.346082,
+        "p95_ms": 3.804811,
+        "p99_ms": 5.147526,
+        "max_ms": 17.369876
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "VIRTUAL_THREADS",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.00635867,
+      "requested_seconds": 5.0,
+      "drain_ms": 6.35866999999962,
+      "completed_per_second": 74569.76709181725,
+      "successful_per_second": 74569.76709181725,
+      "cpu_cores": 1.4261862704295616,
+      "allocated_bytes": 342809320,
+      "allocated_bytes_per_accepted": 918.2646662541553,
+      "gc_count": 1,
+      "gc_millis": 1,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 3,
+    "case": "mixed-0-completable_future-3",
+    "result": {
+      "offered": 370031,
+      "accepted": 370031,
+      "successful": 370031,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 370031,
+        "p50_ms": 3.416014,
+        "p95_ms": 3.636883,
+        "p99_ms": 4.777685,
+        "max_ms": 10.596659
+      },
+      "successful_latency": {
+        "count": 370031,
+        "p50_ms": 3.416014,
+        "p95_ms": 3.636883,
+        "p99_ms": 4.777685,
+        "max_ms": 10.596659
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 370031,
+        "p50_ms": 0.026104,
+        "p95_ms": 0.112003,
+        "p99_ms": 0.171637,
+        "max_ms": 4.726815
+      },
+      "service_time": {
+        "count": 370031,
+        "p50_ms": 3.379948,
+        "p95_ms": 3.592597,
+        "p99_ms": 4.696659,
+        "max_ms": 10.490285
+      },
+      "light_latency": {
+        "count": 370031,
+        "p50_ms": 3.416014,
+        "p95_ms": 3.636883,
+        "p99_ms": 4.777685,
+        "max_ms": 10.596659
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "COMPLETABLE_FUTURE",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.003608547,
+      "requested_seconds": 5.0,
+      "drain_ms": 3.6085469999998168,
+      "completed_per_second": 73952.82754920116,
+      "successful_per_second": 73952.82754920116,
+      "cpu_cores": 1.5308951385880667,
+      "allocated_bytes": 617879736,
+      "allocated_bytes_per_accepted": 1669.8053298237176,
+      "gc_count": 1,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "warmup": {
+      "offered": 363249,
+      "accepted": 363249,
+      "successful": 363249,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 363249,
+        "p50_ms": 3.432486,
+        "p95_ms": 3.956829,
+        "p99_ms": 5.324201,
+        "max_ms": 19.502176
+      },
+      "successful_latency": {
+        "count": 363249,
+        "p50_ms": 3.432486,
+        "p95_ms": 3.956829,
+        "p99_ms": 5.324201,
+        "max_ms": 19.502176
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 363249,
+        "p50_ms": 0.023345,
+        "p95_ms": 0.111802,
+        "p99_ms": 0.219569,
+        "max_ms": 6.756316
+      },
+      "service_time": {
+        "count": 363249,
+        "p50_ms": 3.400193,
+        "p95_ms": 3.872357,
+        "p99_ms": 5.258557,
+        "max_ms": 17.947399
+      },
+      "light_latency": {
+        "count": 363249,
+        "p50_ms": 3.432486,
+        "p95_ms": 3.956829,
+        "p99_ms": 5.324201,
+        "max_ms": 19.502176
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "COMPLETABLE_FUTURE",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.005207119,
+      "requested_seconds": 5.0,
+      "drain_ms": 5.207118999999693,
+      "completed_per_second": 72574.21948056652,
+      "successful_per_second": 72574.21948056652,
+      "cpu_cores": 1.382560168935139,
+      "allocated_bytes": 605250872,
+      "allocated_bytes_per_accepted": 1666.2148333512273,
+      "gc_count": 2,
+      "gc_millis": 4,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 3,
+    "case": "mixed-0-jfibers-3",
+    "warmup": {
+      "offered": 331784,
+      "accepted": 331784,
+      "successful": 331784,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 331784,
+        "p50_ms": 3.741186,
+        "p95_ms": 4.41055,
+        "p99_ms": 8.626652,
+        "max_ms": 19.778993
+      },
+      "successful_latency": {
+        "count": 331784,
+        "p50_ms": 3.741186,
+        "p95_ms": 4.41055,
+        "p99_ms": 8.626652,
+        "max_ms": 19.778993
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 331784,
+        "p50_ms": 0.106069,
+        "p95_ms": 0.326991,
+        "p99_ms": 0.530256,
+        "max_ms": 6.319306
+      },
+      "service_time": {
+        "count": 331784,
+        "p50_ms": 3.594906,
+        "p95_ms": 4.218316,
+        "p99_ms": 8.404789,
+        "max_ms": 15.790319
+      },
+      "light_latency": {
+        "count": 331784,
+        "p50_ms": 3.741186,
+        "p95_ms": 4.41055,
+        "p99_ms": 8.626652,
+        "max_ms": 19.778993
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "JFIBERS",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.004646549,
+      "requested_seconds": 5.0,
+      "drain_ms": 4.64654900000005,
+      "completed_per_second": 66295.19122909792,
+      "successful_per_second": 66295.19122909792,
+      "cpu_cores": 1.3927057449027456,
+      "allocated_bytes": 326768944,
+      "allocated_bytes_per_accepted": 984.8845755069564,
+      "gc_count": 2,
+      "gc_millis": 3,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 340825,
+      "accepted": 340825,
+      "successful": 340825,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 340825,
+        "p50_ms": 3.647695,
+        "p95_ms": 4.364217,
+        "p99_ms": 6.926612,
+        "max_ms": 13.184509
+      },
+      "successful_latency": {
+        "count": 340825,
+        "p50_ms": 3.647695,
+        "p95_ms": 4.364217,
+        "p99_ms": 6.926612,
+        "max_ms": 13.184509
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 340825,
+        "p50_ms": 0.08007,
+        "p95_ms": 0.295954,
+        "p99_ms": 0.450236,
+        "max_ms": 9.105967
+      },
+      "service_time": {
+        "count": 340825,
+        "p50_ms": 3.528173,
+        "p95_ms": 4.173031,
+        "p99_ms": 6.817368,
+        "max_ms": 13.138159
+      },
+      "light_latency": {
+        "count": 340825,
+        "p50_ms": 3.647695,
+        "p95_ms": 4.364217,
+        "p99_ms": 6.926612,
+        "max_ms": 13.184509
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "JFIBERS",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.00297945,
+      "requested_seconds": 5.0,
+      "drain_ms": 2.979449999999815,
+      "completed_per_second": 68124.40534809712,
+      "successful_per_second": 68124.40534809712,
+      "cpu_cores": 1.3112186579139358,
+      "allocated_bytes": 334650776,
+      "allocated_bytes_per_accepted": 981.8844744370278,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 3,
+    "case": "mixed-0-jfibers_4-3",
+    "result": {
+      "offered": 380235,
+      "accepted": 380235,
+      "successful": 380235,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 380235,
+        "p50_ms": 3.295516,
+        "p95_ms": 3.773033,
+        "p99_ms": 4.682168,
+        "max_ms": 10.486369
+      },
+      "successful_latency": {
+        "count": 380235,
+        "p50_ms": 3.295516,
+        "p95_ms": 3.773033,
+        "p99_ms": 4.682168,
+        "max_ms": 10.486369
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 380235,
+        "p50_ms": 0.021552,
+        "p95_ms": 0.12632,
+        "p99_ms": 0.248232,
+        "max_ms": 5.244151
+      },
+      "service_time": {
+        "count": 380235,
+        "p50_ms": 3.263688,
+        "p95_ms": 3.702527,
+        "p99_ms": 4.575487,
+        "max_ms": 10.486309
+      },
+      "light_latency": {
+        "count": 380235,
+        "p50_ms": 3.295516,
+        "p95_ms": 3.773033,
+        "p99_ms": 4.682168,
+        "max_ms": 10.486369
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "JFIBERS_4",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.00450776,
+      "requested_seconds": 5.0,
+      "drain_ms": 4.507760000000417,
+      "completed_per_second": 75978.50143007872,
+      "successful_per_second": 75978.50143007872,
+      "cpu_cores": 1.3847515744485528,
+      "allocated_bytes": 371229048,
+      "allocated_bytes_per_accepted": 976.3147737583337,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "warmup": {
+      "offered": 366618,
+      "accepted": 366618,
+      "successful": 366618,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 366618,
+        "p50_ms": 3.322553,
+        "p95_ms": 4.038638,
+        "p99_ms": 6.721539,
+        "max_ms": 21.760712
+      },
+      "successful_latency": {
+        "count": 366618,
+        "p50_ms": 3.322553,
+        "p95_ms": 4.038638,
+        "p99_ms": 6.721539,
+        "max_ms": 21.760712
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 366618,
+        "p50_ms": 0.022123,
+        "p95_ms": 0.161893,
+        "p99_ms": 0.331718,
+        "max_ms": 13.213103
+      },
+      "service_time": {
+        "count": 366618,
+        "p50_ms": 3.285371,
+        "p95_ms": 3.942147,
+        "p99_ms": 6.5919,
+        "max_ms": 18.707608
+      },
+      "light_latency": {
+        "count": 366618,
+        "p50_ms": 3.322553,
+        "p95_ms": 4.038638,
+        "p99_ms": 6.721539,
+        "max_ms": 21.760712
+      },
+      "heavy_latency": {
+        "count": 0
+      },
+      "backend": "JFIBERS_4",
+      "scenario": "MIXED",
+      "parameter": 0,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.006081573,
+      "requested_seconds": 5.0,
+      "drain_ms": 6.08157300000039,
+      "completed_per_second": 73234.52377950294,
+      "successful_per_second": 73234.52377950294,
+      "cpu_cores": 1.6220271047508958,
+      "allocated_bytes": 359722512,
+      "allocated_bytes_per_accepted": 981.1916272523443,
+      "gc_count": 2,
+      "gc_millis": 3,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 3,
+    "case": "mixed-10-fiber_pool_1-3",
+    "warmup": {
+      "offered": 59147,
+      "accepted": 59147,
+      "successful": 59147,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 59147,
+        "p50_ms": 21.535503,
+        "p95_ms": 22.633491,
+        "p99_ms": 23.811128,
+        "max_ms": 28.580249
+      },
+      "successful_latency": {
+        "count": 59147,
+        "p50_ms": 21.535503,
+        "p95_ms": 22.633491,
+        "p99_ms": 23.811128,
+        "max_ms": 28.580249
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 59147,
+        "p50_ms": 3.952451,
+        "p95_ms": 6.077189,
+        "p99_ms": 6.308455,
+        "max_ms": 7.103699
+      },
+      "service_time": {
+        "count": 59147,
+        "p50_ms": 17.653449,
+        "p95_ms": 20.815063,
+        "p99_ms": 21.600741,
+        "max_ms": 23.475782
+      },
+      "light_latency": {
+        "count": 53232,
+        "p50_ms": 21.489142,
+        "p95_ms": 22.53317,
+        "p99_ms": 23.652278,
+        "max_ms": 28.428938
+      },
+      "heavy_latency": {
+        "count": 5915,
+        "p50_ms": 21.99246,
+        "p95_ms": 23.133552,
+        "p99_ms": 26.496097,
+        "max_ms": 28.580249
+      },
+      "backend": "FIBER_POOL_1",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.01336727,
+      "requested_seconds": 5.0,
+      "drain_ms": 13.367269999999735,
+      "completed_per_second": 11797.858966753896,
+      "successful_per_second": 11797.858966753896,
+      "cpu_cores": 1.1688750662785574,
+      "allocated_bytes": 59572944,
+      "allocated_bytes_per_accepted": 1007.2014472416183,
+      "gc_count": 1,
+      "gc_millis": 1,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 60672,
+      "accepted": 60672,
+      "successful": 60672,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 60672,
+        "p50_ms": 21.088328,
+        "p95_ms": 22.007138,
+        "p99_ms": 22.743862,
+        "max_ms": 29.518078
+      },
+      "successful_latency": {
+        "count": 60672,
+        "p50_ms": 21.088328,
+        "p95_ms": 22.007138,
+        "p99_ms": 22.743862,
+        "max_ms": 29.518078
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 60672,
+        "p50_ms": 3.817169,
+        "p95_ms": 5.993505,
+        "p99_ms": 6.238503,
+        "max_ms": 6.777711
+      },
+      "service_time": {
+        "count": 60672,
+        "p50_ms": 17.273985,
+        "p95_ms": 20.492874,
+        "p99_ms": 21.145794,
+        "max_ms": 24.303182
+      },
+      "light_latency": {
+        "count": 54605,
+        "p50_ms": 21.051172,
+        "p95_ms": 21.900117,
+        "p99_ms": 22.510933,
+        "max_ms": 29.518078
+      },
+      "heavy_latency": {
+        "count": 6067,
+        "p50_ms": 21.5694,
+        "p95_ms": 22.400207,
+        "p99_ms": 24.824846,
+        "max_ms": 27.867552
+      },
+      "backend": "FIBER_POOL_1",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.018161554,
+      "requested_seconds": 5.0,
+      "drain_ms": 18.16155400000025,
+      "completed_per_second": 12090.483605821351,
+      "successful_per_second": 12090.483605821351,
+      "cpu_cores": 1.0860551102934857,
+      "allocated_bytes": 60091952,
+      "allocated_bytes_per_accepted": 990.4396097046414,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 3,
+    "case": "mixed-10-fiber_pool_4-3",
+    "warmup": {
+      "offered": 202394,
+      "accepted": 202394,
+      "successful": 202394,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 202394,
+        "p50_ms": 5.814526,
+        "p95_ms": 9.818465,
+        "p99_ms": 16.804069,
+        "max_ms": 41.516777
+      },
+      "successful_latency": {
+        "count": 202394,
+        "p50_ms": 5.814526,
+        "p95_ms": 9.818465,
+        "p99_ms": 16.804069,
+        "max_ms": 41.516777
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 202394,
+        "p50_ms": 0.578358,
+        "p95_ms": 1.368054,
+        "p99_ms": 2.896407,
+        "max_ms": 20.367568
+      },
+      "service_time": {
+        "count": 202394,
+        "p50_ms": 5.181216,
+        "p95_ms": 8.844574,
+        "p99_ms": 15.511119,
+        "max_ms": 36.589022
+      },
+      "light_latency": {
+        "count": 182154,
+        "p50_ms": 5.760244,
+        "p95_ms": 9.76186,
+        "p99_ms": 16.712852,
+        "max_ms": 41.516777
+      },
+      "heavy_latency": {
+        "count": 20240,
+        "p50_ms": 6.294877,
+        "p95_ms": 10.243032,
+        "p99_ms": 17.387264,
+        "max_ms": 40.140662
+      },
+      "backend": "FIBER_POOL_4",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.01035524,
+      "requested_seconds": 5.0,
+      "drain_ms": 10.355239999999867,
+      "completed_per_second": 40395.139726659385,
+      "successful_per_second": 40395.139726659385,
+      "cpu_cores": 3.8959313391918293,
+      "allocated_bytes": 200178512,
+      "allocated_bytes_per_accepted": 989.053588545115,
+      "gc_count": 1,
+      "gc_millis": 1,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 209947,
+      "accepted": 209947,
+      "successful": 209947,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 209947,
+        "p50_ms": 5.698082,
+        "p95_ms": 8.870413,
+        "p99_ms": 14.237728,
+        "max_ms": 41.624472
+      },
+      "successful_latency": {
+        "count": 209947,
+        "p50_ms": 5.698082,
+        "p95_ms": 8.870413,
+        "p99_ms": 14.237728,
+        "max_ms": 41.624472
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 209947,
+        "p50_ms": 0.567712,
+        "p95_ms": 1.325499,
+        "p99_ms": 2.200613,
+        "max_ms": 10.478597
+      },
+      "service_time": {
+        "count": 209947,
+        "p50_ms": 5.073936,
+        "p95_ms": 8.014118,
+        "p99_ms": 12.994363,
+        "max_ms": 36.147441
+      },
+      "light_latency": {
+        "count": 188952,
+        "p50_ms": 5.637241,
+        "p95_ms": 8.813748,
+        "p99_ms": 14.077387,
+        "max_ms": 39.004134
+      },
+      "heavy_latency": {
+        "count": 20995,
+        "p50_ms": 6.164372,
+        "p95_ms": 9.3953,
+        "p99_ms": 15.290944,
+        "max_ms": 41.624472
+      },
+      "backend": "FIBER_POOL_4",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.008920979,
+      "requested_seconds": 5.0,
+      "drain_ms": 8.920979000000443,
+      "completed_per_second": 41914.61611796372,
+      "successful_per_second": 41914.61611796372,
+      "cpu_cores": 3.903036219170508,
+      "allocated_bytes": 206448184,
+      "allocated_bytes_per_accepted": 983.3347654408017,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 3,
+    "case": "mixed-10-fiber_pool_offload-3",
+    "warmup": {
+      "offered": 191498,
+      "accepted": 191498,
+      "successful": 191498,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 191498,
+        "p50_ms": 3.249677,
+        "p95_ms": 35.605606,
+        "p99_ms": 36.603774,
+        "max_ms": 81.491896
+      },
+      "successful_latency": {
+        "count": 191498,
+        "p50_ms": 3.249677,
+        "p95_ms": 35.605606,
+        "p99_ms": 36.603774,
+        "max_ms": 81.491896
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 191498,
+        "p50_ms": 0.025989,
+        "p95_ms": 0.090205,
+        "p99_ms": 0.357877,
+        "max_ms": 17.493454
+      },
+      "service_time": {
+        "count": 191498,
+        "p50_ms": 3.222536,
+        "p95_ms": 35.580988,
+        "p99_ms": 36.575243,
+        "max_ms": 81.426698
+      },
+      "light_latency": {
+        "count": 172348,
+        "p50_ms": 3.243017,
+        "p95_ms": 4.05789,
+        "p99_ms": 8.755551,
+        "max_ms": 22.33437
+      },
+      "heavy_latency": {
+        "count": 19150,
+        "p50_ms": 35.605595,
+        "p95_ms": 37.61244,
+        "p99_ms": 58.059318,
+        "max_ms": 81.491896
+      },
+      "backend": "FIBER_POOL_OFFLOAD",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.026096749,
+      "requested_seconds": 5.0,
+      "drain_ms": 26.096749000000273,
+      "completed_per_second": 38100.73891595913,
+      "successful_per_second": 38100.73891595913,
+      "cpu_cores": 3.7404771413802327,
+      "allocated_bytes": 202254416,
+      "allocated_bytes_per_accepted": 1056.169860781836,
+      "gc_count": 1,
+      "gc_millis": 2,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 194140,
+      "accepted": 194140,
+      "successful": 194140,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 194140,
+        "p50_ms": 3.294404,
+        "p95_ms": 35.169611,
+        "p99_ms": 37.691426,
+        "max_ms": 66.483505
+      },
+      "successful_latency": {
+        "count": 194140,
+        "p50_ms": 3.294404,
+        "p95_ms": 35.169611,
+        "p99_ms": 37.691426,
+        "max_ms": 66.483505
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 194140,
+        "p50_ms": 0.029555,
+        "p95_ms": 0.10673,
+        "p99_ms": 0.192929,
+        "max_ms": 4.872292
+      },
+      "service_time": {
+        "count": 194140,
+        "p50_ms": 3.259171,
+        "p95_ms": 35.138194,
+        "p99_ms": 37.666308,
+        "max_ms": 66.357676
+      },
+      "light_latency": {
+        "count": 174726,
+        "p50_ms": 3.282647,
+        "p95_ms": 3.536428,
+        "p99_ms": 6.856029,
+        "max_ms": 14.640682
+      },
+      "heavy_latency": {
+        "count": 19414,
+        "p50_ms": 35.169611,
+        "p95_ms": 42.101264,
+        "p99_ms": 55.630408,
+        "max_ms": 66.483505
+      },
+      "backend": "FIBER_POOL_OFFLOAD",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.025509881,
+      "requested_seconds": 5.0,
+      "drain_ms": 25.50988099999995,
+      "completed_per_second": 38630.90603681573,
+      "successful_per_second": 38630.90603681573,
+      "cpu_cores": 3.8404063382638487,
+      "allocated_bytes": 203580848,
+      "allocated_bytes_per_accepted": 1048.6290718038529,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 3,
+    "case": "mixed-10-virtual_threads-3",
+    "result": {
+      "offered": 215764,
+      "accepted": 215764,
+      "successful": 215764,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 215764,
+        "p50_ms": 5.721221,
+        "p95_ms": 7.885469,
+        "p99_ms": 11.37812,
+        "max_ms": 22.515956
+      },
+      "successful_latency": {
+        "count": 215764,
+        "p50_ms": 5.721221,
+        "p95_ms": 7.885469,
+        "p99_ms": 11.37812,
+        "max_ms": 22.515956
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 215764,
+        "p50_ms": 0.00014,
+        "p95_ms": 0.00028,
+        "p99_ms": 0.000651,
+        "max_ms": 0.860031
+      },
+      "service_time": {
+        "count": 215764,
+        "p50_ms": 5.721066,
+        "p95_ms": 7.885329,
+        "p99_ms": 11.37799,
+        "max_ms": 22.515796
+      },
+      "light_latency": {
+        "count": 194188,
+        "p50_ms": 5.665863,
+        "p95_ms": 7.813351,
+        "p99_ms": 11.288595,
+        "max_ms": 22.515956
+      },
+      "heavy_latency": {
+        "count": 21576,
+        "p50_ms": 6.216024,
+        "p95_ms": 8.507949,
+        "p99_ms": 12.033229,
+        "max_ms": 22.05581
+      },
+      "backend": "VIRTUAL_THREADS",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.005717379,
+      "requested_seconds": 5.0,
+      "drain_ms": 5.71737899999971,
+      "completed_per_second": 43103.51217693067,
+      "successful_per_second": 43103.51217693067,
+      "cpu_cores": 4.007417614936826,
+      "allocated_bytes": 195724696,
+      "allocated_bytes_per_accepted": 907.1239687807049,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "warmup": {
+      "offered": 204478,
+      "accepted": 204478,
+      "successful": 204478,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 204478,
+        "p50_ms": 5.854171,
+        "p95_ms": 9.212376,
+        "p99_ms": 15.399822,
+        "max_ms": 44.366623
+      },
+      "successful_latency": {
+        "count": 204478,
+        "p50_ms": 5.854171,
+        "p95_ms": 9.212376,
+        "p99_ms": 15.399822,
+        "max_ms": 44.366623
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 204478,
+        "p50_ms": 0.00014,
+        "p95_ms": 0.000351,
+        "p99_ms": 0.001913,
+        "max_ms": 2.769706
+      },
+      "service_time": {
+        "count": 204478,
+        "p50_ms": 5.854076,
+        "p95_ms": 9.212215,
+        "p99_ms": 15.399051,
+        "max_ms": 44.366583
+      },
+      "light_latency": {
+        "count": 184030,
+        "p50_ms": 5.8003,
+        "p95_ms": 9.1289,
+        "p99_ms": 15.328539,
+        "max_ms": 30.579322
+      },
+      "heavy_latency": {
+        "count": 20448,
+        "p50_ms": 6.350561,
+        "p95_ms": 9.885235,
+        "p99_ms": 16.21872,
+        "max_ms": 44.366623
+      },
+      "backend": "VIRTUAL_THREADS",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.031911063,
+      "requested_seconds": 5.0,
+      "drain_ms": 31.911062999999558,
+      "completed_per_second": 40636.250808075936,
+      "successful_per_second": 40636.250808075936,
+      "cpu_cores": 3.9786076799346644,
+      "allocated_bytes": 187440984,
+      "allocated_bytes_per_accepted": 916.6804448400317,
+      "gc_count": 1,
+      "gc_millis": 2,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 3,
+    "case": "mixed-10-completable_future-3",
+    "result": {
+      "offered": 207941,
+      "accepted": 207941,
+      "successful": 207941,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 207941,
+        "p50_ms": 5.939423,
+        "p95_ms": 7.595228,
+        "p99_ms": 10.044264,
+        "max_ms": 21.36881
+      },
+      "successful_latency": {
+        "count": 207941,
+        "p50_ms": 5.939423,
+        "p95_ms": 7.595228,
+        "p99_ms": 10.044264,
+        "max_ms": 21.36881
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 207941,
+        "p50_ms": 0.559094,
+        "p95_ms": 0.777582,
+        "p99_ms": 1.142895,
+        "max_ms": 5.813049
+      },
+      "service_time": {
+        "count": 207941,
+        "p50_ms": 5.470389,
+        "p95_ms": 7.084937,
+        "p99_ms": 9.093387,
+        "max_ms": 20.101448
+      },
+      "light_latency": {
+        "count": 187147,
+        "p50_ms": 5.905277,
+        "p95_ms": 7.550948,
+        "p99_ms": 9.870087,
+        "max_ms": 14.574082
+      },
+      "heavy_latency": {
+        "count": 20794,
+        "p50_ms": 6.451952,
+        "p95_ms": 8.100591,
+        "p99_ms": 10.944035,
+        "max_ms": 21.36881
+      },
+      "backend": "COMPLETABLE_FUTURE",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.005421944,
+      "requested_seconds": 5.0,
+      "drain_ms": 5.421943999999712,
+      "completed_per_second": 41543.15107226053,
+      "successful_per_second": 41543.15107226053,
+      "cpu_cores": 3.9277408018651543,
+      "allocated_bytes": 346850880,
+      "allocated_bytes_per_accepted": 1668.0254495265483,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "warmup": {
+      "offered": 199400,
+      "accepted": 199400,
+      "successful": 199400,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 199400,
+        "p50_ms": 5.92371,
+        "p95_ms": 9.099105,
+        "p99_ms": 13.557386,
+        "max_ms": 38.077333
+      },
+      "successful_latency": {
+        "count": 199400,
+        "p50_ms": 5.92371,
+        "p95_ms": 9.099105,
+        "p99_ms": 13.557386,
+        "max_ms": 38.077333
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 199400,
+        "p50_ms": 0.550836,
+        "p95_ms": 0.920501,
+        "p99_ms": 1.546977,
+        "max_ms": 20.101737
+      },
+      "service_time": {
+        "count": 199400,
+        "p50_ms": 5.465167,
+        "p95_ms": 8.52213,
+        "p99_ms": 12.745603,
+        "max_ms": 36.87924
+      },
+      "light_latency": {
+        "count": 179460,
+        "p50_ms": 5.882723,
+        "p95_ms": 9.020887,
+        "p99_ms": 13.495689,
+        "max_ms": 32.318296
+      },
+      "heavy_latency": {
+        "count": 19940,
+        "p50_ms": 6.444182,
+        "p95_ms": 9.765435,
+        "p99_ms": 14.07276,
+        "max_ms": 38.077333
+      },
+      "backend": "COMPLETABLE_FUTURE",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.005853547,
+      "requested_seconds": 5.0,
+      "drain_ms": 5.853546999999708,
+      "completed_per_second": 39833.366703166954,
+      "successful_per_second": 39833.366703166954,
+      "cpu_cores": 3.933395137338803,
+      "allocated_bytes": 333551176,
+      "allocated_bytes_per_accepted": 1672.7742026078236,
+      "gc_count": 2,
+      "gc_millis": 2,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 3,
+    "case": "mixed-10-jfibers-3",
+    "warmup": {
+      "offered": 57344,
+      "accepted": 57344,
+      "successful": 57344,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 57344,
+        "p50_ms": 21.886276,
+        "p95_ms": 25.242673,
+        "p99_ms": 32.732003,
+        "max_ms": 39.815729
+      },
+      "successful_latency": {
+        "count": 57344,
+        "p50_ms": 21.886276,
+        "p95_ms": 25.242673,
+        "p99_ms": 32.732003,
+        "max_ms": 39.815729
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 57344,
+        "p50_ms": 3.667444,
+        "p95_ms": 6.127385,
+        "p99_ms": 7.431202,
+        "max_ms": 12.451778
+      },
+      "service_time": {
+        "count": 57344,
+        "p50_ms": 18.510489,
+        "p95_ms": 22.436983,
+        "p99_ms": 27.866524,
+        "max_ms": 33.836881
+      },
+      "light_latency": {
+        "count": 51610,
+        "p50_ms": 21.85537,
+        "p95_ms": 25.160299,
+        "p99_ms": 32.721637,
+        "max_ms": 38.873229
+      },
+      "heavy_latency": {
+        "count": 5734,
+        "p50_ms": 22.121368,
+        "p95_ms": 25.498928,
+        "p99_ms": 33.304462,
+        "max_ms": 39.815729
+      },
+      "backend": "JFIBERS",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.023027162,
+      "requested_seconds": 5.0,
+      "drain_ms": 23.027162000000317,
+      "completed_per_second": 11416.2233550749,
+      "successful_per_second": 11416.2233550749,
+      "cpu_cores": 1.2223704554994401,
+      "allocated_bytes": 57533752,
+      "allocated_bytes_per_accepted": 1003.3090122767857,
+      "gc_count": 1,
+      "gc_millis": 2,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 58624,
+      "accepted": 58624,
+      "successful": 58624,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 58624,
+        "p50_ms": 21.726677,
+        "p95_ms": 22.594779,
+        "p99_ms": 23.527599,
+        "max_ms": 48.092045
+      },
+      "successful_latency": {
+        "count": 58624,
+        "p50_ms": 21.726677,
+        "p95_ms": 22.594779,
+        "p99_ms": 23.527599,
+        "max_ms": 48.092045
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 58624,
+        "p50_ms": 3.614455,
+        "p95_ms": 6.055388,
+        "p99_ms": 6.294627,
+        "max_ms": 14.089575
+      },
+      "service_time": {
+        "count": 58624,
+        "p50_ms": 18.12439,
+        "p95_ms": 21.300937,
+        "p99_ms": 22.096291,
+        "max_ms": 47.883842
+      },
+      "light_latency": {
+        "count": 52761,
+        "p50_ms": 21.701118,
+        "p95_ms": 22.537063,
+        "p99_ms": 23.479167,
+        "max_ms": 48.092045
+      },
+      "heavy_latency": {
+        "count": 5863,
+        "p50_ms": 21.992977,
+        "p95_ms": 22.835551,
+        "p99_ms": 23.992076,
+        "max_ms": 48.072505
+      },
+      "backend": "JFIBERS",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.013172851,
+      "requested_seconds": 5.0,
+      "drain_ms": 13.172851000000264,
+      "completed_per_second": 11693.991358846924,
+      "successful_per_second": 11693.991358846924,
+      "cpu_cores": 1.111072800709221,
+      "allocated_bytes": 58034544,
+      "allocated_bytes_per_accepted": 989.9451419213974,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  },
+  {
+    "fork": 3,
+    "case": "mixed-10-jfibers_4-3",
+    "warmup": {
+      "offered": 209452,
+      "accepted": 209452,
+      "successful": 209452,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 209452,
+        "p50_ms": 5.696529,
+        "p95_ms": 8.799156,
+        "p99_ms": 14.606982,
+        "max_ms": 95.439281
+      },
+      "successful_latency": {
+        "count": 209452,
+        "p50_ms": 5.696529,
+        "p95_ms": 8.799156,
+        "p99_ms": 14.606982,
+        "max_ms": 95.439281
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 209452,
+        "p50_ms": 0.570165,
+        "p95_ms": 1.332229,
+        "p99_ms": 2.27881,
+        "max_ms": 72.495488
+      },
+      "service_time": {
+        "count": 209452,
+        "p50_ms": 5.065722,
+        "p95_ms": 7.97572,
+        "p99_ms": 12.972409,
+        "max_ms": 94.814043
+      },
+      "light_latency": {
+        "count": 188507,
+        "p50_ms": 5.627175,
+        "p95_ms": 8.727248,
+        "p99_ms": 14.400312,
+        "max_ms": 95.165611
+      },
+      "heavy_latency": {
+        "count": 20945,
+        "p50_ms": 6.161246,
+        "p95_ms": 9.352566,
+        "p99_ms": 15.513752,
+        "max_ms": 95.439281
+      },
+      "backend": "JFIBERS_4",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.015721568,
+      "requested_seconds": 5.0,
+      "drain_ms": 15.721567999999934,
+      "completed_per_second": 41759.09630556271,
+      "successful_per_second": 41759.09630556271,
+      "cpu_cores": 3.961543664379099,
+      "allocated_bytes": 207089240,
+      "allocated_bytes_per_accepted": 988.7193247140157,
+      "gc_count": 1,
+      "gc_millis": 1,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    },
+    "result": {
+      "offered": 216545,
+      "accepted": 216545,
+      "successful": 216545,
+      "cancelled": 0,
+      "timed_out": 0,
+      "rejected": 0,
+      "errors": 0,
+      "sources_cancelled_in_cleanup": 0,
+      "accepted_latency": {
+        "count": 216545,
+        "p50_ms": 5.662118,
+        "p95_ms": 8.310933,
+        "p99_ms": 11.098427,
+        "max_ms": 26.200433
+      },
+      "successful_latency": {
+        "count": 216545,
+        "p50_ms": 5.662118,
+        "p95_ms": 8.310933,
+        "p99_ms": 11.098427,
+        "max_ms": 26.200433
+      },
+      "cancelled_latency": {
+        "count": 0
+      },
+      "timeout_latency": {
+        "count": 0
+      },
+      "queue_delay": {
+        "count": 216545,
+        "p50_ms": 0.563515,
+        "p95_ms": 1.299801,
+        "p99_ms": 1.71894,
+        "max_ms": 10.426839
+      },
+      "service_time": {
+        "count": 216545,
+        "p50_ms": 5.043619,
+        "p95_ms": 7.486877,
+        "p99_ms": 10.209681,
+        "max_ms": 24.930547
+      },
+      "light_latency": {
+        "count": 194891,
+        "p50_ms": 5.596659,
+        "p95_ms": 8.241338,
+        "p99_ms": 10.920309,
+        "max_ms": 26.200433
+      },
+      "heavy_latency": {
+        "count": 21654,
+        "p50_ms": 6.139644,
+        "p95_ms": 8.829621,
+        "p99_ms": 11.68715,
+        "max_ms": 25.760272
+      },
+      "backend": "JFIBERS_4",
+      "scenario": "MIXED",
+      "parameter": 10,
+      "workers": 256,
+      "elapsed_seconds_including_drain": 5.008113588,
+      "requested_seconds": 5.0,
+      "drain_ms": 8.113588000000163,
+      "completed_per_second": 43238.83558050002,
+      "successful_per_second": 43238.83558050002,
+      "cpu_cores": 3.9296233310593194,
+      "allocated_bytes": 212929072,
+      "allocated_bytes_per_accepted": 983.3017248147037,
+      "gc_count": 0,
+      "gc_millis": 0,
+      "pending_sources": 0,
+      "pending_timers": 0,
+      "runtime_source": "file:/workspace/jfibers/jfibers-benchmarks/target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+    }
+  }
+]

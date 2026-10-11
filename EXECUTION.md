@@ -100,3 +100,5 @@ delay unrelated fibers. Offloading introduces a queue, a future and cross-thread
 notifications per operation; measure the actual workload before adopting it for
 small computations. The [scenario harness](jfibers-benchmarks/SCENARIOS.md) includes
 both approaches using the same application work and checksums.
+The [recorded comparison](jfibers-benchmarks/POOL_RESULTS.md) includes repeated
+measurements and the limits of the long-lived-flow benchmark.

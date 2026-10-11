@@ -1,0 +1,104 @@
+[
+  {
+    "scenario": "external",
+    "variant": "after",
+    "forks": 3,
+    "metrics": {
+      "us_per_fiber": {
+        "median": 0.5051900288339038,
+        "min": 0.4720919470516832,
+        "max": 0.6105428130942987
+      },
+      "bytes_per_fiber": {
+        "median": 232.97227575586734,
+        "min": 232.97221334848638,
+        "max": 232.9728414929394
+      }
+    }
+  },
+  {
+    "scenario": "external",
+    "variant": "before",
+    "forks": 3,
+    "metrics": {
+      "us_per_fiber": {
+        "median": 0.5182191349791548,
+        "min": 0.25652795326758027,
+        "max": 0.6624417669576438
+      },
+      "bytes_per_fiber": {
+        "median": 232.9722217018862,
+        "min": 232.97052651973814,
+        "max": 232.9734074342402
+      }
+    }
+  },
+  {
+    "scenario": "owner",
+    "variant": "after",
+    "forks": 3,
+    "metrics": {
+      "us_per_fiber": {
+        "median": 0.10149135925590616,
+        "min": 0.10124312771683468,
+        "max": 0.10728528896283251
+      },
+      "bytes_per_fiber": {
+        "median": 232.78193957471376,
+        "min": 232.7819375982684,
+        "max": 232.78197779000342
+      }
+    }
+  },
+  {
+    "scenario": "owner",
+    "variant": "before",
+    "forks": 3,
+    "metrics": {
+      "us_per_fiber": {
+        "median": 0.10390558182889043,
+        "min": 0.10102986395580511,
+        "max": 0.12172465230406418
+      },
+      "bytes_per_fiber": {
+        "median": 232.78195626930014,
+        "min": 232.7819375773679,
+        "max": 232.78207628975593
+      }
+    }
+  },
+  {
+    "scenario": "ready",
+    "variant": "after",
+    "forks": 3,
+    "metrics": {
+      "us_per_fiber": {
+        "median": 0.055252137614400884,
+        "min": 0.05473122970426699,
+        "max": 0.05714856035801079
+      },
+      "bytes_per_fiber": {
+        "median": 136.31288414437034,
+        "min": 136.31288265266494,
+        "max": 136.31289677225035
+      }
+    }
+  },
+  {
+    "scenario": "ready",
+    "variant": "before",
+    "forks": 3,
+    "metrics": {
+      "us_per_fiber": {
+        "median": 0.05531029521209665,
+        "min": 0.054648114256870814,
+        "max": 0.05763116401983502
+      },
+      "bytes_per_fiber": {
+        "median": 136.31288662902602,
+        "min": 136.31288037953362,
+        "max": 136.31289961969236
+      }
+    }
+  }
+]

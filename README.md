@@ -60,6 +60,8 @@ counters and sampled completion-to-resumption delay with `-Djfibers.jfr=true`;
 they are disabled by default and do not require a runtime instrumentation agent.
 The [optimization report](jfibers-benchmarks/OPTIMIZATION.md) includes raw
 before/after measurements and the measured cost of enabling those diagnostics.
+The [bounded pool comparison](jfibers-benchmarks/POOL_RESULTS.md) measures the
+public multi-owner API and the latency tradeoffs of explicit compute offload.
 
 ## Scheduling and Failures
 

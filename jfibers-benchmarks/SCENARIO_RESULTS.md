@@ -183,6 +183,10 @@ CPU work submitted to a separate executor. Preserve per-fiber ownership and make
 admission limits visible. This report measures a four-manager control; it does
 not add such a runtime API or prove that every application needs it.
 
+Follow-up: the bounded pool and explicit compute API are now implemented. Their
+[separate comparison](POOL_RESULTS.md) measures the public API, its offload
+tradeoff and existing-manager performance; the data in this report is unchanged.
+
 For application decisions, virtual threads remain a strong baseline, especially
 with blocking libraries. Fibers have a measured memory advantage in these async
 waits; their scheduling width and behavior under compute load should be chosen

@@ -9,6 +9,8 @@ The [four-use-case probes](SCENARIOS.md) cover mass waiting, fan-out cleanup,
 fixed-rate overload, and mixed waiting/computation with per-class latency.
 Their [recorded results](SCENARIO_RESULTS.md) include a comparison with four
 independent fiber managers under mixed waiting and computation.
+The [pool API comparison](POOL_RESULTS.md) measures bounded scheduler owners and
+explicit compute offload, including repeated before/after scheduler checks.
 
 ## Run
 
