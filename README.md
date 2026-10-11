@@ -65,6 +65,8 @@ public multi-owner API and the latency tradeoffs of explicit compute offload.
 The [request-per-task HTTP benchmark](jfibers-benchmarks/REQUEST_HTTP.md) compares
 fresh fibers and virtual threads with bounded admission, deadlines, cancellation
 and fixed-rate traffic.
+The [recorded results](jfibers-benchmarks/REQUEST_HTTP_RESULTS.md) include three
+repetitions and separate success rates for light and heavy requests.
 
 ## Scheduling and Failures
 

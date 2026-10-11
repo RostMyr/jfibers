@@ -5,6 +5,8 @@ exercises admission, scheduling, asynchronous waits, computation, deadlines,
 cancellation and cleanup through the public `FiberPool`, `FiberTask` and
 `FiberFutures` APIs. It complements the mixed-workload probe, whose long-lived
 flows process many operations after a single pool submission.
+The [recorded comparison](REQUEST_HTTP_RESULTS.md) includes three repetitions,
+per-class outcomes and the limitations of the shared-machine measurements.
 
 The client and server run in separate JVMs on the same machine. The transport is
 real loopback HTTP/1.1; the work behind the endpoint uses synthetic asynchronous

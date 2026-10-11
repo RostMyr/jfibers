@@ -14,6 +14,8 @@ explicit compute offload, including repeated before/after scheduler checks.
 The [request-per-task HTTP benchmark](REQUEST_HTTP.md) adds one fresh root per
 accepted request, bounded admission, cancellation cleanup, server deadlines and
 an independently measured client latency objective.
+Its [recorded results](REQUEST_HTTP_RESULTS.md) separate light and heavy request
+success from total throughput under overload.
 
 ## Run
 
