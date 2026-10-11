@@ -13,6 +13,8 @@ Historical reports and raw data retain their recorded source/protocol versions.
 The [downstream HTTP extension](DOWNSTREAM_HTTP.md) adds a separate dependency
 JVM and optional disjoint CPU affinity. The defaults described here retain local
 timer waits; explicit modes and CPU/compute options are recorded separately.
+The [downstream comparison](DOWNSTREAM_HTTP_RESULTS.md) records 48 timer/HTTP
+runs and 12 follow-ups with two compute workers on the same two application CPUs.
 
 The client and server run in separate JVMs on the same machine. The transport is
 real loopback HTTP/1.1; the work behind the endpoint uses synthetic asynchronous

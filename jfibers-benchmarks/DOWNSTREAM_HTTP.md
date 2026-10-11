@@ -7,6 +7,9 @@ blocking its handler, then returns a small validated payload. A timer-only
 control uses the same application CPU allocation and compute width. This
 distinguishes the cost of real transport and its client callbacks from a change
 in admission policy or CPU budget.
+The [recorded 60-run comparison](DOWNSTREAM_HTTP_RESULTS.md) includes both
+compute widths, raw data, the rejected initial series and the cancellation
+regression corrected before the final measurements.
 
 ## Request and cancellation contract
 
@@ -61,6 +64,13 @@ carriers. Timer controls keep the same allocation while the dependency CPU is
 unused. All HTTP handler, writer, timer and HTTP-client executor work stays
 within its JVM's CPU affinity.
 
+One compute worker limits heavy computation to one concurrent CPU job, whereas
+the two VT carriers can both compute. The recorded follow-up tests two offload
+compute workers within the same two-CPU mask, with fresh VT controls. The owner
+and workers then compete for those CPUs; this does not reserve a core for the
+owner or add capacity. The two-worker setting did not establish a consistent
+throughput improvement at the tested HTTP load.
+
 This is **disjoint affinity in one guest**, not separate machines, exclusive
 physical cores or independent CPU quotas. The guest exposes five logical CPUs,
 and the processes still share one four-CPU cgroup quota. The four assigned CPUs
@@ -87,14 +97,23 @@ python3 jfibers-benchmarks/request_http_run.py --quick \
   --wait-modes http --compute-threads 1 \
   --output /path/to/new/downstream-smoke
 
-# Illustrative load points; select sustainable and overloaded rates by pilot.
+# Load points selected by the archived pilot; recalibrate on another machine.
 python3 jfibers-benchmarks/request_http_run.py \
   --backends FIBER_POOL_OFFLOAD VIRTUAL_THREADS \
-  --cases 1000:1000000 2000:1000000 --heavy-capacities 0 6 \
+  --cases 500:1000000 2000:1000000 --heavy-capacities 0 6 \
   --wait-modes timer http --compute-threads 1 --dependency-delay-ms 1 \
   --client-cpus 0 --server-cpus 1,2 --dependency-cpus 3 \
   --warmup-ms 15000 --measure-ms 10000 --forks 3 \
   --output /path/to/new/downstream-results
+
+# Compute-width follow-up, with fresh VT controls under the same CPU mask.
+python3 jfibers-benchmarks/request_http_run.py \
+  --backends FIBER_POOL_OFFLOAD VIRTUAL_THREADS \
+  --cases 2000:1000000 --heavy-capacities 0 6 --wait-modes http \
+  --compute-threads 2 --dependency-delay-ms 1 \
+  --client-cpus 0 --server-cpus 1,2 --dependency-cpus 3 \
+  --warmup-ms 15000 --measure-ms 10000 --forks 3 \
+  --output /path/to/new/two-workers
 
 python3 jfibers-benchmarks/request_http_summarize.py \
   /path/to/new/downstream-results

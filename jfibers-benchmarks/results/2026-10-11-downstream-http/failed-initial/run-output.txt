@@ -1,0 +1,68 @@
+1-500-1000000-heavycap0-timer-compute1-fiber_pool_offload
+  success 500/s, goodput 500/s; HTTP {'200': 5000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+1-500-1000000-heavycap0-http-compute1-fiber_pool_offload
+  success 500/s, goodput 500/s; HTTP {'200': 5000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+1-500-1000000-heavycap0-http-compute1-virtual_threads
+  success 500/s, goodput 500/s; HTTP {'200': 5000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+1-500-1000000-heavycap0-timer-compute1-virtual_threads
+  success 500/s, goodput 500/s; HTTP {'200': 5000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+1-500-1000000-heavycap6-http-compute1-virtual_threads
+  success 500/s, goodput 500/s; HTTP {'200': 5000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+1-500-1000000-heavycap6-timer-compute1-virtual_threads
+  success 500/s, goodput 500/s; HTTP {'200': 5000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+1-500-1000000-heavycap6-timer-compute1-fiber_pool_offload
+  success 500/s, goodput 500/s; HTTP {'200': 5000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+1-500-1000000-heavycap6-http-compute1-fiber_pool_offload
+  success 500/s, goodput 500/s; HTTP {'200': 5000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+1-2000-1000000-heavycap6-http-compute1-virtual_threads
+  success 1935/s, goodput 1935/s; HTTP {'200': 19392, '409': 0, '503': 608, '504': 0, '500': 0}, local rejects 0
+1-2000-1000000-heavycap6-timer-compute1-virtual_threads
+  success 1997/s, goodput 1997/s; HTTP {'200': 19989, '409': 0, '503': 11, '504': 0, '500': 0}, local rejects 0
+1-2000-1000000-heavycap6-timer-compute1-fiber_pool_offload
+  success 1926/s, goodput 1926/s; HTTP {'200': 19303, '409': 0, '503': 697, '504': 0, '500': 0}, local rejects 0
+1-2000-1000000-heavycap6-http-compute1-fiber_pool_offload
+  success 1926/s, goodput 1926/s; HTTP {'200': 19308, '409': 0, '503': 692, '504': 0, '500': 0}, local rejects 0
+1-2000-1000000-heavycap0-timer-compute1-fiber_pool_offload
+  success 1786/s, goodput 1786/s; HTTP {'200': 18016, '409': 0, '503': 0, '504': 1984, '500': 0}, local rejects 0
+1-2000-1000000-heavycap0-http-compute1-fiber_pool_offload
+  success 1784/s, goodput 1784/s; HTTP {'200': 17994, '409': 0, '503': 17, '504': 1989, '500': 0}, local rejects 0
+1-2000-1000000-heavycap0-http-compute1-virtual_threads
+  success 1905/s, goodput 1905/s; HTTP {'200': 19082, '409': 0, '503': 918, '504': 0, '500': 0}, local rejects 0
+1-2000-1000000-heavycap0-timer-compute1-virtual_threads
+  success 1994/s, goodput 1994/s; HTTP {'200': 19966, '409': 0, '503': 34, '504': 0, '500': 0}, local rejects 0
+2-2000-1000000-heavycap6-http-compute1-virtual_threads
+  success 1957/s, goodput 1957/s; HTTP {'200': 19606, '409': 0, '503': 394, '504': 0, '500': 0}, local rejects 0
+2-2000-1000000-heavycap6-timer-compute1-virtual_threads
+  success 1994/s, goodput 1994/s; HTTP {'200': 19956, '409': 0, '503': 44, '504': 0, '500': 0}, local rejects 0
+2-2000-1000000-heavycap6-timer-compute1-fiber_pool_offload
+  success 1927/s, goodput 1927/s; HTTP {'200': 19315, '409': 0, '503': 685, '504': 0, '500': 0}, local rejects 0
+2-2000-1000000-heavycap6-http-compute1-fiber_pool_offload
+  success 1888/s, goodput 1888/s; HTTP {'200': 18936, '409': 0, '503': 1020, '504': 44, '500': 0}, local rejects 0
+2-2000-1000000-heavycap0-timer-compute1-fiber_pool_offload
+  success 1786/s, goodput 1786/s; HTTP {'200': 18023, '409': 0, '503': 0, '504': 1977, '500': 0}, local rejects 0
+2-2000-1000000-heavycap0-http-compute1-fiber_pool_offload
+  success 1781/s, goodput 1781/s; HTTP {'200': 17974, '409': 0, '503': 36, '504': 1990, '500': 0}, local rejects 0
+2-2000-1000000-heavycap0-http-compute1-virtual_threads
+  success 1946/s, goodput 1946/s; HTTP {'200': 19502, '409': 0, '503': 498, '504': 0, '500': 0}, local rejects 0
+2-2000-1000000-heavycap0-timer-compute1-virtual_threads
+  success 1992/s, goodput 1992/s; HTTP {'200': 19943, '409': 0, '503': 57, '504': 0, '500': 0}, local rejects 0
+2-500-1000000-heavycap0-timer-compute1-fiber_pool_offload
+  success 500/s, goodput 500/s; HTTP {'200': 5000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+2-500-1000000-heavycap0-http-compute1-fiber_pool_offload
+  success 500/s, goodput 500/s; HTTP {'200': 5000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+2-500-1000000-heavycap0-http-compute1-virtual_threads
+  success 500/s, goodput 500/s; HTTP {'200': 5000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+2-500-1000000-heavycap0-timer-compute1-virtual_threads
+  success 500/s, goodput 500/s; HTTP {'200': 5000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+2-500-1000000-heavycap6-http-compute1-virtual_threads
+  success 500/s, goodput 500/s; HTTP {'200': 5000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+2-500-1000000-heavycap6-timer-compute1-virtual_threads
+  success 500/s, goodput 500/s; HTTP {'200': 5000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+2-500-1000000-heavycap6-timer-compute1-fiber_pool_offload
+  success 500/s, goodput 500/s; HTTP {'200': 5000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+2-500-1000000-heavycap6-http-compute1-fiber_pool_offload
+  success 500/s, goodput 500/s; HTTP {'200': 5000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+3-500-1000000-heavycap0-timer-compute1-fiber_pool_offload
+  success 500/s, goodput 500/s; HTTP {'200': 5000, '409': 0, '503': 0, '504': 0, '500': 0}, local rejects 0
+3-500-1000000-heavycap0-http-compute1-fiber_pool_offload
+Request HTTP benchmark failed: Unexpected error/cancellation in normal traffic

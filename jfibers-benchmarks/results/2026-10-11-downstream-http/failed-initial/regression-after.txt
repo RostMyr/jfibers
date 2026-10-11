@@ -1,0 +1,63 @@
+[INFO] Scanning for projects...
+[INFO]
+[INFO] --------------< com.github.rostmyr.jfibers:jfibers-core >---------------
+[INFO] Building jfibers-core 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] Loaded 24052 auto-discovered prefixes for remote repository central (prefixes-central.txt)
+[INFO]
+[INFO] --- enforcer:3.6.3:enforce (enforce-versions) @ jfibers-core ---
+[INFO] Rule 0: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+[INFO] Rule 2: org.apache.maven.enforcer.rules.dependency.DependencyConvergence passed
+[INFO]
+[INFO] --- resources:3.5.0:resources (default-resources) @ jfibers-core ---
+[INFO] skip non existing resourceDirectory /workspace/jfibers/jfibers-core/src/main/resources
+[INFO]
+[INFO] --- compiler:3.16.0:compile (default-compile) @ jfibers-core ---
+[WARNING] Could not transfer metadata /.meta/prefixes.txt from/to apache.snapshots (https://repository.apache.org/snapshots): HTTP Status: 403
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 10 source files with javac [debug:lines,vars,source release 27] to target/classes
+[INFO] /workspace/jfibers/jfibers-core/src/main/java/com/github/rostmyr/jfibers/FiberManager.java: /workspace/jfibers/jfibers-core/src/main/java/com/github/rostmyr/jfibers/FiberManager.java uses or overrides a deprecated API.
+[INFO] /workspace/jfibers/jfibers-core/src/main/java/com/github/rostmyr/jfibers/FiberManager.java: Recompile with -Xlint:deprecation for details.
+[INFO]
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ jfibers-core ---
+[INFO] skip non existing resourceDirectory /workspace/jfibers/jfibers-core/src/test/resources
+[INFO]
+[INFO] --- compiler:3.16.0:testCompile (default-testCompile) @ jfibers-core ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 8 source files with javac [debug:lines,vars,source release 27] to target/test-classes
+[INFO] /workspace/jfibers/jfibers-core/src/test/java/com/github/rostmyr/jfibers/TestFiberErrors.java: /workspace/jfibers/jfibers-core/src/test/java/com/github/rostmyr/jfibers/TestFiberErrors.java uses or overrides a deprecated API.
+[INFO] /workspace/jfibers/jfibers-core/src/test/java/com/github/rostmyr/jfibers/TestFiberErrors.java: Recompile with -Xlint:deprecation for details.
+[INFO]
+[INFO] --- surefire:3.6.0:test (default-test) @ jfibers-core ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.github.rostmyr.jfibers.TestFiberPool
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.252 s -- in com.github.rostmyr.jfibers.TestFiberPool
+[INFO] Running com.github.rostmyr.jfibers.TestFiberComputations
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.018 s -- in com.github.rostmyr.jfibers.TestFiberComputations
+[INFO] Running com.github.rostmyr.jfibers.TestFiberProfiling
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.826 s -- in com.github.rostmyr.jfibers.TestFiberProfiling
+[INFO] Running com.github.rostmyr.jfibers.TestFiberLifecycleBasics
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.027 s -- in com.github.rostmyr.jfibers.TestFiberLifecycleBasics
+[INFO] Running com.github.rostmyr.jfibers.TestFiberManager
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in com.github.rostmyr.jfibers.TestFiberManager
+[INFO] Running com.github.rostmyr.jfibers.TestFiberWaiting
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.062 s -- in com.github.rostmyr.jfibers.TestFiberWaiting
+[INFO] Running com.github.rostmyr.jfibers.TestFiberErrors
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in com.github.rostmyr.jfibers.TestFiberErrors
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 42, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  3.804 s
+[INFO] Finished at: 2026-10-11T03:51:21Z
+[INFO] ------------------------------------------------------------------------

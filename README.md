@@ -74,6 +74,9 @@ improved overload behavior and the cost of rejecting heavy work early.
 The [downstream HTTP experiment](jfibers-benchmarks/DOWNSTREAM_HTTP.md) replaces
 timer waits with real asynchronous HTTP calls and supports disjoint CPU affinity
 for the application, load generator and dependency.
+Its [60-run results](jfibers-benchmarks/DOWNSTREAM_HTTP_RESULTS.md) compare
+admission and compute width, and document a cancellation/cleanup race corrected
+before the final measurements.
 
 ## Scheduling and Failures
 

@@ -22,6 +22,9 @@ Its [48-pair results](HEAVY_ADMISSION_RESULTS.md) report per-class availability,
 rejection reasons and completed computation on timed-out requests.
 The [downstream HTTP experiment](DOWNSTREAM_HTTP.md) adds real asynchronous
 dependency calls, physical I/O cleanup and disjoint CPU affinity for JVM roles.
+Its [60-run results](DOWNSTREAM_HTTP_RESULTS.md) show the tradeoffs between
+heavy admission, compute width and light-request latency, including the
+cancellation regression found and fixed during validation.
 
 ## Run
 
