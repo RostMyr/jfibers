@@ -69,6 +69,8 @@ The [recorded results](jfibers-benchmarks/REQUEST_HTTP_RESULTS.md) include three
 repetitions and separate success rates for light and heavy requests.
 The [heavy-request admission experiment](jfibers-benchmarks/HEAVY_ADMISSION.md)
 compares whole-request limits on the same workload and both execution models.
+Its [repeated results](jfibers-benchmarks/HEAVY_ADMISSION_RESULTS.md) quantify
+improved overload behavior and the cost of rejecting heavy work early.
 
 ## Scheduling and Failures
 

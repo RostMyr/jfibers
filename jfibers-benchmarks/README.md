@@ -18,6 +18,8 @@ Its [recorded results](REQUEST_HTTP_RESULTS.md) separate light and heavy request
 success from total throughput under overload.
 The [heavy-request admission experiment](HEAVY_ADMISSION.md) adds a separate
 whole-request budget and compares the same limits with virtual threads.
+Its [48-pair results](HEAVY_ADMISSION_RESULTS.md) report per-class availability,
+rejection reasons and completed computation on timed-out requests.
 
 ## Run
 

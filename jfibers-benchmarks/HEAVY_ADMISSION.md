@@ -5,8 +5,9 @@ useful service under overload. It compares an explicit heavy-request limit with
 the disabled-gate baseline, using the same policy for `FIBER_POOL_OFFLOAD` and
 `VIRTUAL_THREADS`. It extends the [request-per-root HTTP protocol](REQUEST_HTTP.md);
 the transport, workload, deadlines, arrival schedule and measurements described
-there still apply. This document defines the policy and experiment, without
-claiming measured results.
+there still apply. This document defines the policy and experiment; the
+[recorded 48-pair sweep](HEAVY_ADMISSION_RESULTS.md) reports results and their
+limits of interpretation.
 
 ## Policy
 
