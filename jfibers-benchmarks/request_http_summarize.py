@@ -18,8 +18,13 @@ def flatten(value, prefix=""):
 
 
 def summarize(directory):
+    environment = directory / "environment.json"
+    if environment.exists() and json.loads(environment.read_text()).get("profiles_only"):
+        raise ValueError("Diagnostic recordings are not performance measurements")
     groups = defaultdict(list)
     for record in json.loads((directory / "results.json").read_text()):
+        if record.get("profiled"):
+            raise ValueError("Diagnostic recordings are not performance measurements")
         if not record.get("validated"):
             raise ValueError("Refusing to summarize incomplete or unvalidated JVM pairs")
         configuration = {key: record[key] for key in ("wait_mode", "compute_threads", "dependency_delay_ms", "cpu_affinity")

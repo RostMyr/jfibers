@@ -15,6 +15,7 @@ import time
 
 from http_run import read_record, stop, write_json
 from request_http_summarize import summarize
+from request_http_profile import prepare_recording, recording_command, summarize_recording
 from run import JVM_FLAGS, MODULE, REPOSITORY, capture, read_optional
 
 
@@ -220,6 +221,9 @@ def validate(result, before, after, capacity, heavy_capacity=0, lifecycle_check=
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--quick", action="store_true", help="Correctness smoke only; not performance evidence")
+    parser.add_argument("--profiles-only", action="store_true", help="Separate diagnostic runs; never produce a performance summary")
+    parser.add_argument("--standard-jfr", action="store_true", help="Leave custom fiber events off in diagnostic runs")
+    parser.add_argument("--jfr-sample-every", type=int, default=256, help="Sample every Nth fiber wait (diagnostics only)")
     parser.add_argument("--backends", nargs="+", choices=BACKENDS, default=BACKENDS)
     parser.add_argument("--cases", nargs="+", default=DEFAULT_CASES, help="RATE:HEAVY_ITERATIONS pairs")
     parser.add_argument("--capacity", type=int, default=64)
@@ -240,6 +244,10 @@ def main():
     parser.add_argument("--forks", type=int, default=3)
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
+    if (args.standard_jfr or args.jfr_sample_every != 256) and not args.profiles_only:
+        parser.error("JFR options require --profiles-only")
+    if args.jfr_sample_every < 1:
+        parser.error("JFR sampling interval must be positive")
     try:
         cases = [tuple(map(int, case.split(":"))) for case in args.cases]
     except ValueError:
@@ -291,9 +299,14 @@ def main():
         parser.error("Java is unavailable; set JAVA_HOME")
     output = (args.output or MODULE / "target/request-http" / datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")).resolve()
     output.mkdir(parents=True, exist_ok=False)
+    recording_settings = prepare_recording(java, output) if args.profiles_only else None
     cpuinfo = read_optional("/proc/cpuinfo") or ""
     metadata = {
         "started_utc": datetime.now(timezone.utc).isoformat(), "quick_smoke_only": args.quick,
+        "profiles_only": args.profiles_only,
+        "fiber_events_in_profiles": args.profiles_only and not args.standard_jfr,
+        "jfr_sample_every": args.jfr_sample_every if args.profiles_only else None,
+        "recording_settings": recording_settings,
         "git_commit": capture(["git", "rev-parse", "HEAD"]), "git_status": capture(["git", "status", "--short"]),
         "java": capture([java, "-version"]), "platform": platform.platform(),
         "cpu_model": next((line.split(":", 1)[1].strip() for line in cpuinfo.splitlines()
@@ -324,7 +337,7 @@ def main():
 
     def save():
         write_json(output / "environment.json", metadata)
-        write_json(output / "results.json", records)
+        write_json(output / ("profiles.json" if args.profiles_only else "results.json"), records)
 
     def java_command(role, main_class, arguments, properties=()):
         invocation = [java, *flags_by_role[role], *properties, "-Xverify:all", "-cp", str(jar), PACKAGE + main_class,
@@ -338,6 +351,7 @@ def main():
         server = client = dependency = None
         before_cgroup = read_optional("/sys/fs/cgroup/cpu.stat")
         record = {"fork": fork, "backend": backend, "rate": rate, "heavy_iterations": iterations,
+                  "profiled": args.profiles_only,
                   "heavy_capacity": heavy_capacity,
                   "wait_mode": wait_mode, "compute_threads": args.compute_threads,
                   "dependency_delay_ms": args.dependency_delay_ms, "cpu_affinity": affinity,
@@ -359,6 +373,11 @@ def main():
             try:
                 properties = [f"-Djfibers.benchmark.computeThreads={args.compute_threads}",
                               f"-Djfibers.benchmark.dependencyDelayMillis={args.dependency_delay_ms}"]
+                if args.profiles_only:
+                    fiber_events = not args.standard_jfr and backend != "VIRTUAL_THREADS"
+                    properties.extend(["-Djfibers.jfr=" + str(fiber_events).lower(),
+                                       f"-Djfibers.jfr.sampleEvery={args.jfr_sample_every}"])
+                    record["fiber_events_enabled"] = fiber_events
                 if wait_mode == "http":
                     dependency_command = java_command("dependency", "RequestDependencyServer", [1024])
                     metadata["commands"].append(dependency_command)
@@ -410,6 +429,10 @@ def main():
                     record["check_dependency_delta"] = dependency_difference
                 save()
                 for phase, duration in (("warmup", warmup), ("measurement", measure)):
+                    if args.profiles_only and phase == "measurement":
+                        record["jfr_start"] = recording_command(java, server.pid, "start", output / (label + ".jfr"),
+                                                                 output / "request-profile.jfc")
+                        save()
                     verify_affinities("before_" + phase)
                     before = server_stats(server)
                     dependency_before = dependency_stats(dependency) if dependency is not None else None
@@ -463,6 +486,9 @@ def main():
                         result["dependency_allocated_bytes_per_call"] = dependency_difference["allocated_bytes"] / max(1, dependency_difference["responses"])
                         result["dependency_gc_count"] = dependency_difference["gc_count"]
                         result["dependency_gc_millis"] = dependency_difference["gc_millis"]
+                    if args.profiles_only and phase == "measurement":
+                        record["jfr_stop"] = recording_command(java, server.pid, "stop", output / (label + ".jfr"))
+                        save()
                 result = record["measurement"]["result"]
                 print(f"  success {result['successful_per_second']:.0f}/s, goodput {result['goodput_per_second']:.0f}/s; "
                       f"HTTP {result['http_status']}, local rejects {result['local_rejected']}", flush=True)
@@ -489,6 +515,13 @@ def main():
                 stop(dependency)
                 record["cpu_stat_after"] = read_optional("/sys/fs/cgroup/cpu.stat")
                 save()
+        if args.profiles_only:
+            # Extract only after every workload JVM has stopped; no analysis competes with load.
+            record["jfr"] = summarize_recording(java, output / (label + ".jfr"))
+            if record["fiber_events_enabled"] and not record["jfr"]["event_counts"].get("com.github.rostmyr.jfibers.Await"):
+                raise RuntimeError("Custom fiber diagnostics produced no sampled waits")
+            record["profile_validated"] = True
+            save()
 
     save()
     try:
@@ -504,7 +537,8 @@ def main():
                         for wait_mode in args.wait_modes[mode_offset:] + args.wait_modes[:mode_offset]:
                             run_pair(backend, rate, iterations, fork + 1, heavy_capacity, wait_mode)
         metadata["finished_utc"] = datetime.now(timezone.utc).isoformat()
-        write_json(output / "summary.json", summarize(output))
+        if not args.profiles_only:
+            write_json(output / "summary.json", summarize(output))
     finally:
         metadata["cpu_stat_after"] = read_optional("/sys/fs/cgroup/cpu.stat")
         save()

@@ -78,3 +78,10 @@ same JMH artifact and can separately measure diagnostic hooks with and without
 an active recording. Keep raw data and exact JVM flags when reporting a change.
 The [measured overhead and optimization report](jfibers-benchmarks/OPTIMIZATION.md)
 includes the cost of these events on very short tasks and the HTTP comparison.
+
+The [request-per-root downstream HTTP harness](jfibers-benchmarks/DOWNSTREAM_HTTP.md#separate-jfr-diagnostics)
+also supports `--profiles-only`, with recording after warmup, CPU affinity for
+all three roles, per-thread stack attribution, allocation weights, parks and
+sampled awaits by continuation. Use `--standard-jfr` controls to separate library
+hooks from standard JFR diagnostics. Its profile files cannot be summarized as
+ordinary performance measurements.

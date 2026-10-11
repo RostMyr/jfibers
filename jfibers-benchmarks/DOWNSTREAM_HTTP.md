@@ -153,3 +153,45 @@ drain, failure counters and client arrival lag to check whether an observed
 limit belongs to the dependency or generator. Even with real sockets, this
 controlled small-response service does not model a database, external network
 latency, retries or production request-cost uncertainty.
+
+## Separate JFR diagnostics
+
+Use `--profiles-only` to record the application JVM after warmup and through the
+measurement drain. Client and dependency JVMs retain the normal flags and strict
+protocol checks. The runner stops all workload JVMs before extracting stacks.
+It writes `profiles.json`, a generated `request-profile.jfc`, local `.jfr` files
+and readable `.views.txt` extracts; it does not write `results.json` or a
+performance summary. The summarizer rejects diagnostic records.
+
+```sh
+python3 jfibers-benchmarks/request_http_run.py \
+  --profiles-only --standard-jfr \
+  --backends FIBER_POOL_OFFLOAD VIRTUAL_THREADS \
+  --cases 500:1000000 2000:1000000 --heavy-capacities 6 \
+  --wait-modes http --compute-threads 1 --dependency-delay-ms 1 \
+  --client-cpus 0 --server-cpus 1,2 --dependency-cpus 3 \
+  --warmup-ms 15000 --measure-ms 20000 --forks 1 --output /path/to/new/profiles
+```
+
+Repeat with compute width 2. Remove `--standard-jfr` for separate fiber runs
+with custom `Await` and `Scheduler` events. The default wait sample interval is
+256 (`--jfr-sample-every`); these recordings override the await threshold to
+zero to retain short scheduling delays. Standard parks and monitor entries use
+a 1 ms threshold. JFR sampling, allocation tracking, park events and custom
+hooks add overhead: outcomes in `profiles.json` describe the diagnostic run,
+not a new performance comparison. Custom hooks remain enabled during warmup
+but the recording starts afterward. Initial environment variables and system
+properties are excluded from the recording configuration.
+
+The extracts separate Java execution from native samples and attribute them
+by thread role. Inclusive stack categories overlap; allocation sample weights
+estimate allocated bytes, not retained memory. Park durations overlap across
+threads and include idle executors. Scheduler counters use the difference
+between the first and last snapshots inside the recording, excluding its edges;
+lifetime peaks are never subtracted. Sampled awaits are grouped by generated
+class, continuation, kind and outcome. Resolve continuation IDs against the
+recorded artifact before calling a group HTTP or compute waits.
+
+JFR binaries stay local under the repository's existing ignore rule; published
+extracts include their hashes, exact commands and settings. See the library
+[event semantics](../PROFILING.md).
