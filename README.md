@@ -62,6 +62,9 @@ The [optimization report](jfibers-benchmarks/OPTIMIZATION.md) includes raw
 before/after measurements and the measured cost of enabling those diagnostics.
 The [bounded pool comparison](jfibers-benchmarks/POOL_RESULTS.md) measures the
 public multi-owner API and the latency tradeoffs of explicit compute offload.
+The [request-per-task HTTP benchmark](jfibers-benchmarks/REQUEST_HTTP.md) compares
+fresh fibers and virtual threads with bounded admission, deadlines, cancellation
+and fixed-rate traffic.
 
 ## Scheduling and Failures
 

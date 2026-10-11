@@ -20,8 +20,8 @@ jobs:
           cache: maven
       - name: Build, test, and analyze
         run: ./mvnw --batch-mode --no-transfer-progress -Pcode-analysis clean verify
-      - name: Build the optional benchmark harness
-        run: ./mvnw --batch-mode --no-transfer-progress -Pbenchmarks -pl jfibers-benchmarks -am -DskipTests package
+      - name: Build and test the optional benchmark harness
+        run: ./mvnw --batch-mode --no-transfer-progress -Pbenchmarks -pl jfibers-benchmarks -am verify
       - name: Smoke test HTTP benchmark correctness
         run: python3 jfibers-benchmarks/http_run.py --quick
       - name: Smoke test scheduler benchmark correctness
@@ -30,5 +30,7 @@ jobs:
         run: python3 jfibers-benchmarks/scenarios_run.py --quick --output jfibers-benchmarks/target/scenarios-smoke
       - name: Smoke test bounded pools and compute offload
         run: python3 jfibers-benchmarks/scenarios_run.py --quick --scenarios mixed --backends FIBER_POOL_1 FIBER_POOL_4 FIBER_POOL_OFFLOAD --output jfibers-benchmarks/target/pool-smoke
+      - name: Smoke test request admission, deadlines, and cancellation over HTTP
+        run: python3 jfibers-benchmarks/request_http_run.py --quick --cases 1000:100000 --output jfibers-benchmarks/target/request-http-smoke
       - name: Run the example
         run: timeout 15s java -cp 'jfibers-example/target/classes:jfibers-example/target/lib/*' com.github.rostmyr.jfibers.example.Application
