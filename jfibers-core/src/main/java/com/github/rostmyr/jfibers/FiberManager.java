@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.LockSupport;
+import java.util.function.Consumer;
 
 /** A cooperative scheduler. Only its owner thread executes fiber code. */
 public class FiberManager implements AutoCloseable {
@@ -29,6 +30,16 @@ public class FiberManager implements AutoCloseable {
     private final PriorityQueue<Fiber<?>> deadlines = new PriorityQueue<>(
         (a, b) -> Long.compare(a.deadlineNanos - b.deadlineNanos, 0));
     private volatile long nextPoll;
+    private final Consumer<Fiber<?>> completionListener;
+
+    public FiberManager() {
+        this(null);
+    }
+
+    // Used by FiberPool after all lifecycle bookkeeping and owned-child cleanup.
+    FiberManager(Consumer<Fiber<?>> completionListener) {
+        this.completionListener = completionListener;
+    }
 
     /** Schedule before run(), or from the thread currently executing run(). */
     public void schedule(Fiber<?> fiber) {
@@ -456,6 +467,9 @@ public class FiberManager implements AutoCloseable {
             for (FiberWait wait : dependents) {
                 resume(wait);
             }
+        }
+        if (completionListener != null) {
+            completionListener.accept(fiber);
         }
     }
 

@@ -31,11 +31,17 @@ def main():
     parser.add_argument("--counts", nargs="+", type=int, default=[10000, 100000])
     parser.add_argument("--rates", nargs="+", type=int, default=[2000, 10000, 30000])
     parser.add_argument("--weights", nargs="+", type=int, default=[0, 10])
+    parser.add_argument("--backends", nargs="+", choices=[*BACKENDS, "JFIBERS_4", "FIBER_POOL_1",
+                        "FIBER_POOL_4", "FIBER_POOL_OFFLOAD"], help="Override backends for timed scenarios")
     args = parser.parse_args()
     if args.forks < 1 or not 100 <= args.warmup_ms <= 60000 or not 100 <= args.measure_ms <= 60000:
         parser.error("Invalid forks or duration")
     if any(not 1 <= n <= 200000 for n in args.counts + args.rates) or any(not 0 <= w <= 100 for w in args.weights):
         parser.error("Invalid counts, rates or percentages")
+    if args.backends and "mass" in args.scenarios:
+        parser.error("--backends applies to timed scenarios; select --scenarios fanout open mixed")
+    if args.backends and "FIBER_POOL_OFFLOAD" in args.backends and any(s != "mixed" for s in args.scenarios):
+        parser.error("FIBER_POOL_OFFLOAD is a mixed-workload experiment; select --scenarios mixed")
     jar = MODULE / "target/jfibers-benchmarks-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
     if not jar.is_file():
         parser.error("Build first: ./mvnw -Pbenchmarks -pl jfibers-benchmarks -am clean verify")
@@ -55,6 +61,8 @@ def main():
         cases += [("OPEN_LOOP", rate, BACKENDS) for rate in ([2000, 30000] if args.quick else args.rates)]
     if "mixed" in args.scenarios:
         cases += [("MIXED", weight, [*BACKENDS, "JFIBERS_4"]) for weight in args.weights]
+    if args.backends:
+        cases = [(scenario, parameter, args.backends) for scenario, parameter, _ in cases]
     cpuinfo = read_optional("/proc/cpuinfo") or ""
     metadata = {
         "started_utc": datetime.now(timezone.utc).isoformat(),

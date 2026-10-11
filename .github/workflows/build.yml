@@ -28,5 +28,7 @@ jobs:
         run: python3 jfibers-benchmarks/scheduler_run.py --quick --output jfibers-benchmarks/target/scheduler-smoke
       - name: Smoke test asynchronous workload correctness
         run: python3 jfibers-benchmarks/scenarios_run.py --quick --output jfibers-benchmarks/target/scenarios-smoke
+      - name: Smoke test bounded pools and compute offload
+        run: python3 jfibers-benchmarks/scenarios_run.py --quick --scenarios mixed --backends FIBER_POOL_1 FIBER_POOL_4 FIBER_POOL_OFFLOAD --output jfibers-benchmarks/target/pool-smoke
       - name: Run the example
         run: timeout 15s java -cp 'jfibers-example/target/classes:jfibers-example/target/lib/*' com.github.rostmyr.jfibers.example.Application

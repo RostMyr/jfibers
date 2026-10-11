@@ -63,6 +63,12 @@ before/after measurements and the measured cost of enabling those diagnostics.
 
 ## Scheduling and Failures
 
+For submissions from arbitrary threads and several independent owners, use
+`FiberPool(parallelism, capacity)`. It bounds accepted roots including waits and
+cancellation cleanup. `FiberFutures.submit` and `newComputeExecutor` provide explicit
+CPU offload with a bounded queue. See [bounded execution](EXECUTION.md) for usage,
+completion, cancellation and shutdown contracts.
+
 Build-time instrumentation is the recommended integration. Unsupported fiber
 methods fail the build with the class, method descriptor and source location.
 The transformer supports instance and static methods, branches, loops, switches,

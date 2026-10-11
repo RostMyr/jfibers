@@ -105,6 +105,27 @@ scheduler or pretending that one manager executes user code on four cores.
 
 ## Execution and interpretation
 
+The optional `--backends` argument selects timed-scenario implementations. For the
+bounded pool and compute API comparison:
+
+```sh
+python3 jfibers-benchmarks/scenarios_run.py --scenarios mixed \
+  --backends JFIBERS JFIBERS_4 FIBER_POOL_1 FIBER_POOL_4 FIBER_POOL_OFFLOAD VIRTUAL_THREADS COMPLETABLE_FUTURE \
+  --output jfibers-benchmarks/target/pool-results
+```
+
+`FIBER_POOL_1` and `FIBER_POOL_4` submit the same 256 long-lived flows through the
+public pool API, with capacity 256 and one or four owners. The capacity bounds
+flows; each flow still processes many individual jobs. Thus this measures steady
+application work, not per-request pool admission overhead. Graceful pool shutdown
+and final draining are included. `FIBER_POOL_OFFLOAD` has one owner and three
+compute threads, with a 256-entry compute queue; only heavy steps use
+`FiberFutures.submit`, awaited with explicit cancellation in `finally`. Light
+steps stay on the owner. The 0% case controls for the extra source branch. All
+variants preserve the same workload checksums, wait service and four-core quota.
+The existing default backend set is unchanged. Offload is restricted to `mixed`,
+and custom backend selection is unsupported by the separate mass-waiting probe.
+
 Timed workloads share a four-thread scheduled service. CompletableFuture uses an
 explicit four-thread continuation executor, keeping computation off both service
 and arrival threads. This is different from the inline continuation in the mass

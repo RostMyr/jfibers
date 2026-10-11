@@ -2,19 +2,96 @@ package com.github.rostmyr.jfibers.instrumentation;
 
 import com.github.rostmyr.jfibers.Fiber;
 import com.github.rostmyr.jfibers.FiberManager;
+import com.github.rostmyr.jfibers.FiberPool;
+import com.github.rostmyr.jfibers.FiberTask;
+import com.github.rostmyr.jfibers.FiberFutures;
 import com.github.rostmyr.jfibers.FiberStatus;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.BooleanSupplier;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class TestFiberLifecycle {
+    @Test(timeout = 10000)
+    public void shouldRetainPoolAdmissionUntilOwnedCleanupFinishes() throws Exception {
+        for (boolean shutdown : new boolean[] {false, true}) {
+            try (Fixture fixture = new Fixture(); FiberPool pool = new FiberPool(1, 1)) {
+                CompletableFuture<String> cleanup = new CompletableFuture<>();
+                fixture.type.getField("cleanup").set(fixture.model, cleanup);
+                Fiber<?> parent = fixture.fiber("parent");
+                FiberTask<?> task = pool.submit(() -> parent);
+                try {
+                    await(() -> parent.getStatus() == FiberStatus.WAITING);
+                    Fiber<?> child = (Fiber<?>) fixture.type.getField("lastChild").get(fixture.model);
+                    await(() -> child.getStatus() == FiberStatus.WAITING);
+                    if (shutdown) {
+                        pool.shutdownNow();
+                        assertThat(pool.awaitTermination(Duration.ofMillis(20))).isFalse();
+                    } else {
+                        assertThat(task.cancel()).isTrue();
+                    }
+                    await(child::isCancellationRequested);
+                    assertThat(task.isDone()).isFalse();
+                    assertThat(pool.getTaskCount()).isEqualTo(1);
+                    assertThatThrownBy(() -> pool.submit(() -> parent))
+                        .isInstanceOf(RejectedExecutionException.class);
+                    cleanup.complete("child;");
+                    assertThatThrownBy(() -> task.completion().toCompletableFuture().get(2, TimeUnit.SECONDS))
+                        .hasCauseInstanceOf(CancellationException.class);
+                    assertThat(pool.getTaskCount()).isZero();
+                    assertThat(parent.isDone()).isTrue();
+                    assertThat(child.isDone()).isTrue();
+                    assertThat(fixture.events()).contains("parent;", "child;");
+                    assertThat(fixture.input.isCancelled()).isFalse();
+                    assertCleared(parent);
+                    assertCleared(child);
+                } finally {
+                    cleanup.complete("child;");
+                }
+            }
+        }
+    }
+
+    @Test(timeout = 5000)
+    public void shouldCancelOffloadedWorkFromTransformedFinally() throws Exception {
+        CountDownLatch entered = new CountDownLatch(1);
+        CountDownLatch interrupted = new CountDownLatch(1);
+        try (Fixture fixture = new Fixture();
+             var executor = FiberFutures.newComputeExecutor(1, 1);
+             FiberPool pool = new FiberPool(1, 1)) {
+            fixture.type.getField("executor").set(fixture.model, executor);
+            fixture.type.getField("computation").set(fixture.model, (Callable<Integer>) () -> {
+                entered.countDown();
+                try {
+                    new CountDownLatch(1).await();
+                } catch (InterruptedException expected) {
+                    interrupted.countDown();
+                }
+                return 42;
+            });
+            Fiber<?> fiber = fixture.fiber("offload");
+            FiberTask<?> task = pool.submit(() -> fiber);
+            assertThat(entered.await(2, TimeUnit.SECONDS)).isTrue();
+            task.cancel();
+            assertThatThrownBy(() -> task.completion().toCompletableFuture().get(2, TimeUnit.SECONDS))
+                .hasCauseInstanceOf(CancellationException.class);
+            assertThat(interrupted.await(2, TimeUnit.SECONDS)).isTrue();
+            assertThat(fixture.events()).isEqualTo("compute;");
+            assertCleared(fiber);
+        }
+    }
+
     @Test(timeout = 5000)
     public void shouldCancelAnAwaitAndReleaseCapturedReferences() throws Exception {
         try (Fixture fixture = new Fixture()) {

@@ -2,10 +2,13 @@ package com.github.rostmyr.jfibers.benchmarks;
 
 import com.github.rostmyr.jfibers.Fiber;
 import com.github.rostmyr.jfibers.FiberManager;
+import com.github.rostmyr.jfibers.FiberPool;
+import com.github.rostmyr.jfibers.FiberFutures;
 import com.sun.management.OperatingSystemMXBean;
 import com.sun.management.ThreadMXBean;
 
 import java.lang.management.ManagementFactory;
+import java.time.Duration;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +36,8 @@ public final class ScenarioProbe {
     static final ThreadMXBean THREADS = (ThreadMXBean) ManagementFactory.getThreadMXBean();
     static final int SUCCESS = 1, CANCELLED = 2, TIMED_OUT = 3, REJECTED = 4, ERROR = 5;
 
-    enum Backend { JFIBERS, JFIBERS_4, VIRTUAL_THREADS, COMPLETABLE_FUTURE }
+    enum Backend { JFIBERS, JFIBERS_4, FIBER_POOL_1, FIBER_POOL_4, FIBER_POOL_OFFLOAD,
+        VIRTUAL_THREADS, COMPLETABLE_FUTURE }
     enum Scenario { FANOUT, OPEN_LOOP, MIXED }
 
     private ScenarioProbe() {
@@ -430,9 +434,21 @@ public final class ScenarioProbe {
 
     static final class Engine {
         final List<CompletableFuture<Void>> completions = new ArrayList<>();
+        FiberPool pool;
+        ExecutorService compute;
 
         Engine(Backend backend, Source source, int workers, Resources resources) {
-            if (backend == Backend.JFIBERS || backend == Backend.JFIBERS_4) {
+            if (backend == Backend.FIBER_POOL_1 || backend == Backend.FIBER_POOL_4
+                || backend == Backend.FIBER_POOL_OFFLOAD) {
+                // Three compute threads leave one of the four quota cores for the owner and notifications.
+                compute = backend == Backend.FIBER_POOL_OFFLOAD ? FiberFutures.newComputeExecutor(3, workers) : null;
+                pool = new FiberPool(backend == Backend.FIBER_POOL_4 ? 4 : 1, workers);
+                for (int worker = 0; worker < workers; worker++) {
+                    completions.add(pool.submit(() -> compute == null ? ScenarioFiberWorkload.worker(source)
+                        : ScenarioFiberWorkload.workerOffload(source, compute)).completion().toCompletableFuture());
+                }
+                pool.shutdown();
+            } else if (backend == Backend.JFIBERS || backend == Backend.JFIBERS_4) {
                 int managers = backend == Backend.JFIBERS_4 ? 4 : 1;
                 for (int group = 0; group < managers; group++) {
                     int size = workers / managers + (group < workers % managers ? 1 : 0);
@@ -479,7 +495,19 @@ public final class ScenarioProbe {
         }
 
         void await() throws Exception {
-            CompletableFuture.allOf(completions.toArray(CompletableFuture[]::new)).get(90, TimeUnit.SECONDS);
+            try {
+                CompletableFuture.allOf(completions.toArray(CompletableFuture[]::new)).get(90, TimeUnit.SECONDS);
+                if (pool != null && !pool.awaitTermination(Duration.ofSeconds(5))) {
+                    throw new IllegalStateException("Pool did not drain");
+                }
+            } finally {
+                if (pool != null) {
+                    pool.close();
+                }
+                if (compute != null) {
+                    compute.close();
+                }
+            }
         }
     }
 

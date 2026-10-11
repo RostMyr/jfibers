@@ -1,7 +1,10 @@
 package com.github.rostmyr.jfibers.instrumentation;
 
 import com.github.rostmyr.jfibers.Fiber;
+import com.github.rostmyr.jfibers.FiberFutures;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import static com.github.rostmyr.jfibers.Fiber.*;
 
@@ -11,6 +14,18 @@ public class LifecycleModel {
     public StringBuilder events = new StringBuilder();
     public Fiber<Integer> lastChild;
     public Fiber<Integer> shared;
+    public Callable<Integer> computation;
+    public Executor executor;
+
+    public Fiber<Integer> offload() {
+        CompletableFuture<Integer> pending = FiberFutures.submit(computation, executor);
+        try {
+            return result(pending);
+        } finally {
+            pending.cancel(true);
+            events.append("compute;");
+        }
+    }
 
     public Fiber<Integer> child() {
         try {
