@@ -34,7 +34,7 @@ public final class RequestFiberWorkload {
         } catch (Exception caught) {
             failure = caught;
         } finally {
-            CompletableFuture<Void> cleanup = request.beginCleanup();
+            CompletableFuture<Void> cleanup = request.beginCleanup(failure);
             boolean done = false;
             while (!done) {
                 try {

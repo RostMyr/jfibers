@@ -383,7 +383,9 @@ public class FiberManager implements AutoCloseable {
                 continue;
             }
             cancelChildren(fiber);
-            if (fiber.wait != null) {
+            // Cancellation may have been delivered during update(), before this signal was
+            // drained. Its new wait belongs to cleanup and must await its own completion.
+            if (fiber.wait != null && !fiber.cancellationDelivered) {
                 resume(fiber.wait, true);
             }
         }

@@ -2,12 +2,89 @@ package com.github.rostmyr.jfibers;
 
 import org.junit.Test;
 import java.time.Duration;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class TestFiberLifecycleBasics {
+    @Test(timeout = 5000)
+    public void shouldNotWakeCleanupAfterCancellationWasDeliveredInline() {
+        assertCleanupSurvivesQueuedCancellation(false);
+    }
+
+    @Test(timeout = 5000)
+    public void shouldStillCancelOwnedChildrenAfterCancellationWasDeliveredInline() {
+        assertCleanupSurvivesQueuedCancellation(true);
+    }
+
+    private static void assertCleanupSurvivesQueuedCancellation(boolean ownChild) {
+        CompletableFuture<Void> cleanup = new CompletableFuture<>();
+        AtomicInteger cleanupFinished = new AtomicInteger();
+        AtomicInteger childUpdates = new AtomicInteger();
+        Fiber<Void> child = new Fiber<>() {
+            @Override
+            public int update() {
+                childUpdates.incrementAndGet();
+                return -1;
+            }
+        };
+        Fiber<Void> fiber = new Fiber<>() {
+            @Override
+            protected boolean supportsCancellationUnwind() {
+                return true;
+            }
+
+            @Override
+            public int update() {
+                if (state == 0) {
+                    if (ownChild) {
+                        awaitFor(child);
+                    }
+                    // The owner can observe cancellation before the manager drains its signal.
+                    cancel();
+                    try {
+                        checkCancellation();
+                    } catch (CancellationException expected) {
+                        return awaitFor(cleanup);
+                    }
+                    throw new AssertionError("Cancellation was not delivered");
+                }
+                try {
+                    resumeAwait();
+                    cleanupFinished.incrementAndGet();
+                    return -1;
+                } catch (Exception failure) {
+                    return fail(failure);
+                }
+            }
+        };
+        FiberManager manager = new FiberManager();
+        manager.schedule(fiber);
+        manager.schedule(new Fiber<Void>() {
+            @Override
+            public int update() {
+                if (state == 0) {
+                    // Give an incorrectly re-enqueued cleanup a turn while its future is pending.
+                    return 1;
+                }
+                cleanup.complete(null);
+                return -1;
+            }
+        });
+        manager.run();
+        assertThat(fiber.getStatus()).isEqualTo(FiberStatus.CANCELLED);
+        assertThat(fiber.getFailure()).isInstanceOf(CancellationException.class);
+        assertThat(fiber.getFailure().getSuppressed()).isEmpty();
+        assertThat(cleanupFinished).hasValue(1);
+        assertThat(manager.getSize()).isZero();
+        if (ownChild) {
+            assertThat(child.getStatus()).isEqualTo(FiberStatus.CANCELLED);
+            assertThat(childUpdates).hasValue(0);
+        }
+    }
+
     @Test(timeout = 5000)
     public void shouldResolveCancellationCompletionRaces() throws Exception {
         for (int i = 0; i < 300; i++) {

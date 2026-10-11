@@ -148,6 +148,29 @@ public class RequestDependencyClientTest {
         }
     }
 
+    @Test(timeout = 15_000)
+    public void firstErrorPreservesTheSwallowedBodyFailureAndIsNotOverwritten() throws Exception {
+        try (DependencyServer server = new DependencyServer(Reply.WRONG_VALUE, false);
+             RequestTaskEngine engine = engine(RequestTaskEngine.Backend.FIBER_POOL_1, server, 2, 1)) {
+            assertEquals(500, result(engine.submit(1, false, 5_000, 0)).status());
+            Map<?, ?> first = (Map<?, ?>) engine.snapshot().get("first_error");
+            assertEquals(1L, first.get("id"));
+            assertEquals(500, first.get("decision_before_result"));
+            assertTrue(((Number) first.get("started_nanos")).longValue() > 0);
+            assertTrue(((Number) first.get("body_ended_nanos")).longValue() > 0);
+            assertEquals(true, first.get("source_exit_done"));
+            assertEquals(true, first.get("cleanup_done"));
+            String stack = (String) first.get("failure_stack");
+            assertTrue(stack.contains("IllegalStateException"));
+            assertTrue(stack.contains("Invalid dependency response identity or value"));
+            assertTrue(stack.length() <= 16_384);
+            assertEquals(500, result(engine.submit(2, false, 5_000, 0)).status());
+            assertEquals(first, engine.snapshot().get("first_error"));
+            assertEquals(2L, engine.snapshot().get("errors"));
+            assertDrained(engine);
+        }
+    }
+
     @Test(timeout = 30_000)
     public void closeDrainsHttpWhileHoldModeKeepsUsingSyntheticSources() throws Exception {
         for (RequestTaskEngine.Backend backend : new RequestTaskEngine.Backend[] {
@@ -199,7 +222,19 @@ public class RequestDependencyClientTest {
 
     private static void assertDrained(RequestTaskEngine engine) throws Exception {
         assertTrue(engine.awaitQuiescent(Duration.ofSeconds(5)));
-        engine.assertQuiescent();
+        // An open HttpClient may enqueue connection housekeeping after an idle sample.
+        // Business requests and physical response bodies must stay drained; executor
+        // quiescence is asserted by engine.close() after the client and executor terminate.
+        Map<String, Object> snapshot = engine.snapshot();
+        for (String field : new String[] {"active_roots", "active_heavy", "pending_completions", "pending_sources",
+            "pending_timers", "active_compute", "compute_queue_size", "timer_queue_size", "downstream_active"}) {
+            assertEquals(field + ": " + snapshot, 0L, ((Number) snapshot.get(field)).longValue());
+        }
+        assertEquals(snapshot.get("accepted"), snapshot.get("completed"));
+        assertEquals(snapshot.get("downstream_started"), snapshot.get("downstream_completed"));
+        assertEquals(((Number) snapshot.get("downstream_completed")).longValue(),
+            ((Number) snapshot.get("downstream_succeeded")).longValue()
+                + ((Number) snapshot.get("downstream_failed")).longValue());
     }
 
     private static void assertRejected(RequestTaskEngine engine, long id, String reason) {

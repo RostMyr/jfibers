@@ -3,6 +3,8 @@ package com.github.rostmyr.jfibers.benchmarks;
 import com.github.rostmyr.jfibers.FiberFutures;
 import com.github.rostmyr.jfibers.FiberPool;
 import com.github.rostmyr.jfibers.FiberTask;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.net.URI;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -98,6 +100,7 @@ final class RequestTaskEngine implements AutoCloseable {
     private int peakRoots;
     private int publishing;
     private boolean closed;
+    private volatile Map<String, Object> firstError;
 
     RequestTaskEngine(Backend backend, int capacity, int heavyIterations) {
         this(backend, capacity, heavyIterations, 0);
@@ -235,7 +238,7 @@ final class RequestTaskEngine implements AutoCloseable {
         } catch (Exception caught) {
             failure = caught;
         } finally {
-            CompletableFuture<Void> cleanup = request.beginCleanup();
+            CompletableFuture<Void> cleanup = request.beginCleanup(failure);
             boolean interrupted = false;
             while (true) {
                 try {
@@ -254,6 +257,7 @@ final class RequestTaskEngine implements AutoCloseable {
 
     private void finish(Request request, Throwable failure) {
         Result result = request.result(failure);
+        FailureDetails failureDetails = result.status() == 500 ? request.takeFailureDetails() : null;
         synchronized (lock) {
             if (!roots.remove(request)) {
                 return;
@@ -269,6 +273,9 @@ final class RequestTaskEngine implements AutoCloseable {
                 case 409 -> { cancelled.incrementAndGet(); outcome = 1; }
                 case 504 -> { timedOut.incrementAndGet(); outcome = 2; }
                 default -> { errors.incrementAndGet(); outcome = 3; }
+            }
+            if (firstError == null && failureDetails != null) {
+                firstError = failureDetails.describe();
             }
             // A compute future's cancellation is insufficient: result() is reached only after
             // cleanup awaits its actual-exit gate, publishing these per-request writes.
@@ -294,6 +301,9 @@ final class RequestTaskEngine implements AutoCloseable {
             result.put("cancelled", cancelled.get());
             result.put("timed_out", timedOut.get());
             result.put("errors", errors.get());
+            if (firstError != null) {
+                result.put("first_error", firstError);
+            }
             result.put("cleanup_started", cleanupStarted.get());
             result.put("rejected", rejected.get());
             result.put("heavy_capacity", heavyCapacity);
@@ -430,6 +440,7 @@ final class RequestTaskEngine implements AutoCloseable {
         private FiberTask<Void> handle;
         private TimerTicket deadline;
         private Source source;
+        private CompletableFuture<Void> sourceExit;
         private Computation computation;
         private CompletableFuture<Void> cleanup;
         private int decision;
@@ -443,6 +454,8 @@ final class RequestTaskEngine implements AutoCloseable {
         private long cpuIterations;
         private int nextStep;
         private boolean finished;
+        private Throwable bodyFailure;
+        private FailureDetails failureDetails;
 
         Request(long id, boolean hold, int deadlineMillis, int cleanupMillis) {
             this.id = id;
@@ -532,16 +545,18 @@ final class RequestTaskEngine implements AutoCloseable {
             return computation.result;
         }
 
-        synchronized CompletableFuture<Void> beginCleanup() {
+        synchronized CompletableFuture<Void> beginCleanup(Throwable failure) {
             if (cleanup != null) {
                 return cleanup;
             }
+            bodyFailure = failure;
             cleanupStarted = System.nanoTime();
             RequestTaskEngine.this.cleanupStarted.incrementAndGet();
             CompletableFuture<Void> exited = CompletableFuture.completedFuture(null);
             if (source != null) {
                 source.cancel();
                 exited = source.exited;
+                sourceExit = exited;
                 source = null;
             }
             if (computation != null) {
@@ -564,6 +579,7 @@ final class RequestTaskEngine implements AutoCloseable {
         }
 
         synchronized Result result(Throwable failure) {
+            int decisionBeforeResult = decision;
             finished = true;
             if (deadline != null) {
                 deadline.cancel();
@@ -578,10 +594,84 @@ final class RequestTaskEngine implements AutoCloseable {
             if (started != 0 && bodyEnded == 0) {
                 decision = 500;
             }
+            if (decision == 500 && firstError == null) {
+                Map<String, Object> state = new LinkedHashMap<>();
+                state.put("id", id);
+                state.put("heavy", heavy);
+                state.put("decision_before_result", decisionBeforeResult);
+                state.put("observed_nanos", System.nanoTime());
+                state.put("submitted_nanos", submitted);
+                state.put("started_nanos", started);
+                state.put("cleanup_started_nanos", cleanupStarted);
+                state.put("body_ended_nanos", bodyEnded);
+                state.put("source_present", source != null);
+                state.put("source_done", source != null && source.future.isDone());
+                CompletableFuture<Void> exit = source == null ? sourceExit : source.exited;
+                state.put("source_exit_present", exit != null);
+                state.put("source_exit_done", exit != null && exit.isDone());
+                state.put("cleanup_present", cleanup != null);
+                state.put("cleanup_done", cleanup != null && cleanup.isDone());
+                state.put("compute_present", computation != null);
+                state.put("compute_done", computation != null && computation.result.isDone());
+                state.put("compute_exit_done", computation != null && computation.exited.isDone());
+                failureDetails = new FailureDetails(state, failure, bodyFailure);
+            }
+            bodyFailure = null;
+            sourceExit = null;
             long end = bodyEnded == 0 ? System.nanoTime() : bodyEnded;
             return new Result(decision, id, checksum, started == 0 ? -1 : started - submitted,
                 started == 0 ? -1 : end - started,
                 cleanupStarted == 0 ? 0 : end - cleanupStarted, computeQueue.get());
+        }
+
+        synchronized FailureDetails takeFailureDetails() {
+            FailureDetails details = failureDetails;
+            failureDetails = null;
+            return details;
+        }
+    }
+
+    /** Only unexpected failures allocate diagnostics; retain at most 16,384 characters of stack text. */
+    private record FailureDetails(Map<String, Object> state, Throwable nativeFailure, Throwable bodyFailure) {
+        Map<String, Object> describe() {
+            Map<String, Object> result = new LinkedHashMap<>(state);
+            Throwable failure = nativeFailure == null ? bodyFailure : nativeFailure;
+            result.put("failure_class", failure == null ? "<unavailable>" : failure.getClass().getName());
+            String message = failure == null || failure.getMessage() == null ? "" : failure.getMessage();
+            result.put("failure_message", message.substring(0, Math.min(message.length(), 1024)));
+            StackWriter stack = new StackWriter();
+            PrintWriter output = new PrintWriter(stack);
+            if (failure != null) {
+                failure.printStackTrace(output);
+            }
+            if (bodyFailure != null && bodyFailure != failure) {
+                output.println("Body failure before cleanup:");
+                bodyFailure.printStackTrace(output);
+            }
+            output.flush();
+            result.put("failure_stack", stack.text.toString());
+            result.put("stack_truncated", stack.truncated);
+            return Map.copyOf(result);
+        }
+    }
+
+    private static final class StackWriter extends Writer {
+        private final StringBuilder text = new StringBuilder();
+        private boolean truncated;
+
+        @Override
+        public void write(char[] characters, int offset, int length) {
+            int copied = Math.min(length, 16_384 - text.length());
+            text.append(characters, offset, copied);
+            truncated |= copied < length;
+        }
+
+        @Override
+        public void flush() {
+        }
+
+        @Override
+        public void close() {
         }
     }
 

@@ -153,7 +153,9 @@ def validate(result, before, after, capacity, heavy_capacity=0, lifecycle_check=
     if dispatched != offered - result["local_rejected"] or result["transport_errors"]:
         raise RuntimeError("Client transport/dispatch failure")
     if statuses["500"] or (statuses["409"] and not lifecycle_check):
-        raise RuntimeError("Unexpected error/cancellation in normal traffic")
+        detail = after.get("first_error")
+        raise RuntimeError("Unexpected error/cancellation in normal traffic"
+                           + (": " + json.dumps(detail, sort_keys=True) if detail else ""))
     if not lifecycle_check and (result["successful"] != statuses["200"] \
             or result["successful"] != result["on_time_success"] + result["late_success"] \
             or sum(result["successful_completions_per_second"]) != result["successful"]):
